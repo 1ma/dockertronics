@@ -1,0 +1,22 @@
+FROM 1maa/php:5.6
+
+RUN apk add --no-cache \
+    git \
+    openssh \
+    supervisor \
+ && ssh-keygen -A
+
+COPY 5.6-dev/profile          /etc/profile
+COPY 5.6-dev/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY 5.6-dev/conf.d/*         /etc/php5/conf.d/
+COPY 5.6-dev/modules/*        /usr/lib/php5/modules/
+COPY dev-tooling/*            /usr/local/bin/
+
+RUN echo 'root:root' | chpasswd \
+ && sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config \
+ && sed -i 's@user = nobody@user = root@' /etc/php5/php-fpm.conf \
+ && sed -i 's@group = nobody@group = root@' /etc/php5/php-fpm.conf
+
+EXPOSE 22
+
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]

@@ -1,0 +1,6 @@
+FROM alpine:edge
+
+RUN apk add --no-cache tini \
+ && echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
+
+ENTRYPOINT ["/sbin/tini", "--"]

@@ -1,0 +1,22 @@
+FROM 1maa/php:7.0
+
+RUN apk add --no-cache \
+    git \
+    openssh \
+    php7-xdebug \
+    supervisor \
+ && ssh-keygen -A
+
+COPY 7.0-dev/profile          /etc/profile
+COPY 7.0-dev/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY 7.0-dev/conf.d/*         /etc/php7/conf.d/
+COPY dev-tooling/*            /usr/local/bin/
+
+RUN echo 'root:root' | chpasswd \
+ && sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config \
+ && sed -i 's@user = nobody@user = root@' /etc/php7/php-fpm.d/www.conf \
+ && sed -i 's@group = nobody@group = root@' /etc/php7/php-fpm.d/www.conf
+
+EXPOSE 22
+
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
