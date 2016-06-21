@@ -17,3 +17,4 @@ https://hub.docker.com/u/1maa/
 | 1maa/php-sdk      | 5.6, 7.0  | Building environment for any PECL extensions that might be needed by php or php-dev.      |
 | 1maa/postgres     | 9.5       | PostgreSQL server from APK repository.  Does not include the database cluster.            |
 | 1maa/postgres-dev | 9.5       | PostgreSQL development server with a 'docker:docker' superuser in the cluster.            |
+| 1maa/python       | 2.7, 3.5  | Bare Python environment.                                                                  |
