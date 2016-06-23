@@ -1,11 +1,15 @@
 FROM 1maa/postgres:9.5
 
 RUN initdb \
- && sed -i "s@#log_statement = 'none'@log_statement = 'all'@" $PGDATA/postgresql.conf \
- && echo "host    all             docker          all                     md5" >> $PGDATA/pg_hba.conf \
  && pg_ctl start -w \
  && psql -c "CREATE ROLE docker PASSWORD 'md5fd33bb5f0e7607674a50a658b5bbfa2e' SUPERUSER CREATEDB CREATEROLE INHERIT LOGIN;" \
- && pg_ctl stop -w
+ && psql -c 'CREATE EXTENSION "hstore";' -d template1 \
+ && psql -c 'CREATE EXTENSION "pgcrypto";' -d template1 \
+ && psql -c 'CREATE EXTENSION "unaccent";' -d template1 \
+ && psql -c 'CREATE EXTENSION "uuid-ossp";' -d template1 \
+ && pg_ctl stop -w \
+ && sed -i "s@#log_statement = 'none'@log_statement = 'all'@" $PGDATA/postgresql.conf \
+ && echo "host    all             docker          all                     md5" >> $PGDATA/pg_hba.conf
 
 VOLUME $PGDATA
 
