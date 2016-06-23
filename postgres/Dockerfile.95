@@ -1,6 +1,8 @@
 FROM 1maa/alpine:3.4
 
-RUN apk add --no-cache postgresql=9.5.3-r1
+RUN apk add --no-cache \
+    postgresql \
+    postgresql-contrib
 
 ENV PGDATA /var/lib/postgresql/9.5
 
