@@ -25,6 +25,7 @@
 * FPM worker processes run as root to avoid silly permission issues on OS X macheens
 * OpenSSH server is listening on port 22, accessible with user ```root``` and password ```root``` (enables PHPStorm XDebug integration)
 * Toolbelt installed at /usr/local/bin with the following utilities:
+    - Behat 3.1.0
     - Boris REPL 1.0.10
     - Composer 1.1.2
     - Phing 2.14.0
