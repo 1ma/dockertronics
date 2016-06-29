@@ -7,7 +7,7 @@ https://hub.docker.com/u/1maa/
 | Image             | Tags      | Summary                                                                                   |
 |-------------------|-----------|-------------------------------------------------------------------------------------------|
 | 1maa/alpine       | 3.4, edge | Foundation for most other images. Overrides the entrypoint with tini.                     |
-| 1maa/beanstalkd   | 1.10      | No frills beanstalkd server. Built from source.                                           |
+| 1maa/beanstalkd   | 1.10      | Beanstalkd server from APK repository.                                                    |
 | 1maa/debian       | jessie    | Old base image, no longer used.                                                           |
 | 1maa/h2o          | 2.0       | H2O server from APK repository.                                                           |
 | 1maa/mysql        | 5.7       | Extension of the official MySQL tweaked to play nice with the Doctrine ORM.               |

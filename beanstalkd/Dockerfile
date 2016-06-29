@@ -1,7 +1,9 @@
-FROM 1maa/alpine:3.4
+FROM 1maa/alpine:edge
 
-COPY beanstalkd /usr/local/bin/
+RUN apk add --no-cache beanstalkd
+
+USER beanstalk
 
 EXPOSE 11300
 
-CMD ["beanstalkd"]
+CMD ["/usr/bin/beanstalkd"]
