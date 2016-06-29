@@ -3,6 +3,7 @@ FROM 1maa/alpine:3.4
 RUN apk add --no-cache \
     libsodium \
     php5-apcu \
+    php5-bcmath \
     php5-cli \
     php5-ctype \
     php5-curl \
