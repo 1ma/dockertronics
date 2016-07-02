@@ -18,3 +18,4 @@ https://hub.docker.com/u/1maa/
 | 1maa/postgres     | 9.5       | PostgreSQL server from APK repository.  Does not include the database cluster.            |
 | 1maa/postgres-dev | 9.5       | PostgreSQL development server with a 'docker:docker' superuser in the cluster.            |
 | 1maa/python       | 2.7, 3.5  | Bare Python environment.                                                                  |
+| 1maa/python-dev   | 2.7, 3.5  | With OpenSSH server in the same fashion than php-dev images.                                                                  |

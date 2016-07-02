@@ -1,0 +1,11 @@
+FROM 1maa/python:2.7
+
+RUN apk add --no-cache \
+    openssh \
+ && ssh-keygen -A \
+ && echo 'root:root' | chpasswd \
+ && sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+
+EXPOSE 22
+
+CMD ["/usr/sbin/sshd", "-D"]
