@@ -1,0 +1,9 @@
+FROM 1maa/php:5.6
+
+RUN apk add --no-cache \
+    php5-fpm \
+ && sed -i 's@listen = 127.0.0.1:9000@listen = [::]:9000@' /etc/php5/php-fpm.conf
+
+EXPOSE 9000
+
+CMD ["/usr/bin/php-fpm", "--nodaemonize"]

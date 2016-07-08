@@ -8,7 +8,6 @@ RUN apk add --no-cache \
     php5-ctype \
     php5-curl \
     php5-exif \
-    php5-fpm \
     php5-iconv \
     php5-intl \
     php5-json \
@@ -24,12 +23,7 @@ RUN apk add --no-cache \
     php5-xsl \
     php5-zip \
     php5-zlib \
- && sed -i 's@expose_php = On@expose_php = Off@' /etc/php5/php.ini \
- && sed -i 's@listen = 127.0.0.1:9000@listen = [::]:9000@' /etc/php5/php-fpm.conf
+ && sed -i 's@expose_php = On@expose_php = Off@' /etc/php5/php.ini
 
 COPY 5.6/conf.d/*  /etc/php5/conf.d/
 COPY 5.6/modules/* /usr/lib/php5/modules/
-
-EXPOSE 9000
-
-CMD ["/usr/bin/php-fpm", "--nodaemonize"]
