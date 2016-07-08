@@ -3,6 +3,7 @@ FROM 1maa/php:5.6
 RUN apk add --no-cache \
     git \
     openssh \
+    php5-xdebug \
     supervisor \
  && ssh-keygen -A \
  && echo 'root:root' | chpasswd \
@@ -13,7 +14,6 @@ RUN apk add --no-cache \
 COPY 5.6-dev/profile          /etc/profile
 COPY 5.6-dev/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY 5.6-dev/conf.d/*         /etc/php5/conf.d/
-COPY 5.6-dev/modules/*        /usr/lib/php5/modules/
 COPY dev-tooling/*            /usr/local/bin/
 
 EXPOSE 22
