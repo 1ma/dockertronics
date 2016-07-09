@@ -3,14 +3,13 @@
 
 ### Flavors
 
-* 1maa/php:5.6
-* 1maa/php:5.6-dev
-* 1maa/php:5.6-sdk
-* 1maa/php:7.0
-* 1maa/php:7.0-dev
-* 1maa/php:7.0-sdk
+* 1maa/php-cli
+* 1maa/php-apa
+* 1maa/php-fpm
+* 1maa/php-sdk
 
 
+-- TODO: rewrite details --
 ### 5.6/7.0
 
 * PHP CLI available
