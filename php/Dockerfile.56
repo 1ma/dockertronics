@@ -1,4 +1,4 @@
-FROM 1maa/alpine:3.4
+FROM 1maa/alpine:edge
 
 RUN apk add --no-cache \
     libsodium \
