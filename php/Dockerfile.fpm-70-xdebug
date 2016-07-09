@@ -1,4 +1,4 @@
-FROM 1maa/php:7.0-dev
+FROM 1maa/php:7.0-xdebug
 
 RUN apk add --no-cache \
     php7-fpm \

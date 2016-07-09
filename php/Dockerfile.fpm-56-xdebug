@@ -1,4 +1,4 @@
-FROM 1maa/php:5.6-dev
+FROM 1maa/php:5.6-xdebug
 
 RUN apk add --no-cache \
     php5-fpm \
