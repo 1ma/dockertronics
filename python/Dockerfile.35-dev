@@ -2,9 +2,10 @@ FROM 1maa/python:3.5
 
 RUN apk add --no-cache \
     openssh \
- && ssh-keygen -A \
  && echo 'root:root' | chpasswd \
  && sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+
+COPY ssh/* /etc/ssh/
 
 EXPOSE 22
 
