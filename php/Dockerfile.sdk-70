@@ -1,4 +1,4 @@
-FROM 1maa/php:7.0
+FROM 1maa/php-cli:7.0
 
 RUN apk add --no-cache \
     alpine-sdk \
