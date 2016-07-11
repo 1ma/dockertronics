@@ -38,6 +38,12 @@ COPY dev/conf.d/*   /etc/php7/conf.d/
 COPY dev/ssh/*      /etc/ssh/
 COPY dev/tooling/*  /usr/local/bin/
 
+RUN chmod 644 /etc/ssh/* \
+ && chmod 600 /etc/ssh/ssh_host_dsa_key \
+ && chmod 600 /etc/ssh/ssh_host_ecdsa_key \
+ && chmod 600 /etc/ssh/ssh_host_ed25519_key \
+ && chmod 600 /etc/ssh/ssh_host_rsa_key
+
 EXPOSE 22
 
 CMD ["/usr/sbin/sshd", "-D"]
