@@ -1,13 +1,18 @@
 FROM 1maa/alpine:3.4
 
-ENV JENKINS_VERSION 2.7.1
+ENV JENKINS_VERSION  2.7.1
+ENV JENKINS_ROOT_DIR /var/jenkins
+ENV JENKINS_HOME     $JENKINS_ROOT_DIR/data
 
 RUN apk add --no-cache \
+    docker \
     openjdk8-jre \
-    ttf-dejavu
+    ttf-dejavu \
+ && mkdir -p $JENKINS_ROOT_DIR \
+ && wget http://mirrors.jenkins-ci.org/war-stable/$JENKINS_VERSION/jenkins.war -O $JENKINS_ROOT_DIR/jenkins.war
 
-ADD http://mirrors.jenkins-ci.org/war-stable/$JENKINS_VERSION/jenkins.war /root
+VOLUME $JENKINS_HOME
 
-WORKDIR /root
+EXPOSE 8080
 
-CMD ["/usr/bin/java", "-jar", "jenkins.war"]
+CMD /usr/bin/java -jar $JENKINS_ROOT_DIR/jenkins.war
