@@ -26,7 +26,7 @@
 * Toolbelt installed at /usr/local/bin with the following utilities:
     - Behat 3.1.0
     - Boris REPL 1.0.10
-    - Composer 1.1.2
+    - Composer 1.2.0-RC
     - Phing 2.14.0
     - PHP-CS-Fixer 1.11.2
     - PHPUnit 5.4.6
