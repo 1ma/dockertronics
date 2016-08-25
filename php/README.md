@@ -4,7 +4,6 @@
 ### Flavors
 
 * 1maa/php-cli
-* 1maa/php-apa
 * 1maa/php-fpm
 * 1maa/php-sdk
 
