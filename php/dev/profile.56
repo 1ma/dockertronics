@@ -6,6 +6,7 @@ umask 022
 
 alias xdebon='mv ~/xdebug.ini /etc/php5/conf.d/'
 alias xdeboff='mv /etc/php5/conf.d/xdebug.ini ~'
+alias xphp='XDEBUG_CONFIG="profiler_enable=1 profiler_output_dir=." php'
 
 for script in /etc/profile.d/*.sh ; do
         if [ -r $script ] ; then
