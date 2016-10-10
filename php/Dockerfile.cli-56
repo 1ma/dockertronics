@@ -1,7 +1,6 @@
 FROM 1maa/alpine:edge
 
 RUN apk add --no-cache \
-    libsodium \
     php5-apcu \
     php5-bcmath \
     php5-cli \
@@ -11,6 +10,7 @@ RUN apk add --no-cache \
     php5-iconv \
     php5-intl \
     php5-json \
+    php5-libsodium \
     php5-opcache \
     php5-openssl \
     php5-pcntl \
@@ -25,6 +25,3 @@ RUN apk add --no-cache \
     php5-zip \
     php5-zlib \
  && sed -i 's@expose_php = On@expose_php = Off@' /etc/php5/php.ini
-
-COPY 5.6/conf.d/*  /etc/php5/conf.d/
-COPY 5.6/modules/* /usr/lib/php5/modules/

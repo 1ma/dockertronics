@@ -2,7 +2,6 @@ FROM 1maa/alpine:edge
 
 RUN apk add --no-cache \
     git \
-    libsodium \
     openssh \
     php5-apcu \
     php5-bcmath \
@@ -13,6 +12,7 @@ RUN apk add --no-cache \
     php5-iconv \
     php5-intl \
     php5-json \
+    php5-libsodium \
     php5-opcache \
     php5-openssl \
     php5-pcntl \
@@ -31,8 +31,6 @@ RUN apk add --no-cache \
  && echo 'root:root' | chpasswd \
  && sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 
-COPY 5.6/conf.d/*   /etc/php5/conf.d/
-COPY 5.6/modules/*  /usr/lib/php5/modules/
 COPY dev/profile.56 /etc/profile
 COPY dev/conf.d/*   /etc/php5/conf.d/
 COPY dev/ssh/*      /etc/ssh/
