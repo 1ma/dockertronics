@@ -5,10 +5,12 @@ RUN apk add --no-cache \
     openssh \
     php5-apcu \
     php5-bcmath \
+    php5-bz2 \
     php5-cli \
     php5-ctype \
     php5-curl \
     php5-exif \
+    php5-gd \
     php5-iconv \
     php5-intl \
     php5-json \
