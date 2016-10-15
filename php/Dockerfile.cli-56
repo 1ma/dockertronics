@@ -21,6 +21,7 @@ RUN apk add --no-cache \
     php5-pdo_sqlite \
     php5-phar \
     php5-posix \
+    php5-redis \
     php5-soap \
     php5-xml \
     php5-xsl \
