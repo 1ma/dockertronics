@@ -1,6 +1,7 @@
 FROM 1maa/alpine:edge
 
 RUN apk add --no-cache \
+    git \
     php5-apcu \
     php5-bcmath \
     php5-bz2 \
@@ -28,3 +29,5 @@ RUN apk add --no-cache \
     php5-zip \
     php5-zlib \
  && sed -i 's@expose_php = On@expose_php = Off@' /etc/php5/php.ini
+
+COPY dev/tooling/composer /usr/local/bin/composer

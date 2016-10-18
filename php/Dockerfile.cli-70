@@ -1,6 +1,7 @@
 FROM 1maa/alpine:edge
 
 RUN apk add --no-cache \
+    git \
     php7 \
     php7-apcu \
     php7-bcmath \
@@ -31,3 +32,5 @@ RUN apk add --no-cache \
     php7-zlib \
  && ln -s /usr/bin/php7 /usr/bin/php \
  && sed -i 's@expose_php = On@expose_php = Off@' /etc/php7/php.ini
+
+COPY dev/tooling/composer /usr/local/bin/composer
