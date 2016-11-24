@@ -37,7 +37,7 @@ COPY common_settings.ini /etc/php5/conf.d/common_settings.ini
 COPY 5.6/pimple.ini      /etc/php5/conf.d/pimple.ini
 COPY 5.6/pimple-3.0.2.so /usr/lib/php5/modules/pimple-3.0.2.so
 COPY dev/profile.56      /etc/profile
-COPY dev/conf.d/*        /etc/php5/conf.d/
+COPY dev/xdebug.ini      /etc/php5/conf.d/xdebug.ini
 COPY dev/ssh/*           /etc/ssh/
 COPY dev/tooling/*       /usr/local/bin/
 

@@ -38,7 +38,7 @@ RUN apk add --no-cache \
 
 COPY common_settings.ini /etc/php7/conf.d/common_settings.ini
 COPY dev/profile.70      /etc/profile
-COPY dev/conf.d/*        /etc/php7/conf.d/
+COPY dev/xdebug.ini      /etc/php7/conf.d/xdebug.ini
 COPY dev/ssh/*           /etc/ssh/
 COPY dev/tooling/*       /usr/local/bin/
 
