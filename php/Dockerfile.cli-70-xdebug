@@ -33,14 +33,14 @@ RUN apk add --no-cache \
     php7-zip \
     php7-zlib \
  && ln -s /usr/bin/php7 /usr/bin/php \
- && sed -i 's@expose_php = On@expose_php = Off@' /etc/php7/php.ini \
  && echo 'root:root' | chpasswd \
  && sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 
-COPY dev/profile.70 /etc/profile
-COPY dev/conf.d/*   /etc/php7/conf.d/
-COPY dev/ssh/*      /etc/ssh/
-COPY dev/tooling/*  /usr/local/bin/
+COPY common_settings.ini /etc/php7/conf.d/common_settings.ini
+COPY dev/profile.70      /etc/profile
+COPY dev/conf.d/*        /etc/php7/conf.d/
+COPY dev/ssh/*           /etc/ssh/
+COPY dev/tooling/*       /usr/local/bin/
 
 RUN chmod 644 /etc/ssh/* \
  && chmod 600 /etc/ssh/ssh_host_dsa_key \
