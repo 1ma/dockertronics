@@ -1,3 +1,4 @@
 FROM mysql:5.7
 
-COPY my.cnf /etc/mysql/my.cnf
+COPY conf.d/*       /etc/mysql/conf.d/
+COPY mysql.conf.d/* /etc/mysql/mysql.conf.d/
