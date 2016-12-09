@@ -1,0 +1,12 @@
+FROM 1maa/alpine:edge
+
+RUN apk add --no-cache \
+    git \
+    inotify-tools \
+    nodejs-current \
+ && npm install -g \
+    bower \
+    grunt-cli \
+    gulp-cli \
+    less \
+    less-plugin-clean-css
