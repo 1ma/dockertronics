@@ -1,4 +1,4 @@
-FROM 1maa/alpine:3.4
+FROM 1maa/alpine:3.5
 
 ENV JENKINS_VERSION  2.7.2
 ENV JENKINS_ROOT_DIR /var/jenkins
