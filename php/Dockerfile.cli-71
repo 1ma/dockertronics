@@ -1,0 +1,33 @@
+FROM 1maa/alpine:edge
+
+# pending extensions: apcu, gd, libsodium, redis, xdebug (dev)
+
+RUN apk add --no-cache \
+    git \
+    php7.1 \
+    php7.1-bcmath \
+    php7.1-bz2 \
+    php7.1-ctype \
+    php7.1-curl \
+    php7.1-exif \
+    php7.1-iconv \
+    php7.1-intl \
+    php7.1-json \
+    php7.1-mbstring \
+    php7.1-opcache \
+    php7.1-openssl \
+    php7.1-pcntl \
+    php7.1-pdo_mysql \
+    php7.1-pdo_pgsql \
+    php7.1-pdo_sqlite \
+    php7.1-phar \
+    php7.1-posix \
+    php7.1-session \
+    php7.1-soap \
+    php7.1-xml \
+    php7.1-xsl \
+    php7.1-zip \
+    php7.1-zlib
+
+COPY common_settings.ini  /etc/php7.1/conf.d/common_settings.ini
+COPY dev/tooling/composer /usr/local/bin/composer
