@@ -32,7 +32,6 @@ RUN apk add --no-cache \
     php7-xsl \
     php7-zip \
     php7-zlib \
- && ln -s /usr/bin/php7 /usr/bin/php \
  && echo 'root:root' | chpasswd \
  && sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 
