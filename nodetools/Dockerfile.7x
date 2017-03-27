@@ -4,6 +4,7 @@ RUN apk add --no-cache \
     git \
     inotify-tools \
     nodejs-current \
+    nodejs-current-npm \
  && npm install -g \
     bower \
     grunt-cli \
