@@ -1,4 +1,4 @@
-FROM 1maa/alpine:edge
+FROM 1maa/alpine:3.5
 
 RUN apk add --no-cache h2o \
  && mkdir /etc/h2o \
