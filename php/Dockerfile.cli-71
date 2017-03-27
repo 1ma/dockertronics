@@ -1,4 +1,4 @@
-FROM alp
+FROM 1maa/alpine:3.5
 
 # pending extensions: apcu, gd, libsodium, redis, xdebug (dev)
 
