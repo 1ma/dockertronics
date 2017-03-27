@@ -1,33 +1,41 @@
-FROM 1maa/alpine:edge
+FROM alp
 
 # pending extensions: apcu, gd, libsodium, redis, xdebug (dev)
 
 RUN apk add --no-cache \
     git \
-    php7.1 \
-    php7.1-bcmath \
-    php7.1-bz2 \
-    php7.1-ctype \
-    php7.1-curl \
-    php7.1-exif \
-    php7.1-iconv \
-    php7.1-intl \
-    php7.1-json \
-    php7.1-mbstring \
-    php7.1-opcache \
-    php7.1-openssl \
-    php7.1-pcntl \
-    php7.1-pdo_mysql \
-    php7.1-pdo_pgsql \
-    php7.1-pdo_sqlite \
-    php7.1-phar \
-    php7.1-posix \
-    php7.1-session \
-    php7.1-soap \
-    php7.1-xml \
-    php7.1-xsl \
-    php7.1-zip \
-    php7.1-zlib
+    icu-libs@edge-main \
+    libzip@edge-community \
+    php7@edge-testing \
+    php7-bcmath@edge-testing \
+    php7-bz2@edge-testing \
+    php7-common@edge-testing \
+    php7-ctype@edge-testing \
+    php7-curl@edge-testing \
+    php7-dom@edge-testing \
+    php7-exif@edge-testing \
+    php7-iconv@edge-testing \
+    php7-intl@edge-testing \
+    php7-json@edge-testing \
+    php7-mbstring@edge-testing \
+    php7-mysqli@edge-testing \
+    php7-mysqlnd@edge-testing \
+    php7-opcache@edge-testing \
+    php7-openssl@edge-testing \
+    php7-pcntl@edge-testing \
+    php7-pdo@edge-testing \
+    php7-pdo_mysql@edge-testing \
+    php7-pdo_pgsql@edge-testing \
+    php7-pdo_sqlite@edge-testing \
+    php7-phar@edge-testing \
+    php7-posix@edge-testing \
+    php7-session@edge-testing \
+    php7-soap@edge-testing \
+    php7-sqlite3@edge-testing \
+    php7-xml@edge-testing \
+    php7-xsl@edge-testing \
+    php7-zip@edge-testing \
+    php7-zlib@edge-testing
 
-COPY common_settings.ini  /etc/php7.1/conf.d/common_settings.ini
+COPY common_settings.ini  /etc/php7/conf.d/common_settings.ini
 COPY dev/tooling/composer /usr/local/bin/composer
