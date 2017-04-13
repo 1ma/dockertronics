@@ -1,6 +1,6 @@
 FROM 1maa/alpine:3.5
 
-# pending extensions: apcu, gd, libsodium, redis, xdebug (dev)
+# pending extensions: apcu, gd, libsodium, xdebug (dev)
 
 RUN apk add --no-cache \
     git \
@@ -29,6 +29,7 @@ RUN apk add --no-cache \
     php7-pdo_sqlite@edge-testing \
     php7-phar@edge-testing \
     php7-posix@edge-testing \
+    php7-redis@edge-testing \
     php7-session@edge-testing \
     php7-soap@edge-testing \
     php7-sqlite3@edge-testing \
