@@ -24,7 +24,6 @@ RUN apk add --no-cache \
     php7-pdo_sqlite \
     php7-phar \
     php7-posix \
-    php7-redis@edge-testing \
     php7-session \
     php7-soap \
     php7-xdebug \
@@ -37,7 +36,9 @@ RUN apk add --no-cache \
  && sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 
 COPY common_settings.ini /etc/php7/conf.d/common_settings.ini
-COPY dev/profile.70      /etc/profile
+COPY 70/*.ini            /etc/php7/conf.d/
+COPY 70/*.so             /usr/lib/php7/modules/
+COPY dev/profile.7x      /etc/profile
 COPY dev/xdebug.ini      /etc/php7/conf.d/xdebug.ini
 COPY dev/ssh/*           /etc/ssh/
 COPY dev/tooling/*       /usr/local/bin/

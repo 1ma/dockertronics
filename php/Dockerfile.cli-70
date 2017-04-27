@@ -1,7 +1,6 @@
 FROM 1maa/alpine:3.5
 
 RUN apk add --no-cache \
-    git \
     php7 \
     php7-apcu \
     php7-bcmath \
@@ -23,7 +22,6 @@ RUN apk add --no-cache \
     php7-pdo_sqlite \
     php7-phar \
     php7-posix \
-    php7-redis@edge-testing \
     php7-session \
     php7-soap \
     php7-xml \
@@ -32,5 +30,6 @@ RUN apk add --no-cache \
     php7-zlib \
  && ln -s /usr/bin/php7 /usr/bin/php
 
-COPY common_settings.ini  /etc/php7/conf.d/common_settings.ini
-COPY dev/tooling/composer /usr/local/bin/composer
+COPY common_settings.ini /etc/php7/conf.d/common_settings.ini
+COPY 70/*.ini            /etc/php7/conf.d/
+COPY 70/*.so             /usr/lib/php7/modules/

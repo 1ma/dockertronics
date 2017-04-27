@@ -1,7 +1,7 @@
-FROM 1maa/php-cli:7.0-xdebug
+FROM 1maa/php-cli:7.1-xdebug
 
 RUN apk add --no-cache \
-    php7-fpm \
+    php7-fpm@edge-testing \
     supervisor \
  && sed -i 's@;clear_env = no@clear_env = no@'        /etc/php7/php-fpm.d/www.conf \
  && sed -i 's@listen = 127.0.0.1:9000@listen = 9000@' /etc/php7/php-fpm.d/www.conf \
