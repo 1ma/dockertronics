@@ -2,6 +2,7 @@ FROM 1maa/alpine:3.5
 
 RUN apk add --no-cache \
     git \
+    libsodium \
     openssh \
     php5-apcu \
     php5-bcmath \
