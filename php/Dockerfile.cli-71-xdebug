@@ -42,7 +42,8 @@ RUN apk add --no-cache \
     php7-zip@edge-testing \
     php7-zlib@edge-testing \
  && echo 'root:root' | chpasswd \
- && sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+ && sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config \
+ && mv /etc/php7/conf.d/xdebug.ini ~
 
 COPY common_settings.ini /etc/php7/conf.d/common_settings.ini
 COPY 71/*.ini            /etc/php7/conf.d/
