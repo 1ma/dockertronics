@@ -38,7 +38,7 @@ COPY common_settings.ini /etc/php5/conf.d/common_settings.ini
 COPY 56/*.ini            /etc/php5/conf.d/
 COPY 56/*.so             /usr/lib/php5/modules/
 COPY dev/profile.56      /etc/profile
-COPY dev/xdebug.ini      /etc/php5/conf.d/xdebug.ini
+COPY dev/xdebug.ini      /root/xdebug.ini
 COPY dev/ssh/*           /etc/ssh/
 COPY dev/tooling/*       /usr/local/bin/
 
