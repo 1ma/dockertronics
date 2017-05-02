@@ -32,7 +32,7 @@ RUN apk add --no-cache \
     php5-zlib \
  && echo 'root:root' | chpasswd \
  && sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config \
- && mv /etc/php5/conf.d/xdebug.ini ~
+ && rm /etc/php5/conf.d/xdebug.ini
 
 COPY common_settings.ini /etc/php5/conf.d/common_settings.ini
 COPY 56/*.ini            /etc/php5/conf.d/
