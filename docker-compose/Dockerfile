@@ -1,7 +1,7 @@
 FROM 1maa/debian:jessie
 
-ENV DOCKER_VERSION 1.12.3
-ENV COMPOSE_VERSION 1.9.0
+ENV DOCKER_VERSION 1.12.6
+ENV COMPOSE_VERSION 1.12.0
 
 RUN curl -L https://get.docker.com/builds/Linux/x86_64/docker-${DOCKER_VERSION}.tgz > /tmp/docker-${DOCKER_VERSION}.tgz \
  && tar -zxf /tmp/docker-${DOCKER_VERSION}.tgz -C /tmp \
