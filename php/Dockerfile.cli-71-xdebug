@@ -37,6 +37,7 @@ RUN apk add --no-cache \
     php7-session@edge-community \
     php7-soap@edge-community \
     php7-sqlite3@edge-community \
+    php7-tokenizer@edge-community \
     php7-xml@edge-community \
     php7-xmlwriter@edge-community \
     php7-xsl@edge-community \
