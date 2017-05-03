@@ -5,7 +5,8 @@ RUN apk add --no-cache \
     supervisor \
  && sed -i 's@listen = 127.0.0.1:9000@listen = [::]:9000@' /etc/php5/php-fpm.conf \
  && sed -i 's@user = nobody@user = root@' /etc/php5/php-fpm.conf \
- && sed -i 's@group = nobody@group = root@' /etc/php5/php-fpm.conf
+ && sed -i 's@group = nobody@group = root@' /etc/php5/php-fpm.conf \
+ && mv /root/xdebug.ini /etc/php5/conf.d/xdebug.ini
 
 COPY dev/supervisord.conf.fpm-56 /etc/supervisor/conf.d/supervisord.conf
 
