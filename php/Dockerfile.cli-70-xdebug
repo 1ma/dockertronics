@@ -2,6 +2,7 @@ FROM 1maa/alpine:3.5
 
 RUN apk add --no-cache \
     git \
+    libsodium \
     openssh \
     php7 \
     php7-apcu \
@@ -14,7 +15,6 @@ RUN apk add --no-cache \
     php7-iconv \
     php7-intl \
     php7-json \
-    php7-libsodium@edge-testing \
     php7-mbstring \
     php7-opcache \
     php7-openssl \
