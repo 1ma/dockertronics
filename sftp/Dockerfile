@@ -10,6 +10,8 @@ RUN apk add --no-cache \
 
 COPY sshd_config /etc/ssh/sshd_config
 
+VOLUME /jail/sftp
+
 EXPOSE 22
 
 CMD ["/usr/sbin/sshd", "-D"]
