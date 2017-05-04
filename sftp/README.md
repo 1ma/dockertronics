@@ -1,5 +1,41 @@
 # SFTP-only container
 
+## Usage
+
+### Start
+
+```bash
+$ docker run -p 2222:22 -d 1maa/sftp
+f5db3cb05d399b394e21eae886db137e0c474c82c345b94a2f9ff64fbeeeb277
+$
+```
+
+### Password Authentication
+
+```bash
+$ sftp -P 2222 sftp@localhost
+The authenticity of host '[localhost]:2222 ([127.0.0.1]:2222)' can't be established.
+ECDSA key fingerprint is SHA256:97gDBZEuiehFwz7Fuzd+MKkl6Hl0VaSqFIQB8Jv52xs.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added '[localhost]:2222' (ECDSA) to the list of known hosts.
+sftp@localhost's password: 
+Connected to localhost.
+sftp> PUT examples.desktop 
+Uploading examples.desktop to /sftp/examples.desktop
+examples.desktop                                                            100% 8980     8.8KB/s   00:00    
+sftp>
+```
+
+### Key Authentication
+
+```bash
+$ sftp -i ./id_rsa -P 2222 sftp@localhost
+Connected to localhost.
+sftp> LS
+examples.desktop   
+sftp>
+```
+
 ## Credentials
 
 ```
