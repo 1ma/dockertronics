@@ -38,6 +38,7 @@ RUN apk add --no-cache \
     php7-soap@edge-community \
     php7-sqlite3@edge-community \
     php7-tokenizer@edge-community \
+    php7-xdebug@edge-community \
     php7-xml@edge-community \
     php7-xmlwriter@edge-community \
     php7-xsl@edge-community \
@@ -51,7 +52,6 @@ COPY 71/*.ini            /etc/php7/conf.d/
 COPY 71/*.so             /usr/lib/php7/modules/
 COPY dev/profile.7x      /etc/profile
 COPY dev/xdebug.ini      /root/xdebug.ini
-COPY dev/php71-xdebug.so /usr/lib/php7/xdebug.so
 COPY dev/ssh/*           /etc/ssh/
 COPY dev/tooling/*       /usr/local/bin/
 
