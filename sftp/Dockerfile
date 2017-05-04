@@ -12,6 +12,8 @@ RUN apk add --no-cache \
 
 COPY ssh/* /etc/ssh/
 
+RUN chmod 400 /etc/ssh/ssh_host_*
+
 VOLUME /jail/sftp
 
 EXPOSE 22
