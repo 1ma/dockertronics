@@ -3,7 +3,7 @@ FROM 1maa/alpine:3.5
 COPY id_rsa.pub /authorized_keys
 
 RUN apk add --no-cache \
-    openssh \
+    openssh=7.4_p1-r0 \
  && ssh-keygen -A \
  && adduser -D -h /sftp -s /sbin/nologin sftp \
  && echo 'sftp:sftp' | chpasswd \
