@@ -9,7 +9,7 @@ RUN apk add --no-cache \
     libzip@edge-community \
     openssh \
     pcre \
-    php7@edge-testing \
+    php7@edge-community \
     php7-bcmath@edge-community \
     php7-bz2@edge-community \
     php7-common@edge-community \

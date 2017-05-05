@@ -2,7 +2,7 @@ FROM 1maa/php-cli:7.1
 
 RUN apk add --no-cache \
     apache2 \
-    php7-apache2@edge-testing \
+    php7-apache2@edge-community \
  && mkdir /run/apache2
 
 EXPOSE 80 443
