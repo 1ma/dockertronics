@@ -1,6 +1,7 @@
 FROM 1maa/alpine:3.5
 
 RUN apk add --no-cache \
+    curl \
     git \
     icu-libs@edge-main \
     libressl@edge-main \
@@ -47,13 +48,14 @@ RUN apk add --no-cache \
  && echo 'root:root' | chpasswd \
  && sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 
-COPY common_settings.ini /etc/php7/conf.d/common_settings.ini
-COPY 71/*.ini            /etc/php7/conf.d/
-COPY 71/*.so             /usr/lib/php7/modules/
-COPY dev/profile.7x      /etc/profile
-COPY dev/xdebug.ini      /root/xdebug.ini
-COPY dev/ssh/*           /etc/ssh/
-COPY dev/tooling/*       /usr/local/bin/
+COPY common_settings.ini    /etc/php7/conf.d/common_settings.ini
+COPY dev/devel_settings.ini /etc/php7/conf.d/devel_settings.ini
+COPY 71/*.ini               /etc/php7/conf.d/
+COPY 71/*.so                /usr/lib/php7/modules/
+COPY dev/profile.7x         /etc/profile
+COPY dev/xdebug.ini         /root/xdebug.ini
+COPY dev/ssh/*              /etc/ssh/
+COPY dev/tooling/*          /usr/local/bin/
 
 RUN chmod 644 /etc/ssh/* \
  && chmod 600 /etc/ssh/ssh_host_dsa_key \

@@ -1,6 +1,7 @@
 FROM 1maa/alpine:3.5
 
 RUN apk add --no-cache \
+    curl \
     git \
     libsodium \
     openssh \
@@ -34,13 +35,14 @@ RUN apk add --no-cache \
  && sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config \
  && rm /etc/php5/conf.d/xdebug.ini
 
-COPY common_settings.ini /etc/php5/conf.d/common_settings.ini
-COPY 56/*.ini            /etc/php5/conf.d/
-COPY 56/*.so             /usr/lib/php5/modules/
-COPY dev/profile.56      /etc/profile
-COPY dev/xdebug.ini      /root/xdebug.ini
-COPY dev/ssh/*           /etc/ssh/
-COPY dev/tooling/*       /usr/local/bin/
+COPY common_settings.ini    /etc/php5/conf.d/common_settings.ini
+COPY dev/devel_settings.ini /etc/php5/conf.d/devel_settings.ini
+COPY 56/*.ini               /etc/php5/conf.d/
+COPY 56/*.so                /usr/lib/php5/modules/
+COPY dev/profile.56         /etc/profile
+COPY dev/xdebug.ini         /root/xdebug.ini
+COPY dev/ssh/*              /etc/ssh/
+COPY dev/tooling/*          /usr/local/bin/
 
 RUN chmod 644 /etc/ssh/* \
  && chmod 600 /etc/ssh/ssh_host_dsa_key \
