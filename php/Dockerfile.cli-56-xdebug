@@ -2,7 +2,9 @@ FROM 1maa/alpine:3.5
 
 RUN apk add --no-cache \
     curl \
+    gearman-libs@edge-testing \
     git \
+    libressl@edge-main \
     libsodium \
     openssh \
     php5-apcu \

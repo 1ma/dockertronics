@@ -1,6 +1,8 @@
 FROM 1maa/alpine:3.5
 
 RUN apk add --no-cache \
+    gearman-libs@edge-testing \
+    libressl@edge-main \
     libsodium \
     php5-apcu \
     php5-bcmath \
