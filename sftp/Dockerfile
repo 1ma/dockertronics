@@ -1,9 +1,9 @@
-FROM 1maa/alpine:3.5
+FROM 1maa/alpine:3.6
 
 COPY key/id_rsa.pub /authorized_keys
 
 RUN apk add --no-cache \
-    openssh=7.4_p1-r0 \
+    openssh \
  && adduser -D -H -h /sftp -s /sbin/nologin sftp \
  && echo 'root:root' | chpasswd \
  && echo 'sftp:sftp' | chpasswd \
