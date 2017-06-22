@@ -1,6 +1,7 @@
 # Self-Signed Certificate Generator
 
-This image is meant to generate wildcard self-signed certificates for development (i.e. nginx over HTTPS)
+This image is meant to generate wildcard self-signed certificates for development (i.e. nginx over HTTPS).
+When run, it creates a self-signed wildcard certificate and private key in the container's `/tmp` directory.
 
 ## Usage
 
@@ -8,7 +9,7 @@ This image is meant to generate wildcard self-signed certificates for developmen
 
 ```bash
 $ docker run --rm -it -e FQDN=domain.tld -v $(pwd):/tmp 1maa/selfsig
-Generating a 2048 bit RSA private key
+Generating a 4096 bit RSA private key
 ..........................................+++
 ...........+++
 writing new private key to '/tmp/domain.tld.key'
@@ -18,6 +19,14 @@ $ ls -l
 -rw-r--r-- 1 root   root    891 jun 21 17:02 domain.tld.crt
 -rw-r--r-- 1 root   root   1704 jun 21 17:02 domain.tld.key
 ```
+
+### EnvVar list
+
+| Name | Default Value |
+|------|---------------|
+| ALGO | rsa           |
+| BITS | 4096          |
+| FQDN | example.com   |
 
 ### Multistage build
 
