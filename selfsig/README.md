@@ -1,6 +1,6 @@
 # Self-Signed Certificate Generator
 
-This image is meant to generate self-signed certificates for development (i.e. nginx over HTTPS)
+This image is meant to generate wildcard self-signed certificates for development (i.e. nginx over HTTPS)
 
 ## Usage
 
@@ -26,7 +26,7 @@ FROM 1maa/selfsig
 
 ENV FQDN=domain.tld
 
-RUN openssl req -x509 -nodes -days 3650 -newkey ${ALGO}:${BITS} -keyout /tmp/${FQDN}.key -out /tmp/${FQDN}.crt -subj "/CN=${FQDN}"
+RUN openssl req -x509 -nodes -days 3650 -newkey ${ALGO}:${BITS} -keyout /tmp/${FQDN}.key -out /tmp/${FQDN}.crt -subj "/CN=*.${FQDN}"
 
 
 FROM nginx:1.13-alpine
