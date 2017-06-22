@@ -26,7 +26,7 @@ FROM 1maa/selfsig
 
 ENV FQDN=domain.tld
 
-RUN openssl req -x509 -nodes -newkey ${ALGO}:${BITS} -keyout /tmp/${FQDN}.key -out /tmp/${FQDN}.crt -subj "/CN=${FQDN}"
+RUN openssl req -x509 -nodes -days 3650 -newkey ${ALGO}:${BITS} -keyout /tmp/${FQDN}.key -out /tmp/${FQDN}.crt -subj "/CN=${FQDN}"
 
 
 FROM nginx:1.13-alpine
