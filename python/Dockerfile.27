@@ -1,5 +1,0 @@
-FROM 1maa/alpine:3.6
-
-RUN apk add --no-cache \
-    python2 \
-    py2-pip
