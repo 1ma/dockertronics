@@ -6,8 +6,7 @@ RUN apk add --no-cache \
  && sed -i 's@;clear_env = no@clear_env = no@'        /etc/php7/php-fpm.d/www.conf \
  && sed -i 's@listen = 127.0.0.1:9000@listen = 9000@' /etc/php7/php-fpm.d/www.conf \
  && sed -i 's@user = nobody@user = root@'             /etc/php7/php-fpm.d/www.conf \
- && sed -i 's@group = nobody@group = root@'           /etc/php7/php-fpm.d/www.conf \
- && mv /root/xdebug.ini /etc/php7/conf.d/xdebug.ini
+ && sed -i 's@group = nobody@group = root@'           /etc/php7/php-fpm.d/www.conf
 
 COPY dev/supervisord.conf.fpm-7x /etc/supervisor/conf.d/supervisord.conf
 
