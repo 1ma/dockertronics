@@ -61,6 +61,7 @@ RUN apk add --no-cache \
  && make install \
  && pecl install \
     apcu \
+    ds \
     igbinary \
     redis \
 #    xdebug \
