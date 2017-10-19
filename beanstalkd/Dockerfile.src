@@ -1,0 +1,26 @@
+FROM alpine:3.6
+
+ENV COMMIT 9f692dc0c1c43b333e1e4a6cc384128bf510651e
+
+RUN apk add -U \
+    alpine-sdk \
+    curl \
+ && curl -L https://github.com/kr/beanstalkd/archive/${COMMIT}.zip > beanstalkd.zip \
+ && unzip beanstalkd.zip \
+ && cd beanstalkd-${COMMIT} \
+ && sed -i 's@sys/fcntl.h@fcntl.h@' sd-daemon.c \
+ && sed -i 's@-g\\@-O3 -march=x86-64@' Makefile \
+ && make \
+ && make check \
+ && mv beanstalkd /tmp
+
+
+FROM 1maa/alpine:3.6
+
+COPY --from=0 /tmp/beanstalkd /usr/bin/beanstalkd
+
+RUN adduser -S -D -H -h /dev/null -s /sbin/nologin -G daemon beanstalk
+
+EXPOSE 11300
+
+CMD ["/usr/bin/beanstalkd", "-u", "beanstalk", "-V"]
