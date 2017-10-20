@@ -4,7 +4,6 @@ ENV COMMIT 9f692dc0c1c43b333e1e4a6cc384128bf510651e
 
 RUN apk add -U \
     alpine-sdk \
-    curl \
  && curl -L https://github.com/kr/beanstalkd/archive/${COMMIT}.zip > beanstalkd.zip \
  && unzip beanstalkd.zip \
  && cd beanstalkd-${COMMIT} \
