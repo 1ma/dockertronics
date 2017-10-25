@@ -1,6 +1,6 @@
 FROM alpine:3.6
 
-ENV NGINX_VERSION 1.13.5
+ENV NGINX_VERSION 1.13.6
 
 RUN apk add -U \
     alpine-sdk \
