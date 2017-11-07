@@ -18,6 +18,7 @@ RUN apk add --no-cache \
     curl-dev \
     gd-dev \
     libpng-dev \
+    librdkafka-dev \
     libressl-dev \
     libsodium-dev \
     libxml2-dev \
@@ -63,6 +64,7 @@ RUN apk add --no-cache \
     ds \
     igbinary \
     libsodium-1.0.6 \
+    rdkafka \
     redis \
     xdebug \
  && chmod +x /usr/lib/php/*.so \
@@ -112,6 +114,7 @@ RUN apk add --no-cache \
     libcurl \
     libgd \
     libpq \
+    librdkafka \
     libsodium \
     libxml2 \
     readline
