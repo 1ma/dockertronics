@@ -42,6 +42,7 @@ RUN apk add --no-cache \
     --disable-cgi \
     --disable-phpdbg \
 
+    --enable-bcmath \
     --enable-exif \
     --enable-mbstring \
     --enable-opcache \
@@ -86,6 +87,7 @@ RUN apk add --no-cache \
     --disable-cgi \
     --disable-phpdbg \
 
+    --enable-bcmath \
     --enable-exif \
     --enable-mbstring \
     --enable-opcache \

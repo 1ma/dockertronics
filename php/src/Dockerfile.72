@@ -18,6 +18,7 @@ RUN apk add --no-cache \
     curl-dev \
     gd-dev \
     libpng-dev \
+    librdkafka-dev \
     libressl-dev \
     libsodium-dev \
     libxml2-dev \
@@ -41,6 +42,7 @@ RUN apk add --no-cache \
     --disable-cgi \
     --disable-phpdbg \
 
+    --enable-bcmath \
     --enable-exif \
     --enable-mbstring \
     --enable-opcache \
@@ -84,6 +86,7 @@ RUN apk add --no-cache \
     --disable-cgi \
     --disable-phpdbg \
 
+    --enable-bcmath \
     --enable-exif \
     --enable-mbstring \
     --enable-opcache \
