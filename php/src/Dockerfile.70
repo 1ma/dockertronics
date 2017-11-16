@@ -54,6 +54,7 @@ RUN apk add --no-cache \
 
     --with-curl \
     --with-gd \
+    --with-mysqli \
     --with-openssl \
     --with-pdo-mysql \
     --with-pdo-pgsql \
@@ -98,6 +99,7 @@ RUN apk add --no-cache \
 
     --with-curl \
     --with-gd \
+    --with-mysqli \
     --with-openssl \
     --with-pdo-mysql \
     --with-pdo-pgsql \
