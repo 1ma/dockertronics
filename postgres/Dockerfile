@@ -15,9 +15,13 @@ RUN apk -U add \
 FROM postgres:10-alpine
 
 COPY --from=0 /usr/local/share/postgresql/extension/pgtap* /usr/local/share/postgresql/extension/
+COPY postgresql.conf /etc/postgresql.conf
 
-RUN apk -U add \
+RUN chown postgres:postgres /etc/postgresql.conf \
+ && apk -U add \
     build-base \
     perl-dev \
  && cpan TAP::Parser::SourceHandler::pgTAP \
  && apk del -r build-base
+
+CMD ["postgres", "-c", "config_file=/etc/postgresql.conf"]
