@@ -1,6 +1,6 @@
 FROM alpine:3.6
 
-ENV PHP_VERSION=7.2.0RC6
+ENV PHP_VERSION=7.2.0
 
 ENV CFLAGS="-O3 -march=x86-64"
 
@@ -26,7 +26,7 @@ RUN apk add --no-cache \
     readline-dev \
     zlib-dev \
  && cd /tmp \
- && curl -OsS https://downloads.php.net/~pollita/php-${PHP_VERSION}.tar.gz \
+ && curl -OsS http://php.net/distributions/php-${PHP_VERSION}.tar.gz \
  && tar zxof php-${PHP_VERSION}.tar.gz \
  && cd ./php-${PHP_VERSION} \
  && ./configure \
