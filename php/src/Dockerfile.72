@@ -1,6 +1,6 @@
 FROM alpine:3.6
 
-ENV PHP_VERSION=7.2.0
+ENV PHP_VERSION=7.2.1
 
 ENV CFLAGS="-O3 -march=x86-64"
 
@@ -68,7 +68,7 @@ RUN apk add --no-cache \
     igbinary \
     rdkafka \
     redis \
-    xdebug-2.6.0alpha1 \
+    xdebug-2.6.0beta1 \
  && chmod +x /usr/lib/php/*.so \
  && cd /tmp \
  && rm -rf php-${PHP_VERSION} \
