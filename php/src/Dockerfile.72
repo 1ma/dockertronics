@@ -68,7 +68,7 @@ RUN apk add --no-cache \
     igbinary \
     rdkafka \
     redis \
-    xdebug-2.6.0beta1 \
+    xdebug \
  && chmod +x /usr/lib/php/*.so \
  && cd /tmp \
  && rm -rf php-${PHP_VERSION} \
