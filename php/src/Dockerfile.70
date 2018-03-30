@@ -1,6 +1,6 @@
 FROM alpine:3.6
 
-ENV PHP_VERSION=7.0.28
+ENV PHP_VERSION=7.0.29
 
 ENV CFLAGS="-O3 -march=x86-64"
 
