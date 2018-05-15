@@ -9,12 +9,17 @@ RUN apk -U add \
  && cd pgtap \
  && git checkout ${PGTAP_VERSION} \
  && make \
+ && make install \
+ && cd .. \
+ && git clone https://github.com/gavinwahl/postgres-json-schema \
+ && cd postgres-json-schema \
  && make install
 
 
 FROM postgres:10-alpine
 
-COPY --from=0 /usr/local/share/postgresql/extension/pgtap* /usr/local/share/postgresql/extension/
+COPY --from=0 /usr/local/share/postgresql/extension/pgtap*                /usr/local/share/postgresql/extension/
+COPY --from=0 /usr/local/share/postgresql/extension/postgres-json-schema* /usr/local/share/postgresql/extension/
 COPY postgresql.conf /etc/postgresql.conf
 
 RUN chown postgres:postgres /etc/postgresql.conf \

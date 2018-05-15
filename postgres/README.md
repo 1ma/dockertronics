@@ -5,6 +5,7 @@ An extension of the official `postgres:10-alpine` image with additional, non-con
 ### Extension List
 
 - [pgTAP](https://github.com/theory/pgtap)
+- [postgres-json-schema](https://github.com/gavinwahl/postgres-json-schema)
 
 ### Configuration tweaks
 
