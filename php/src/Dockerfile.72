@@ -1,6 +1,6 @@
-FROM alpine:3.6
+FROM alpine:3.7
 
-ENV PHP_VERSION=7.2.6
+ENV PHP_VERSION=7.2.7
 
 ENV CFLAGS="-O3 -march=x86-64"
 
@@ -107,7 +107,7 @@ RUN apk add --no-cache \
  && mv sapi/fpm/php-fpm /usr/sbin/php-fpm
 
 
-FROM 1maa/alpine:3.6
+FROM 1maa/alpine:3.7
 
 COPY etc /etc/php
 
