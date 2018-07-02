@@ -17,6 +17,7 @@ RUN apk add --no-cache \
     # dependencies for building specific extensions
     curl-dev \
     gd-dev \
+    gpgme-dev \
     libpng-dev \
     librdkafka-dev \
     libressl-dev \
@@ -65,6 +66,7 @@ RUN apk add --no-cache \
  && pecl install \
     apcu \
     ds \
+    gnupg \
     igbinary \
     rdkafka \
     redis \
@@ -116,6 +118,7 @@ COPY --from=0 /usr/sbin/php-fpm /usr/sbin/php-fpm
 COPY --from=0 /usr/lib/php/*.so /usr/lib/php/
 
 RUN apk add --no-cache \
+    gpgme \
     libcurl \
     libgd \
     libpq \
