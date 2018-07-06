@@ -1,5 +1,9 @@
 # SFTP-only container
 
+
+An Alpine container with OpenSSH installed and a jailrooted user that can only
+access through SFTP.
+
 ## Usage
 
 ### Start

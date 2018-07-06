@@ -1,8 +1,8 @@
-FROM alpine:3.6
+FROM alpine:3.7
 
-ENV COMMIT 9f692dc0c1c43b333e1e4a6cc384128bf510651e
+ENV COMMIT c17f5030177f689b37ddd6cd2237c96491f6c399
 
-RUN apk add -U \
+RUN apk add --no-cache \
     alpine-sdk \
  && curl -L https://github.com/kr/beanstalkd/archive/${COMMIT}.zip > beanstalkd.zip \
  && unzip beanstalkd.zip \
@@ -14,7 +14,7 @@ RUN apk add -U \
  && mv beanstalkd /tmp
 
 
-FROM 1maa/alpine:3.6
+FROM 1maa/alpine:3.7
 
 COPY --from=0 /tmp/beanstalkd /usr/bin/beanstalkd
 

@@ -2,7 +2,7 @@ FROM postgres:10-alpine
 
 ENV PGTAP_VERSION v0.98.0
 
-RUN apk -U add \
+RUN apk --no-cache add \
     alpine-sdk \
     perl \
  && git clone https://github.com/theory/pgtap \
@@ -23,7 +23,7 @@ COPY --from=0 /usr/local/share/postgresql/extension/postgres-json-schema* /usr/l
 COPY postgresql.conf /etc/postgresql.conf
 
 RUN chown postgres:postgres /etc/postgresql.conf \
- && apk -U add \
+ && apk --no-cache add \
     build-base \
     perl-dev \
  && cpan TAP::Parser::SourceHandler::pgTAP \
