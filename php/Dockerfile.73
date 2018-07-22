@@ -3,6 +3,7 @@ FROM alpine:3.8
 ENV PHP_VERSION=7.3.0alpha4
 
 ENV CFLAGS="-O3 -march=x86-64"
+ENV LDFLAGS="-s"
 
 RUN apk add --no-cache \
     # generic dependencies for compiling the source
@@ -71,6 +72,7 @@ RUN apk add --no-cache \
     igbinary \
     rdkafka \
     redis \
+    # xdebug \   xdebug does not yet build against PHP 7.3
  && chmod +x /usr/lib/php/*.so \
  && cd /tmp \
  && rm -rf php-${PHP_VERSION} \

@@ -3,6 +3,7 @@ FROM alpine:3.7
 ENV PHP_VERSION=7.0.31
 
 ENV CFLAGS="-O3 -march=x86-64"
+ENV LDFLAGS="-s"
 
 RUN apk add --no-cache \
     # generic dependencies for compiling the source
