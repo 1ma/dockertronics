@@ -24,6 +24,7 @@ RUN apk add --no-cache \
     libressl-dev \
     libsodium-dev \
     libxml2-dev \
+    libxslt-dev \
     postgresql-dev \
     readline-dev \
     zlib-dev \
@@ -45,12 +46,16 @@ RUN apk add --no-cache \
     --disable-phpdbg \
 
     --enable-bcmath \
+    --enable-calendar \
     --enable-exif \
+    --enable-ftp \
     --enable-mbstring \
     --enable-opcache \
     --enable-pcntl \
+    --enable-shmop \
     --enable-soap \
     --enable-sockets \
+    --enable-wddx \
     --enable-zend-signals \
     --enable-zip \
 
@@ -60,7 +65,10 @@ RUN apk add --no-cache \
     --with-openssl \
     --with-pdo-mysql \
     --with-pdo-pgsql \
+    --with-pgsql \
     --with-readline \
+    --with-xmlrpc \
+    --with-xsl \
     --with-zlib \
  && make -j$(grep "cpu cores" /proc/cpuinfo | wc -l) \
  && make install \
@@ -91,11 +99,15 @@ RUN apk add --no-cache \
     --disable-phpdbg \
 
     --enable-bcmath \
+    --enable-calendar \
     --enable-exif \
+    --enable-ftp \
     --enable-mbstring \
     --enable-opcache \
+    --enable-shmop \
     --enable-soap \
     --enable-sockets \
+    --enable-wddx \
     --enable-zend-signals \
     --enable-zip \
 
@@ -105,6 +117,9 @@ RUN apk add --no-cache \
     --with-openssl \
     --with-pdo-mysql \
     --with-pdo-pgsql \
+    --with-pgsql \
+    --with-xmlrpc \
+    --with-xsl \
     --with-zlib \
  && make -j$(grep "cpu cores" /proc/cpuinfo | wc -l) \
  && mv sapi/fpm/php-fpm /usr/sbin/php-fpm
@@ -126,6 +141,7 @@ RUN apk add --no-cache \
     librdkafka \
     libsodium \
     libxml2 \
+    libxslt \
     readline \
  && rm /etc/php/mods-available/ds.ini
 
