@@ -18,6 +18,7 @@ RUN apk add --no-cache \
     # dependencies for building specific extensions
     curl-dev \
     gd-dev \
+    gmp-dev \
     gpgme-dev \
     libpng-dev \
     librdkafka-dev \
@@ -60,6 +61,7 @@ RUN apk add --no-cache \
 
     --with-curl \
     --with-gd \
+    --with-gmp \
     --with-mysqli \
     --with-openssl \
     --with-pdo-mysql \
@@ -112,6 +114,7 @@ RUN apk add --no-cache \
 
     --with-curl \
     --with-gd \
+    --with-gmp \
     --with-mysqli \
     --with-openssl \
     --with-pdo-mysql \
@@ -134,6 +137,7 @@ COPY --from=0 /usr/sbin/php-fpm /usr/sbin/php-fpm
 COPY --from=0 /usr/lib/php/*.so /usr/lib/php/
 
 RUN apk add --no-cache \
+    gmp \
     gpgme \
     libcurl \
     libgd \
