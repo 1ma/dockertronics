@@ -1,6 +1,7 @@
 FROM alpine:3.8
 
 ENV PHP_VERSION=7.1.21
+ENV XHPROF_VERSION=5.0-beta2
 
 ENV CFLAGS="-O3 -march=x86-64"
 ENV LDFLAGS="-s"
@@ -73,6 +74,14 @@ RUN apk add --no-cache \
     --with-zlib \
  && make -j$(grep "cpu cores" /proc/cpuinfo | wc -l) \
  && make install \
+ && curl -LOsS https://github.com/tideways/php-xhprof-extension/archive/v${XHPROF_VERSION}.tar.gz \
+ && tar zxof v${XHPROF_VERSION}.tar.gz \
+ && cd ./php-xhprof-extension-${XHPROF_VERSION} \
+ && phpize \
+ && ./configure \
+ && make \
+ && make install \
+ && chmod +x /usr/lib/php/*.so \
  && pecl install \
     apcu \
     ds \
