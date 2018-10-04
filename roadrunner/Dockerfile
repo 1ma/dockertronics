@@ -13,6 +13,8 @@ FROM 1maa/php-dev:7.2
 
 COPY --from=0 /tmp/rr /usr/local/bin/rr
 
+RUN ln -s /etc/php/mods-available/xdebug.ini /etc/php/cli/conf.d/xdebug.ini
+
 EXPOSE 80
 EXPOSE 443
 
