@@ -91,7 +91,7 @@ RUN apk add --no-cache \
     igbinary \
     rdkafka \
     redis \
-    # xdebug \   xdebug does not yet build against PHP 7.3
+    xdebug-2.7.0beta1 \
  && chmod +x /usr/lib/php/*.so \
  && cd /tmp \
  && rm -rf php-${PHP_VERSION} \

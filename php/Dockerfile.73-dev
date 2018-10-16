@@ -21,9 +21,7 @@ FROM 1maa/php:7.3
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
-# Do not enable xdebug yet
-# COPY etcdev /etc/php
-
+COPY etcdev /etc/php
 
 COPY --from=0 /root/.composer /root/.composer
 COPY --from=0 /usr/local/bin /usr/local/bin
