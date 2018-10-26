@@ -1,4 +1,4 @@
-FROM postgres:10-alpine
+FROM postgres:11-alpine
 
 ENV PGTAP_VERSION v0.99.0
 
@@ -16,7 +16,7 @@ RUN apk --no-cache add \
  && make install
 
 
-FROM postgres:10-alpine
+FROM postgres:11-alpine
 
 COPY --from=0 /usr/local/share/postgresql/extension/pgtap*                /usr/local/share/postgresql/extension/
 COPY --from=0 /usr/local/share/postgresql/extension/postgres-json-schema* /usr/local/share/postgresql/extension/
