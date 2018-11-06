@@ -1,7 +1,6 @@
 FROM 1maa/php:7.0
 
 RUN apk add --no-cache curl \
- && curl -LO http://get.sensiolabs.de/deptrac.phar \
  && curl -LO https://getcomposer.org/download/1.7.1/composer.phar \
  && chmod +x /*.phar \
  && /composer.phar global config bin-dir /usr/local/bin \
@@ -14,6 +13,7 @@ RUN apk add --no-cache curl \
     phing/phing \
     phpmetrics/phpmetrics \
     phpunit/phpunit \
+    sensiolabs-de/deptrac-shim \
  && rm -rf /root/.composer/.htaccess /root/.composer/cache
 
 
@@ -25,4 +25,3 @@ COPY etcdev /etc/php
 
 COPY --from=0 /root/.composer /root/.composer
 COPY --from=0 /usr/local/bin /usr/local/bin
-COPY --from=0 /deptrac.phar /usr/local/bin/deptrac.phar
