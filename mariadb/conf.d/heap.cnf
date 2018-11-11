@@ -1,0 +1,2 @@
+[mysqld]
+max_heap_table_size	= 4294967296
