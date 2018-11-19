@@ -89,6 +89,7 @@ RUN apk add --no-cache \
     ds \
     gnupg \
     igbinary \
+    mongodb \
     rdkafka \
     redis \
     xdebug-2.7.0beta1 \
