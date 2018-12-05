@@ -1,0 +1,25 @@
+FROM 1maa/php:master
+
+RUN apk add --no-cache curl \
+ && curl -LO https://getcomposer.org/download/1.7.1/composer.phar \
+ && chmod +x /*.phar \
+ && /composer.phar global config bin-dir /usr/local/bin \
+ && /composer.phar global config minimum-stability dev \
+ && /composer.phar global config prefer-stable true \
+ && /composer.phar global require --prefer-dist --ignore-platform-reqs \
+    composer/composer \
+    d11wtq/boris \
+    friendsofphp/php-cs-fixer \
+    phing/phing \
+    phpmetrics/phpmetrics \
+    phpunit/phpunit \
+    sensiolabs-de/deptrac-shim \
+ && rm -rf /root/.composer/.htaccess /root/.composer/cache
+
+
+FROM 1maa/php:master
+
+ENV COMPOSER_ALLOW_SUPERUSER=1
+
+COPY --from=0 /root/.composer /root/.composer
+COPY --from=0 /usr/local/bin /usr/local/bin
