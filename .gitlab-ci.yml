@@ -1,6 +1,8 @@
 stages:
+  - diagnostics
   - tier1
   - tier2
+  - tier3
 
 services:
   - docker:dind
@@ -8,6 +10,13 @@ services:
 variables:
   DOCKER_HOST: tcp://docker:2375/
   DOCKER_DRIVER: overlay2
+
+diagnostics:
+  stage: diagnostics
+  image: docker:stable
+  script:
+    - docker info
+    - docker version
 
 alpine:
   stage: tier1
@@ -63,3 +72,26 @@ beanstalkd-master:
     - docker build -t $IMAGE -f $CONTEXT/Dockerfile.src $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
+
+php-7.2:
+  stage: tier2
+  image: docker:stable
+  variables:
+    CONTEXT: php
+    IMAGE: 1maa/php:7.2
+  script:
+    - docker build -t $IMAGE -f $CONTEXT/Dockerfile.72 $CONTEXT
+    - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
+    - docker push $IMAGE
+
+php-7.2-dev:
+  stage: tier3
+  image: docker:stable
+  variables:
+    CONTEXT: php
+    IMAGE: 1maa/php-dev:7.2
+  script:
+    - docker build -t $IMAGE -f $CONTEXT/Dockerfile.72-dev $CONTEXT
+    - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
+    - docker push $IMAGE
+
