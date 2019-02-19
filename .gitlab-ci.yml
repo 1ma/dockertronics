@@ -1,0 +1,54 @@
+stages:
+  - tier1
+  - tier2
+
+services:
+  - docker:dind
+
+variables:
+  DOCKER_HOST: tcp://docker:2375/
+  DOCKER_DRIVER: overlay2
+
+alpine:
+  stage: tier1
+  image: docker:stable
+  variables:
+    CONTEXT: alpine
+    IMAGE: 1maa/alpine:3.8
+  script:
+    - docker build -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
+    - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
+    - docker push $IMAGE
+
+debian:
+  stage: tier1
+  image: docker:stable
+  variables:
+    CONTEXT: debian
+    IMAGE: 1maa/debian:jessie
+  script:
+    - docker build -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
+    - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
+    - docker push $IMAGE
+
+mariadb:
+  stage: tier1
+  image: docker:stable
+  variables:
+    CONTEXT: mariadb
+    IMAGE: 1maa/mariadb:10.3
+  script:
+    - docker build -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
+    - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
+    - docker push $IMAGE
+
+beanstalkd:
+  stage: tier2
+  image: docker:stable
+  variables:
+    CONTEXT: beanstalkd
+    IMAGE: 1maa/beanstalkd:1.10
+  script:
+    - docker build -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
+    - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
+    - docker push $IMAGE
