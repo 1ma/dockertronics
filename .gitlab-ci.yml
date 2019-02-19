@@ -12,12 +12,13 @@ variables:
   DOCKER_HOST: tcp://docker:2375/
   DOCKER_DRIVER: overlay2
 
-diagnostics:
+sanity-check:
   stage: diagnostics
   image: docker:stable
   script:
     - docker info
     - docker version
+    - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
 
 alpine:
   stage: tier1
@@ -140,6 +141,17 @@ docker-compose:
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
+php-7.1:
+  stage: tier2
+  image: docker:stable
+  variables:
+    CONTEXT: php
+    IMAGE: 1maa/php:7.1
+  script:
+    - docker build -t $IMAGE -f $CONTEXT/Dockerfile.71 $CONTEXT
+    - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
+    - docker push $IMAGE
+
 php-7.2:
   stage: tier2
   image: docker:stable
@@ -148,6 +160,17 @@ php-7.2:
     IMAGE: 1maa/php:7.2
   script:
     - docker build -t $IMAGE -f $CONTEXT/Dockerfile.72 $CONTEXT
+    - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
+    - docker push $IMAGE
+
+php-7.3:
+  stage: tier2
+  image: docker:stable
+  variables:
+    CONTEXT: php
+    IMAGE: 1maa/php:7.3
+  script:
+    - docker build -t $IMAGE -f $CONTEXT/Dockerfile.73 $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
@@ -184,6 +207,17 @@ sftp:
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
+php-7.1-dev:
+  stage: tier3
+  image: docker:stable
+  variables:
+    CONTEXT: php
+    IMAGE: 1maa/php-dev:7.1
+  script:
+    - docker build -t $IMAGE -f $CONTEXT/Dockerfile.71-dev $CONTEXT
+    - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
+    - docker push $IMAGE
+
 php-7.2-dev:
   stage: tier3
   image: docker:stable
@@ -192,6 +226,17 @@ php-7.2-dev:
     IMAGE: 1maa/php-dev:7.2
   script:
     - docker build -t $IMAGE -f $CONTEXT/Dockerfile.72-dev $CONTEXT
+    - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
+    - docker push $IMAGE
+
+php-7.3-dev:
+  stage: tier3
+  image: docker:stable
+  variables:
+    CONTEXT: php
+    IMAGE: 1maa/php-dev:7.3
+  script:
+    - docker build -t $IMAGE -f $CONTEXT/Dockerfile.73-dev $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
