@@ -1,6 +1,6 @@
 FROM alpine:3.8
 
-ENV RR_VERSION=1.2.6
+ENV RR_VERSION=1.3.5
 
 RUN apk add --no-cache curl \
  && cd /tmp \

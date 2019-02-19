@@ -4,13 +4,13 @@ FROM alpine:3.8
 #   https://www.sqlite.org/howtocompile.html
 #   https://www.sqlite.org/compile.html
 
-ENV SQLITE_VERSION=3260000
+ENV SQLITE_VERSION=3270100
 
 RUN cd ~ \
  && apk add --no-cache \
     build-base \
     unzip \
- && wget https://www.sqlite.org/2018/sqlite-amalgamation-${SQLITE_VERSION}.zip \
+ && wget https://www.sqlite.org/2019/sqlite-amalgamation-${SQLITE_VERSION}.zip \
  && unzip sqlite-amalgamation-${SQLITE_VERSION}.zip \
  && cd sqlite-amalgamation-${SQLITE_VERSION} \
  && gcc \
