@@ -1,6 +1,6 @@
 FROM alpine:3.8
 
-ENV COMMIT c17f5030177f689b37ddd6cd2237c96491f6c399
+ENV COMMIT b5a6f7a23a368ffb31fbf48cdffe95541166d3fa
 
 RUN apk add --no-cache \
     alpine-sdk \
