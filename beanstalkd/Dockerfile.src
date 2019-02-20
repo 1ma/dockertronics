@@ -1,4 +1,4 @@
-FROM alpine:3.8
+FROM alpine:3.9
 
 ENV COMMIT b5a6f7a23a368ffb31fbf48cdffe95541166d3fa
 
@@ -14,7 +14,7 @@ RUN apk add --no-cache \
  && mv beanstalkd /tmp
 
 
-FROM 1maa/alpine:3.8
+FROM 1maa/alpine:3.9
 
 COPY --from=0 /tmp/beanstalkd /usr/bin/beanstalkd
 

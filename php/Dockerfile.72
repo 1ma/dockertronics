@@ -1,4 +1,4 @@
-FROM alpine:3.8
+FROM alpine:3.9
 
 ENV PHP_VERSION=7.2.15
 ENV XHPROF_VERSION=5.0-beta3
@@ -23,7 +23,7 @@ RUN apk add --no-cache \
     gpgme-dev \
     libpng-dev \
     librdkafka-dev \
-    libressl-dev \
+    openssl-dev \
     libsodium-dev \
     libxml2-dev \
     libxslt-dev \
@@ -138,7 +138,7 @@ RUN apk add --no-cache \
  && mv sapi/fpm/php-fpm /usr/sbin/php-fpm
 
 
-FROM 1maa/alpine:3.8
+FROM 1maa/alpine:3.9
 
 COPY etc /etc/php
 

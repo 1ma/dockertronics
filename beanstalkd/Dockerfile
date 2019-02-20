@@ -1,4 +1,4 @@
-FROM 1maa/alpine:3.8
+FROM 1maa/alpine:3.9
 
 RUN apk add --no-cache beanstalkd
 

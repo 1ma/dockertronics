@@ -25,7 +25,7 @@ alpine:
   image: docker:stable
   variables:
     CONTEXT: alpine
-    IMAGE: 1maa/alpine:3.8
+    IMAGE: 1maa/alpine:3.9
   script:
     - docker build -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS

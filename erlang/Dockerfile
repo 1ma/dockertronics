@@ -1,4 +1,4 @@
-FROM alpine:3.8
+FROM alpine:3.9
 
 RUN apk add --no-cache curl \
  && curl https://s3.amazonaws.com/rebar3/rebar3 > /usr/local/bin/rebar3 \
