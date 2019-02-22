@@ -27,6 +27,7 @@ RUN apk add --no-cache \
     libsodium-dev \
     libxml2-dev \
     libxslt-dev \
+    libzip-dev \
     postgresql-dev \
     readline-dev \
     zlib-dev \
@@ -156,6 +157,7 @@ RUN apk add --no-cache \
     libsodium \
     libxml2 \
     libxslt \
+    libzip \
     readline \
  && rm /etc/php/mods-available/libsodium.ini
 
