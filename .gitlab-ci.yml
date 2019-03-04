@@ -97,6 +97,17 @@ postgres:
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
+sleepy:
+  stage: tier1
+  image: docker:stable
+  variables:
+    CONTEXT: sleepy
+    IMAGE: 1maa/sleepy:latest
+  script:
+    - docker build -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
+    - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
+    - docker push $IMAGE
+
 sqlite:
   stage: tier1
   image: docker:stable
