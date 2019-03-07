@@ -92,7 +92,7 @@ RUN apk add --no-cache \
     mongodb \
     rdkafka \
     redis \
-    xdebug-2.7.0RC2 \
+    xdebug \
  && chmod +x /usr/lib/php/*.so \
  && cd /tmp \
  && rm -rf php-${PHP_VERSION} \
