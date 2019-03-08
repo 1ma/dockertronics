@@ -27,9 +27,9 @@ RUN apk add --no-cache \
     libsodium-dev \
     libxml2-dev \
     libxslt-dev \
+    libzip-dev \
     postgresql-dev \
     readline-dev \
-    zlib-dev \
  && cd /tmp \
  && curl -OsS http://php.net/distributions/php-${PHP_VERSION}.tar.gz \
  && tar zxof php-${PHP_VERSION}.tar.gz \
@@ -64,6 +64,7 @@ RUN apk add --no-cache \
     --with-curl \
     --with-gd \
     --with-gmp \
+    --with-libzip \
     --with-mysqli \
     --with-openssl \
     --with-pdo-mysql \
@@ -127,6 +128,7 @@ RUN apk add --no-cache \
     --with-curl \
     --with-gd \
     --with-gmp \
+    --with-libzip \
     --with-mysqli \
     --with-openssl \
     --with-pdo-mysql \
@@ -157,6 +159,7 @@ RUN apk add --no-cache \
     libsodium \
     libxml2 \
     libxslt \
+    libzip \
     readline
 
 EXPOSE 9000

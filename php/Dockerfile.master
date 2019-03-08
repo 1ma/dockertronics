@@ -18,6 +18,7 @@ RUN apk add --no-cache \
     re2c \
 
     # dependencies for building specific extensions
+    argon2-dev \
     curl-dev \
     gd-dev \
     gmp-dev \
@@ -32,7 +33,6 @@ RUN apk add --no-cache \
     postgresql-dev \
     readline-dev \
     sqlite-dev \
-    zlib-dev \
  && cd /tmp \
  && git clone --depth=1 https://github.com/php/php-src \
  && cp -r php-src php \
@@ -67,8 +67,10 @@ RUN apk add --no-cache \
     --with-curl \
     --with-gd \
     --with-gmp \
+    --with-libzip \
     --with-mysqli \
     --with-openssl \
+    --with-password-argon2 \
     --with-pdo-mysql \
     --with-pdo-pgsql \
     --with-pgsql \
@@ -130,8 +132,10 @@ RUN apk add --no-cache \
     --with-curl \
     --with-gd \
     --with-gmp \
+    --with-libzip \
     --with-mysqli \
     --with-openssl \
+    --with-password-argon2 \
     --with-pdo-mysql \
     --with-pdo-pgsql \
     --with-pgsql \
@@ -152,6 +156,7 @@ COPY --from=0 /usr/sbin/php-fpm /usr/sbin/php-fpm
 COPY --from=0 /usr/lib/php/*.so /usr/lib/php/
 
 RUN apk add --no-cache \
+    argon2-libs \
     gmp \
     gpgme \
     libcurl \
