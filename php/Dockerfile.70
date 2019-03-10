@@ -17,6 +17,7 @@ RUN apk add --no-cache \
     re2c \
 
     # dependencies for building specific extensions
+    bzip2-dev \
     curl-dev \
     gd-dev \
     gmp-dev \
@@ -61,6 +62,7 @@ RUN apk add --no-cache \
     --enable-zend-signals \
     --enable-zip \
 
+    --with-bz2 \
     --with-curl \
     --with-gd \
     --with-gmp \
@@ -125,6 +127,7 @@ RUN apk add --no-cache \
     --enable-zend-signals \
     --enable-zip \
 
+    --with-bz2 \
     --with-curl \
     --with-gd \
     --with-gmp \

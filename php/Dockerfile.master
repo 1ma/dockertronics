@@ -19,6 +19,7 @@ RUN apk add --no-cache \
 
     # dependencies for building specific extensions
     argon2-dev \
+    bzip2-dev \
     curl-dev \
     gd-dev \
     gmp-dev \
@@ -64,6 +65,7 @@ RUN apk add --no-cache \
     --enable-wddx \
     --enable-zip \
 
+    --with-bz2 \
     --with-curl \
     --with-gd \
     --with-gmp \
@@ -129,6 +131,7 @@ RUN apk add --no-cache \
     --enable-wddx \
     --enable-zip \
 
+    --with-bz2 \
     --with-curl \
     --with-gd \
     --with-gmp \
