@@ -92,6 +92,7 @@ RUN apk add --no-cache \
     igbinary \
     libsodium-1.0.7 \
     mongodb \
+    pcov \
     rdkafka \
     redis \
     xdebug \
