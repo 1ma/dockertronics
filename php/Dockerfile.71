@@ -32,7 +32,7 @@ RUN apk add --no-cache \
     postgresql-dev \
     readline-dev \
  && cd /tmp \
- && curl -OsS http://php.net/distributions/php-${PHP_VERSION}.tar.gz \
+ && curl -OsS https://www.php.net/distributions/php-${PHP_VERSION}.tar.gz \
  && tar zxof php-${PHP_VERSION}.tar.gz \
  && cd ./php-${PHP_VERSION} \
  && ./configure \
