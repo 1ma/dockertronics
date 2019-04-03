@@ -11,6 +11,7 @@ RUN apk add --no-cache curl \
     d11wtq/boris \
     friendsofphp/php-cs-fixer \
     phing/phing \
+    phploc/phploc \
     phpmetrics/phpmetrics \
     phpunit/phpunit \
     sensiolabs-de/deptrac-shim \
