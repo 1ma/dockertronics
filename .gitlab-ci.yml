@@ -256,7 +256,7 @@ roadrunner:
   image: docker:stable
   variables:
     CONTEXT: roadrunner
-    IMAGE: 1maa/roadrunner:7.2
+    IMAGE: 1maa/roadrunner:7.3
   script:
     - docker build -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
