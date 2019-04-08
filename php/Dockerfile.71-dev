@@ -1,5 +1,8 @@
 FROM 1maa/php:7.1
 
+ENV COMPOSER_ALLOW_SUPERUSER=1
+ENV COMPOSER_HOME=/opt/composer
+
 RUN apk add --no-cache curl \
  && curl -LO https://getcomposer.org/download/1.7.1/composer.phar \
  && chmod +x /*.phar \
@@ -15,14 +18,15 @@ RUN apk add --no-cache curl \
     phpmetrics/phpmetrics \
     phpunit/phpunit \
     sensiolabs-de/deptrac-shim \
- && rm -rf /root/.composer/.htaccess /root/.composer/cache
+ && rm -rf /root/.composer/.htaccess /opt/composer/cache
 
 
 FROM 1maa/php:7.1
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
+ENV COMPOSER_HOME=/opt/composer
 
 COPY etcdev /etc/php
 
-COPY --from=0 /root/.composer /root/.composer
+COPY --from=0 /opt/composer /opt/composer
 COPY --from=0 /usr/local/bin /usr/local/bin
