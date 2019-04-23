@@ -98,6 +98,7 @@ RUN apk add --no-cache \
     igbinary \
     mongodb \
     pcov \
+    protobuf \
     rdkafka \
 #    redis \    # borked on PHP 7.4.x
 #    xdebug \   # borked on PHP 7.4.x

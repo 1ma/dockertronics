@@ -95,6 +95,7 @@ RUN apk add --no-cache \
     igbinary \
     mongodb \
     pcov \
+    protobuf \
     rdkafka \
     redis \
     xdebug \

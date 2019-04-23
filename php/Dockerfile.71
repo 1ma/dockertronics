@@ -93,6 +93,7 @@ RUN apk add --no-cache \
     libsodium-1.0.7 \
     mongodb \
     pcov \
+    protobuf \
     rdkafka \
     redis \
     xdebug \
