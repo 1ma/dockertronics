@@ -21,6 +21,7 @@ RUN apk add --no-cache \
     gd-dev \
     gmp-dev \
     gpgme-dev \
+    libevent-dev \
     libpng-dev \
     librdkafka-dev \
     openssl-dev \
@@ -79,6 +80,7 @@ RUN apk add --no-cache \
  && make install \
  && pecl install \
     apcu-4.0.11 \
+    event \
     gnupg \
     igbinary \
     libsodium-1.0.7 \
@@ -147,6 +149,7 @@ RUN apk add --no-cache \
     gmp \
     gpgme \
     libcurl \
+    libevent \
     libgd \
     libpq \
     librdkafka \
