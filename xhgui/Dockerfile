@@ -1,27 +1,33 @@
 FROM 1maa/php-dev:7.3
 
-ENV XHGUI_RELEASE=0.9.0
-
 WORKDIR /tmp
 
-RUN apk add -U curl \
- && curl -LOsS https://github.com/perftools/xhgui/archive/${XHGUI_RELEASE}.tar.gz \
- && tar zxf ${XHGUI_RELEASE}.tar.gz \
- && mv xhgui-${XHGUI_RELEASE} xhgui \
+RUN apk add -U git \
+ && git clone --depth=1 https://github.com/perftools/xhgui \
  && cd xhgui \
- && composer install --no-dev
+ && composer require alcaeus/mongo-php-adapter \
+ && composer install --no-dev -a
 
 
 FROM php:7.3-apache
 
-RUN pecl install \
-    mongodb \
- && docker-php-ext-enable mongodb \
- && a2enmod rewrite \
- && service apache2 restart
-
 COPY          vhost.conf /etc/apache2/sites-available/000-default.conf
 COPY --from=0 /tmp/xhgui /var/www/xhgui
+
+RUN cp ${PHP_INI_DIR}/php.ini-production ${PHP_INI_DIR}/php.ini \
+ && apt-get update \
+ && apt-get install -y \
+    libpq-dev \
+ && rm -rf /var/lib/apt/lists/* \
+ && chmod -R 777 /var/www/xhgui/cache \
+ && docker-php-ext-install -j$(nproc) \
+    pdo \
+    pdo_mysql \
+    pdo_pgsql \
+ && pecl install \
+    mongodb \
+ && docker-php-ext-enable mongodb \
+ && a2enmod rewrite
 
 WORKDIR /var/www/xhgui
 

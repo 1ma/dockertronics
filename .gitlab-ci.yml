@@ -119,6 +119,17 @@ sqlite:
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
+xhgui:
+  stage: tier1
+  image: docker:stable
+  variables:
+    CONTEXT: xhgui
+    IMAGE: 1maa/xhgui:latest
+  script:
+    - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
+    - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
+    - docker push $IMAGE
+
 beanstalkd-1.10:
   stage: tier2
   image: docker:stable
