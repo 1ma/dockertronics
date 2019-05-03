@@ -143,13 +143,28 @@ RUN apk add --no-cache \
     --with-xsl \
     --with-zlib \
  && make -j$(grep "cpu cores" /proc/cpuinfo | wc -l) \
- && mv sapi/fpm/php-fpm /usr/sbin/php-fpm
+ && mv sapi/fpm/php-fpm /usr/sbin/php-fpm \
+ && cp php.ini-production /tmp/php.ini \
+
+ && sed -e 's#@php_fpm_sysconfdir@#/etc/php/fpm#' \
+        -e 's#;daemonize = yes#daemonize = no#' \
+        -e 's#;error_log = log/php-fpm.log#error_log = /dev/stderr#' \
+        sapi/fpm/php-fpm.conf.in > /tmp/php-fpm.conf \
+
+ && sed -e 's#user = @php_fpm_user@#user = root#' \
+        -e 's#group = @php_fpm_group@#group = root#' \
+        -e 's#listen = 127.0.0.1:9000#listen = 9000#' \
+        sapi/fpm/www.conf.in > /tmp/www.conf
 
 
 FROM 1maa/alpine:3.9
 
 COPY etc /etc/php
 
+COPY --from=0 /tmp/php.ini      /etc/php/cli/php.ini
+COPY --from=0 /tmp/php.ini      /etc/php/fpm/php.ini
+COPY --from=0 /tmp/php-fpm.conf /etc/php/fpm/php-fpm.conf
+COPY --from=0 /tmp/www.conf     /etc/php/fpm/php-fpm.d/www.conf
 COPY --from=0 /usr/bin/php      /usr/bin/php
 COPY --from=0 /usr/sbin/php-fpm /usr/sbin/php-fpm
 COPY --from=0 /usr/lib/php/*.so /usr/lib/php/
