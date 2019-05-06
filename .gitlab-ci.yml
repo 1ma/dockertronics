@@ -27,7 +27,7 @@ alpine:
     CONTEXT: alpine
     IMAGE: 1maa/alpine:3.9
   script:
-    - docker build -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
+    - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
@@ -38,7 +38,7 @@ debian:
     CONTEXT: debian
     IMAGE: 1maa/debian:jessie
   script:
-    - docker build -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
+    - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
@@ -49,7 +49,7 @@ erlang:
     CONTEXT: erlang
     IMAGE: 1maa/erlang:21-alpine
   script:
-    - docker build -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
+    - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
@@ -60,7 +60,7 @@ mariadb:
     CONTEXT: mariadb
     IMAGE: 1maa/mariadb:10.3
   script:
-    - docker build -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
+    - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
@@ -71,7 +71,7 @@ mysql-5.7:
     CONTEXT: mysql
     IMAGE: 1maa/mysql:5.7
   script:
-    - docker build -t $IMAGE -f $CONTEXT/Dockerfile.57 $CONTEXT
+    - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile.57 $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
@@ -82,7 +82,7 @@ mysql-8.0:
     CONTEXT: mysql
     IMAGE: 1maa/mysql:8.0
   script:
-    - docker build -t $IMAGE -f $CONTEXT/Dockerfile.80 $CONTEXT
+    - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile.80 $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
@@ -93,7 +93,7 @@ postgres:
     CONTEXT: postgres
     IMAGE: 1maa/postgres:11-alpine
   script:
-    - docker build -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
+    - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
@@ -104,7 +104,7 @@ sleepy:
     CONTEXT: sleepy
     IMAGE: 1maa/sleepy:latest
   script:
-    - docker build -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
+    - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
@@ -115,7 +115,7 @@ sqlite:
     CONTEXT: sqlite
     IMAGE: 1maa/sqlite:3.27
   script:
-    - docker build -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
+    - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
@@ -126,7 +126,7 @@ beanstalkd-1.10:
     CONTEXT: beanstalkd
     IMAGE: 1maa/beanstalkd:1.10
   script:
-    - docker build -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
+    - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
@@ -137,7 +137,7 @@ beanstalkd-master:
     CONTEXT: beanstalkd
     IMAGE: 1maa/beanstalkd:latest
   script:
-    - docker build -t $IMAGE -f $CONTEXT/Dockerfile.src $CONTEXT
+    - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile.src $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
@@ -148,7 +148,7 @@ docker-compose:
     CONTEXT: docker-compose
     IMAGE: 1maa/docker-compose:1.8
   script:
-    - docker build -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
+    - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
@@ -159,7 +159,7 @@ php-7.1:
     CONTEXT: php
     IMAGE: 1maa/php:7.1
   script:
-    - docker build -t $IMAGE -f $CONTEXT/Dockerfile.71 $CONTEXT
+    - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile.71 $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
@@ -170,7 +170,7 @@ php-7.2:
     CONTEXT: php
     IMAGE: 1maa/php:7.2
   script:
-    - docker build -t $IMAGE -f $CONTEXT/Dockerfile.72 $CONTEXT
+    - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile.72 $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
@@ -181,7 +181,7 @@ php-7.3:
     CONTEXT: php
     IMAGE: 1maa/php:7.3
   script:
-    - docker build -t $IMAGE -f $CONTEXT/Dockerfile.73 $CONTEXT
+    - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile.73 $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
@@ -192,7 +192,7 @@ sakila:
     CONTEXT: sakila
     IMAGE: 1maa/sakila:latest
   script:
-    - docker build -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
+    - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
@@ -203,7 +203,7 @@ selfsig:
     CONTEXT: selfsig
     IMAGE: 1maa/selfsig:latest
   script:
-    - docker build -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
+    - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
@@ -214,7 +214,7 @@ sftp:
     CONTEXT: sftp
     IMAGE: 1maa/sftp:latest
   script:
-    - docker build -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
+    - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
@@ -225,7 +225,7 @@ php-7.1-dev:
     CONTEXT: php
     IMAGE: 1maa/php-dev:7.1
   script:
-    - docker build -t $IMAGE -f $CONTEXT/Dockerfile.71-dev $CONTEXT
+    - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile.71-dev $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
@@ -236,7 +236,7 @@ php-7.2-dev:
     CONTEXT: php
     IMAGE: 1maa/php-dev:7.2
   script:
-    - docker build -t $IMAGE -f $CONTEXT/Dockerfile.72-dev $CONTEXT
+    - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile.72-dev $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
@@ -247,7 +247,7 @@ php-7.3-dev:
     CONTEXT: php
     IMAGE: 1maa/php-dev:7.3
   script:
-    - docker build -t $IMAGE -f $CONTEXT/Dockerfile.73-dev $CONTEXT
+    - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile.73-dev $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
@@ -258,6 +258,6 @@ roadrunner:
     CONTEXT: roadrunner
     IMAGE: 1maa/roadrunner:7.3
   script:
-    - docker build -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
+    - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
