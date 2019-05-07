@@ -1,6 +1,6 @@
 FROM postgres:11-alpine
 
-ENV PGTAP_VERSION v0.99.0
+ENV PGTAP_VERSION v1.0.0
 
 RUN apk --no-cache add \
     alpine-sdk \

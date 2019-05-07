@@ -113,7 +113,7 @@ sqlite:
   image: docker:stable
   variables:
     CONTEXT: sqlite
-    IMAGE: 1maa/sqlite:3.27
+    IMAGE: 1maa/sqlite:latest
   script:
     - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS

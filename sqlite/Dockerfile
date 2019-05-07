@@ -4,7 +4,7 @@ FROM alpine:3.9
 #   https://www.sqlite.org/howtocompile.html
 #   https://www.sqlite.org/compile.html
 
-ENV SQLITE_VERSION=3270200
+ENV SQLITE_VERSION=3280000
 
 RUN cd ~ \
  && apk add --no-cache \
