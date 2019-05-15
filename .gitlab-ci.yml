@@ -3,7 +3,6 @@ stages:
   - tier1
   - tier2
   - tier3
-  - tier4
 
 services:
   - docker:dind
@@ -263,7 +262,7 @@ php-7.3-dev:
     - docker push $IMAGE
 
 roadrunner:
-  stage: tier4
+  stage: tier3
   image: docker:stable
   variables:
     CONTEXT: roadrunner

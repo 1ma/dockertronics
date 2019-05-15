@@ -1,6 +1,6 @@
 FROM alpine:3.9
 
-ENV RR_VERSION=1.4.0
+ENV RR_VERSION=1.4.1
 
 RUN apk add --no-cache curl \
  && cd /tmp \
@@ -9,7 +9,7 @@ RUN apk add --no-cache curl \
  && mv roadrunner-${RR_VERSION}-linux-amd64/rr .
 
 
-FROM 1maa/php-dev:7.3
+FROM 1maa/php:7.3
 
 COPY --from=0 /tmp/rr /usr/local/bin/rr
 
