@@ -151,17 +151,6 @@ beanstalkd-master:
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
-docker-compose:
-  stage: tier2
-  image: docker:stable
-  variables:
-    CONTEXT: docker-compose
-    IMAGE: 1maa/docker-compose:1.8
-  script:
-    - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
-    - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
-    - docker push $IMAGE
-
 php-7.1:
   stage: tier2
   image: docker:stable
