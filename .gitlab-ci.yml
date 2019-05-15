@@ -129,25 +129,14 @@ xhgui:
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
-beanstalkd-1.10:
-  stage: tier2
-  image: docker:stable
-  variables:
-    CONTEXT: beanstalkd
-    IMAGE: 1maa/beanstalkd:1.10
-  script:
-    - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
-    - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
-    - docker push $IMAGE
-
-beanstalkd-master:
+beanstalkd:
   stage: tier2
   image: docker:stable
   variables:
     CONTEXT: beanstalkd
     IMAGE: 1maa/beanstalkd:latest
   script:
-    - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile.src $CONTEXT
+    - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
