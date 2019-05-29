@@ -5,7 +5,7 @@ RUN apk add --no-cache curl \
  && chmod +x /usr/local/bin/rebar3
 
 
-FROM erlang:21-alpine
+FROM erlang:22-alpine
 
 RUN apk add --no-cache inotify-tools
 
