@@ -2,11 +2,15 @@ FROM alpine:3.9
 
 ENV RR_VERSION=1.4.3
 
-RUN apk add --no-cache curl \
- && cd /tmp \
+WORKDIR /tmp
+
+RUN apk add --no-cache \
+    curl \
+    upx \
  && curl -OL https://github.com/spiral/roadrunner/releases/download/v${RR_VERSION}/roadrunner-${RR_VERSION}-linux-amd64.tar.gz \
  && tar zxvf roadrunner-${RR_VERSION}-linux-amd64.tar.gz \
- && mv roadrunner-${RR_VERSION}-linux-amd64/rr .
+ && mv roadrunner-${RR_VERSION}-linux-amd64/rr . \
+ && upx rr
 
 
 FROM 1maa/php:7.3
