@@ -1,9 +1,13 @@
 FROM golang:alpine
 
-COPY ./main.go /root/main.go
+WORKDIR /root
 
-RUN cd ~ \
+COPY ./main.go .
+
+RUN apk add --no-cache \
+    upx \
  && CGO_ENABLE=0 go build -tags netgo -v -ldflags="-d -s -w" -o sleepy \
+ && upx --brute sleepy \
  && echo "nobody:x:65534:65534:nobody:/:/sbin/nologin" > passwd
 
 FROM scratch
