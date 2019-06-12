@@ -22,7 +22,6 @@ RUN cp ${PHP_INI_DIR}/php.ini-production ${PHP_INI_DIR}/php.ini \
  && rm -rf /var/lib/apt/lists/* \
  && chmod -R 777 /var/www/xhgui/cache \
  && docker-php-ext-install -j$(nproc) \
-    pdo \
     pdo_mysql \
     pdo_pgsql \
  && pecl install \
