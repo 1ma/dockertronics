@@ -2,9 +2,9 @@ FROM alpine:3.9
 
 WORKDIR /tmp
 
-RUN apk add --no-cache curl \
- && curl -OL http://downloads.mysql.com/docs/sakila-db.tar.gz \
- && tar zxf sakila-db.tar.gz
+ADD https://downloads.mysql.com/docs/sakila-db.tar.gz .
+
+RUN tar zxf sakila-db.tar.gz
 
 
 FROM 1maa/mysql:8.0

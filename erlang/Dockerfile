@@ -1,8 +1,8 @@
 FROM alpine:3.9
 
-RUN apk add --no-cache curl \
- && curl https://s3.amazonaws.com/rebar3/rebar3 > /usr/local/bin/rebar3 \
- && chmod +x /usr/local/bin/rebar3
+ADD https://s3.amazonaws.com/rebar3/rebar3 /usr/local/bin/rebar3
+
+RUN chmod +x /usr/local/bin/rebar3
 
 
 FROM erlang:22-alpine

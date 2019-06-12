@@ -2,17 +2,18 @@ FROM 1maa/php-dev:7.3
 
 WORKDIR /tmp
 
-RUN apk add -U git \
- && git clone --depth=1 https://github.com/perftools/xhgui \
- && cd xhgui \
+ADD https://github.com/perftools/xhgui/archive/master.tar.gz .
+
+RUN tar zxf master.tar.gz \
+ && cd xhgui-master \
  && composer require alcaeus/mongo-php-adapter \
  && composer install --no-dev -a
 
 
 FROM php:7.3-apache
 
-COPY          vhost.conf /etc/apache2/sites-available/000-default.conf
-COPY --from=0 /tmp/xhgui /var/www/xhgui
+COPY          vhost.conf        /etc/apache2/sites-available/000-default.conf
+COPY --from=0 /tmp/xhgui-master /var/www/xhgui
 
 RUN cp ${PHP_INI_DIR}/php.ini-production ${PHP_INI_DIR}/php.ini \
  && apt-get update \
