@@ -1,4 +1,4 @@
-FROM alpine:3.9
+FROM busybox
 
 ADD https://s3.amazonaws.com/rebar3/rebar3 /usr/local/bin/rebar3
 

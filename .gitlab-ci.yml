@@ -107,17 +107,6 @@ sleepy:
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
-sqlite:
-  stage: tier1
-  image: docker:stable
-  variables:
-    CONTEXT: sqlite
-    IMAGE: 1maa/sqlite:latest
-  script:
-    - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
-    - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
-    - docker push $IMAGE
-
 xhgui:
   stage: tier1
   image: docker:stable
@@ -201,6 +190,17 @@ sftp:
   variables:
     CONTEXT: sftp
     IMAGE: 1maa/sftp:latest
+  script:
+    - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
+    - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
+    - docker push $IMAGE
+
+sqlite:
+  stage: tier2
+  image: docker:stable
+  variables:
+    CONTEXT: sqlite
+    IMAGE: 1maa/sqlite:latest
   script:
     - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS

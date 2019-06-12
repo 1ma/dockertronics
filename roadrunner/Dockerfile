@@ -1,4 +1,4 @@
-FROM alpine:3.9
+FROM 1maa/alpine:3.9
 
 ENV RR_VERSION=1.4.3
 
