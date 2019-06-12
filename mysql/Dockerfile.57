@@ -1,9 +1,16 @@
+FROM busybox
+
+WORKDIR /tmp
+
+COPY conf.d/* conf.d/
+COPY mysql.conf.d/* mysql.conf.d/
+
+RUN chmod -R 644 conf.d/* mysql.conf.d/*
+
+
 FROM mysql:5.7
 
 ENV TERM=xterm
 
-COPY conf.d/*       /etc/mysql/conf.d/
-COPY mysql.conf.d/* /etc/mysql/mysql.conf.d/
-
-RUN chmod 644 /etc/mysql/conf.d/*.cnf
-RUN chmod 644 /etc/mysql/mysql.conf.d/*.cnf
+COPY --from=0 /tmp/conf.d/*       /etc/mysql/conf.d/
+COPY --from=0 /tmp/mysql.conf.d/* /etc/mysql/mysql.conf.d/
