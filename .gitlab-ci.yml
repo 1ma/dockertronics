@@ -151,6 +151,18 @@ php-7.3:
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
+php-7.4:
+  stage: tier2
+  image: docker:stable
+  allow_failure: true
+  variables:
+    CONTEXT: php
+    IMAGE: 1maa/php:7.4
+  script:
+    - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile.74 $CONTEXT
+    - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
+    - docker push $IMAGE
+
 sakila:
   stage: tier2
   image: docker:stable
