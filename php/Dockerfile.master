@@ -1,7 +1,7 @@
 FROM 1maa/alpine:3.9
 
 ENV PHP_VERSION=master
-ENV XHPROF_VERSION=5.0-beta3
+#ENV XHPROF_VERSION=5.0-beta3
 
 ENV CFLAGS="-O3 -march=x86-64"
 ENV LDFLAGS="-s"
@@ -17,15 +17,20 @@ RUN apk add --no-cache \
     libtool \
     re2c \
 
+    upx \
+
     # dependencies for building specific extensions
     argon2-dev \
     bzip2-dev \
     curl-dev \
     gd-dev \
     gmp-dev \
-    gpgme-dev \
+#    gpgme-dev \
+#    libevent-dev \
+    libgcrypt-dev \
     libpng-dev \
     librdkafka-dev \
+    oniguruma-dev \
     openssl-dev \
     libsodium-dev \
     libxml2-dev \
@@ -56,52 +61,52 @@ RUN apk add --no-cache \
     --enable-calendar \
     --enable-exif \
     --enable-ftp \
+    --enable-gd \
     --enable-mbstring \
     --enable-opcache \
     --enable-pcntl \
     --enable-shmop \
     --enable-soap \
     --enable-sockets \
-    --enable-wddx \
-    --enable-zip \
 
     --with-bz2 \
     --with-curl \
-    --with-gd \
     --with-gmp \
-    --with-libzip \
     --with-mysqli \
     --with-openssl \
     --with-password-argon2 \
     --with-pdo-mysql \
     --with-pdo-pgsql \
+    --with-pear \
     --with-pgsql \
     --with-readline \
     --with-sodium \
     --with-xmlrpc \
     --with-xsl \
+    --with-zip \
     --with-zlib \
  && make -j$(grep "cpu cores" /proc/cpuinfo | wc -l) \
  && make install \
- && curl -LOsS https://github.com/tideways/php-xhprof-extension/archive/v${XHPROF_VERSION}.tar.gz \
- && tar zxof v${XHPROF_VERSION}.tar.gz \
- && cd ./php-xhprof-extension-${XHPROF_VERSION} \
- && phpize \
- && ./configure \
- && make \
- && make install \
- && chmod +x /usr/lib/php/*.so \
+# && curl -LOsS https://github.com/tideways/php-xhprof-extension/archive/v${XHPROF_VERSION}.tar.gz \
+# && tar zxof v${XHPROF_VERSION}.tar.gz \
+# && cd ./php-xhprof-extension-${XHPROF_VERSION} \
+# && phpize \
+# && ./configure \
+# && make \
+# && make install \
+# && chmod +x /usr/lib/php/*.so \
  && pecl install \
     apcu \
     ds \
-    gnupg \
+#    event \        # borked
+#    gnupg \        # borked
     igbinary \
     mongodb \
     pcov \
-    protobuf \
+#    protobuf \     # borked
     rdkafka \
-#    redis \    # borked on PHP 7.4.x
-#    xdebug \   # borked on PHP 7.4.x
+    redis \
+#    xdebug \       # borked
  && chmod +x /usr/lib/php/*.so \
  && cd /tmp \
  && rm -rf php \
@@ -125,37 +130,53 @@ RUN apk add --no-cache \
     --enable-calendar \
     --enable-exif \
     --enable-ftp \
+    --enable-gd \
     --enable-mbstring \
     --enable-opcache \
     --enable-shmop \
     --enable-soap \
     --enable-sockets \
-    --enable-wddx \
-    --enable-zip \
 
     --with-bz2 \
     --with-curl \
-    --with-gd \
     --with-gmp \
-    --with-libzip \
     --with-mysqli \
     --with-openssl \
     --with-password-argon2 \
     --with-pdo-mysql \
     --with-pdo-pgsql \
+    --with-pear \
     --with-pgsql \
     --with-sodium \
     --with-xmlrpc \
     --with-xsl \
+    --with-zip \
     --with-zlib \
  && make -j$(grep "cpu cores" /proc/cpuinfo | wc -l) \
- && mv sapi/fpm/php-fpm /usr/sbin/php-fpm
+ && mv sapi/fpm/php-fpm /usr/sbin/php-fpm \
+ && cp php.ini-production /tmp/php.ini \
+
+ && sed -e 's#@php_fpm_sysconfdir@#/etc/php/fpm#' \
+        -e 's#;daemonize = yes#daemonize = no#' \
+        -e 's#;error_log = log/php-fpm.log#error_log = /dev/stderr#' \
+        sapi/fpm/php-fpm.conf.in > /tmp/php-fpm.conf \
+
+ && sed -e 's#user = @php_fpm_user@#user = root#' \
+        -e 's#group = @php_fpm_group@#group = root#' \
+        -e 's#listen = 127.0.0.1:9000#listen = 9000#' \
+        sapi/fpm/www.conf.in > /tmp/www.conf \
+
+ && upx /usr/bin/php /usr/sbin/php-fpm
 
 
 FROM 1maa/alpine:3.9
 
 COPY etc /etc/php
 
+COPY --from=0 /tmp/php.ini      /etc/php/cli/php.ini
+COPY --from=0 /tmp/php.ini      /etc/php/fpm/php.ini
+COPY --from=0 /tmp/php-fpm.conf /etc/php/fpm/php-fpm.conf
+COPY --from=0 /tmp/www.conf     /etc/php/fpm/php-fpm.d/www.conf
 COPY --from=0 /usr/bin/php      /usr/bin/php
 COPY --from=0 /usr/sbin/php-fpm /usr/sbin/php-fpm
 COPY --from=0 /usr/lib/php/*.so /usr/lib/php/
@@ -163,8 +184,9 @@ COPY --from=0 /usr/lib/php/*.so /usr/lib/php/
 RUN apk add --no-cache \
     argon2-libs \
     gmp \
-    gpgme \
+#    gpgme \
     libcurl \
+#    libevent \
     libgd \
     libpq \
     librdkafka \
@@ -172,9 +194,17 @@ RUN apk add --no-cache \
     libxml2 \
     libxslt \
     libzip \
+    oniguruma \
     readline \
+    sqlite-libs \
+ && rm /etc/php/mods-available/event.ini \
+ && rm /etc/php/mods-available/gnupg.ini \
  && rm /etc/php/mods-available/libsodium.ini \
- && rm /etc/php/mods-available/redis.ini
+ && rm /etc/php/mods-available/mongodb.ini \
+ && rm /etc/php/mods-available/protobuf.ini \
+ && rm /etc/php/mods-available/redis.ini \
+ && rm /etc/php/mods-available/rdkafka.ini \
+ && rm /etc/php/mods-available/tideways_xhprof.ini
 
 EXPOSE 9000
 
