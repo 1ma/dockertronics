@@ -8,11 +8,12 @@ ENV LDFLAGS="-s"
 
 RUN apk add --no-cache \
     # generic dependencies for compiling the source
-    alpine-sdk \
     autoconf \
     automake \
+    build-base \
     file \
     flex \
+    git \
     libtool \
     re2c \
 
@@ -39,7 +40,7 @@ RUN apk add --no-cache \
     readline-dev \
     sqlite-dev \
  && cd /tmp \
- && curl -OsS https://downloads.php.net/~derick/php-${PHP_VERSION}.tar.gz \
+ && wget -q https://downloads.php.net/~derick/php-${PHP_VERSION}.tar.gz \
  && tar zxof php-${PHP_VERSION}.tar.gz \
  && cd ./php-${PHP_VERSION} \
  && ./configure \
@@ -85,7 +86,7 @@ RUN apk add --no-cache \
     --with-zlib \
  && make -j$(grep "cpu cores" /proc/cpuinfo | wc -l) \
  && make install \
- && curl -LOsS https://github.com/tideways/php-xhprof-extension/archive/v${XHPROF_VERSION}.tar.gz \
+ && wget -q https://github.com/tideways/php-xhprof-extension/archive/v${XHPROF_VERSION}.tar.gz \
  && tar zxof v${XHPROF_VERSION}.tar.gz \
  && cd ./php-xhprof-extension-${XHPROF_VERSION} \
  && phpize \
