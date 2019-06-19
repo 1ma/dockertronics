@@ -20,7 +20,7 @@ RUN apk add --no-cache \
     upx \
 
     # dependencies for building specific extensions
-    argon2-dev \
+    argon2-dev@edge-main \
     bzip2-dev \
     curl-dev \
     gd-dev \
@@ -73,7 +73,7 @@ RUN apk add --no-cache \
     --with-gmp \
     --with-mysqli \
     --with-openssl \
-#    --with-password-argon2 \   # borked on 7.4alpha1 https://twitter.com/1mathedog/status/1139146241047236608
+    --with-password-argon2 \
     --with-pdo-mysql \
     --with-pdo-pgsql \
     --with-pear \
@@ -140,7 +140,7 @@ RUN apk add --no-cache \
     --with-gmp \
     --with-mysqli \
     --with-openssl \
-#    --with-password-argon2 \   # borked on 7.4alpha1
+    --with-password-argon2 \
     --with-pdo-mysql \
     --with-pdo-pgsql \
     --with-pear \
