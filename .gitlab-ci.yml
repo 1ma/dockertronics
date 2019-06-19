@@ -252,6 +252,17 @@ php-7.3-dev:
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
+php-7.4-dev:
+  stage: tier3
+  image: docker:stable
+  variables:
+    CONTEXT: php
+    IMAGE: 1maa/php-dev:7.4
+  script:
+    - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile.74-dev $CONTEXT
+    - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
+    - docker push $IMAGE
+
 php-master-dev:
   stage: tier3
   image: docker:stable
