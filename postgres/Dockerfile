@@ -56,7 +56,6 @@ RUN chown postgres:postgres /etc/postgresql.conf \
  && rm -rf \
     /root/.cpan \
     /usr/share/gdal \
-    /usr/share/perl5 \
     /usr/share/proj
 
 CMD ["postgres", "-c", "config_file=/etc/postgresql.conf"]
