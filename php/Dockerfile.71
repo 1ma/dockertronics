@@ -79,7 +79,7 @@ RUN apk add --no-cache \
     --with-xmlrpc \
     --with-xsl \
     --with-zlib \
- && make -j$(grep "cpu cores" /proc/cpuinfo | wc -l) \
+ && make -j$(nproc) \
  && make install \
  && wget -q https://github.com/tideways/php-xhprof-extension/archive/v${XHPROF_VERSION}.tar.gz \
  && tar zxof v${XHPROF_VERSION}.tar.gz \
@@ -145,7 +145,7 @@ RUN apk add --no-cache \
     --with-xmlrpc \
     --with-xsl \
     --with-zlib \
- && make -j$(grep "cpu cores" /proc/cpuinfo | wc -l) \
+ && make -j$(nproc) \
  && mv sapi/fpm/php-fpm /usr/sbin/php-fpm \
  && cp php.ini-production /tmp/php.ini \
 
