@@ -99,6 +99,7 @@ RUN apk add --no-cache \
     gnupg \
     igbinary \
     mongodb \
+    msgpack \
     pcov \
     protobuf \
     rdkafka \

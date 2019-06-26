@@ -104,6 +104,7 @@ RUN apk add --no-cache \
 #    gnupg \        # borked
     igbinary \
     mongodb \
+#    msgpack \      # borked
     pcov \
 #    protobuf \     # borked
     rdkafka \
@@ -203,6 +204,7 @@ RUN apk add --no-cache \
  && rm /etc/php/mods-available/gnupg.ini \
  && rm /etc/php/mods-available/libsodium.ini \
  && rm /etc/php/mods-available/mongodb.ini \
+ && rm /etc/php/mods-available/msgpack.ini \
  && rm /etc/php/mods-available/protobuf.ini \
  && rm /etc/php/mods-available/redis.ini \
  && rm /etc/php/mods-available/rdkafka.ini \
