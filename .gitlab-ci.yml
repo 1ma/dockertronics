@@ -154,7 +154,6 @@ php-7.3:
 php-7.4:
   stage: tier2
   image: docker:stable
-  allow_failure: true
   variables:
     CONTEXT: php
     IMAGE: 1maa/php:7.4

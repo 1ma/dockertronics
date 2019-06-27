@@ -1,6 +1,6 @@
 FROM 1maa/alpine:3.9
 
-ENV PHP_VERSION=7.4.0alpha1
+ENV PHP_VERSION=7.4.0alpha2
 ENV XHPROF_VERSION=5.0-beta3
 
 ENV CFLAGS="-O3 -march=x86-64"
@@ -11,7 +11,6 @@ RUN apk add --no-cache \
     autoconf \
     automake \
     build-base \
-    bison \
     file \
     flex \
     git \
@@ -41,11 +40,9 @@ RUN apk add --no-cache \
     readline-dev \
     sqlite-dev \
  && cd /tmp \
- && git clone --single-branch --branch PHP-7.4 --depth=1 https://github.com/php/php-src \
- && rm -rf php-src/.git \
- && cp -r php-src php \
- && cd php \
- && ./buildconf \
+ && wget -q https://downloads.php.net/~derick/php-${PHP_VERSION}.tar.gz \
+ && tar zxof php-${PHP_VERSION}.tar.gz \
+ && cd ./php-${PHP_VERSION} \
  && ./configure \
     EXTENSION_DIR="/usr/lib/php" \
 
@@ -112,10 +109,9 @@ RUN apk add --no-cache \
 #    xdebug \       # borked
  && chmod +x /usr/lib/php/*.so \
  && cd /tmp \
- && rm -rf php \
- && mv php-src php \
- && cd php \
- && ./buildconf \
+ && rm -rf php-${PHP_VERSION} \
+ && tar zxof php-${PHP_VERSION}.tar.gz \
+ && cd ./php-${PHP_VERSION} \
  && ./configure \
     EXTENSION_DIR="/usr/lib/php" \
 
