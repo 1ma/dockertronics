@@ -13,7 +13,6 @@ RUN apk add --no-cache \
     build-base \
     file \
     flex \
-    git \
     libtool \
     re2c \
 
