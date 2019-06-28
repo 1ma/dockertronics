@@ -106,7 +106,7 @@ RUN apk add --no-cache \
 #    protobuf \     # borked
     rdkafka \
     redis \
-#    xdebug \       # borked
+    xdebug-2.8.0alpha1 \
  && chmod +x /usr/lib/php/*.so \
  && cd /tmp \
  && rm -rf php-${PHP_VERSION} \
