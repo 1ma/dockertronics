@@ -1,4 +1,4 @@
-FROM 1maa/alpine:3.9
+FROM 1maa/alpine:3.10
 
 ENV ALGO rsa
 ENV BITS 4096

@@ -1,4 +1,4 @@
-FROM 1maa/alpine:3.9
+FROM 1maa/alpine:3.10
 
 # References:
 #   https://www.sqlite.org/howtocompile.html
@@ -34,7 +34,7 @@ RUN cd ~ \
     -o /usr/bin/sqlite3
 
 
-FROM 1maa/alpine:3.9
+FROM 1maa/alpine:3.10
 
 COPY --from=0 /usr/bin/sqlite3 /usr/bin/sqlite3
 
