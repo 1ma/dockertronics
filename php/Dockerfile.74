@@ -38,6 +38,7 @@ RUN apk add --no-cache \
     postgresql-dev \
     readline-dev \
     sqlite-dev \
+    unixodbc-dev \
  && cd /tmp \
  && wget -q https://downloads.php.net/~derick/php-${PHP_VERSION}.tar.gz \
  && tar zxof php-${PHP_VERSION}.tar.gz \
@@ -74,11 +75,13 @@ RUN apk add --no-cache \
     --with-openssl \
     --with-password-argon2 \
     --with-pdo-mysql \
+    --with-pdo-odbc=unixODBC,/usr \
     --with-pdo-pgsql \
     --with-pear \
     --with-pgsql \
     --with-readline \
     --with-sodium \
+    --with-unixODBC=/usr \
     --with-xmlrpc \
     --with-xsl \
     --with-zip \
@@ -142,10 +145,12 @@ RUN apk add --no-cache \
     --with-openssl \
     --with-password-argon2 \
     --with-pdo-mysql \
+    --with-pdo-odbc=unixODBC,/usr \
     --with-pdo-pgsql \
     --with-pear \
     --with-pgsql \
     --with-sodium \
+    --with-unixODBC=/usr \
     --with-xmlrpc \
     --with-xsl \
     --with-zip \
@@ -194,6 +199,7 @@ RUN apk add --no-cache \
     libzip \
     oniguruma \
     readline \
+    unixodbc \
  && rm /etc/php/mods-available/libsodium.ini \
  && rm /etc/php/mods-available/protobuf.ini
 

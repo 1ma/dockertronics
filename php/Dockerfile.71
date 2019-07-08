@@ -34,6 +34,7 @@ RUN apk add --no-cache \
     libzip-dev \
     postgresql-dev \
     readline-dev \
+    unixodbc-dev \
  && cd /tmp \
  && wget -q https://www.php.net/distributions/php-${PHP_VERSION}.tar.gz \
  && tar zxof php-${PHP_VERSION}.tar.gz \
@@ -72,9 +73,11 @@ RUN apk add --no-cache \
     --with-mysqli \
     --with-openssl \
     --with-pdo-mysql \
+    --with-pdo-odbc=unixODBC,/usr \
     --with-pdo-pgsql \
     --with-pgsql \
     --with-readline \
+    --with-unixODBC=/usr \
     --with-xmlrpc \
     --with-xsl \
     --with-zlib \
@@ -140,8 +143,10 @@ RUN apk add --no-cache \
     --with-mysqli \
     --with-openssl \
     --with-pdo-mysql \
+    --with-pdo-odbc=unixODBC,/usr \
     --with-pdo-pgsql \
     --with-pgsql \
+    --with-unixODBC=/usr \
     --with-xmlrpc \
     --with-xsl \
     --with-zlib \
@@ -186,7 +191,8 @@ RUN apk add --no-cache \
     libxml2 \
     libxslt \
     libzip \
-    readline
+    readline \
+    unixodbc
 
 EXPOSE 9000
 

@@ -40,6 +40,7 @@ RUN apk add --no-cache \
     postgresql-dev \
     readline-dev \
     sqlite-dev \
+    unixodbc-dev \
  && cd /tmp \
  && git clone --depth=1 https://github.com/php/php-src \
  && rm -rf php-src/.git \
@@ -78,11 +79,13 @@ RUN apk add --no-cache \
     --with-openssl \
     --with-password-argon2 \
     --with-pdo-mysql \
+    --with-pdo-odbc=unixODBC,/usr \
     --with-pdo-pgsql \
     --with-pear \
     --with-pgsql \
     --with-readline \
     --with-sodium \
+    --with-unixODBC=/usr \
     --with-xmlrpc \
     --with-xsl \
     --with-zip \
@@ -147,10 +150,12 @@ RUN apk add --no-cache \
     --with-openssl \
     --with-password-argon2 \
     --with-pdo-mysql \
+    --with-pdo-odbc=unixODBC,/usr \
     --with-pdo-pgsql \
     --with-pear \
     --with-pgsql \
     --with-sodium \
+    --with-unixODBC=/usr \
     --with-xmlrpc \
     --with-xsl \
     --with-zip \
@@ -199,6 +204,7 @@ RUN apk add --no-cache \
     libzip \
     oniguruma \
     readline \
+    unixodbc \
     sqlite-libs \
  && rm /etc/php/mods-available/event.ini \
  && rm /etc/php/mods-available/gnupg.ini \
