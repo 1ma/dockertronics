@@ -4,7 +4,7 @@ FROM 1maa/alpine:3.10
 #   https://www.sqlite.org/howtocompile.html
 #   https://www.sqlite.org/compile.html
 
-ENV SQLITE_VERSION=3280000
+ENV SQLITE_VERSION=3290000
 
 RUN cd ~ \
  && apk add --no-cache \
@@ -17,6 +17,7 @@ RUN cd ~ \
  && gcc \
     -DHAVE_READLINE \
     -DSQLITE_DEFAULT_MEMSTATUS=0 \
+    -DSQLITE_DQS=0 \
     -DSQLITE_OMIT_DEPRECATED \
     -DSQLITE_OMIT_LOAD_EXTENSION \
     -DSQLITE_THREADSAFE=0 \
