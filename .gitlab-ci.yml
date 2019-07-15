@@ -33,6 +33,7 @@ alpine:
 beanstalkd:
   stage: tier1
   image: docker:stable
+  allow_failure: true
   variables:
     CONTEXT: beanstalkd
     IMAGE: 1maa/beanstalkd:latest
