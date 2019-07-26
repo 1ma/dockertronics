@@ -1,6 +1,6 @@
 FROM 1maa/alpine:3.10
 
-ENV PHP_VERSION=7.4.0alpha2
+ENV PHP_VERSION=7.4.0beta1
 ENV XHPROF_VERSION=5.0-beta3
 
 ENV CFLAGS="-O3 -march=x86-64"
@@ -108,7 +108,7 @@ RUN apk add --no-cache \
 #    protobuf \     # borked
     rdkafka \
     redis \
-    xdebug-2.8.0alpha1 \
+    xdebug-2.8.0beta1 \
  && chmod +x /usr/lib/php/*.so \
  && cd /tmp \
  && rm -rf php-${PHP_VERSION} \
