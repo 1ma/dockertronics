@@ -95,7 +95,14 @@ RUN apk add --no-cache \
  && ./configure \
  && make \
  && make install \
- && chmod +x /usr/lib/php/*.so \
+ && wget -q https://github.com/crazyxman/simdjson_php/archive/master.tar.gz \
+ && tar zxof master.tar.gz \
+ && cd ./simdjson_php-master \
+ && phpize \
+ && ./configure \
+ && sed -i 's#LDFLAGS = -s#LDFLAGS = -s -lstdc++#' Makefile \
+ && make \
+ && make install \
  && pecl install \
     apcu \
     ds \
