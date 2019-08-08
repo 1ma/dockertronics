@@ -8,7 +8,6 @@ RUN apk add --no-cache \
     upx \
  && git clone --depth=1 https://github.com/beanstalkd/beanstalkd \
  && cd beanstalkd \
- && sed -i 's@sys/fcntl.h@fcntl.h@' sd-daemon.c \
  && sed -i 's@-g@-O3 -march=x86-64@' Makefile \
  && sed -i 's@LDFLAGS?=@LDFLAGS?=-s -static@' Makefile \
  && make \
