@@ -122,6 +122,8 @@ xhgui:
 php-7.1:
   stage: tier2
   image: docker:stable
+  needs:
+    - alpine
   variables:
     CONTEXT: php
     IMAGE: 1maa/php:7.1
@@ -133,6 +135,8 @@ php-7.1:
 php-7.2:
   stage: tier2
   image: docker:stable
+  needs:
+    - alpine
   variables:
     CONTEXT: php
     IMAGE: 1maa/php:7.2
@@ -144,6 +148,8 @@ php-7.2:
 php-7.3:
   stage: tier2
   image: docker:stable
+  needs:
+    - alpine
   variables:
     CONTEXT: php
     IMAGE: 1maa/php:7.3
@@ -155,6 +161,8 @@ php-7.3:
 php-7.4:
   stage: tier2
   image: docker:stable
+  needs:
+    - alpine
   variables:
     CONTEXT: php
     IMAGE: 1maa/php:7.4
@@ -166,6 +174,8 @@ php-7.4:
 php-master:
   stage: tier2
   image: docker:stable
+  needs:
+    - alpine
   allow_failure: true
   variables:
     CONTEXT: php
@@ -178,6 +188,8 @@ php-master:
 sakila:
   stage: tier2
   image: docker:stable
+  needs:
+    - mysql-8.0
   variables:
     CONTEXT: sakila
     IMAGE: 1maa/sakila:latest
@@ -189,6 +201,8 @@ sakila:
 selfsig:
   stage: tier2
   image: docker:stable
+  needs:
+    - alpine
   variables:
     CONTEXT: selfsig
     IMAGE: 1maa/selfsig:latest
@@ -200,6 +214,8 @@ selfsig:
 sftp:
   stage: tier2
   image: docker:stable
+  needs:
+    - alpine
   variables:
     CONTEXT: sftp
     IMAGE: 1maa/sftp:latest
@@ -211,6 +227,8 @@ sftp:
 sqlite:
   stage: tier2
   image: docker:stable
+  needs:
+    - alpine
   variables:
     CONTEXT: sqlite
     IMAGE: 1maa/sqlite:latest
@@ -222,6 +240,8 @@ sqlite:
 php-7.1-dev:
   stage: tier3
   image: docker:stable
+  needs:
+    - php-7.1
   variables:
     CONTEXT: php
     IMAGE: 1maa/php-dev:7.1
@@ -233,6 +253,8 @@ php-7.1-dev:
 php-7.2-dev:
   stage: tier3
   image: docker:stable
+  needs:
+    - php-7.2
   variables:
     CONTEXT: php
     IMAGE: 1maa/php-dev:7.2
@@ -244,6 +266,8 @@ php-7.2-dev:
 php-7.3-dev:
   stage: tier3
   image: docker:stable
+  needs:
+    - php-7.3
   variables:
     CONTEXT: php
     IMAGE: 1maa/php-dev:7.3
@@ -255,6 +279,8 @@ php-7.3-dev:
 php-7.4-dev:
   stage: tier3
   image: docker:stable
+  needs:
+    - php-7.4
   variables:
     CONTEXT: php
     IMAGE: 1maa/php-dev:7.4
@@ -266,6 +292,8 @@ php-7.4-dev:
 php-master-dev:
   stage: tier3
   image: docker:stable
+  needs:
+    - php-master
   variables:
     CONTEXT: php
     IMAGE: 1maa/php-dev:latest
@@ -277,6 +305,8 @@ php-master-dev:
 roadrunner:
   stage: tier3
   image: docker:stable
+  needs:
+    - php-7.3
   variables:
     CONTEXT: roadrunner
     IMAGE: 1maa/roadrunner:7.3
