@@ -12,7 +12,7 @@ RUN apk add --no-cache \
  && sed -i 's@LDFLAGS?=@LDFLAGS?=-s -static@' Makefile \
  && make \
  && make check \
- && upx beanstalkd
+ && upx --lzma beanstalkd
 
 
 FROM busybox

@@ -10,7 +10,7 @@ RUN tar zxf roadrunner-${RR_VERSION}-linux-amd64.tar.gz \
  && mv roadrunner-${RR_VERSION}-linux-amd64/rr /usr/local/bin/rr \
  && apk add --no-cache \
     upx \
- && upx /usr/local/bin/rr
+ && upx --lzma /usr/local/bin/rr
 
 
 FROM 1maa/php:7.3

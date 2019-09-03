@@ -171,7 +171,7 @@ RUN apk add --no-cache \
         -e 's#listen = 127.0.0.1:9000#listen = 9000#' \
         sapi/fpm/www.conf.in > /tmp/www.conf \
 
- && upx /usr/bin/php /usr/sbin/php-fpm
+ && upx --lzma /usr/bin/php /usr/sbin/php-fpm
 
 
 FROM 1maa/alpine:3.10

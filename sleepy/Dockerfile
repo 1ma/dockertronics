@@ -7,7 +7,7 @@ COPY ./main.go .
 RUN apk add --no-cache \
     upx \
  && CGO_ENABLE=0 go build -tags netgo -v -ldflags="-d -s -w" -o sleepy \
- && upx --brute sleepy \
+ && upx --lzma sleepy \
  && echo "nobody:x:65534:65534:nobody:/:/sbin/nologin" > passwd
 
 FROM scratch
