@@ -27,11 +27,12 @@ RUN apk add --no-cache \
     libevent-dev \
     libpng-dev \
     librdkafka-dev \
-    openssl-dev \
     libsodium-dev \
+    libuv-dev \
     libxml2-dev \
     libxslt-dev \
     libzip-dev \
+    openssl-dev \
     postgresql-dev \
     readline-dev \
     unixodbc-dev \
@@ -111,6 +112,7 @@ RUN apk add --no-cache \
     protobuf \
     rdkafka \
     redis \
+    uv-beta \
     xdebug \
  && chmod +x /usr/lib/php/*.so \
  && cd /tmp \
@@ -195,6 +197,7 @@ RUN apk add --no-cache \
     libpq \
     librdkafka \
     libsodium \
+    libuv \
     libxml2 \
     libxslt \
     libzip \

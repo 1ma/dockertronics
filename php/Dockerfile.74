@@ -1,6 +1,6 @@
 FROM 1maa/alpine:3.10
 
-ENV PHP_VERSION=7.4.0beta4
+ENV PHP_VERSION=7.4.0RC1
 ENV XHPROF_VERSION=5.0-beta4
 
 ENV CFLAGS="-O3 -march=x86-64"
@@ -29,12 +29,13 @@ RUN apk add --no-cache \
     libgcrypt-dev \
     libpng-dev \
     librdkafka-dev \
-    oniguruma-dev \
-    openssl-dev \
     libsodium-dev \
+    libuv-dev \
     libxml2-dev \
     libxslt-dev \
     libzip-dev \
+    oniguruma-dev \
+    openssl-dev \
     postgresql-dev \
     readline-dev \
     sqlite-dev \
@@ -115,7 +116,8 @@ RUN apk add --no-cache \
 #    protobuf \     # borked
     rdkafka \
     redis \
-    xdebug-2.8.0beta1 \
+    uv-beta \
+    xdebug-2.8.0beta2 \
  && chmod +x /usr/lib/php/*.so \
  && cd /tmp \
  && rm -rf php-${PHP_VERSION} \
@@ -201,6 +203,7 @@ RUN apk add --no-cache \
     libpq \
     librdkafka \
     libsodium \
+    libuv \
     libxml2 \
     libxslt \
     libzip \
