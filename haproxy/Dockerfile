@@ -7,7 +7,9 @@ WORKDIR /tmp
 RUN apk add --no-cache \
     build-base \
     linux-headers \
+    lua5.3-dev \
     openssl-dev \
+    pcre2-dev \
     upx \
     zlib-dev \
  && wget -q https://www.haproxy.org/download/2.0/src/haproxy-${HAPROXY_VERSION}.tar.gz \
@@ -17,28 +19,30 @@ RUN apk add --no-cache \
     CPU_CFLAGS="-O3 -march=x86-64" \
     DEBUG_CFLAGS= \
     EXTRA_OBJS="contrib/prometheus-exporter/service-prometheus.o" \
-    LDFLAGS="-s -static" \
+    LDFLAGS="-s" \
+    LUA_INC="/usr/include/lua5.3" \
+    LUA_LIB="/usr/lib/lua5.3" \
     TARGET=linux-glibc \
+    USE_GETADDRINFO=1 \
+    USE_LUA=1 \
     USE_OPENSSL=1 \
+    USE_PCRE2=1 \
+    USE_PCRE2_JIT=1 \
+    USE_REGPARM=1 \
+    USE_STATIC_PCRE2=1 \
     USE_ZLIB=1 \
  && upx --lzma haproxy \
  && mv haproxy ..
 
-FROM busybox
+FROM 1maa/alpine:3.10
 
-COPY --from=0 /tmp/haproxy /root/haproxy
+COPY --from=0 /tmp/haproxy /usr/sbin/haproxy
 
-RUN mkdir /root/etc \
- && touch /root/etc/haproxy.cfg \
- && echo "nobody:x:65534:65534:nobody:/:/sbin/nologin" > /root/etc/passwd
-
-
-FROM scratch
-
-COPY --from=1 /root /
-
-USER nobody
+RUN apk add --no-cache \
+    lua5.3-libs \
+ && mkdir /etc/haproxy \
+ && touch /etc/haproxy/haproxy.cfg
 
 STOPSIGNAL SIGUSR1
 
-CMD ["/haproxy", "-W", "-db", "-f", "/etc/haproxy.cfg"]
+CMD ["/usr/sbin/haproxy", "-W", "-db", "-f", "/etc/haproxy/haproxy.cfg"]
