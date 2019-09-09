@@ -36,13 +36,15 @@ RUN apk add --no-cache \
 
 FROM 1maa/alpine:3.10
 
+COPY config /etc/haproxy
+
 COPY --from=0 /tmp/haproxy /usr/sbin/haproxy
 
 RUN apk add --no-cache \
-    lua5.3-libs \
- && mkdir /etc/haproxy \
- && touch /etc/haproxy/haproxy.cfg
+    lua5.3-libs
 
 STOPSIGNAL SIGUSR1
+
+EXPOSE 80
 
 CMD ["/usr/sbin/haproxy", "-W", "-db", "-f", "/etc/haproxy/haproxy.cfg"]
