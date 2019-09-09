@@ -13,6 +13,7 @@ RUN apk add --no-cache \
     ncurses-static \
     readline-dev \
     unzip \
+    upx \
  && wget https://www.sqlite.org/2019/sqlite-amalgamation-${SQLITE_VERSION}.zip \
  && unzip sqlite-amalgamation-${SQLITE_VERSION}.zip \
  && cd sqlite-amalgamation-${SQLITE_VERSION} \
@@ -24,19 +25,16 @@ RUN apk add --no-cache \
     -DSQLITE_OMIT_LOAD_EXTENSION \
     -DSQLITE_THREADSAFE=0 \
     -DSQLITE_USE_ALLOCA \
-
     shell.c \
     sqlite3.c \
-
     -O3 \
     -s \
     -static \
     -v \
-
     -lreadline \
     -lncursesw \
-
-    -o /tmp/sqlite3
+    -o /tmp/sqlite3 \
+  && upx --lzma /tmp/sqlite3
 
 
 FROM scratch
