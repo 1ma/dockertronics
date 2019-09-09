@@ -6,9 +6,11 @@ FROM 1maa/alpine:3.10
 
 ENV SQLITE_VERSION=3290000
 
-RUN cd ~ \
- && apk add --no-cache \
+WORKDIR /tmp
+
+RUN apk add --no-cache \
     build-base \
+    ncurses-static \
     readline-dev \
     unzip \
  && wget https://www.sqlite.org/2019/sqlite-amalgamation-${SQLITE_VERSION}.zip \
@@ -28,18 +30,18 @@ RUN cd ~ \
 
     -O3 \
     -s \
+    -static \
     -v \
 
     -lreadline \
+    -lncursesw \
 
-    -o /usr/bin/sqlite3
+    -o /tmp/sqlite3
 
 
-FROM 1maa/alpine:3.10
+FROM scratch
 
-COPY --from=0 /usr/bin/sqlite3 /usr/bin/sqlite3
+COPY --from=0 /etc/terminfo /etc/terminfo
+COPY --from=0 /tmp/sqlite3  /sqlite3
 
-RUN apk add --no-cache \
-    readline
-
-CMD ["/usr/bin/sqlite3"]
+CMD ["/sqlite3"]
