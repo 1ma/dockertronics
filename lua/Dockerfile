@@ -23,9 +23,20 @@ RUN apk add --no-cache \
  && make install
 
 
+FROM busybox
+
+WORKDIR /root
+
+COPY --from=0 /etc/terminfo           ./etc/terminfo
+COPY --from=0 /usr/local/bin          ./usr/bin
+COPY --from=0 /usr/local/include      ./usr/include
+COPY --from=0 /usr/local/lib/liblua.a ./usr/lib/liblua.a
+
+RUN chown -R root:root .
+
+
 FROM scratch
 
-COPY --from=0 /etc/terminfo   /etc/terminfo
-COPY --from=0 /usr/local/bin/ /
+COPY --from=1 /root /
 
-CMD ["/lua"]
+CMD ["/usr/bin/lua"]
