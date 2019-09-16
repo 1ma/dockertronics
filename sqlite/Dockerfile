@@ -37,9 +37,16 @@ RUN apk add --no-cache \
   && upx --lzma /tmp/sqlite3
 
 
+FROM busybox
+
+WORKDIR /root
+
+COPY --from=0 /etc/terminfo ./etc/terminfo
+COPY --from=0 /tmp/sqlite3  ./sqlite3
+
+
 FROM scratch
 
-COPY --from=0 /etc/terminfo /etc/terminfo
-COPY --from=0 /tmp/sqlite3  /sqlite3
+COPY --from=1 /root /
 
 CMD ["/sqlite3"]
