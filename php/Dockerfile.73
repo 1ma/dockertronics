@@ -35,6 +35,7 @@ RUN apk add --no-cache \
     libzip-dev \
     openssl-dev \
     postgresql-dev \
+    rabbitmq-c-dev \
     readline-dev \
     unixodbc-dev \
  && cd /tmp \
@@ -103,6 +104,7 @@ RUN apk add --no-cache \
 # && make \
 # && make install \
  && pecl install \
+    amqp \
     apcu \
     ds \
     event \
@@ -206,6 +208,7 @@ RUN apk add --no-cache \
     libxml2 \
     libxslt \
     libzip \
+    rabbitmq-c \
     readline \
     unixodbc \
  && rm /etc/php/mods-available/libsodium.ini

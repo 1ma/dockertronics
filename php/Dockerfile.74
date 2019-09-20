@@ -37,6 +37,7 @@ RUN apk add --no-cache \
     oniguruma-dev \
     openssl-dev \
     postgresql-dev \
+    rabbitmq-c-dev \
     readline-dev \
     sqlite-dev \
     unixodbc-dev \
@@ -105,6 +106,7 @@ RUN apk add --no-cache \
 # && make \
 # && make install \
  && pecl install \
+    amqp \
     apcu \
     ds \
     event \
@@ -208,6 +210,7 @@ RUN apk add --no-cache \
     libxslt \
     libzip \
     oniguruma \
+    rabbitmq-c \
     readline \
     unixodbc \
  && rm /etc/php/mods-available/libsodium.ini \
