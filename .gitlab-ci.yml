@@ -102,7 +102,7 @@ postgres:
   image: docker:stable
   variables:
     CONTEXT: postgres
-    IMAGE: 1maa/postgres:11-alpine
+    IMAGE: 1maa/postgres:12-alpine
   script:
     - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS

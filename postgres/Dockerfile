@@ -1,7 +1,7 @@
-FROM postgres:11-alpine
+FROM postgres:12-alpine
 
 ENV PGTAP_VERSION v1.0.0
-ENV POSTGIS_VERSION 2.5.2
+ENV POSTGIS_VERSION 2.5.3
 
 RUN echo "@edge-testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
  && apk --no-cache add \
@@ -30,7 +30,7 @@ RUN echo "@edge-testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /e
  && make install
 
 
-FROM postgres:11-alpine
+FROM postgres:12-alpine
 
 COPY --from=0 /usr/local/lib/postgresql/postgis-2.5.so                    /usr/local/lib/postgresql/postgis-2.5.so
 COPY --from=0 /usr/local/lib/postgresql/postgis_topology-2.5.so           /usr/local/lib/postgresql/postgis_topology-2.5.so

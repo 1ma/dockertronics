@@ -1,6 +1,6 @@
 # 1maa/postgres:11-alpine
 
-An extension of the official `postgres:11-alpine` image with a few additional, non-contrib extensions.
+An extension of the official `postgres:12-alpine` image with a few additional, non-contrib extensions.
 
 ### Non-Contrib Extension List
 
