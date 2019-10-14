@@ -112,7 +112,7 @@ RUN apk add --no-cache \
  && pecl install \
 #    amqp \         # borked
     apcu \
-    ds \
+#    ds \           # borked
 #    event \        # borked
 #    gnupg \        # borked
     igbinary \
