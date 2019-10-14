@@ -4,7 +4,7 @@ FROM 1maa/alpine:3.10
 #   https://www.sqlite.org/howtocompile.html
 #   https://www.sqlite.org/compile.html
 
-ENV SQLITE_VERSION=3300000
+ENV SQLITE_VERSION=3300100
 
 WORKDIR /tmp
 
