@@ -100,6 +100,7 @@ mysql-8.0:
 postgres:
   stage: tier1
   image: docker:stable
+  allow_failure: true
   variables:
     CONTEXT: postgres
     IMAGE: 1maa/postgres:12-alpine
