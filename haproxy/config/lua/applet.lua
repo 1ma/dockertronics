@@ -1,4 +1,6 @@
 core.register_service("sample_applet", "http", function(applet)
+    applet:set_status(200)
+    applet:add_header("Content-Type", "text/plain")
     applet:start_response()
-    applet:send(string.format("sent from Lua %s\n", _VERSION))
+    applet:send(string.format("sent from %s\n", _VERSION))
 end)
