@@ -1,6 +1,6 @@
 FROM 1maa/alpine:3.10
 
-ENV HAPROXY_VERSION=2.0.10
+ENV HAPROXY_VERSION=2.1.0
 
 WORKDIR /tmp
 
@@ -12,7 +12,7 @@ RUN apk add --no-cache \
     pcre2-dev \
     upx \
     zlib-dev \
- && wget -q https://www.haproxy.org/download/2.0/src/haproxy-${HAPROXY_VERSION}.tar.gz \
+ && wget -q https://www.haproxy.org/download/2.1/src/haproxy-${HAPROXY_VERSION}.tar.gz \
  && tar zxf haproxy-${HAPROXY_VERSION}.tar.gz \
  && cd haproxy-${HAPROXY_VERSION} \
  && make all -j$(nproc) \
