@@ -21,7 +21,7 @@ RUN apk add --no-cache \
     upx \
 
     # dependencies for building specific extensions
-    argon2-dev@edge-main \
+    argon2-dev \
     bzip2-dev \
     curl-dev \
     gd-dev \
