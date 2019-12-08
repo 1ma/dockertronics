@@ -1,0 +1,464 @@
+// Allow to download and build AWS C++ SDK
+AWS_SDK_EXTERNAL_PROJECT:BOOL=OFF
+
+// The directory containing a CMake configuration file for BZIP2.
+BZIP2_DIR:PATH=BZIP2_DIR-NOTFOUND
+
+// For backwards compatibility, what version of CMake commands and syntax should this version of CMake try to support.
+CMAKE_BACKWARDS_COMPATIBILITY:STRING=2.4
+
+// Choose the type of build, options are: None(CMAKE_CXX_FLAGS or CMAKE_C_FLAGS used) Debug Release RelWithDebInfo MinSizeRel
+CMAKE_BUILD_TYPE:STRING=RelWithDebInfo
+
+// install prefix
+CMAKE_INSTALL_PREFIX:PATH=/usr/local/mysql
+
+// Enables support of dynamic coluumns
+CONC_WITH_DYNCOL:BOOL=ON
+
+// build test suite
+CONC_WITH_UNIT_TESTS:BOOL=ON
+
+// Compile CONNECT storage engine with JDBC support
+CONNECT_WITH_JDBC:BOOL=ON
+
+// Compile CONNECT storage engine with LIBXML2 support
+CONNECT_WITH_LIBXML2:BOOL=ON
+
+// Compile CONNECT storage engine with MONGO support
+CONNECT_WITH_MONGO:BOOL=ON
+
+// Compile CONNECT storage engine with ODBC support
+CONNECT_WITH_ODBC:BOOL=ON
+
+// Compile CONNECT storage engine with REST support
+CONNECT_WITH_REST:BOOL=ON
+
+// Compile CONNECT storage engine with VCT support
+CONNECT_WITH_VCT:BOOL=ON
+
+// Compile CONNECT storage engine with index file mapping support
+CONNECT_WITH_XMAP:BOOL=ON
+
+// Compile CONNECT storage engine with ZIP support
+CONNECT_WITH_ZIP:BOOL=ON
+
+// Don't build shared libraries, compile code as position-dependent
+DISABLE_SHARED:BOOL=OFF
+
+// Enable profiling
+ENABLED_PROFILING:BOOL=ON
+
+// Enable gcov (debug, Linux builds only)
+ENABLE_GCOV:BOOL=OFF
+
+// Single output directory for building all executables.
+EXECUTABLE_OUTPUT_PATH:PATH=
+
+// Groonga's default DB key management algorithm
+GRN_DEFAULT_DB_KEY:STRING=auto
+
+// Groonga's default document root
+GRN_DEFAULT_DOCUMENT_ROOT:PATH=/usr/local/mysql/share/groonga/html/admin
+
+// Groonga's default document root base path
+GRN_DEFAULT_DOCUMENT_ROOT_BASE:PATH=html/admin
+
+// Groonga's default encoding
+GRN_DEFAULT_ENCODING:STRING=utf8
+
+// Groonga's default match escalation threshold
+GRN_DEFAULT_MATCH_ESCALATION_THRESHOLD:STRING=0
+
+// Groonga's default relative document root
+GRN_DEFAULT_RELATIVE_DOCUMENT_ROOT:PATH=share/groonga/html/admin
+
+// Build as a static library to embed into an application
+GRN_EMBED:BOOL=ON
+
+// timeout to acquire a lock.
+GRN_LOCK_TIMEOUT:STRING=900000
+
+// wait time in nanosecond to acquire a lock.
+GRN_LOCK_WAIT_TIME_NANOSECOND:STRING=1000000
+
+// log file path
+GRN_LOG_PATH:FILEPATH=/usr/local/mysql/var/log/groonga/groonga.log
+
+// mecab-config path
+GRN_MECAB_CONFIG:FILEPATH=mecab-config
+
+// Path to a program.
+GRN_MECAB_CONFIG_ABSOLUTE_PATH:FILEPATH=GRN_MECAB_CONFIG_ABSOLUTE_PATH-NOTFOUND
+
+// DANGER!!! Groonga's stack size. Normarlly, you should not change this variable.
+GRN_STACK_SIZE:STRING=1024
+
+// use bundled LZ4
+GRN_WITH_BUNDLED_LZ4:BOOL=OFF
+
+// use bundled MeCab
+GRN_WITH_BUNDLED_MECAB:BOOL=OFF
+
+// use bundled MessagePack
+GRN_WITH_BUNDLED_MESSAGE_PACK:BOOL=OFF
+
+// enable debug build.
+GRN_WITH_DEBUG:BOOL=OFF
+
+// use KyTea for morphological analysis
+GRN_WITH_KYTEA:STRING=auto
+
+// use libevent for suggestion
+GRN_WITH_LIBEVENT:STRING=auto
+
+// use libstemmer for stemming token filter
+GRN_WITH_LIBSTEMMER:STRING=auto
+
+// Support data compression by LZ4.
+GRN_WITH_LZ4:STRING=auto
+
+// use MeCab for morphological analysis
+GRN_WITH_MECAB:STRING=auto
+
+// use MessagePack for suggestion
+GRN_WITH_MESSAGE_PACK:STRING=auto
+
+// use mruby
+GRN_WITH_MRUBY:BOOL=OFF
+
+// use NFKC based UTF8 normalization.
+GRN_WITH_NFKC:BOOL=ON
+
+// use ZeroMQ for suggestion
+GRN_WITH_ZEROMQ:STRING=auto
+
+// Support data compression by zlib.
+GRN_WITH_ZLIB:STRING=auto
+
+// Build as a static library to embed into an application
+GROONGA_NORMALIZER_MYSQL_EMBED:BOOL=ON
+
+// Installation directory layout. Options are: STANDALONE (as in zip or tar.gz installer) RPM DEB SVR4
+INSTALL_LAYOUT:STRING=STANDALONE
+
+// Single output directory for building all libraries.
+LIBRARY_OUTPUT_PATH:PATH=
+
+// Max number of indexes
+MAX_INDEXES:STRING=64
+
+// Whether to build Mroonga for embedded server or not. You can't use Mroonga built for embedded server with non embedded server.
+MRN_BUILD_FOR_EMBEDDED_SERVER:BOOL=OFF
+
+// The default fulltext parser (Deprecated. Use MRN_DEFAULT_TOKENIZER instead.)
+MRN_DEFAULT_PARSER:STRING=
+
+// The default tokenizer for fulltext index
+MRN_DEFAULT_TOKENIZER:STRING=
+
+// Embed libgroonga
+MRN_GROONGA_EMBED:BOOL=ON
+
+// Embed groonga-normalizer-mysql Groonga plugin
+MRN_GROONGA_NORMALIZER_MYSQL_EMBED:BOOL=ON
+
+// Mutex type: event, sys or futex
+MUTEXTYPE:STRING=event
+
+// default MySQL data directory
+MYSQL_DATADIR:PATH=/usr/local/mysql/data
+
+// MySQL maintainer-specific development environment. Options are: ON OFF AUTO.
+MYSQL_MAINTAINER_MODE:STRING=AUTO
+
+// Allow linking with GPLv2-incompatible system libraries. Only set it you never plan to distribute the resulting binaries
+NOT_FOR_DISTRIBUTION:BOOL=OFF
+
+// Default nested parentheses limit. See PARENS_NEST_LIMIT in config.h.in for details.
+PCRE_PARENS_NEST_LIMIT:STRING=250
+
+// Show the final configuration report
+PCRE_SHOW_REPORT:BOOL=OFF
+
+// How to build plugin ARCHIVE. Options are: NO STATIC DYNAMIC YES AUTO.
+PLUGIN_ARCHIVE:STRING=DYNAMIC
+
+// How to build plugin AUDIT_NULL. Options are: NO STATIC DYNAMIC YES AUTO.
+PLUGIN_AUDIT_NULL:STRING=DYNAMIC
+
+// How to build plugin AUTH_0X0100. Options are: NO STATIC DYNAMIC YES AUTO.
+PLUGIN_AUTH_0X0100:STRING=DYNAMIC
+
+// How to build plugin AUTH_ED25519. Options are: NO STATIC DYNAMIC YES AUTO.
+PLUGIN_AUTH_ED25519:STRING=DYNAMIC
+
+// How to build plugin AUTH_SOCKET. Options are: NO STATIC DYNAMIC YES AUTO.
+PLUGIN_AUTH_SOCKET:STRING=STATIC
+
+// How to build plugin AUTH_TEST_PLUGIN. Options are: NO STATIC DYNAMIC YES AUTO.
+PLUGIN_AUTH_TEST_PLUGIN:STRING=DYNAMIC
+
+// How to build plugin BLACKHOLE. Options are: NO STATIC DYNAMIC YES AUTO.
+PLUGIN_BLACKHOLE:STRING=DYNAMIC
+
+// How to build plugin CONNECT. Options are: NO STATIC DYNAMIC YES AUTO.
+PLUGIN_CONNECT:STRING=DYNAMIC
+
+// How to build plugin DAEMON_EXAMPLE. Options are: NO STATIC DYNAMIC YES AUTO.
+PLUGIN_DAEMON_EXAMPLE:STRING=DYNAMIC
+
+// How to build plugin DEBUG_KEY_MANAGEMENT. Options are: NO STATIC DYNAMIC YES AUTO.
+PLUGIN_DEBUG_KEY_MANAGEMENT:STRING=DYNAMIC
+
+// How to build plugin DIALOG_EXAMPLES. Options are: NO STATIC DYNAMIC YES AUTO.
+PLUGIN_DIALOG_EXAMPLES:STRING=DYNAMIC
+
+// How to build plugin DISKS. Options are: NO STATIC DYNAMIC YES AUTO.
+PLUGIN_DISKS:STRING=DYNAMIC
+
+// How to build plugin EXAMPLE. Options are: NO STATIC DYNAMIC YES AUTO.
+PLUGIN_EXAMPLE:STRING=DYNAMIC
+
+// How to build plugin EXAMPLE_KEY_MANAGEMENT. Options are: NO STATIC DYNAMIC YES AUTO.
+PLUGIN_EXAMPLE_KEY_MANAGEMENT:STRING=DYNAMIC
+
+// How to build plugin FEDERATED. Options are: NO STATIC DYNAMIC YES AUTO.
+PLUGIN_FEDERATED:STRING=DYNAMIC
+
+// How to build plugin FEDERATEDX. Options are: NO STATIC DYNAMIC YES AUTO.
+PLUGIN_FEDERATEDX:STRING=DYNAMIC
+
+// How to build plugin FEEDBACK. Options are: NO STATIC DYNAMIC YES AUTO.
+PLUGIN_FEEDBACK:STRING=STATIC
+
+// How to build plugin FILE_KEY_MANAGEMENT. Options are: NO STATIC DYNAMIC YES AUTO.
+PLUGIN_FILE_KEY_MANAGEMENT:STRING=DYNAMIC
+
+// How to build plugin FTEXAMPLE. Options are: NO STATIC DYNAMIC YES AUTO.
+PLUGIN_FTEXAMPLE:STRING=DYNAMIC
+
+// How to build plugin FUNC_TEST. Options are: NO STATIC DYNAMIC YES AUTO.
+PLUGIN_FUNC_TEST:STRING=DYNAMIC
+
+// How to build plugin HANDLERSOCKET. Options are: NO STATIC DYNAMIC YES AUTO.
+PLUGIN_HANDLERSOCKET:STRING=DYNAMIC
+
+// How to build plugin INNOBASE. Options are: NO STATIC DYNAMIC YES AUTO.
+PLUGIN_INNOBASE:STRING=STATIC
+
+// How to build plugin LOCALES. Options are: NO STATIC DYNAMIC YES AUTO.
+PLUGIN_LOCALES:STRING=DYNAMIC
+
+// How to build plugin METADATA_LOCK_INFO. Options are: NO STATIC DYNAMIC YES AUTO.
+PLUGIN_METADATA_LOCK_INFO:STRING=DYNAMIC
+
+// How to build plugin MROONGA. Options are: NO STATIC DYNAMIC YES AUTO.
+PLUGIN_MROONGA:STRING=DYNAMIC
+
+// How to build plugin PARTITION. Options are: NO STATIC DYNAMIC YES AUTO.
+PLUGIN_PARTITION:STRING=STATIC
+
+// How to build plugin PERFSCHEMA. Options are: NO STATIC DYNAMIC YES AUTO.
+PLUGIN_PERFSCHEMA:STRING=STATIC
+
+// How to build plugin QA_AUTH_CLIENT. Options are: NO STATIC DYNAMIC YES AUTO.
+PLUGIN_QA_AUTH_CLIENT:STRING=DYNAMIC
+
+// How to build plugin QA_AUTH_INTERFACE. Options are: NO STATIC DYNAMIC YES AUTO.
+PLUGIN_QA_AUTH_INTERFACE:STRING=DYNAMIC
+
+// How to build plugin QA_AUTH_SERVER. Options are: NO STATIC DYNAMIC YES AUTO.
+PLUGIN_QA_AUTH_SERVER:STRING=DYNAMIC
+
+// How to build plugin QUERY_CACHE_INFO. Options are: NO STATIC DYNAMIC YES AUTO.
+PLUGIN_QUERY_CACHE_INFO:STRING=DYNAMIC
+
+// How to build plugin QUERY_RESPONSE_TIME. Options are: NO STATIC DYNAMIC YES AUTO.
+PLUGIN_QUERY_RESPONSE_TIME:STRING=DYNAMIC
+
+// How to build plugin ROCKSDB. Options are: NO STATIC DYNAMIC YES AUTO.
+PLUGIN_ROCKSDB:STRING=DYNAMIC
+
+// How to build plugin SEQUENCE. Options are: NO STATIC DYNAMIC YES AUTO.
+PLUGIN_SEQUENCE:STRING=STATIC
+
+// How to build plugin SERVER_AUDIT. Options are: NO STATIC DYNAMIC YES AUTO.
+PLUGIN_SERVER_AUDIT:STRING=DYNAMIC
+
+// How to build plugin SIMPLE_PASSWORD_CHECK. Options are: NO STATIC DYNAMIC YES AUTO.
+PLUGIN_SIMPLE_PASSWORD_CHECK:STRING=DYNAMIC
+
+// How to build plugin SPHINX. Options are: NO STATIC DYNAMIC YES AUTO.
+PLUGIN_SPHINX:STRING=DYNAMIC
+
+// How to build plugin SPIDER. Options are: NO STATIC DYNAMIC YES AUTO.
+PLUGIN_SPIDER:STRING=DYNAMIC
+
+// How to build plugin SQL_ERRLOG. Options are: NO STATIC DYNAMIC YES AUTO.
+PLUGIN_SQL_ERRLOG:STRING=DYNAMIC
+
+// How to build plugin TEST_SQL_DISCOVERY. Options are: NO STATIC DYNAMIC YES AUTO.
+PLUGIN_TEST_SQL_DISCOVERY:STRING=DYNAMIC
+
+// How to build plugin TEST_VERSIONING. Options are: NO STATIC DYNAMIC YES AUTO.
+PLUGIN_TEST_VERSIONING:STRING=DYNAMIC
+
+// How to build plugin THREAD_POOL_INFO. Options are: NO STATIC DYNAMIC YES AUTO.
+PLUGIN_THREAD_POOL_INFO:STRING=STATIC
+
+// How to build plugin TOKUDB. Options are: NO STATIC DYNAMIC YES AUTO.
+PLUGIN_TOKUDB:STRING=NO
+
+// How to build plugin TYPE_TEST. Options are: NO STATIC DYNAMIC YES AUTO.
+PLUGIN_TYPE_TEST:STRING=DYNAMIC
+
+// How to build plugin USER_VARIABLES. Options are: NO STATIC DYNAMIC YES AUTO.
+PLUGIN_USER_VARIABLES:STRING=STATIC
+
+// How to build plugin WSREP_INFO. Options are: NO STATIC DYNAMIC YES AUTO.
+PLUGIN_WSREP_INFO:STRING=DYNAMIC
+
+// Path to a program.
+RUBY:FILEPATH=RUBY-NOTFOUND
+
+// Use security-enhancing compiler features (stack protector, relro, etc)
+SECURITY_HARDENED:BOOL=ON
+
+// PATH to MySQL TMP dir. Defaults to the P_tmpdir macro in <stdio.h>
+TMPDIR:PATH=
+
+// Update submodules automatically
+UPDATE_SUBMODULES:BOOL=ON
+
+// Use Aria for temporary tables
+USE_ARIA_FOR_TMP_TABLES:BOOL=ON
+
+// Build only the client library and clients
+WITHOUT_SERVER:BOOL=OFF
+
+// Enable address sanitizer
+WITH_ASAN:BOOL=OFF
+
+// Compile MySQL with embedded server
+WITH_EMBEDDED_SERVER:BOOL=OFF
+
+// Options are: none complex all
+WITH_EXTRA_CHARSETS:STRING=all
+
+// build with fallocate
+WITH_FALLOCATE:BOOL=ON
+
+// Include innodb_adaptive_hash_index
+WITH_INNODB_AHI:BOOL=ON
+
+// Build with bzip2. Possible values are 'ON', 'OFF', 'AUTO' and default is 'AUTO'
+WITH_INNODB_BZIP2:STRING=AUTO
+
+// InnoDB freeze writes patch from Google
+WITH_INNODB_DISALLOW_WRITES:BOOL=ON
+
+// Enable extra InnoDB debug checks
+WITH_INNODB_EXTRA_DEBUG:BOOL=OFF
+
+// Build with lz4. Possible values are 'ON', 'OFF', 'AUTO' and default is 'AUTO'
+WITH_INNODB_LZ4:STRING=AUTO
+
+// Build with lzma. Possible values are 'ON', 'OFF', 'AUTO' and default is 'AUTO'
+WITH_INNODB_LZMA:STRING=AUTO
+
+// Build with lzo. Possible values are 'ON', 'OFF', 'AUTO' and default is 'AUTO'
+WITH_INNODB_LZO:STRING=AUTO
+
+// Cache index root block descriptors
+WITH_INNODB_ROOT_GUESS:BOOL=ON
+
+// Build with snappy. Possible values are 'ON', 'OFF', 'AUTO' and default is 'AUTO'
+WITH_INNODB_SNAPPY:STRING=AUTO
+
+// Compile with tcp wrappers support
+WITH_LIBWRAP:BOOL=OFF
+
+// Include mariabackup
+WITH_MARIABACKUP:BOOL=ON
+
+// Enable memory sanitizer
+WITH_MSAN:BOOL=OFF
+
+// Build with non-uniform memory access, allowing --innodb-numa-interleave. Options are ON|OFF|AUTO. ON = enabled (requires NUMA library), OFF = disabled, AUTO = enabled if NUMA library found.
+WITH_NUMA:STRING=AUTO
+
+// Which pcre to use (possible values are 'bundled', 'system', or 'auto')
+WITH_PCRE:STRING=auto
+
+// Use bundled readline
+WITH_READLINE:BOOL=OFF
+
+// Build RocksDB  with BZIP2 compression. Possible values are 'ON', 'OFF', 'AUTO' and default is 'AUTO'
+WITH_ROCKSDB_BZIP2:STRING=AUTO
+
+// build RocksDB with JeMalloc
+WITH_ROCKSDB_JEMALLOC:BOOL=OFF
+
+// Build RocksDB  with LZ4 compression. Possible values are 'ON', 'OFF', 'AUTO' and default is 'AUTO'
+WITH_ROCKSDB_LZ4:STRING=AUTO
+
+// Build RocksDB  with snappy compression. Possible values are 'ON', 'OFF', 'AUTO' and default is 'AUTO'
+WITH_ROCKSDB_snappy:STRING=AUTO
+
+// Build RocksDB  with zstd compression. Possible values are 'ON', 'OFF', 'AUTO' and default is 'AUTO'
+WITH_ROCKSDB_zstd:STRING=AUTO
+
+// Use safemalloc memory debugger. Will result in slower execution. Options are: ON OFF AUTO.
+WITH_SAFEMALLOC:STRING=AUTO
+
+// Enable systemd scripts and notification support
+WITH_SYSTEMD:STRING=auto
+
+// Enable thread sanitizer
+WITH_TSAN:BOOL=OFF
+
+// Enable undefined behavior sanitizer
+WITH_UBSAN:BOOL=OFF
+
+// Compile MySQL with unit tests
+WITH_UNIT_TESTS:BOOL=ON
+
+// Valgrind instrumentation
+WITH_VALGRIND:BOOL=OFF
+
+// Build all components of WSREP (unit tests, sample programs)
+WITH_WSREP_ALL:BOOL=OFF
+
+// Use bundled zlib
+WITH_ZLIB:STRING=bundled
+
+// Fail compilation on any warnings
+WSREP_LIB_MAINTAINER_MODE:BOOL=OFF
+
+// Compile with strict build flags
+WSREP_LIB_STRICT_BUILD_FLAGS:BOOL=OFF
+
+// Enable address sanitizer
+WSREP_LIB_WITH_ASAN:BOOL=OFF
+
+// Compile with coverage instrumentation
+WSREP_LIB_WITH_COVERAGE:BOOL=OFF
+
+// Compile sample dbsim program
+WSREP_LIB_WITH_DBSIM:BOOL=OFF
+
+// Generate documentation
+WSREP_LIB_WITH_DOCUMENTATION:BOOL=OFF
+
+// Enable thread sanitizer
+WSREP_LIB_WITH_TSAN:BOOL=OFF
+
+// Compile unit tests
+WSREP_LIB_WITH_UNIT_TESTS:BOOL=OFF
+
+// The directory containing a CMake configuration file for cpprestsdk.
+cpprestsdk_DIR:PATH=cpprestsdk_DIR-NOTFOUND
+
+// The directory containing a CMake configuration file for libmongoc-1.0.
+libmongoc-1.0_DIR:PATH=libmongoc-1.0_DIR-NOTFOUND

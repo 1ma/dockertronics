@@ -1,0 +1,42 @@
+FROM 1maa/alpine:3.10
+
+WORKDIR /tmp
+
+RUN apk add git
+
+RUN git clone --branch=mariadb-10.5.0 --depth=1 https://github.com/MariaDB/server \
+ && cd server \
+ && git submodule update --init --recursive
+
+#   LIB             FILE
+#   bzip2-dev       bzlib.h
+#   libexecinfo-dev execinfo.h
+#   linux-headers   linux/fs.h
+#   lz4-dev         lz4.h
+#   numactl-dev     numa.h
+
+RUN apk add \
+    bison \
+    bzip2-dev \
+    build-base \
+    cmake \
+    libevent-dev \
+    libexecinfo-dev \
+    libxml2-dev \
+    linux-headers \
+    lz4-dev \
+    numactl-dev \
+    openjdk11 \
+    openssl-dev \
+    readline-dev \
+    xz-dev
+
+RUN mkdir build \
+ && cd build \
+ && cmake ../server -DCMAKE_BUILD_TYPE=Release
+
+RUN cd build \
+ && make -j$(nproc)
+
+RUN cd build \
+ && make install
