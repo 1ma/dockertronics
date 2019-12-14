@@ -116,7 +116,7 @@ RUN apk add --no-cache \
     mongodb \
     msgpack \
     pcov \
-#    protobuf \     # borked
+    protobuf \
     rdkafka \
     redis \
     uv-beta \
@@ -215,8 +215,7 @@ RUN apk add --no-cache \
     rabbitmq-c \
     readline \
     unixodbc \
- && rm /etc/php/mods-available/libsodium.ini \
- && rm /etc/php/mods-available/protobuf.ini
+ && rm /etc/php/mods-available/libsodium.ini
 
 EXPOSE 9000
 
