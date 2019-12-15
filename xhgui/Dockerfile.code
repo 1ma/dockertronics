@@ -1,0 +1,15 @@
+FROM 1maa/php-dev:7.3
+
+WORKDIR /tmp
+
+ADD https://github.com/perftools/xhgui/archive/master.tar.gz .
+
+RUN tar zxf master.tar.gz \
+ && cd xhgui-master \
+ && composer require alcaeus/mongo-php-adapter \
+ && composer install --no-dev --classmap-authoritative
+
+
+FROM scratch
+
+COPY --from=0 /tmp/xhgui-master /var/www/xhgui

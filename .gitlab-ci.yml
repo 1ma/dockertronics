@@ -141,7 +141,7 @@ sleepy:
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
-xhgui:
+xhgui-apache:
   stage: tier1
   image: docker:stable
   variables:
@@ -149,6 +149,17 @@ xhgui:
     IMAGE: 1maa/xhgui:latest
   script:
     - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
+    - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
+    - docker push $IMAGE
+
+xhgui-code:
+  stage: tier1
+  image: docker:stable
+  variables:
+    CONTEXT: xhgui
+    IMAGE: 1maa/xhgui:code
+  script:
+    - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile.code $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
