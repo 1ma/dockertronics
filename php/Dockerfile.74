@@ -1,6 +1,6 @@
 FROM 1maa/alpine:3.10
 
-ENV PHP_VERSION=7.4.0
+ENV PHP_VERSION=7.4.1
 ENV XHPROF_VERSION=5.0.2
 
 ENV CFLAGS="-O3 -march=x86-64"
@@ -175,11 +175,14 @@ RUN apk add --no-cache \
  && sed -e 's#@php_fpm_sysconfdir@#/etc/php/fpm#' \
         -e 's#;daemonize = yes#daemonize = no#' \
         -e 's#;error_log = log/php-fpm.log#error_log = /dev/stderr#' \
+        -e 's#;log_buffering = no#log_buffering = yes#' \
+        -e 's#;log_limit = 4096#log_limit = 65536#' \
         sapi/fpm/php-fpm.conf.in > /tmp/php-fpm.conf \
 
  && sed -e 's#user = @php_fpm_user@#user = root#' \
         -e 's#group = @php_fpm_group@#group = root#' \
         -e 's#listen = 127.0.0.1:9000#listen = 9000#' \
+        -e 's#;decorate_workers_output = no#decorate_workers_output = no#' \
         sapi/fpm/www.conf.in > /tmp/www.conf \
 
  && upx --lzma /usr/bin/php /usr/sbin/php-fpm
