@@ -12,6 +12,7 @@ RUN apk add --no-cache \
     build-base \
     ncurses-static \
     readline-dev \
+    readline-static \
     unzip \
     upx \
  && wget https://www.sqlite.org/2019/sqlite-amalgamation-${SQLITE_VERSION}.zip \
