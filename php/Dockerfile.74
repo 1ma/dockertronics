@@ -1,4 +1,4 @@
-FROM 1maa/alpine:3.10
+FROM 1maa/alpine:3.11
 
 ENV PHP_VERSION=7.4.1
 ENV XHPROF_VERSION=5.0.2
@@ -188,7 +188,7 @@ RUN apk add --no-cache \
  && upx --lzma /usr/bin/php /usr/sbin/php-fpm
 
 
-FROM 1maa/alpine:3.10
+FROM 1maa/alpine:3.11
 
 COPY etc /etc/php
 
