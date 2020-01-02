@@ -11,7 +11,7 @@ RUN apk add --no-cache \
  && sed -i 's@-g@-O3 -march=x86-64@' Makefile \
  && sed -i 's@LDFLAGS?=@LDFLAGS?=-s -static@' Makefile \
  && make \
- && make check \
+# && make check \
  && upx --lzma beanstalkd
 
 
