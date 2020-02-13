@@ -8,10 +8,10 @@ RUN apk add --no-cache \
     upx \
  && git clone --depth=1 https://github.com/beanstalkd/beanstalkd \
  && cd beanstalkd \
- && sed -i 's@-g@-O3 -march=x86-64@' Makefile \
+ && sed -i 's@-g@-Os -march=x86-64@' Makefile \
  && sed -i 's@LDFLAGS?=@LDFLAGS?=-s -static@' Makefile \
  && make \
-# && make check \
+ && make check \
  && upx --lzma beanstalkd
 
 
