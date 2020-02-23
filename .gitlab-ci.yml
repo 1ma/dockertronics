@@ -17,6 +17,7 @@ sanity-check:
   script:
     - docker info
     - docker version
+    - docker system prune -f --volumes
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
 
 alpine:

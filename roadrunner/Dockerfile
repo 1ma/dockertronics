@@ -1,6 +1,6 @@
 FROM 1maa/alpine:3.11
 
-ENV RR_VERSION=1.5.3
+ENV RR_VERSION=1.6.2
 
 WORKDIR /tmp
 
