@@ -115,7 +115,6 @@ mysql-8.0:
 postgres:
   stage: tier1
   image: docker:stable
-  allow_failure: true
   only:
     changes:
       - postgres/**/*

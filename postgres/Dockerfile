@@ -6,11 +6,13 @@ ENV POSTGIS_VERSION 2.5.3
 RUN echo "@edge-testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
  && apk --no-cache add \
     build-base \
+    clang-dev \
     geos-dev@edge-testing \
     gdal-dev@edge-testing \
     git \
     json-c-dev \
     libxml2-dev \
+    llvm9 \
     perl \
     proj-dev@edge-testing \
     protobuf-c-dev \
