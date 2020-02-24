@@ -1,7 +1,7 @@
 FROM postgres:12-alpine
 
-ENV PGTAP_VERSION v1.0.0
-ENV POSTGIS_VERSION 2.5.3
+ENV PGTAP_VERSION v1.1.0
+ENV POSTGIS_VERSION 3.0.1
 
 RUN echo "@edge-testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
  && apk --no-cache add \
@@ -34,9 +34,8 @@ RUN echo "@edge-testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /e
 
 FROM postgres:12-alpine
 
-COPY --from=0 /usr/local/lib/postgresql/postgis-2.5.so                    /usr/local/lib/postgresql/postgis-2.5.so
-COPY --from=0 /usr/local/lib/postgresql/postgis_topology-2.5.so           /usr/local/lib/postgresql/postgis_topology-2.5.so
-COPY --from=0 /usr/local/lib/postgresql/rtpostgis-2.5.so                  /usr/local/lib/postgresql/rtpostgis-2.5.so
+COPY --from=0 /usr/local/lib/postgresql/bitcode/postgis*                  /usr/local/lib/postgresql/bitcode/
+COPY --from=0 /usr/local/lib/postgresql/postgis*                          /usr/local/lib/postgresql/
 COPY --from=0 /usr/local/share/postgresql/extension/pgtap*                /usr/local/share/postgresql/extension/
 COPY --from=0 /usr/local/share/postgresql/extension/postgis*              /usr/local/share/postgresql/extension/
 COPY --from=0 /usr/local/share/postgresql/extension/postgres-json-schema* /usr/local/share/postgresql/extension/
