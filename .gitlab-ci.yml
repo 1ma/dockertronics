@@ -5,7 +5,7 @@ stages:
   - tier3
 
 services:
-  - docker:dind
+  - docker:19.03.5-dind
 
 variables:
   DOCKER_HOST: tcp://docker:2375/
@@ -17,7 +17,6 @@ sanity-check:
   script:
     - docker info
     - docker version
-    - docker system prune -f --volumes
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
 
 alpine:
