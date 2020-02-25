@@ -177,6 +177,7 @@ RUN apk add --no-cache \
  && sed -e 's#user = @php_fpm_user@#user = root#' \
         -e 's#group = @php_fpm_group@#group = root#' \
         -e 's#listen = 127.0.0.1:9000#listen = 9000#' \
+        -e 's#;catch_workers_output = yes#catch_workers_output = yes#' \
         sapi/fpm/www.conf.in > /tmp/www.conf \
 
  && upx --lzma /usr/bin/php /usr/sbin/php-fpm

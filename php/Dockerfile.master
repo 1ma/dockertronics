@@ -26,8 +26,9 @@ RUN apk add --no-cache \
     curl-dev \
     gd-dev \
     gmp-dev \
-#    gpgme-dev \
-#    libevent-dev \
+    gpgme-dev \
+    libevent-dev \
+    libffi-dev \
     libgcrypt-dev \
     libpng-dev \
     librdkafka-dev \
@@ -76,6 +77,7 @@ RUN apk add --no-cache \
 
     --with-bz2 \
     --with-curl \
+    --with-ffi \
     --with-gmp \
     --with-mysqli \
     --with-openssl \
@@ -157,6 +159,7 @@ RUN apk add --no-cache \
 
     --with-bz2 \
     --with-curl \
+    --with-ffi \
     --with-gmp \
     --with-mysqli \
     --with-openssl \
@@ -179,11 +182,15 @@ RUN apk add --no-cache \
  && sed -e 's#@php_fpm_sysconfdir@#/etc/php/fpm#' \
         -e 's#;daemonize = yes#daemonize = no#' \
         -e 's#;error_log = log/php-fpm.log#error_log = /dev/stderr#' \
+        -e 's#;log_buffering = no#log_buffering = yes#' \
+        -e 's#;log_limit = 4096#log_limit = 65536#' \
         sapi/fpm/php-fpm.conf.in > /tmp/php-fpm.conf \
 
  && sed -e 's#user = @php_fpm_user@#user = root#' \
         -e 's#group = @php_fpm_group@#group = root#' \
         -e 's#listen = 127.0.0.1:9000#listen = 9000#' \
+        -e 's#;catch_workers_output = yes#catch_workers_output = yes#' \
+        -e 's#;decorate_workers_output = no#decorate_workers_output = no#' \
         sapi/fpm/www.conf.in > /tmp/www.conf \
 
  && upx --lzma /usr/bin/php /usr/sbin/php-fpm
@@ -204,9 +211,10 @@ COPY --from=0 /usr/lib/php/*.so /usr/lib/php/
 RUN apk add --no-cache \
     argon2-libs \
     gmp \
-#    gpgme \
+    gpgme \
     libcurl \
-#    libevent \
+    libevent \
+    libffi \
     libgd \
     libpq \
     librdkafka \
@@ -216,11 +224,12 @@ RUN apk add --no-cache \
     libxslt \
     libzip \
     oniguruma \
-#    rabbitmq-c \
+    rabbitmq-c \
     readline \
     unixodbc \
     sqlite-libs \
  && rm /etc/php/mods-available/amqp.ini \
+ && rm /etc/php/mods-available/ds.ini \
  && rm /etc/php/mods-available/event.ini \
  && rm /etc/php/mods-available/gnupg.ini \
  && rm /etc/php/mods-available/libsodium.ini \

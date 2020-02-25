@@ -26,6 +26,7 @@ RUN apk add --no-cache \
     gmp-dev \
     gpgme-dev \
     libevent-dev \
+    libffi-dev \
     libgcrypt-dev \
     libpng-dev \
     librdkafka-dev \
@@ -182,6 +183,7 @@ RUN apk add --no-cache \
  && sed -e 's#user = @php_fpm_user@#user = root#' \
         -e 's#group = @php_fpm_group@#group = root#' \
         -e 's#listen = 127.0.0.1:9000#listen = 9000#' \
+        -e 's#;catch_workers_output = yes#catch_workers_output = yes#' \
         -e 's#;decorate_workers_output = no#decorate_workers_output = no#' \
         sapi/fpm/www.conf.in > /tmp/www.conf \
 
@@ -206,6 +208,7 @@ RUN apk add --no-cache \
     gpgme \
     libcurl \
     libevent \
+    libffi \
     libgd \
     libpq \
     librdkafka \
