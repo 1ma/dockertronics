@@ -208,6 +208,7 @@ php-7.4:
   only:
     changes:
       - php/**/*
+      - roadrunner/**/*
   variables:
     CONTEXT: php
     IMAGE: 1maa/php:7.4
@@ -369,12 +370,14 @@ php-master-dev:
 
 roadrunner:
   stage: tier3
+  needs:
+    - php-7.4
   only:
     changes:
       - roadrunner/**/*
   variables:
     CONTEXT: roadrunner
-    IMAGE: 1maa/roadrunner:7.3
+    IMAGE: 1maa/roadrunner:7.4
   script:
     - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS

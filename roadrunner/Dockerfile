@@ -13,7 +13,7 @@ RUN tar zxf roadrunner-${RR_VERSION}-linux-amd64.tar.gz \
  && upx --lzma /usr/local/bin/rr
 
 
-FROM 1maa/php:7.3
+FROM 1maa/php:7.4
 
 COPY --from=0 /usr/local/bin/rr /usr/local/bin/rr
 
