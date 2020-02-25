@@ -10,7 +10,6 @@ services:
 image: docker:19.03.5
 
 variables:
-  DOCKER_DRIVER: overlay2
   DOCKER_TLS_CERTDIR: /certs
 
 sanity-check:
