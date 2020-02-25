@@ -109,6 +109,7 @@ RUN apk add --no-cache \
 # && sed -i 's#LDFLAGS = -s#LDFLAGS = -s -lstdc++#' Makefile \
 # && make \
 # && make install \
+ && sed -i "s#option\[name\]#option\['name'\]#" /usr/lib/php/PEAR/Builder.php \
  && pecl install \
 #    amqp \         # borked
     apcu \
