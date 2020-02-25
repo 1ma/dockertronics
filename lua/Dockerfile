@@ -8,14 +8,14 @@ RUN apk add --no-cache \
     build-base \
     ncurses-static \
     readline-dev \
+    readline-static \
     upx \
  && wget -q https://www.lua.org/ftp/lua-${LUA_VERSION}.tar.gz \
  && tar zxf lua-${LUA_VERSION}.tar.gz \
  && cd lua-${LUA_VERSION} \
- && sed -i 's@-O2@@' src/Makefile \
- && sed -i 's@-DLUA_COMPAT_5_2@@' src/Makefile \
+ && sed -i -e 's@-O2 @@' -e 's@-DLUA_COMPAT_5_2 @@' src/Makefile \
  && make linux \
-    MYCFLAGS="-O3 -march=x86-64" \
+    MYCFLAGS="-Os -march=x86-64" \
     MYLDFLAGS="-s -static" \
     MYLIBS="-lncursesw" \
  && upx --lzma src/lua src/luac \
