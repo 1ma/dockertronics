@@ -234,6 +234,8 @@ php-master:
 
 sakila:
   stage: tier2
+  needs:
+    - mysql-8.0
   only:
     changes:
       - mysql/**/*
