@@ -1,15 +1,15 @@
-FROM 1maa/alpine:3.11
+FROM golang:alpine
 
-ENV RR_VERSION=1.6.2
+ENV RR_VERSION=v1.6.2
 
 WORKDIR /tmp
 
-ADD https://github.com/spiral/roadrunner/releases/download/v${RR_VERSION}/roadrunner-${RR_VERSION}-linux-amd64.tar.gz .
-
-RUN tar zxf roadrunner-${RR_VERSION}-linux-amd64.tar.gz \
- && mv roadrunner-${RR_VERSION}-linux-amd64/rr /usr/local/bin/rr \
- && apk add --no-cache \
+RUN apk add --no-cache \
+    git \
     upx \
+ && git clone --branch=${RR_VERSION} --depth=1 https://github.com/spiral/roadrunner \
+ && cd roadrunner \
+ && CGO_ENABLED=0 go build -ldflags "-s -w -extldflags '-static'" -o /usr/local/bin/rr cmd/rr/main.go \
  && upx --lzma /usr/local/bin/rr
 
 
