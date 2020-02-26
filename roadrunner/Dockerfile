@@ -5,12 +5,15 @@ ENV RR_VERSION=v1.6.2
 WORKDIR /tmp
 
 RUN apk add --no-cache \
+    file \
     git \
     upx \
  && git clone --branch=${RR_VERSION} --depth=1 https://github.com/spiral/roadrunner \
  && cd roadrunner \
- && CGO_ENABLED=0 go build -ldflags "-s -w -extldflags '-static'" -o /usr/local/bin/rr cmd/rr/main.go \
- && upx --lzma /usr/local/bin/rr
+ && CGO_ENABLED=0 go build -ldflags "-s -w -d" -o /usr/local/bin/rr cmd/rr/main.go \
+ && file /usr/local/bin/rr \
+ && upx --lzma /usr/local/bin/rr \
+ && file /usr/local/bin/rr
 
 
 FROM 1maa/php:7.4

@@ -4,6 +4,7 @@ WORKDIR /tmp
 
 RUN apk add --no-cache \
     build-base \
+    file \
     git \
     upx \
  && git clone --depth=1 https://github.com/beanstalkd/beanstalkd \
@@ -12,7 +13,9 @@ RUN apk add --no-cache \
  && sed -i 's@LDFLAGS?=@LDFLAGS?=-s -static@' Makefile \
  && make \
  && make check \
- && upx --lzma beanstalkd
+ && file beanstalkd \
+ && upx --lzma beanstalkd \
+ && file beanstalkd
 
 
 FROM busybox

@@ -10,6 +10,7 @@ WORKDIR /tmp
 
 RUN apk add --no-cache \
     build-base \
+    file \
     ncurses-static \
     readline-dev \
     readline-static \
@@ -35,7 +36,9 @@ RUN apk add --no-cache \
     -lreadline \
     -lncursesw \
     -o /tmp/sqlite3 \
-  && upx --lzma /tmp/sqlite3
+  && file /tmp/sqlite3 \
+  && upx --lzma /tmp/sqlite3 \
+  && file /tmp/sqlite3
 
 
 FROM busybox

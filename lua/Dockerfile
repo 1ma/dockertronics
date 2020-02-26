@@ -6,6 +6,7 @@ WORKDIR /tmp
 
 RUN apk add --no-cache \
     build-base \
+    file \
     ncurses-static \
     readline-dev \
     readline-static \
@@ -18,7 +19,9 @@ RUN apk add --no-cache \
     MYCFLAGS="-Os -march=x86-64" \
     MYLDFLAGS="-s -static" \
     MYLIBS="-lncursesw" \
+ && file src/lua src/luac \
  && upx --lzma src/lua src/luac \
+ && file src/lua src/luac \
  && make test \
  && make install
 
