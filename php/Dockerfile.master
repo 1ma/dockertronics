@@ -102,14 +102,6 @@ RUN apk add --no-cache \
 # && ./configure \
 # && make \
 # && make install \
-# && wget -q https://github.com/crazyxman/simdjson_php/archive/master.tar.gz \
-# && tar zxof master.tar.gz \
-# && cd ./simdjson_php-master \
-# && phpize \
-# && ./configure \
-# && sed -i 's#LDFLAGS = -s#LDFLAGS = -s -lstdc++#' Makefile \
-# && make \
-# && make install \
  && sed -i "s#option\[name\]#option\['name'\]#" /usr/lib/php/PEAR/Builder.php \
  && pecl install \
 #    amqp \         # borked
