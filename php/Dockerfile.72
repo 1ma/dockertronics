@@ -33,6 +33,7 @@ RUN apk add --no-cache \
     libpng-dev \
     librdkafka-dev \
     libsodium-dev \
+    libssh2-dev \
     libuv-dev \
     libxml2-dev \
     libxslt-dev \
@@ -105,7 +106,8 @@ RUN wget -q https://github.com/maxmind/MaxMind-DB-Reader-php/archive/v${MAXMINDD
  && make \
  && make install
 
-RUN pecl install \
+RUN pecl channel-update pecl.php.net \
+ && pecl install \
     amqp \
     apcu \
     ds \
@@ -118,6 +120,7 @@ RUN pecl install \
     protobuf \
     rdkafka \
     redis \
+    ssh2-beta \
     uv-beta \
     xdebug \
  && chmod +x /usr/lib/php/*.so
@@ -206,6 +209,7 @@ RUN apk add --no-cache \
     libpq \
     librdkafka \
     libsodium \
+    libssh2 \
     libuv \
     libxml2 \
     libxslt \

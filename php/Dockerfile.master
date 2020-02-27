@@ -38,6 +38,7 @@ RUN apk add --no-cache \
     libpng-dev \
     librdkafka-dev \
     libsodium-dev \
+    libssh2-dev \
     libuv-dev \
     libxml2-dev \
     libxslt-dev \
@@ -113,6 +114,7 @@ RUN apk add --no-cache \
 #  && make install
 
 RUN sed -i "s#option\[name\]#option\['name'\]#" /usr/lib/php/PEAR/Builder.php \
+ && pecl channel-update pecl.php.net \
  && pecl install \
 #    amqp \         # borked
     apcu \
@@ -126,6 +128,7 @@ RUN sed -i "s#option\[name\]#option\['name'\]#" /usr/lib/php/PEAR/Builder.php \
 #    protobuf \     # borked
     rdkafka \
     redis \
+#    ssh2-beta \    # borked
     uv-beta \
 #    xdebug \       # borked
  && chmod +x /usr/lib/php/*.so
@@ -235,8 +238,9 @@ RUN apk add --no-cache \
  && rm /etc/php/mods-available/mongodb.ini \
  && rm /etc/php/mods-available/msgpack.ini \
  && rm /etc/php/mods-available/protobuf.ini \
- && rm /etc/php/mods-available/redis.ini \
  && rm /etc/php/mods-available/rdkafka.ini \
+ && rm /etc/php/mods-available/redis.ini \
+ && rm /etc/php/mods-available/ssh2.ini \
  && rm /etc/php/mods-available/tideways_xhprof.ini \
  && rm /etc/php/mods-available/uv.ini \
  && rm /etc/php/mods-available/xdebug.ini
