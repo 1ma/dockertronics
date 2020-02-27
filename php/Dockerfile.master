@@ -1,8 +1,9 @@
 FROM 1maa/alpine:3.11
 
 ENV PHP_VERSION=master
-#ENV MAXMINDDB_VERSION=1.6.0
-#ENV XHPROF_VERSION=5.0.2
+ENV GEARMAN_VERSION=2.0.6
+ENV MAXMINDDB_VERSION=1.6.0
+ENV XHPROF_VERSION=5.0.2
 
 ENV CFLAGS="-O3 -march=x86-64"
 ENV LDFLAGS="-s"
@@ -29,6 +30,7 @@ RUN apk add --no-cache \
     bzip2-dev \
     curl-dev \
     gd-dev \
+    gearman-dev@edge-testing \
     gmp-dev \
     gpgme-dev \
     libevent-dev \
@@ -109,6 +111,14 @@ RUN apk add --no-cache \
 # RUN wget -q https://github.com/maxmind/MaxMind-DB-Reader-php/archive/v${MAXMINDDB_VERSION}.tar.gz \
 #  && tar zxof v${MAXMINDDB_VERSION}.tar.gz \
 #  && cd MaxMind-DB-Reader-php-${MAXMINDDB_VERSION}/ext \
+#  && phpize \
+#  && ./configure \
+#  && make \
+#  && make install
+
+# RUN wget -q https://github.com/php/pecl-networking-gearman/archive/gearman-${GEARMAN_VERSION}.tar.gz \
+#  && tar zxof gearman-${GEARMAN_VERSION}.tar.gz \
+#  && cd pecl-networking-gearman-gearman-${GEARMAN_VERSION} \
 #  && phpize \
 #  && ./configure \
 #  && make \
@@ -214,6 +224,7 @@ COPY --from=0 /usr/lib/php/*.so /usr/lib/php/
 
 RUN apk add --no-cache \
     argon2-libs \
+    gearman-libs@edge-testing \
     gmp \
     gpgme \
     libcurl \
@@ -237,6 +248,7 @@ RUN apk add --no-cache \
  && rm /etc/php/mods-available/amqp.ini \
  && rm /etc/php/mods-available/ds.ini \
  && rm /etc/php/mods-available/event.ini \
+ && rm /etc/php/mods-available/gearman.ini \
  && rm /etc/php/mods-available/gnupg.ini \
  && rm /etc/php/mods-available/maxminddb.ini \
  && rm /etc/php/mods-available/memcached.ini \
