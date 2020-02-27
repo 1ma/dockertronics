@@ -214,8 +214,7 @@ RUN apk add --no-cache \
     libzip \
     rabbitmq-c \
     readline \
-    unixodbc \
- && rm /etc/php/mods-available/libsodium.ini
+    unixodbc
 
 EXPOSE 9000
 

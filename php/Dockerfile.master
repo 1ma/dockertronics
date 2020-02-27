@@ -231,7 +231,6 @@ RUN apk add --no-cache \
  && rm /etc/php/mods-available/ds.ini \
  && rm /etc/php/mods-available/event.ini \
  && rm /etc/php/mods-available/gnupg.ini \
- && rm /etc/php/mods-available/libsodium.ini \
  && rm /etc/php/mods-available/mongodb.ini \
  && rm /etc/php/mods-available/msgpack.ini \
  && rm /etc/php/mods-available/protobuf.ini \

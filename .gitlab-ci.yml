@@ -156,21 +156,6 @@ lua:
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
-php-7.1:
-  stage: tier2
-  needs:
-    - alpine
-  only:
-    changes:
-      - php/**/*
-  variables:
-    CONTEXT: php
-    IMAGE: 1maa/php:7.1
-  script:
-    - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile.71 $CONTEXT
-    - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
-    - docker push $IMAGE
-
 php-7.2:
   stage: tier2
   needs:
@@ -290,21 +275,6 @@ sqlite:
     IMAGE: 1maa/sqlite:latest
   script:
     - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
-    - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
-    - docker push $IMAGE
-
-php-7.1-dev:
-  stage: tier3
-  needs:
-    - php-7.1
-  only:
-    changes:
-      - php/**/*
-  variables:
-    CONTEXT: php
-    IMAGE: 1maa/php-dev:7.1
-  script:
-    - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile.71-dev $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
