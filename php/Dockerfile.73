@@ -37,7 +37,6 @@ RUN apk add --no-cache \
     postgresql-dev \
     rabbitmq-c-dev \
     readline-dev \
-    unixodbc-dev \
  && cd /tmp \
  && wget -q https://www.php.net/distributions/php-${PHP_VERSION}.tar.gz \
  && tar zxof php-${PHP_VERSION}.tar.gz \
@@ -77,12 +76,10 @@ RUN apk add --no-cache \
     --with-openssl \
     --with-password-argon2 \
     --with-pdo-mysql \
-    --with-pdo-odbc=unixODBC,/usr \
     --with-pdo-pgsql \
     --with-pgsql \
     --with-readline \
     --with-sodium \
-    --with-unixODBC=/usr \
     --with-xmlrpc \
     --with-xsl \
     --with-zlib \
@@ -149,11 +146,9 @@ RUN apk add --no-cache \
     --with-openssl \
     --with-password-argon2 \
     --with-pdo-mysql \
-    --with-pdo-odbc=unixODBC,/usr \
     --with-pdo-pgsql \
     --with-pgsql \
     --with-sodium \
-    --with-unixODBC=/usr \
     --with-xmlrpc \
     --with-xsl \
     --with-zlib \
@@ -205,8 +200,7 @@ RUN apk add --no-cache \
     libxslt \
     libzip \
     rabbitmq-c \
-    readline \
-    unixodbc
+    readline
 
 EXPOSE 9000
 
