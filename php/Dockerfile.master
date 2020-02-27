@@ -35,6 +35,7 @@ RUN apk add --no-cache \
     libffi-dev \
     libgcrypt-dev \
     libmaxminddb-dev \
+    libmemcached-dev \
     libpng-dev \
     librdkafka-dev \
     libsodium-dev \
@@ -122,6 +123,7 @@ RUN sed -i "s#option\[name\]#option\['name'\]#" /usr/lib/php/PEAR/Builder.php \
 #    event \        # borked
 #    gnupg \        # borked
     igbinary \
+#    memcached \    # borked
     mongodb \
     msgpack \
     pcov \
@@ -219,9 +221,11 @@ RUN apk add --no-cache \
     libffi \
     libgd \
     libmaxminddb \
+    libmemcached-libs \
     libpq \
     librdkafka \
     libsodium \
+    libssh2 \
     libuv \
     libxml2 \
     libxslt \
@@ -235,6 +239,7 @@ RUN apk add --no-cache \
  && rm /etc/php/mods-available/event.ini \
  && rm /etc/php/mods-available/gnupg.ini \
  && rm /etc/php/mods-available/maxminddb.ini \
+ && rm /etc/php/mods-available/memcached.ini \
  && rm /etc/php/mods-available/mongodb.ini \
  && rm /etc/php/mods-available/msgpack.ini \
  && rm /etc/php/mods-available/protobuf.ini \

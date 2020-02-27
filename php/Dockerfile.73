@@ -30,6 +30,7 @@ RUN apk add --no-cache \
     gpgme-dev \
     libevent-dev \
     libmaxminddb-dev \
+    libmemcached-dev \
     libpng-dev \
     librdkafka-dev \
     libsodium-dev \
@@ -114,6 +115,7 @@ RUN pecl channel-update pecl.php.net \
     event \
     gnupg \
     igbinary \
+    memcached \
     mongodb \
     msgpack \
     pcov \
@@ -209,6 +211,7 @@ RUN apk add --no-cache \
     libevent \
     libgd \
     libmaxminddb \
+    libmemcached-libs \
     libpq \
     librdkafka \
     libsodium \
