@@ -1,10 +1,13 @@
 FROM 1maa/alpine:3.11
 
 ENV PHP_VERSION=7.3.15
+ENV MAXMINDDB_VERSION=1.6.0
 ENV XHPROF_VERSION=5.0.2
 
 ENV CFLAGS="-O3 -march=x86-64"
 ENV LDFLAGS="-s"
+
+WORKDIR /tmp
 
 RUN apk add --no-cache \
     # generic dependencies for compiling the source
@@ -26,6 +29,7 @@ RUN apk add --no-cache \
     gmp-dev \
     gpgme-dev \
     libevent-dev \
+    libmaxminddb-dev \
     libpng-dev \
     librdkafka-dev \
     libsodium-dev \
@@ -37,7 +41,6 @@ RUN apk add --no-cache \
     postgresql-dev \
     rabbitmq-c-dev \
     readline-dev \
- && cd /tmp \
  && wget -q https://www.php.net/distributions/php-${PHP_VERSION}.tar.gz \
  && tar zxof php-${PHP_VERSION}.tar.gz \
  && cd ./php-${PHP_VERSION} \
@@ -84,15 +87,25 @@ RUN apk add --no-cache \
     --with-xsl \
     --with-zlib \
  && make -j$(nproc) \
- && make install \
- && wget -q https://github.com/tideways/php-xhprof-extension/archive/v${XHPROF_VERSION}.tar.gz \
+ && make install
+
+RUN wget -q https://github.com/tideways/php-xhprof-extension/archive/v${XHPROF_VERSION}.tar.gz \
  && tar zxof v${XHPROF_VERSION}.tar.gz \
  && cd ./php-xhprof-extension-${XHPROF_VERSION} \
  && phpize \
  && ./configure \
  && make \
- && make install \
- && pecl install \
+ && make install
+
+RUN wget -q https://github.com/maxmind/MaxMind-DB-Reader-php/archive/v${MAXMINDDB_VERSION}.tar.gz \
+ && tar zxof v${MAXMINDDB_VERSION}.tar.gz \
+ && cd MaxMind-DB-Reader-php-${MAXMINDDB_VERSION}/ext \
+ && phpize \
+ && ./configure \
+ && make \
+ && make install
+
+RUN pecl install \
     amqp \
     apcu \
     ds \
@@ -107,9 +120,9 @@ RUN apk add --no-cache \
     redis \
     uv-beta \
     xdebug \
- && chmod +x /usr/lib/php/*.so \
- && cd /tmp \
- && rm -rf php-${PHP_VERSION} \
+ && chmod +x /usr/lib/php/*.so
+
+RUN rm -rf php-${PHP_VERSION} \
  && tar zxof php-${PHP_VERSION}.tar.gz \
  && cd ./php-${PHP_VERSION} \
  && ./configure \
@@ -192,6 +205,7 @@ RUN apk add --no-cache \
     libcurl \
     libevent \
     libgd \
+    libmaxminddb \
     libpq \
     librdkafka \
     libsodium \

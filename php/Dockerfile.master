@@ -1,12 +1,15 @@
 FROM 1maa/alpine:3.11
 
 ENV PHP_VERSION=master
+#ENV MAXMINDDB_VERSION=1.6.0
 #ENV XHPROF_VERSION=5.0.2
 
 ENV CFLAGS="-O3 -march=x86-64"
 ENV LDFLAGS="-s"
 
-ADD https://github.com/php/php-src/archive/${PHP_VERSION}.tar.gz /tmp
+WORKDIR /tmp
+
+ADD https://github.com/php/php-src/archive/${PHP_VERSION}.tar.gz .
 
 RUN apk add --no-cache \
     # generic dependencies for compiling the source
@@ -31,6 +34,7 @@ RUN apk add --no-cache \
     libevent-dev \
     libffi-dev \
     libgcrypt-dev \
+    libmaxminddb-dev \
     libpng-dev \
     librdkafka-dev \
     libsodium-dev \
@@ -44,7 +48,6 @@ RUN apk add --no-cache \
     rabbitmq-c-dev \
     readline-dev \
     sqlite-dev \
- && cd /tmp \
  && tar zxof ${PHP_VERSION}.tar.gz \
  && cd php-src-${PHP_VERSION} \
  && ./buildconf \
@@ -91,15 +94,25 @@ RUN apk add --no-cache \
     --with-zip \
     --with-zlib \
  && make -j$(nproc) \
- && make install \
-# && wget -q https://github.com/tideways/php-xhprof-extension/archive/v${XHPROF_VERSION}.tar.gz \
-# && tar zxof v${XHPROF_VERSION}.tar.gz \
-# && cd ./php-xhprof-extension-${XHPROF_VERSION} \
-# && phpize \
-# && ./configure \
-# && make \
-# && make install \
- && sed -i "s#option\[name\]#option\['name'\]#" /usr/lib/php/PEAR/Builder.php \
+ && make install
+
+# RUN wget -q https://github.com/tideways/php-xhprof-extension/archive/v${XHPROF_VERSION}.tar.gz \
+#  && tar zxof v${XHPROF_VERSION}.tar.gz \
+#  && cd ./php-xhprof-extension-${XHPROF_VERSION} \
+#  && phpize \
+#  && ./configure \
+#  && make \
+#  && make install
+
+# RUN wget -q https://github.com/maxmind/MaxMind-DB-Reader-php/archive/v${MAXMINDDB_VERSION}.tar.gz \
+#  && tar zxof v${MAXMINDDB_VERSION}.tar.gz \
+#  && cd MaxMind-DB-Reader-php-${MAXMINDDB_VERSION}/ext \
+#  && phpize \
+#  && ./configure \
+#  && make \
+#  && make install
+
+RUN sed -i "s#option\[name\]#option\['name'\]#" /usr/lib/php/PEAR/Builder.php \
  && pecl install \
 #    amqp \         # borked
     apcu \
@@ -115,9 +128,9 @@ RUN apk add --no-cache \
     redis \
     uv-beta \
 #    xdebug \       # borked
- && chmod +x /usr/lib/php/*.so \
- && cd /tmp \
- && rm -rf php-src-${PHP_VERSION} \
+ && chmod +x /usr/lib/php/*.so
+
+RUN rm -rf php-src-${PHP_VERSION} \
  && tar zxof ${PHP_VERSION}.tar.gz \
  && cd php-src-${PHP_VERSION} \
  && ./buildconf \
@@ -202,6 +215,7 @@ RUN apk add --no-cache \
     libevent \
     libffi \
     libgd \
+    libmaxminddb \
     libpq \
     librdkafka \
     libsodium \
@@ -217,6 +231,7 @@ RUN apk add --no-cache \
  && rm /etc/php/mods-available/ds.ini \
  && rm /etc/php/mods-available/event.ini \
  && rm /etc/php/mods-available/gnupg.ini \
+ && rm /etc/php/mods-available/maxminddb.ini \
  && rm /etc/php/mods-available/mongodb.ini \
  && rm /etc/php/mods-available/msgpack.ini \
  && rm /etc/php/mods-available/protobuf.ini \
