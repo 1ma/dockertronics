@@ -39,9 +39,15 @@ COPY --from=0 /usr/local/lib/postgresql/postgis*                          /usr/l
 COPY --from=0 /usr/local/share/postgresql/extension/pgtap*                /usr/local/share/postgresql/extension/
 COPY --from=0 /usr/local/share/postgresql/extension/postgis*              /usr/local/share/postgresql/extension/
 COPY --from=0 /usr/local/share/postgresql/extension/postgres-json-schema* /usr/local/share/postgresql/extension/
-COPY postgresql.conf /etc/postgresql.conf
 
-RUN chown postgres:postgres /etc/postgresql.conf \
+RUN sed -e "s@#shared_buffers = 32MB@shared_buffers = 2GB@" \
+        -e "s@#work_mem = 4MB@work_mem = 128MB@" \
+        -e "s@#maintenance_work_mem = 64MB@maintenance_work_mem = 512MB@" \
+        -e "s@#effective_io_concurrency = 1@effective_io_concurrency = 2@" \
+        -e "s@#random_page_cost = 4.0@random_page_cost = 1.0@" \
+        -e "s@#log_statement = 'none'@log_statement = 'all'@" \
+        /usr/local/share/postgresql/postgresql.conf.sample > /etc/postgresql.conf \
+ && chown postgres:postgres /etc/postgresql.conf \
  && echo "@edge-testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
  && apk --no-cache add \
     build-base \
