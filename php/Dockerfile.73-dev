@@ -12,6 +12,7 @@ RUN php composer.phar global config bin-dir /usr/local/bin \
     composer/composer \
     d11wtq/boris \
     friendsofphp/php-cs-fixer \
+    hirak/prestissimo \
     phing/phing \
     phploc/phploc \
     phpmetrics/phpmetrics \
