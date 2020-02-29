@@ -1,5 +1,4 @@
 stages:
-  - diagnostics
   - tier1
   - tier2
   - tier3
@@ -13,7 +12,7 @@ variables:
   DOCKER_TLS_CERTDIR: /certs
 
 sanity-check:
-  stage: diagnostics
+  stage: .pre
   script:
     - docker info
     - docker version
