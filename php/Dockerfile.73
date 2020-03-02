@@ -3,6 +3,7 @@ FROM 1maa/alpine:3.11
 ENV PHP_VERSION=7.3.15
 ENV GEARMAN_VERSION=2.0.6
 ENV MAXMINDDB_VERSION=1.6.0
+ENV MEMCACHED_VERSION=3.1.5
 ENV XHPROF_VERSION=5.0.2
 
 ENV CFLAGS="-O3 -march=x86-64"
@@ -119,23 +120,37 @@ RUN wget -q https://github.com/php/pecl-networking-gearman/archive/gearman-${GEA
 
 RUN pecl channel-update pecl.php.net \
  && pecl install \
+    igbinary \
+    msgpack
+
+RUN wget -q https://github.com/php-memcached-dev/php-memcached/archive/v${MEMCACHED_VERSION}.tar.gz \
+ && tar zxof v${MEMCACHED_VERSION}.tar.gz \
+ && cd php-memcached-${MEMCACHED_VERSION} \
+ && phpize \
+ && ./configure \
+    --enable-memcached-igbinary \
+    --enable-memcached-json \
+    --enable-memcached-msgpack \
+    --enable-memcached-protocol \
+    --enable-memcached-sasl \
+    --enable-memcached-session \
+ && make \
+ && make install
+
+RUN pecl install \
     amqp \
     apcu \
     ds \
     event \
     gnupg \
-    igbinary \
-    memcached \
     mongodb \
-    msgpack \
     pcov \
     protobuf \
     rdkafka \
     redis \
     ssh2-beta \
     uv-beta \
-    xdebug \
- && chmod +x /usr/lib/php/*.so
+    xdebug
 
 RUN rm -rf php-${PHP_VERSION} \
  && tar zxof php-${PHP_VERSION}.tar.gz \
