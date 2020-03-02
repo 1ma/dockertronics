@@ -1,0 +1,46 @@
+FROM alpine:3.11
+
+ENV PG_RELEASE=REL_12_2
+
+WORKDIR /tmp
+
+RUN apk add --no-cache \
+    bison \
+    build-base \
+    flex \
+    git \
+    libxml2-dev \
+    linux-headers \
+    libxslt-dev \
+    openssl-dev \
+    perl \
+    readline-dev \
+    zlib-dev \
+ && git clone --depth=1 --branch=${PG_RELEASE} https://github.com/postgres/postgres \
+ && cd postgres \
+ && ./configure \
+    --prefix=/usr/local/postgres
+
+RUN cd postgres \
+ && make -j$(nproc)
+
+RUN cd postgres \
+ && make install
+
+COPY postgres.sh /usr/local/postgres/bin/postgres.sh
+
+
+FROM alpine:3.11
+
+COPY --from=0 /usr/local/postgres /usr/local/postgres
+
+RUN apk add --no-cache \
+    libxml2 \
+    libxslt \
+    readline \
+ && addgroup -S postgres \
+ && adduser -h /var/lib/postgres -s /bin/sh -S -D -G postgres postgres
+
+USER postgres
+
+CMD ["/usr/local/postgres/bin/postgres.sh"]
