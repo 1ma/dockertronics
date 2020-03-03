@@ -19,7 +19,7 @@ RUN apk add --no-cache \
  && git clone --depth=1 --branch=${PG_RELEASE} https://github.com/postgres/postgres \
  && cd postgres \
  && ./configure \
-    --prefix=/usr/local/postgres
+    --prefix=/usr/local/pgsql
 
 RUN cd postgres \
  && make -j$(nproc)
@@ -27,20 +27,26 @@ RUN cd postgres \
 RUN cd postgres \
  && make install
 
-COPY postgres.sh /usr/local/postgres/bin/postgres.sh
+COPY postgres.sh /usr/local/pgsql/bin/postgres.sh
 
 
 FROM alpine:3.11
 
-COPY --from=0 /usr/local/postgres /usr/local/postgres
+ENV LANG=en_US.UTF-8
+
+COPY --from=0 /usr/local/pgsql /usr/local/pgsql
 
 RUN apk add --no-cache \
     libxml2 \
     libxslt \
     readline \
  && addgroup -S postgres \
- && adduser -h /var/lib/postgres -s /bin/sh -S -D -G postgres postgres
+ && adduser -h /var/lib/postgres -s /bin/sh -S -D -G postgres postgres \
+ && mkdir /var/lib/postgres/data \
+ && chown postgres:postgres /var/lib/postgres/data
 
 USER postgres
 
-CMD ["/usr/local/postgres/bin/postgres.sh"]
+VOLUME ["/var/lib/postgres/data"]
+
+CMD ["/usr/local/pgsql/bin/postgres.sh"]
