@@ -1,30 +1,28 @@
 FROM alpine:3.11
 
-ENV PG_RELEASE=REL_12_2
+ENV PG_RELEASE=12.2
 
 WORKDIR /tmp
 
+ADD https://ftp.postgresql.org/pub/source/v${PG_RELEASE}/postgresql-${PG_RELEASE}.tar.gz .
+
 RUN apk add --no-cache \
-    bison \
     build-base \
-    flex \
-    git \
     libxml2-dev \
     linux-headers \
     libxslt-dev \
     openssl-dev \
-    perl \
     readline-dev \
     zlib-dev \
- && git clone --depth=1 --branch=${PG_RELEASE} https://github.com/postgres/postgres \
- && cd postgres \
+ && tar zxof postgresql-${PG_RELEASE}.tar.gz \
+ && cd postgresql-${PG_RELEASE} \
  && ./configure \
     --prefix=/usr/local/pgsql
 
-RUN cd postgres \
+RUN cd postgresql-${PG_RELEASE} \
  && make -j$(nproc)
 
-RUN cd postgres \
+RUN cd postgresql-${PG_RELEASE} \
  && make install
 
 COPY postgres.sh /usr/local/pgsql/bin/postgres.sh
