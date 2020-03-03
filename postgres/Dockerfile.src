@@ -9,21 +9,23 @@ ADD https://ftp.postgresql.org/pub/source/v${PG_RELEASE}/postgresql-${PG_RELEASE
 RUN apk add --no-cache \
     build-base \
     libxml2-dev \
-    linux-headers \
     libxslt-dev \
+    linux-headers \
     openssl-dev \
     readline-dev \
     zlib-dev \
  && tar zxof postgresql-${PG_RELEASE}.tar.gz \
  && cd postgresql-${PG_RELEASE} \
  && ./configure \
-    --prefix=/usr/local/pgsql
+    --with-libxml \
+    --with-libxslt \
+    --with-openssl
 
 RUN cd postgresql-${PG_RELEASE} \
- && make -j$(nproc)
+ && make world -j$(nproc)
 
 RUN cd postgresql-${PG_RELEASE} \
- && make install
+ && make install-world
 
 COPY postgres.sh /usr/local/pgsql/bin/postgres.sh
 
