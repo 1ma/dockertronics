@@ -144,6 +144,7 @@ RUN wget -q https://github.com/php-memcached-dev/php-memcached/archive/v${MEMCAC
 RUN pecl install \
     amqp \
     apcu \
+    csv \
     ds \
     event \
     gnupg \
