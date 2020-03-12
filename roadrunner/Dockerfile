@@ -1,6 +1,6 @@
 FROM golang:alpine
 
-ENV RR_VERSION=1.6.2
+ENV RR_VERSION=1.6.3
 
 WORKDIR /tmp
 
