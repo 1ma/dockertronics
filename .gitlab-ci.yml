@@ -4,9 +4,9 @@ stages:
   - tier3
 
 services:
-  - docker:19.03.5-dind
+  - docker:dind
 
-image: docker:19.03.5
+image: docker:stable
 
 variables:
   DOCKER_TLS_CERTDIR: /certs
