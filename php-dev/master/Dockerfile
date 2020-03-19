@@ -27,7 +27,7 @@ FROM 1maa/php:latest
 ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV COMPOSER_HOME=/opt/composer
 
-COPY etcdev /etc/php
+COPY etc /etc/php
 
 COPY --from=0 ${COMPOSER_HOME} ${COMPOSER_HOME}
 COPY --from=0 /usr/local/bin /usr/local/bin

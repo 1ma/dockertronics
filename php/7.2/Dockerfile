@@ -244,7 +244,8 @@ RUN apk add --no-cache \
     libxslt \
     libzip \
     rabbitmq-c \
-    readline
+    readline \
+ && rm /etc/php/mods-available/csv.ini
 
 EXPOSE 9000
 

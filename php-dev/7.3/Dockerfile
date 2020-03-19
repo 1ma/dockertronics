@@ -1,4 +1,4 @@
-FROM 1maa/php:7.4
+FROM 1maa/php:7.3
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV COMPOSER_HOME=/opt/composer
@@ -22,12 +22,12 @@ RUN php composer.phar global config bin-dir /usr/local/bin \
  && rm -rf ${COMPOSER_HOME}/.htaccess ${COMPOSER_HOME}/cache
 
 
-FROM 1maa/php:7.4
+FROM 1maa/php:7.3
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV COMPOSER_HOME=/opt/composer
 
-COPY etcdev /etc/php
+COPY etc /etc/php
 
 COPY --from=0 ${COMPOSER_HOME} ${COMPOSER_HOME}
 COPY --from=0 /usr/local/bin /usr/local/bin

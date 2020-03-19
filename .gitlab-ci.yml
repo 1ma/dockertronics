@@ -179,7 +179,7 @@ php-7.2:
     CONTEXT: php
     IMAGE: 1maa/php:7.2
   script:
-    - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile.72 $CONTEXT
+    - docker build --network host -t $IMAGE -f $CONTEXT/7.2/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
@@ -194,7 +194,7 @@ php-7.3:
     CONTEXT: php
     IMAGE: 1maa/php:7.3
   script:
-    - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile.73 $CONTEXT
+    - docker build --network host -t $IMAGE -f $CONTEXT/7.3/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
@@ -210,7 +210,7 @@ php-7.4:
     CONTEXT: php
     IMAGE: 1maa/php:7.4
   script:
-    - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile.74 $CONTEXT
+    - docker build --network host -t $IMAGE -f $CONTEXT/7.4/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
@@ -226,7 +226,7 @@ php-master:
     CONTEXT: php
     IMAGE: 1maa/php:latest
   script:
-    - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile.master $CONTEXT
+    - docker build --network host -t $IMAGE -f $CONTEXT/master/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
@@ -298,10 +298,10 @@ php-7.2-dev:
     changes:
       - php/**/*
   variables:
-    CONTEXT: php
+    CONTEXT: php-dev
     IMAGE: 1maa/php-dev:7.2
   script:
-    - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile.72-dev $CONTEXT
+    - docker build --network host -t $IMAGE -f $CONTEXT/7.2/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
@@ -313,10 +313,10 @@ php-7.3-dev:
     changes:
       - php/**/*
   variables:
-    CONTEXT: php
+    CONTEXT: php-dev
     IMAGE: 1maa/php-dev:7.3
   script:
-    - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile.73-dev $CONTEXT
+    - docker build --network host -t $IMAGE -f $CONTEXT/7.3/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
@@ -328,10 +328,10 @@ php-7.4-dev:
     changes:
       - php/**/*
   variables:
-    CONTEXT: php
+    CONTEXT: php-dev
     IMAGE: 1maa/php-dev:7.4
   script:
-    - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile.74-dev $CONTEXT
+    - docker build --network host -t $IMAGE -f $CONTEXT/7.4/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
@@ -343,10 +343,10 @@ php-master-dev:
     changes:
       - php/**/*
   variables:
-    CONTEXT: php
+    CONTEXT: php-dev
     IMAGE: 1maa/php-dev:latest
   script:
-    - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile.master-dev $CONTEXT
+    - docker build --network host -t $IMAGE -f $CONTEXT/master/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
