@@ -151,7 +151,8 @@ RUN pecl install \
     redis \
     ssh2-beta \
     uv-beta \
-    xdebug
+    xdebug \
+    yar
 
 RUN rm -rf php-${PHP_VERSION} \
  && tar zxof php-${PHP_VERSION}.tar.gz \

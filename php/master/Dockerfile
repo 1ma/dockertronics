@@ -159,7 +159,8 @@ RUN pecl install \
     redis \
 #    ssh2-beta \    # borked
     uv-beta \
-#    xdebug         # borked
+#    xdebug \       # borked
+#    yar            # borked
 
 RUN rm -rf php-src-${PHP_VERSION} \
  && tar zxof ${PHP_VERSION}.tar.gz \
@@ -276,7 +277,8 @@ RUN apk add --no-cache \
  && rm /etc/php/mods-available/ssh2.ini \
  && rm /etc/php/mods-available/tideways_xhprof.ini \
  && rm /etc/php/mods-available/uv.ini \
- && rm /etc/php/mods-available/xdebug.ini
+ && rm /etc/php/mods-available/xdebug.ini \
+ && rm /etc/php/mods-available/yar.ini
 
 EXPOSE 9000
 
