@@ -16,7 +16,7 @@ RUN apk add --no-cache \
  && tar zxf haproxy-${HAPROXY_VERSION}.tar.gz \
  && cd haproxy-${HAPROXY_VERSION} \
  && make all -j$(nproc) \
-    CPU_CFLAGS="-O3 -march=x86-64" \
+    CPU_CFLAGS="-Os -march=x86-64" \
     DEBUG_CFLAGS= \
     EXTRA_OBJS="contrib/prometheus-exporter/service-prometheus.o" \
     LDFLAGS="-s" \

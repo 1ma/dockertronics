@@ -17,6 +17,8 @@ RUN apk add --no-cache \
  && tar zxof postgresql-${PG_RELEASE}.tar.gz \
  && cd postgresql-${PG_RELEASE} \
  && ./configure \
+    CFLAGS="-Os -march=x86-64" \
+    LDFLAGS="-s" \
     --with-libxml \
     --with-libxslt \
     --with-openssl
