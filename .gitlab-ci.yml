@@ -143,6 +143,19 @@ sleepy:
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
+swipl:
+  stage: tier1
+  only:
+    changes:
+      - swipl/**/*
+  variables:
+    CONTEXT: swipl
+    IMAGE: 1maa/swipl:latest
+  script:
+    - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
+    - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
+    - docker push $IMAGE
+
 xhgui:
   stage: tier1
   variables:
