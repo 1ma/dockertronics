@@ -125,8 +125,7 @@ RUN apk add --no-cache \
 #  && make \
 #  && make install
 
-RUN sed -i "s#option\[name\]#option\['name'\]#" /usr/lib/php/PEAR/Builder.php \
- && pecl channel-update pecl.php.net \
+RUN pecl channel-update pecl.php.net \
  && pecl install \
     igbinary \
     msgpack
