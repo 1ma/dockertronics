@@ -9,8 +9,6 @@ RUN php composer.phar global config bin-dir /usr/local/bin \
  && php composer.phar global config minimum-stability dev \
  && php composer.phar global config prefer-stable true \
  && php composer.phar global require --prefer-dist --ignore-platform-reqs \
-    hirak/prestissimo \
- && php composer.phar global require --prefer-dist --ignore-platform-reqs \
     composer/composer \
     d11wtq/boris \
     friendsofphp/php-cs-fixer \
