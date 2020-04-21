@@ -27,7 +27,10 @@ RUN cd postgresql-${PG_RELEASE} \
  && make world -j$(nproc)
 
 RUN cd postgresql-${PG_RELEASE} \
- && make install-world
+ && make install-world \
+ && rm -rf /usr/local/pgsql/include \
+ && rm -rf /usr/local/pgsql/share/doc \
+ && rm -rf /usr/local/pgsql/share/man
 
 COPY postgres.sh /usr/local/pgsql/bin/postgres.sh
 
