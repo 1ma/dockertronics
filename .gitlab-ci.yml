@@ -352,6 +352,7 @@ php-master-dev:
   stage: tier3
   needs:
     - php-master
+  allow_failure: true
   only:
     changes:
       - php/**/*
