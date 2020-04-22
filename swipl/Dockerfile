@@ -1,6 +1,6 @@
 FROM alpine:3.11
 
-ENV SWIPL_VERSION 8.1.27
+ENV SWIPL_VERSION 8.1.29
 
 WORKDIR /tmp
 
@@ -16,7 +16,15 @@ RUN apk add --no-cache \
 
 WORKDIR /tmp/swipl-${SWIPL_VERSION}/build
 
-RUN cmake -DINSTALL_DOCUMENTATION=OFF -DCMAKE_INSTALL_PREFIX=/usr/local ..
+RUN cmake \
+    -DBUILD_TESTING=OFF \
+
+    -DCMAKE_BUILD_TYPE=MinSizeRel \
+    -DCMAKE_INSTALL_PREFIX=/usr/local \
+    -DCMAKE_VERBOSE_MAKEFILE=ON \
+
+    -DINSTALL_DOCUMENTATION=OFF \
+    ..
 
 RUN make -j$(nproc)
 
