@@ -65,6 +65,19 @@ haproxy:
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
+jekyll:
+  stage: tier1
+  only:
+    changes:
+      - jekyll/**/*
+  variables:
+    CONTEXT: jekyll
+    IMAGE: 1maa/jekyll:latest
+  script:
+    - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
+    - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
+    - docker push $IMAGE
+
 mariadb:
   stage: tier1
   only:
