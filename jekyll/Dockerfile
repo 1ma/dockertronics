@@ -4,12 +4,12 @@ RUN apk add --no-cache \
     build-base \
     libstdc++ \
     ruby \
+    ruby-bigdecimal \
     ruby-dev \
+    ruby-json \
  && gem install \
-    bigdecimal \
     bundler \
     jekyll \
-    json \
  && apk del \
     build-base \
     ruby-dev
