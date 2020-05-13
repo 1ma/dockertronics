@@ -46,7 +46,7 @@ erlang:
       - erlang/**/*
   variables:
     CONTEXT: erlang
-    IMAGE: 1maa/erlang:22-alpine
+    IMAGE: 1maa/erlang:23-alpine
   script:
     - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS

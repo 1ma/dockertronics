@@ -5,7 +5,7 @@ ADD https://s3.amazonaws.com/rebar3/rebar3 /usr/local/bin/rebar3
 RUN chmod +x /usr/local/bin/rebar3
 
 
-FROM erlang:22-alpine
+FROM erlang:23-alpine
 
 RUN apk add --no-cache inotify-tools
 
