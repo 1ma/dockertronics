@@ -1,4 +1,4 @@
-FROM alpine:3.11
+FROM alpine:3.12
 
 ENV SWIPL_VERSION 8.1.31
 
@@ -31,7 +31,7 @@ RUN make -j$(nproc)
 RUN make install
 
 
-FROM alpine:3.11
+FROM alpine:3.12
 
 COPY --from=0 /usr/local /usr/local
 

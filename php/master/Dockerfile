@@ -1,4 +1,4 @@
-FROM 1maa/alpine:3.11
+FROM 1maa/alpine:3.12
 
 ENV PHP_VERSION=master
 ENV GEARMAN_VERSION=2.0.6
@@ -226,7 +226,7 @@ RUN rm -rf php-src-${PHP_VERSION} \
  && upx --lzma /usr/bin/php /usr/sbin/php-fpm
 
 
-FROM 1maa/alpine:3.11
+FROM 1maa/alpine:3.12
 
 COPY etc /etc/php
 

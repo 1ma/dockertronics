@@ -22,7 +22,7 @@ alpine:
   stage: tier1
   variables:
     CONTEXT: alpine
-    IMAGE: 1maa/alpine:3.11
+    IMAGE: 1maa/alpine:3.12
   script:
     - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS

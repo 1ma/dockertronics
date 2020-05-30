@@ -1,4 +1,4 @@
-FROM 1maa/alpine:3.11
+FROM 1maa/alpine:3.12
 
 WORKDIR /tmp
 
