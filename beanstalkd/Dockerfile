@@ -6,6 +6,7 @@ RUN apk add --no-cache \
     build-base \
     file \
     git \
+    pkgconf \
     upx \
  && git clone --depth=1 https://github.com/beanstalkd/beanstalkd \
  && cd beanstalkd \
