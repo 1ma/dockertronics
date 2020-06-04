@@ -28,7 +28,6 @@ RUN cd postgresql-${PG_RELEASE} \
 
 RUN cd postgresql-${PG_RELEASE} \
  && make install-world \
- && rm -rf /usr/local/pgsql/include \
  && rm -rf /usr/local/pgsql/share/doc \
  && rm -rf /usr/local/pgsql/share/man
 
