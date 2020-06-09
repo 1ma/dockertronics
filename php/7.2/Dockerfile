@@ -1,4 +1,6 @@
-FROM 1maa/alpine:3.11
+FROM 1maa/postgres:12-src AS postgres
+
+FROM 1maa/alpine:3.12 AS build
 
 ENV PHP_VERSION=7.2.31
 ENV GEARMAN_VERSION=2.0.6
@@ -8,6 +10,9 @@ ENV XHPROF_VERSION=5.0.2
 
 ENV CFLAGS="-Os -march=x86-64"
 ENV LDFLAGS="-s"
+
+COPY --from=postgres /usr/local/pgsql/include /usr/include
+COPY --from=postgres /usr/local/pgsql/lib     /usr/lib
 
 WORKDIR /tmp
 
@@ -43,7 +48,6 @@ RUN apk add --no-cache \
     libxslt-dev \
     libzip-dev \
     openssl-dev \
-    postgresql-dev \
     rabbitmq-c-dev \
     readline-dev \
  && wget -q https://www.php.net/distributions/php-${PHP_VERSION}.tar.gz \
@@ -213,18 +217,19 @@ RUN rm -rf php-${PHP_VERSION} \
 
  && upx --lzma /usr/bin/php /usr/sbin/php-fpm
 
+FROM 1maa/alpine:3.12
 
-FROM 1maa/alpine:3.11
+COPY --from=postgres /usr/local/pgsql/lib/libpq.so.5.12 /usr/lib/libpq.so.5
 
 COPY etc /etc/php
 
-COPY --from=0 /tmp/php.ini      /etc/php/cli/php.ini
-COPY --from=0 /tmp/php.ini      /etc/php/fpm/php.ini
-COPY --from=0 /tmp/php-fpm.conf /etc/php/fpm/php-fpm.conf
-COPY --from=0 /tmp/www.conf     /etc/php/fpm/php-fpm.d/www.conf
-COPY --from=0 /usr/bin/php      /usr/bin/php
-COPY --from=0 /usr/sbin/php-fpm /usr/sbin/php-fpm
-COPY --from=0 /usr/lib/php/*.so /usr/lib/php/
+COPY --from=build /tmp/php.ini      /etc/php/cli/php.ini
+COPY --from=build /tmp/php.ini      /etc/php/fpm/php.ini
+COPY --from=build /tmp/php-fpm.conf /etc/php/fpm/php-fpm.conf
+COPY --from=build /tmp/www.conf     /etc/php/fpm/php-fpm.d/www.conf
+COPY --from=build /usr/bin/php      /usr/bin/php
+COPY --from=build /usr/sbin/php-fpm /usr/sbin/php-fpm
+COPY --from=build /usr/lib/php/*.so /usr/lib/php/
 
 RUN apk add --no-cache \
     argon2-libs \
@@ -236,7 +241,6 @@ RUN apk add --no-cache \
     libgd \
     libmaxminddb \
     libmemcached-libs \
-    libpq \
     librdkafka \
     libsodium \
     libssh2 \
