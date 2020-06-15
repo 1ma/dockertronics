@@ -9,9 +9,8 @@ RUN php composer.phar global config bin-dir /usr/local/bin \
  && php composer.phar global config minimum-stability dev \
  && php composer.phar global config prefer-stable true \
  && php composer.phar global require --prefer-dist --ignore-platform-reqs \
-    composer/composer \
+    composer/composer:^2.0 \
     d11wtq/boris \
-    friendsofphp/php-cs-fixer \
     phing/phing \
     phploc/phploc \
     phpmetrics/phpmetrics \

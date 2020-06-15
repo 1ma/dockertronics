@@ -323,6 +323,7 @@ php-7.2-dev:
   only:
     changes:
       - php/**/*
+      - php-dev/**/*
   variables:
     CONTEXT: php-dev
     IMAGE: 1maa/php-dev:7.2
@@ -338,6 +339,7 @@ php-7.3-dev:
   only:
     changes:
       - php/**/*
+      - php-dev/**/*
   variables:
     CONTEXT: php-dev
     IMAGE: 1maa/php-dev:7.3
@@ -353,6 +355,7 @@ php-7.4-dev:
   only:
     changes:
       - php/**/*
+      - php-dev/**/*
   variables:
     CONTEXT: php-dev
     IMAGE: 1maa/php-dev:7.4
@@ -369,6 +372,7 @@ php-master-dev:
   only:
     changes:
       - php/**/*
+      - php-dev/**/*
   variables:
     CONTEXT: php-dev
     IMAGE: 1maa/php-dev:latest
