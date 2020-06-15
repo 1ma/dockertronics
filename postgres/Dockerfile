@@ -12,7 +12,7 @@ RUN echo "@edge-testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /e
     git \
     json-c-dev \
     libxml2-dev \
-    llvm9 \
+    llvm10 \
     perl \
     proj-dev@edge-testing \
     protobuf-c-dev \
