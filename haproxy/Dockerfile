@@ -7,6 +7,7 @@ WORKDIR /tmp
 RUN apk add --no-cache \
     build-base \
     linux-headers \
+    libexecinfo-dev \
     lua5.3-dev \
     openssl-dev \
     pcre2-dev \
@@ -16,6 +17,7 @@ RUN apk add --no-cache \
  && tar zxf haproxy-${HAPROXY_VERSION}.tar.gz \
  && cd haproxy-${HAPROXY_VERSION} \
  && make all -j$(nproc) \
+    ADDLIB="-lexecinfo" \
     CPU_CFLAGS="-Os -march=x86-64" \
     DEBUG_CFLAGS= \
     EXTRA_OBJS="contrib/prometheus-exporter/service-prometheus.o" \
@@ -34,6 +36,7 @@ RUN apk add --no-cache \
  && upx --lzma haproxy \
  && mv haproxy ..
 
+
 FROM 1maa/alpine:3.12
 
 COPY config /etc/haproxy
@@ -41,6 +44,7 @@ COPY config /etc/haproxy
 COPY --from=0 /tmp/haproxy /usr/sbin/haproxy
 
 RUN apk add --no-cache \
+    libexecinfo \
     lua5.3-libs
 
 STOPSIGNAL SIGUSR1
