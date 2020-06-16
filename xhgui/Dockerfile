@@ -6,6 +6,7 @@ ADD https://github.com/perftools/xhgui/archive/master.tar.gz .
 
 RUN tar zxf master.tar.gz \
  && cd xhgui-master \
+ && composer update \
  && composer require alcaeus/mongo-php-adapter \
  && composer install --no-dev -a
 
