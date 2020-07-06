@@ -7,6 +7,7 @@ RUN apk add --no-cache \
     ruby-bigdecimal \
     ruby-dev \
     ruby-json \
+    tree \
  && gem install \
     bundler \
     jekyll \
