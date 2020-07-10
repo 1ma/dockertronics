@@ -21,9 +21,9 @@ RUN apk upgrade --no-cache \
     flex \
     libtool \
     re2c \
-
+\
     upx \
-
+\
     # dependencies for building specific extensions
     bzip2-dev \
     curl-dev \
@@ -50,17 +50,17 @@ RUN apk upgrade --no-cache \
  && cd ./php-${PHP_VERSION} \
  && ./configure \
     EXTENSION_DIR="/usr/lib/php" \
-
+\
     --prefix=/usr \
     --sysconfdir=/etc/php/cli \
     --with-config-file-path=/etc/php/cli \
     --with-config-file-scan-dir=/etc/php/cli/conf.d \
-
+\
     --enable-cli \
     --disable-fpm \
     --disable-cgi \
     --disable-phpdbg \
-
+\
     --enable-bcmath \
     --enable-calendar \
     --enable-exif \
@@ -74,7 +74,7 @@ RUN apk upgrade --no-cache \
     --enable-wddx \
     --enable-zend-signals \
     --enable-zip \
-
+\
     --with-bz2 \
     --with-curl \
     --with-gd \
@@ -158,17 +158,17 @@ RUN rm -rf php-${PHP_VERSION} \
  && cd ./php-${PHP_VERSION} \
  && ./configure \
     EXTENSION_DIR="/usr/lib/php" \
-
+\
     --prefix=/usr \
     --sysconfdir=/etc/php/fpm \
     --with-config-file-path=/etc/php/fpm \
     --with-config-file-scan-dir=/etc/php/fpm/conf.d \
-
+\
     --enable-fpm \
     --disable-cli \
     --disable-cgi \
     --disable-phpdbg \
-
+\
     --enable-bcmath \
     --enable-calendar \
     --enable-exif \
@@ -181,7 +181,7 @@ RUN rm -rf php-${PHP_VERSION} \
     --enable-wddx \
     --enable-zend-signals \
     --enable-zip \
-
+\
     --with-bz2 \
     --with-curl \
     --with-gd \
@@ -198,7 +198,7 @@ RUN rm -rf php-${PHP_VERSION} \
  && make -j$(nproc) \
  && mv sapi/fpm/php-fpm /usr/sbin/php-fpm \
  && cp php.ini-production /tmp/php.ini \
-
+\
  && sed -e 's#;daemonize = yes#daemonize = no#' \
         -e 's#;error_log = log/php-fpm.log#error_log = /dev/stderr#' \
         -e 's#user = @php_fpm_user@#user = root#' \

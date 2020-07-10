@@ -24,9 +24,9 @@ RUN apk add --no-cache \
     flex \
     libtool \
     re2c \
- \
+\
     upx \
- \
+\
     # dependencies for building specific extensions
     argon2-dev \
     bzip2-dev \
@@ -49,17 +49,17 @@ RUN apk add --no-cache \
  && ./buildconf \
  && ./configure \
     EXTENSION_DIR="/usr/lib/php" \
- \
+\
     --prefix=/usr \
     --sysconfdir=/etc/php/cli \
     --with-config-file-path=/etc/php/cli \
     --with-config-file-scan-dir=/etc/php/cli/conf.d \
- \
+\
     --enable-cli \
     --disable-fpm \
     --disable-cgi \
     --disable-phpdbg \
- \
+\
     --enable-bcmath \
     --enable-calendar \
     --enable-exif \
@@ -71,7 +71,7 @@ RUN apk add --no-cache \
     --enable-shmop \
     --enable-soap \
     --enable-sockets \
- \
+\
     --with-bz2 \
     --with-curl \
     --with-ffi \
@@ -98,17 +98,17 @@ RUN rm -rf php-src-${PHP_VERSION} \
  && ./buildconf \
  && ./configure \
     EXTENSION_DIR="/usr/lib/php" \
- \
+\
     --prefix=/usr \
     --sysconfdir=/etc/php/fpm \
     --with-config-file-path=/etc/php/fpm \
     --with-config-file-scan-dir=/etc/php/fpm/conf.d \
- \
+\
     --enable-fpm \
     --disable-cli \
     --disable-cgi \
     --disable-phpdbg \
- \
+\
     --enable-bcmath \
     --enable-calendar \
     --enable-exif \
@@ -119,7 +119,7 @@ RUN rm -rf php-src-${PHP_VERSION} \
     --enable-shmop \
     --enable-soap \
     --enable-sockets \
- \
+\
     --with-bz2 \
     --with-curl \
     --with-ffi \
@@ -139,14 +139,14 @@ RUN rm -rf php-src-${PHP_VERSION} \
  && make -j$(nproc) \
  && mv sapi/fpm/php-fpm /usr/sbin/php-fpm \
  && cp php.ini-production /tmp/php.ini \
- \
+\
  && sed -e 's#@php_fpm_sysconfdir@#/etc/php/fpm#' \
         -e 's#;daemonize = yes#daemonize = no#' \
         -e 's#;error_log = log/php-fpm.log#error_log = /dev/stderr#' \
         -e 's#;log_buffering = no#log_buffering = yes#' \
         -e 's#;log_limit = 4096#log_limit = 65536#' \
         sapi/fpm/php-fpm.conf.in > /tmp/php-fpm.conf \
- \
+\
  && sed -e 's#user = @php_fpm_user@#user = root#' \
         -e 's#group = @php_fpm_group@#group = root#' \
         -e 's#listen = 127.0.0.1:9000#listen = 9000#' \
