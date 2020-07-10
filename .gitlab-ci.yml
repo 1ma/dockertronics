@@ -255,6 +255,22 @@ php-7.4:
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
+php-8.0:
+  stage: tier2
+  needs:
+    - alpine
+  only:
+    changes:
+      - php/**/*
+      - roadrunner/**/*
+  variables:
+    CONTEXT: php
+    IMAGE: 1maa/php:8.0
+  script:
+    - docker build --network host -t $IMAGE -f $CONTEXT/8.0/Dockerfile $CONTEXT
+    - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
+    - docker push $IMAGE
+
 php-master:
   stage: tier2
   needs:
@@ -376,6 +392,22 @@ php-7.4-dev:
     IMAGE: 1maa/php-dev:7.4
   script:
     - docker build --network host -t $IMAGE -f $CONTEXT/7.4/Dockerfile $CONTEXT
+    - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
+    - docker push $IMAGE
+
+php-8.0-dev:
+  stage: tier3
+  needs:
+    - php-8.0
+  only:
+    changes:
+      - php/**/*
+      - php-dev/**/*
+  variables:
+    CONTEXT: php-dev
+    IMAGE: 1maa/php-dev:8.0
+  script:
+    - docker build --network host -t $IMAGE -f $CONTEXT/8.0/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 

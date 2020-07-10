@@ -2,7 +2,7 @@ FROM 1maa/postgres:12-src AS postgres
 
 FROM 1maa/alpine:3.12 AS build
 
-ENV PHP_VERSION=7.4.8
+ENV PHP_VERSION=8.0.0alpha2
 ENV GEARMAN_VERSION=2.0.6
 ENV MAXMINDDB_VERSION=1.6.0
 ENV MEMCACHED_VERSION=3.1.5
@@ -15,6 +15,8 @@ COPY --from=postgres /usr/local/pgsql/include /usr/include
 COPY --from=postgres /usr/local/pgsql/lib     /usr/lib
 
 WORKDIR /tmp
+
+ADD "https://downloads.php.net/~carusogabriel/php-${PHP_VERSION}.tar.gz" .
 
 RUN apk add --no-cache \
     # generic dependencies for compiling the source
@@ -54,7 +56,6 @@ RUN apk add --no-cache \
     rabbitmq-c-dev \
     readline-dev \
     sqlite-dev \
- && wget -q https://www.php.net/distributions/php-${PHP_VERSION}.tar.gz \
  && tar zxof php-${PHP_VERSION}.tar.gz \
  && cd ./php-${PHP_VERSION} \
  && ./configure \
@@ -102,65 +103,65 @@ RUN apk add --no-cache \
  && make -j$(nproc) \
  && make install
 
-RUN wget -q https://github.com/tideways/php-xhprof-extension/archive/v${XHPROF_VERSION}.tar.gz \
- && tar zxof v${XHPROF_VERSION}.tar.gz \
- && cd ./php-xhprof-extension-${XHPROF_VERSION} \
- && phpize \
- && ./configure \
- && make \
- && make install
+# RUN wget -q https://github.com/tideways/php-xhprof-extension/archive/v${XHPROF_VERSION}.tar.gz \
+#  && tar zxof v${XHPROF_VERSION}.tar.gz \
+#  && cd ./php-xhprof-extension-${XHPROF_VERSION} \
+#  && phpize \
+#  && ./configure \
+#  && make \
+#  && make install
 
-RUN wget -q https://github.com/maxmind/MaxMind-DB-Reader-php/archive/v${MAXMINDDB_VERSION}.tar.gz \
- && tar zxof v${MAXMINDDB_VERSION}.tar.gz \
- && cd MaxMind-DB-Reader-php-${MAXMINDDB_VERSION}/ext \
- && phpize \
- && ./configure \
- && make \
- && make install
+# RUN wget -q https://github.com/maxmind/MaxMind-DB-Reader-php/archive/v${MAXMINDDB_VERSION}.tar.gz \
+#  && tar zxof v${MAXMINDDB_VERSION}.tar.gz \
+#  && cd MaxMind-DB-Reader-php-${MAXMINDDB_VERSION}/ext \
+#  && phpize \
+#  && ./configure \
+#  && make \
+#  && make install
 
-RUN wget -q https://github.com/php/pecl-networking-gearman/archive/gearman-${GEARMAN_VERSION}.tar.gz \
- && tar zxof gearman-${GEARMAN_VERSION}.tar.gz \
- && cd pecl-networking-gearman-gearman-${GEARMAN_VERSION} \
- && phpize \
- && ./configure \
- && make \
- && make install
+# RUN wget -q https://github.com/php/pecl-networking-gearman/archive/gearman-${GEARMAN_VERSION}.tar.gz \
+#  && tar zxof gearman-${GEARMAN_VERSION}.tar.gz \
+#  && cd pecl-networking-gearman-gearman-${GEARMAN_VERSION} \
+#  && phpize \
+#  && ./configure \
+#  && make \
+#  && make install
 
 RUN pecl channel-update pecl.php.net \
  && pecl install \
-    igbinary \
-    msgpack
+    igbinary
+#    msgpack        # borked
 
-RUN wget -q https://github.com/php-memcached-dev/php-memcached/archive/v${MEMCACHED_VERSION}.tar.gz \
- && tar zxof v${MEMCACHED_VERSION}.tar.gz \
- && cd php-memcached-${MEMCACHED_VERSION} \
- && phpize \
- && ./configure \
-    --enable-memcached-igbinary \
-    --enable-memcached-json \
-    --enable-memcached-msgpack \
-    --enable-memcached-protocol \
-    --enable-memcached-sasl \
-    --enable-memcached-session \
- && make \
- && make install
+#RUN wget -q https://github.com/php-memcached-dev/php-memcached/archive/v${MEMCACHED_VERSION}.tar.gz \
+# && tar zxof v${MEMCACHED_VERSION}.tar.gz \
+# && cd php-memcached-${MEMCACHED_VERSION} \
+# && phpize \
+# && ./configure \
+#    --enable-memcached-igbinary \
+#    --enable-memcached-json \
+#    --enable-memcached-msgpack \
+#    --enable-memcached-protocol \
+#    --enable-memcached-sasl \
+#    --enable-memcached-session \
+# && make \
+# && make install
 
 RUN pecl install \
-    amqp \
+#    amqp \         # borked
     apcu \
     csv \
-    ds \
-    event \
-    gnupg \
+#    ds \           # borked
+#    event \        # borked
+#    gnupg \        # borked
     mongodb \
     pcov \
-    protobuf \
+#    protobuf \     # borked
     rdkafka \
-    redis \
-    ssh2-beta \
-    uv-beta \
-    xdebug \
-    yar
+    redis
+#    ssh2-beta \    # borked
+#    uv-beta
+#    xdebug \       # borked
+#    yar            # borked
 
 RUN rm -rf php-${PHP_VERSION} \
  && tar zxof php-${PHP_VERSION}.tar.gz \
@@ -259,7 +260,26 @@ RUN apk add --no-cache \
     libzip \
     oniguruma \
     rabbitmq-c \
-    readline
+    readline \
+    sqlite-libs \
+ && rm /etc/php/mods-available/amqp.ini \
+ && rm /etc/php/mods-available/ds.ini \
+ && rm /etc/php/mods-available/event.ini \
+ && rm /etc/php/mods-available/gearman.ini \
+ && rm /etc/php/mods-available/gnupg.ini \
+ && rm /etc/php/mods-available/igbinary.ini \
+ && rm /etc/php/mods-available/maxminddb.ini \
+ && rm /etc/php/mods-available/memcached.ini \
+ && rm /etc/php/mods-available/mongodb.ini \
+ && rm /etc/php/mods-available/msgpack.ini \
+ && rm /etc/php/mods-available/protobuf.ini \
+ && rm /etc/php/mods-available/rdkafka.ini \
+ && rm /etc/php/mods-available/redis.ini \
+ && rm /etc/php/mods-available/ssh2.ini \
+ && rm /etc/php/mods-available/tideways_xhprof.ini \
+ && rm /etc/php/mods-available/uv.ini \
+ && rm /etc/php/mods-available/xdebug.ini \
+ && rm /etc/php/mods-available/yar.ini
 
 EXPOSE 9000
 

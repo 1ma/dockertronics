@@ -161,7 +161,7 @@ RUN pecl install \
     rdkafka \
     redis \
 #    ssh2-beta \    # borked
-    uv-beta \
+    uv-beta
 #    xdebug \       # borked
 #    yar            # borked
 
