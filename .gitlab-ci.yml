@@ -59,7 +59,7 @@ haproxy:
       - haproxy/**/*
   variables:
     CONTEXT: haproxy
-    IMAGE: 1maa/haproxy:2.1
+    IMAGE: 1maa/haproxy:2.2
   script:
     - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS

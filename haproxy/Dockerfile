@@ -1,8 +1,10 @@
 FROM 1maa/alpine:3.12
 
-ENV HAPROXY_VERSION=2.1.7
+ENV HAPROXY_VERSION=2.2.0
 
 WORKDIR /tmp
+
+ADD https://www.haproxy.org/download/2.2/src/haproxy-${HAPROXY_VERSION}.tar.gz .
 
 RUN apk add --no-cache \
     build-base \
@@ -12,10 +14,8 @@ RUN apk add --no-cache \
     pcre2-dev \
     upx \
     zlib-dev \
- && wget -q https://www.haproxy.org/download/2.1/src/haproxy-${HAPROXY_VERSION}.tar.gz \
  && tar zxf haproxy-${HAPROXY_VERSION}.tar.gz \
- && cd haproxy-${HAPROXY_VERSION} \
- && make all -j$(nproc) \
+ && make -C haproxy-${HAPROXY_VERSION} all -j$(nproc) \
     CPU_CFLAGS="-Os -march=x86-64" \
     DEBUG_CFLAGS= \
     EXTRA_OBJS="contrib/prometheus-exporter/service-prometheus.o" \
@@ -33,7 +33,8 @@ RUN apk add --no-cache \
     USE_STATIC_PCRE2=1 \
     USE_ZLIB=1 \
     V=1 \
- && mv haproxy ..
+ && upx --lzma haproxy-${HAPROXY_VERSION}/haproxy \
+ && mv haproxy-${HAPROXY_VERSION}/haproxy .
 
 
 FROM 1maa/alpine:3.12
