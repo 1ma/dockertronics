@@ -215,6 +215,7 @@ RUN rm -rf php-${PHP_VERSION} \
  && sed -e 's#user = @php_fpm_user@#user = root#' \
         -e 's#group = @php_fpm_group@#group = root#' \
         -e 's#listen = 127.0.0.1:9000#listen = 9000#' \
+        -e 's#;clear_env = no#clear_env = no#' \
         -e 's#;catch_workers_output = yes#catch_workers_output = yes#' \
         -e 's#;decorate_workers_output = no#decorate_workers_output = no#' \
         sapi/fpm/www.conf.in > /tmp/www.conf \

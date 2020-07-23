@@ -204,6 +204,7 @@ RUN rm -rf php-${PHP_VERSION} \
         -e 's#user = @php_fpm_user@#user = root#' \
         -e 's#group = @php_fpm_group@#group = root#' \
         -e 's#listen = 127.0.0.1:9000#listen = 9000#' \
+        -e 's#;clear_env = no#clear_env = no#' \
         -e 's#;catch_workers_output = yes#catch_workers_output = yes#' \
         sapi/fpm/php-fpm.conf.in > /tmp/php-fpm.conf
 

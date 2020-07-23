@@ -2,7 +2,7 @@ FROM 1maa/postgres:12-src AS postgres
 
 FROM 1maa/alpine:3.12 AS build
 
-ENV PHP_VERSION=8.0.0alpha2
+ENV PHP_VERSION=8.0.0alpha3
 ENV GEARMAN_VERSION=2.0.6
 ENV MAXMINDDB_VERSION=1.6.0
 ENV MEMCACHED_VERSION=3.1.5
@@ -220,6 +220,7 @@ RUN rm -rf php-${PHP_VERSION} \
  && sed -e 's#user = @php_fpm_user@#user = root#' \
         -e 's#group = @php_fpm_group@#group = root#' \
         -e 's#listen = 127.0.0.1:9000#listen = 9000#' \
+        -e 's#;clear_env = no#clear_env = no#' \
         -e 's#;catch_workers_output = yes#catch_workers_output = yes#' \
         -e 's#;decorate_workers_output = no#decorate_workers_output = no#' \
         sapi/fpm/www.conf.in > /tmp/www.conf \
