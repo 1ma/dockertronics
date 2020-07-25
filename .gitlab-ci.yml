@@ -216,6 +216,7 @@ php-7.2:
   only:
     changes:
       - php/**/*
+      - php-dev/**/*
   variables:
     CONTEXT: php
     IMAGE: 1maa/php:7.2
@@ -231,6 +232,7 @@ php-7.3:
   only:
     changes:
       - php/**/*
+      - php-dev/**/*
   variables:
     CONTEXT: php
     IMAGE: 1maa/php:7.3
@@ -246,6 +248,7 @@ php-7.4:
   only:
     changes:
       - php/**/*
+      - php-dev/**/*
       - roadrunner/**/*
   variables:
     CONTEXT: php
@@ -262,6 +265,7 @@ php-8.0:
   only:
     changes:
       - php/**/*
+      - php-dev/**/*
       - roadrunner/**/*
   variables:
     CONTEXT: php
@@ -279,6 +283,7 @@ php-master:
   only:
     changes:
       - php/**/*
+      - php-dev/**/*
   variables:
     CONTEXT: php
     IMAGE: 1maa/php:latest

@@ -11,6 +11,7 @@ RUN php composer.phar global config bin-dir /usr/local/bin \
  && php composer.phar global require --prefer-dist --ignore-platform-reqs \
     composer/composer:^2.0 \
     d11wtq/boris \
+    deployer/deployer \
     phing/phing \
     phploc/phploc \
     phpmetrics/phpmetrics \
