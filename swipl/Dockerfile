@@ -1,6 +1,6 @@
 FROM alpine:3.12
 
-ENV SWIPL_VERSION 8.3.4
+ENV SWIPL_VERSION 8.3.5
 
 WORKDIR /tmp
 
@@ -18,11 +18,11 @@ WORKDIR /tmp/swipl-${SWIPL_VERSION}/build
 
 RUN cmake \
     -DBUILD_TESTING=OFF \
-
+\
     -DCMAKE_BUILD_TYPE=MinSizeRel \
     -DCMAKE_INSTALL_PREFIX=/usr/local \
     -DCMAKE_VERBOSE_MAKEFILE=ON \
-
+\
     -DINSTALL_DOCUMENTATION=OFF \
     ..
 
