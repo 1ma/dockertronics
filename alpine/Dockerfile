@@ -11,7 +11,6 @@ FROM alpine:3.12
 COPY --from=0 https-repositories /etc/apk/repositories
 
 RUN apk add --no-cache --upgrade \
-    apk-tools@edge-main \
     tini
 
 ENTRYPOINT ["/sbin/tini", "--"]
