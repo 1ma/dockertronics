@@ -4,7 +4,7 @@ FROM 1maa/alpine:3.12 AS build
 
 ENV PHP_VERSION=8.0.0beta2
 ENV GEARMAN_VERSION=2.0.6
-ENV MAXMINDDB_VERSION=1.6.0
+ENV MAXMINDDB_VERSION=1.7.0
 ENV MEMCACHED_VERSION=3.1.5
 ENV XHPROF_VERSION=5.0.2
 
@@ -111,13 +111,13 @@ RUN apk add --no-cache \
 #  && make \
 #  && make install
 
-# RUN wget -q https://github.com/maxmind/MaxMind-DB-Reader-php/archive/v${MAXMINDDB_VERSION}.tar.gz \
-#  && tar zxof v${MAXMINDDB_VERSION}.tar.gz \
-#  && cd MaxMind-DB-Reader-php-${MAXMINDDB_VERSION}/ext \
-#  && phpize \
-#  && ./configure \
-#  && make \
-#  && make install
+RUN wget -q https://github.com/maxmind/MaxMind-DB-Reader-php/archive/v${MAXMINDDB_VERSION}.tar.gz \
+ && tar zxof v${MAXMINDDB_VERSION}.tar.gz \
+ && cd MaxMind-DB-Reader-php-${MAXMINDDB_VERSION}/ext \
+ && phpize \
+ && ./configure \
+ && make \
+ && make install
 
 # RUN wget -q https://github.com/php/pecl-networking-gearman/archive/gearman-${GEARMAN_VERSION}.tar.gz \
 #  && tar zxof gearman-${GEARMAN_VERSION}.tar.gz \
@@ -157,7 +157,7 @@ RUN pecl install \
     pcov \
 #    protobuf \     # borked
     rdkafka \
-    redis
+    redis \
 #    ssh2-beta \    # borked
 #    uv-beta
 #    xdebug \       # borked
@@ -269,7 +269,6 @@ RUN apk add --no-cache \
  && rm /etc/php/mods-available/gearman.ini \
  && rm /etc/php/mods-available/gnupg.ini \
  && rm /etc/php/mods-available/igbinary.ini \
- && rm /etc/php/mods-available/maxminddb.ini \
  && rm /etc/php/mods-available/memcached.ini \
  && rm /etc/php/mods-available/mongodb.ini \
  && rm /etc/php/mods-available/msgpack.ini \
