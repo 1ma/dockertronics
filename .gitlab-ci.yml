@@ -266,7 +266,6 @@ php-8.0:
     changes:
       - php/**/*
       - php-dev/**/*
-      - roadrunner/**/*
   variables:
     CONTEXT: php
     IMAGE: 1maa/php:8.0
