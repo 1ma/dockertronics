@@ -2,7 +2,7 @@ FROM 1maa/postgres:12-src AS postgres
 
 FROM 1maa/alpine:3.12 AS build
 
-ENV PHP_VERSION=8.0.0beta3
+ENV PHP_VERSION=8.0.0beta4
 ENV GEARMAN_VERSION=2.0.6
 ENV MAXMINDDB_VERSION=1.7.0
 ENV MEMCACHED_VERSION=3.1.5
@@ -16,7 +16,7 @@ COPY --from=postgres /usr/local/pgsql/lib     /usr/lib
 
 WORKDIR /tmp
 
-ADD "https://downloads.php.net/~carusogabriel/php-${PHP_VERSION}.tar.gz" .
+ADD "https://downloads.php.net/~pollita/php-${PHP_VERSION}.tar.gz" .
 
 RUN apk add --no-cache \
     # generic dependencies for compiling the source
