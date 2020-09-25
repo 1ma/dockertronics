@@ -1,4 +1,4 @@
-FROM postgres:12-alpine
+FROM postgres:13-alpine
 
 ENV PGTAP_VERSION v1.1.0
 ENV POSTGIS_VERSION 3.0.1
@@ -32,7 +32,7 @@ RUN echo "@edge-testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /e
  && make install
 
 
-FROM postgres:12-alpine
+FROM postgres:13-alpine
 
 COPY --from=0 /usr/local/lib/postgresql/bitcode/postgis*                  /usr/local/lib/postgresql/bitcode/
 COPY --from=0 /usr/local/lib/postgresql/postgis*                          /usr/local/lib/postgresql/
