@@ -1,6 +1,6 @@
 FROM 1maa/alpine:3.12
 
-ENV LUA_VERSION 5.4.0
+ENV LUA_VERSION 5.4.1
 
 WORKDIR /tmp
 
