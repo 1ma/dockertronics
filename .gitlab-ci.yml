@@ -179,36 +179,6 @@ xhgui:
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
-lua-5.3:
-  stage: tier2
-  needs:
-    - alpine
-  only:
-    changes:
-      - lua/**/*
-  variables:
-    CONTEXT: lua/5.3
-    IMAGE: 1maa/lua:5.3
-  script:
-    - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
-    - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
-    - docker push $IMAGE
-
-lua-5.4:
-  stage: tier2
-  needs:
-    - alpine
-  only:
-    changes:
-      - lua/**/*
-  variables:
-    CONTEXT: lua/5.4
-    IMAGE: 1maa/lua:5.4
-  script:
-    - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
-    - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
-    - docker push $IMAGE
-
 php-7.2:
   stage: tier2
   needs:
