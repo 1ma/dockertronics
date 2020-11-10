@@ -146,7 +146,7 @@ RUN pecl install \
     redis \
     ssh2-beta \
     uv-beta \
-    xdebug-3.0.0beta1 \
+    xdebug \
     yar
 
 RUN rm -rf php-${PHP_VERSION} \

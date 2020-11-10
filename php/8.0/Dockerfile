@@ -152,7 +152,7 @@ RUN pecl install \
     redis \
 #    ssh2-beta \    # borked
 #    uv-beta
-    xdebug-3.0.0beta1 \
+    xdebug \
 #    yar            # borked
 
 RUN rm -rf php-${PHP_VERSION} \
