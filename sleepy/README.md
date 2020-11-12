@@ -35,7 +35,6 @@ $ docker run --rm -it -p 127.0.0.1:1234:1234 1maa/sleepy:latest
 ```
 $ time curl -i localhost:1234
 HTTP/1.1 200 OK
-Cache-Control: no-cache, no-store, must-revalidate
 Server: sleepy
 Date: Mon, 04 Mar 2019 20:45:13 GMT
 Content-Length: 78
@@ -46,13 +45,13 @@ Host: localhost:1234
 Accept: */*
 User-Agent: curl/7.63.0
 
-
 real	0m0.010s
 user	0m0.005s
 sys	0m0.004s
+
+
 $ time curl -i localhost:1234?ms=1500
 HTTP/1.1 200 OK
-Cache-Control: no-cache, no-store, must-revalidate
 Server: sleepy
 Date: Mon, 04 Mar 2019 20:45:54 GMT
 Content-Length: 86
@@ -63,13 +62,13 @@ Host: localhost:1234
 Accept: */*
 User-Agent: curl/7.63.0
 
-
 real	0m1.510s
 user	0m0.006s
 sys	0m0.004s
+
+
 $ time curl -i -X POST -H "Content-Type: application/json" -d'{"foo":"bar"}' localhost:1234?ms=5000
 HTTP/1.1 200 OK
-Cache-Control: no-cache, no-store, must-revalidate
 Server: sleepy
 Date: Mon, 04 Mar 2019 20:47:49 GMT
 Content-Length: 152
@@ -83,6 +82,7 @@ Content-Type: application/json
 User-Agent: curl/7.63.0
 
 {"foo":"bar"}
+
 real	0m5.011s
 user	0m0.006s
 sys	0m0.004s

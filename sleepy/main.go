@@ -40,7 +40,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Server", "sleepy")
-	w.Header().Set("Cache-Control", "no-cache, no-store, must-revalidate")
 	_, _ = w.Write(rawDump)
 
 	time.Sleep(time.Duration(t) * time.Millisecond)
