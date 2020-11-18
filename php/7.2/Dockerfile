@@ -1,4 +1,4 @@
-FROM 1maa/postgres:12-src AS postgres
+FROM 1maa/postgres:13-src AS postgres
 
 FROM 1maa/alpine:3.12 AS build
 
@@ -212,7 +212,7 @@ RUN rm -rf php-${PHP_VERSION} \
 
 FROM 1maa/alpine:3.12
 
-COPY --from=postgres /usr/local/pgsql/lib/libpq.so.5.12 /usr/lib/libpq.so.5
+COPY --from=postgres /usr/local/pgsql/lib/libpq.so.5.13 /usr/lib/libpq.so.5
 
 COPY etc /etc/php
 
