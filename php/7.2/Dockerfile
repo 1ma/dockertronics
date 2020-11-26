@@ -15,6 +15,8 @@ COPY --from=postgres /usr/local/pgsql/lib     /usr/lib
 
 WORKDIR /tmp
 
+ADD "https://www.php.net/distributions/php-${PHP_VERSION}.tar.gz" .
+
 RUN apk add --no-cache \
     # generic dependencies for compiling the source
     autoconf \
@@ -49,7 +51,6 @@ RUN apk add --no-cache \
     openssl-dev \
     rabbitmq-c-dev \
     readline-dev \
- && wget -q https://www.php.net/distributions/php-${PHP_VERSION}.tar.gz \
  && tar zxof php-${PHP_VERSION}.tar.gz \
  && cd ./php-${PHP_VERSION} \
  && ./configure \

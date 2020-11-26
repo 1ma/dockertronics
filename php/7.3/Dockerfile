@@ -2,7 +2,7 @@ FROM 1maa/postgres:13-src AS postgres
 
 FROM 1maa/alpine:3.12 AS build
 
-ENV PHP_VERSION=7.3.24
+ENV PHP_VERSION=7.3.25
 ENV GEARMAN_VERSION=2.0.6
 ENV MEMCACHED_VERSION=3.1.5
 ENV XHPROF_VERSION=5.0.2
@@ -14,6 +14,8 @@ COPY --from=postgres /usr/local/pgsql/include /usr/include
 COPY --from=postgres /usr/local/pgsql/lib     /usr/lib
 
 WORKDIR /tmp
+
+ADD "https://www.php.net/distributions/php-${PHP_VERSION}.tar.gz" .
 
 RUN apk add --no-cache \
     # generic dependencies for compiling the source
@@ -49,7 +51,6 @@ RUN apk add --no-cache \
     openssl-dev \
     rabbitmq-c-dev \
     readline-dev \
- && wget -q https://www.php.net/distributions/php-${PHP_VERSION}.tar.gz \
  && tar zxof php-${PHP_VERSION}.tar.gz \
  && cd ./php-${PHP_VERSION} \
  && ./configure \
