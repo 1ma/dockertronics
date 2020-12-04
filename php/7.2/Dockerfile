@@ -3,8 +3,6 @@ FROM 1maa/postgres:13-src AS postgres
 FROM 1maa/alpine:3.12 AS build
 
 ENV PHP_VERSION=7.2.34
-ENV GEARMAN_VERSION=2.0.6
-ENV MEMCACHED_VERSION=3.1.5
 ENV XHPROF_VERSION=5.0.2
 
 ENV CFLAGS="-Os -march=x86-64"
@@ -34,7 +32,6 @@ RUN apk add --no-cache \
     bzip2-dev \
     curl-dev \
     gd-dev \
-    gearman-dev@edge-testing \
     gmp-dev \
     gpgme-dev \
     libevent-dev \
@@ -106,41 +103,18 @@ RUN wget -q https://github.com/tideways/php-xhprof-extension/archive/v${XHPROF_V
  && make \
  && make install
 
-RUN wget -q https://github.com/php/pecl-networking-gearman/archive/gearman-${GEARMAN_VERSION}.tar.gz \
- && tar zxof gearman-${GEARMAN_VERSION}.tar.gz \
- && cd pecl-networking-gearman-gearman-${GEARMAN_VERSION} \
- && phpize \
- && ./configure \
- && make \
- && make install
-
 RUN pecl channel-update pecl.php.net \
  && pecl install \
-    igbinary \
-    msgpack
-
-RUN wget -q https://github.com/php-memcached-dev/php-memcached/archive/v${MEMCACHED_VERSION}.tar.gz \
- && tar zxof v${MEMCACHED_VERSION}.tar.gz \
- && cd php-memcached-${MEMCACHED_VERSION} \
- && phpize \
- && ./configure \
-    --enable-memcached-igbinary \
-    --enable-memcached-json \
-    --enable-memcached-msgpack \
-    --enable-memcached-protocol \
-    --enable-memcached-sasl \
-    --enable-memcached-session \
- && make \
- && make install
-
-RUN pecl install \
     amqp \
     apcu \
     ds \
     event \
     gnupg \
+    igbinary \
     maxminddb \
+    memcached \
     mongodb \
+    msgpack \
     pcov \
     protobuf \
     rdkafka \
@@ -227,7 +201,6 @@ COPY --from=build /usr/lib/php/*.so /usr/lib/php/
 
 RUN apk add --no-cache \
     argon2-libs \
-    gearman-libs@edge-testing \
     gmp \
     gpgme \
     libcurl \
