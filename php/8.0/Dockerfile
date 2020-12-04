@@ -120,8 +120,8 @@ RUN apk add --no-cache \
 
 RUN pecl channel-update pecl.php.net \
  && pecl install \
-    igbinary
-#    msgpack        # borked
+    igbinary \
+    msgpack
 
 #RUN wget -q https://github.com/php-memcached-dev/php-memcached/archive/v${MEMCACHED_VERSION}.tar.gz \
 # && tar zxof v${MEMCACHED_VERSION}.tar.gz \
@@ -141,17 +141,17 @@ RUN pecl install \
 #    amqp \         # borked
     apcu \
     csv \
-#    ds \           # borked
-#    event \        # borked
+    ds \
+    event-beta \
 #    gnupg \        # borked
     maxminddb \
     mongodb \
     pcov \
 #    protobuf \     # borked
-    rdkafka \
+#    rdkafka \      # borked
     redis \
 #    ssh2-beta \    # borked
-#    uv-beta
+#    uv-beta \      # borked
     xdebug \
 #    yar            # borked
 
@@ -256,21 +256,14 @@ RUN apk add --no-cache \
     readline \
     sqlite-libs \
  && rm /etc/php/mods-available/amqp.ini \
- && rm /etc/php/mods-available/ds.ini \
- && rm /etc/php/mods-available/event.ini \
  && rm /etc/php/mods-available/gearman.ini \
  && rm /etc/php/mods-available/gnupg.ini \
- && rm /etc/php/mods-available/igbinary.ini \
  && rm /etc/php/mods-available/memcached.ini \
- && rm /etc/php/mods-available/mongodb.ini \
- && rm /etc/php/mods-available/msgpack.ini \
  && rm /etc/php/mods-available/protobuf.ini \
  && rm /etc/php/mods-available/rdkafka.ini \
- && rm /etc/php/mods-available/redis.ini \
  && rm /etc/php/mods-available/ssh2.ini \
  && rm /etc/php/mods-available/tideways_xhprof.ini \
  && rm /etc/php/mods-available/uv.ini \
- && rm /etc/php/mods-available/xdebug.ini \
  && rm /etc/php/mods-available/yar.ini
 
 EXPOSE 9000

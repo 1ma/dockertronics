@@ -9,13 +9,16 @@ RUN php composer.phar global config bin-dir /usr/local/bin \
  && php composer.phar global config minimum-stability dev \
  && php composer.phar global config prefer-stable true \
  && php composer.phar global require --prefer-dist \
-    composer/composer:^2.0 \
+    composer/composer \
     d11wtq/boris \
     deployer/deployer \
+    friendsofphp/php-cs-fixer \
     phing/phing \
     phploc/phploc \
     phpmetrics/phpmetrics \
+    phpstan/phpstan \
     phpunit/phpunit \
+    vimeo/psalm \
  && rm -rf ${COMPOSER_HOME}/.htaccess ${COMPOSER_HOME}/cache
 
 
