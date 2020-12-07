@@ -16,11 +16,9 @@ RUN php composer.phar global config bin-dir /usr/local/bin \
     phing/phing \
     phploc/phploc \
     phpmetrics/phpmetrics \
-    phpstan/phpstan \
     phpunit/phpunit \
     psy/psysh \
     sensiolabs-de/deptrac-shim \
-    vimeo/psalm \
  && rm -rf ${COMPOSER_HOME}/.htaccess ${COMPOSER_HOME}/cache
 
 
