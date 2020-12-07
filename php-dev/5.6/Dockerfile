@@ -18,6 +18,7 @@ RUN php composer.phar global config bin-dir /usr/local/bin \
     phpmetrics/phpmetrics \
     phpstan/phpstan \
     phpunit/phpunit \
+    psy/psysh \
     vimeo/psalm \
  && rm -rf ${COMPOSER_HOME}/.htaccess ${COMPOSER_HOME}/cache
 
