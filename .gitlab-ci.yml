@@ -179,22 +179,6 @@ xhgui:
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
-php-7.2:
-  stage: tier2
-  needs:
-    - alpine
-  only:
-    changes:
-      - php/**/*
-      - php-dev/**/*
-  variables:
-    CONTEXT: php
-    IMAGE: 1maa/php:7.2
-  script:
-    - docker build --network host -t $IMAGE -f $CONTEXT/7.2/Dockerfile $CONTEXT
-    - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
-    - docker push $IMAGE
-
 php-7.3:
   stage: tier2
   needs:
@@ -318,22 +302,6 @@ sqlite:
     IMAGE: 1maa/sqlite:latest
   script:
     - docker build --network host -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
-    - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
-    - docker push $IMAGE
-
-php-7.2-dev:
-  stage: tier3
-  needs:
-    - php-7.2
-  only:
-    changes:
-      - php/**/*
-      - php-dev/**/*
-  variables:
-    CONTEXT: php-dev
-    IMAGE: 1maa/php-dev:7.2
-  script:
-    - docker build --network host -t $IMAGE -f $CONTEXT/7.2/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
