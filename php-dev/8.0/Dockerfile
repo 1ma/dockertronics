@@ -8,15 +8,13 @@ ADD https://getcomposer.org/composer.phar .
 RUN php composer.phar global config bin-dir /usr/local/bin \
  && php composer.phar global config minimum-stability dev \
  && php composer.phar global config prefer-stable true \
- && php composer.phar global require --prefer-dist --ignore-platform-reqs \
+ && php composer.phar global require --prefer-dist \
     composer/composer \
     d11wtq/boris \
     deployer/deployer \
-    friendsofphp/php-cs-fixer \
     phing/phing \
     phploc/phploc \
     phpmetrics/phpmetrics \
-    phpunit/phpunit \
     psy/psysh \
     sensiolabs-de/deptrac-shim \
  && rm -rf ${COMPOSER_HOME}/.htaccess ${COMPOSER_HOME}/cache

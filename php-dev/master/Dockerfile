@@ -12,11 +12,9 @@ RUN php composer.phar global config bin-dir /usr/local/bin \
     composer/composer \
     d11wtq/boris \
     deployer/deployer \
-    friendsofphp/php-cs-fixer \
     phing/phing \
     phploc/phploc \
     phpmetrics/phpmetrics \
-    phpunit/phpunit \
     psy/psysh \
     sensiolabs-de/deptrac-shim \
  && rm -rf ${COMPOSER_HOME}/.htaccess ${COMPOSER_HOME}/cache
