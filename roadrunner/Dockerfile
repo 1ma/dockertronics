@@ -1,6 +1,6 @@
 FROM golang:alpine
 
-ENV RR_VERSION=1.8.4
+ENV RR_VERSION=1.9.0
 
 WORKDIR /tmp
 
@@ -19,7 +19,7 @@ RUN apk add --no-cache \
  && file /usr/local/bin/rr
 
 
-FROM 1maa/php:7.4
+FROM 1maa/php:8.0
 
 COPY --from=0 /usr/local/bin/rr /usr/local/bin/rr
 
