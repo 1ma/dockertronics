@@ -3,6 +3,7 @@ FROM 1maa/postgres:13-src AS postgres
 FROM 1maa/alpine:3.12 AS build
 
 ENV PHP_VERSION=8.0.0
+ENV EXCIMER_VERSION=master
 ENV XHPROF_VERSION=5.0.2
 
 ENV CFLAGS="-Os -march=x86-64"
@@ -106,6 +107,14 @@ RUN apk add --no-cache \
 #  && ./configure \
 #  && make \
 #  && make install
+
+RUN wget -q https://github.com/wikimedia/php-excimer/archive/${EXCIMER_VERSION}.tar.gz \
+ && tar zxof ${EXCIMER_VERSION}.tar.gz \
+ && cd ./php-excimer-${EXCIMER_VERSION} \
+ && phpize \
+ && ./configure \
+ && make \
+ && make install
 
 RUN pecl channel-update pecl.php.net \
  && pecl install \
