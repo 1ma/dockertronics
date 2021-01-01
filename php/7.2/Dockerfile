@@ -3,7 +3,7 @@ FROM 1maa/postgres:13-src AS postgres
 FROM 1maa/alpine:3.12 AS build
 
 ENV PHP_VERSION=7.2.34
-ENV XHPROF_VERSION=5.0.2
+ENV XHPROF_VERSION=5.0.4
 
 ENV CFLAGS="-Os -march=x86-64"
 ENV LDFLAGS="-s"
