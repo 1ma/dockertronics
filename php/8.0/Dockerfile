@@ -100,13 +100,13 @@ RUN apk add --no-cache \
  && make -j$(nproc) \
  && make install
 
-# RUN wget -q https://github.com/tideways/php-xhprof-extension/archive/v${XHPROF_VERSION}.tar.gz \
-#  && tar zxof v${XHPROF_VERSION}.tar.gz \
-#  && cd ./php-xhprof-extension-${XHPROF_VERSION} \
-#  && phpize \
-#  && ./configure \
-#  && make \
-#  && make install
+ RUN wget -q https://github.com/tideways/php-xhprof-extension/archive/v${XHPROF_VERSION}.tar.gz \
+  && tar zxof v${XHPROF_VERSION}.tar.gz \
+  && cd ./php-xhprof-extension-${XHPROF_VERSION} \
+  && phpize \
+  && ./configure \
+  && make \
+  && make install
 
 RUN wget -q https://github.com/wikimedia/php-excimer/archive/${EXCIMER_VERSION}.tar.gz \
  && tar zxof ${EXCIMER_VERSION}.tar.gz \
@@ -243,7 +243,6 @@ RUN apk add --no-cache \
  && rm /etc/php/mods-available/protobuf.ini \
  && rm /etc/php/mods-available/rdkafka.ini \
  && rm /etc/php/mods-available/ssh2.ini \
- && rm /etc/php/mods-available/tideways_xhprof.ini \
  && rm /etc/php/mods-available/uv.ini \
  && rm /etc/php/mods-available/yar.ini
 
