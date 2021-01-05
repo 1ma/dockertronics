@@ -7,6 +7,7 @@ RUN apk add --no-cache \
     ruby \
     ruby-bigdecimal \
     ruby-dev \
+    ruby-etc \
     ruby-json \
     tree \
  && gem install \
