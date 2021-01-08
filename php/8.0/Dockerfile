@@ -2,7 +2,7 @@ FROM 1maa/postgres:13-src AS postgres
 
 FROM 1maa/alpine:3.12 AS build
 
-ENV PHP_VERSION=8.0.0
+ENV PHP_VERSION=8.0.1
 ENV EXCIMER_VERSION=master
 ENV XHPROF_VERSION=5.0.4
 
