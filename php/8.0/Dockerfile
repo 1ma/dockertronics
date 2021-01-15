@@ -131,12 +131,12 @@ RUN pecl channel-update pecl.php.net \
     msgpack \
     pcov \
 #    protobuf \     # borked
-#    rdkafka \      # borked
+    rdkafka \
     redis \
 #    ssh2-beta \    # borked
 #    uv-beta \      # borked
-    xdebug
-#    yar            # borked
+    xdebug \
+    yar
 
 RUN rm -rf php-${PHP_VERSION} \
  && tar zxof php-${PHP_VERSION}.tar.gz \
@@ -241,10 +241,8 @@ RUN apk add --no-cache \
  && rm /etc/php/mods-available/gnupg.ini \
  && rm /etc/php/mods-available/memcached.ini \
  && rm /etc/php/mods-available/protobuf.ini \
- && rm /etc/php/mods-available/rdkafka.ini \
  && rm /etc/php/mods-available/ssh2.ini \
- && rm /etc/php/mods-available/uv.ini \
- && rm /etc/php/mods-available/yar.ini
+ && rm /etc/php/mods-available/uv.ini
 
 EXPOSE 9000
 
