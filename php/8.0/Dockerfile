@@ -2,7 +2,7 @@ FROM 1maa/postgres:13-src AS postgres
 
 FROM 1maa/alpine:3.12 AS build
 
-ENV PHP_VERSION=8.0.1
+ENV PHP_VERSION=8.0.2
 ENV EXCIMER_VERSION=master
 ENV XHPROF_VERSION=5.0.4
 
@@ -53,6 +53,7 @@ RUN apk add --no-cache \
     rabbitmq-c-dev \
     readline-dev \
     sqlite-dev \
+    yaml-dev \
  && tar zxof php-${PHP_VERSION}.tar.gz \
  && cd ./php-${PHP_VERSION} \
  && ./configure \
@@ -136,6 +137,7 @@ RUN pecl channel-update pecl.php.net \
 #    ssh2-beta \    # borked
 #    uv-beta \      # borked
     xdebug \
+    yaml \
     yar
 
 RUN rm -rf php-${PHP_VERSION} \
@@ -237,6 +239,7 @@ RUN apk add --no-cache \
     rabbitmq-c \
     readline \
     sqlite-libs \
+    yaml \
  && rm /etc/php/mods-available/amqp.ini \
  && rm /etc/php/mods-available/gnupg.ini \
  && rm /etc/php/mods-available/memcached.ini \

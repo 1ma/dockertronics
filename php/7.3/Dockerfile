@@ -2,7 +2,7 @@ FROM 1maa/postgres:13-src AS postgres
 
 FROM 1maa/alpine:3.12 AS build
 
-ENV PHP_VERSION=7.3.26
+ENV PHP_VERSION=7.3.27
 ENV EXCIMER_VERSION=1.0.0
 ENV XHPROF_VERSION=5.0.4
 
@@ -49,6 +49,7 @@ RUN apk add --no-cache \
     openssl-dev \
     rabbitmq-c-dev \
     readline-dev \
+    yaml-dev \
  && tar zxof php-${PHP_VERSION}.tar.gz \
  && cd ./php-${PHP_VERSION} \
  && ./configure \
@@ -132,6 +133,7 @@ RUN pecl channel-update pecl.php.net \
     ssh2-beta \
     uv-beta \
     xdebug \
+    yaml \
     yar
 
 RUN rm -rf php-${PHP_VERSION} \
@@ -229,7 +231,8 @@ RUN apk add --no-cache \
     libxslt \
     libzip \
     rabbitmq-c \
-    readline
+    readline \
+    yaml
 
 EXPOSE 9000
 
