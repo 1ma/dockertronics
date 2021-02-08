@@ -1,15 +1,16 @@
-FROM 1maa/alpine:3.12
+FROM 1maa/alpine:3.13
 
 WORKDIR /tmp
+
+ADD https://github.com/beanstalkd/beanstalkd/archive/master.tar.gz .
 
 RUN apk add --no-cache \
     build-base \
     file \
-    git \
     pkgconf \
     upx \
- && git clone --depth=1 https://github.com/beanstalkd/beanstalkd \
- && cd beanstalkd \
+ && tar zxf master.tar.gz \
+ && cd beanstalkd-master \
  && sed -i 's@-g@-Os -march=x86-64@' Makefile \
  && sed -i 's@LDFLAGS?=@LDFLAGS?=-s -static@' Makefile \
  && make \
@@ -21,7 +22,7 @@ RUN apk add --no-cache \
 
 FROM busybox
 
-COPY --from=0 /tmp/beanstalkd/beanstalkd /root/beanstalkd
+COPY --from=0 /tmp/beanstalkd-master/beanstalkd /root/beanstalkd
 
 RUN mkdir /root/etc \
  && echo "nobody:x:65534:65534:nobody:/:/sbin/nologin" > /root/etc/passwd

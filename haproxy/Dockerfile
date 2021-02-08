@@ -1,6 +1,6 @@
-FROM 1maa/alpine:3.12
+FROM 1maa/alpine:3.13
 
-ENV HAPROXY_VERSION=2.3.4
+ENV HAPROXY_VERSION=2.3.5
 
 WORKDIR /tmp
 

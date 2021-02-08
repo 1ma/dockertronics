@@ -5,9 +5,9 @@ COPY https-repositories .
 RUN chmod 644 https-repositories
 
 
-FROM alpine:3.12
+FROM alpine:3.13
 
-# list of mirrors: https://github.com/alpinelinux/aports/blob/master/main/alpine-mirrors/mirrors.yaml
+# list of mirrors: https://mirrors.alpinelinux.org/
 COPY --from=0 https-repositories /etc/apk/repositories
 
 RUN apk add --no-cache --upgrade \

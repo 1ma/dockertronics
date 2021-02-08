@@ -1,6 +1,6 @@
 FROM 1maa/postgres:13-src AS postgres
 
-FROM 1maa/alpine:3.12 AS build
+FROM 1maa/alpine:3.13 AS build
 
 ENV PHP_VERSION=7.2.34
 ENV XHPROF_VERSION=5.0.4
@@ -185,7 +185,7 @@ RUN rm -rf php-${PHP_VERSION} \
 \
  && upx --lzma /usr/bin/php /usr/sbin/php-fpm
 
-FROM 1maa/alpine:3.12
+FROM 1maa/alpine:3.13
 
 COPY --from=postgres /usr/local/pgsql/lib/libpq.so.5.13 /usr/lib/libpq.so.5
 
