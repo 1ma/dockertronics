@@ -16,7 +16,7 @@ RUN php composer.phar global config bin-dir /usr/local/bin \
     phploc/phploc \
     phpmetrics/phpmetrics \
     psy/psysh \
-    sensiolabs-de/deptrac-shim \
+    qossmic/deptrac-shim \
  && rm -rf ${COMPOSER_HOME}/.htaccess ${COMPOSER_HOME}/cache
 
 
