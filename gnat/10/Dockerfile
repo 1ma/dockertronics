@@ -9,7 +9,7 @@ ADD https://github.com/alire-project/alire/releases/download/v${ALIRE_VERSION}/a
 RUN unzip alr-${ALIRE_VERSION}-bin-linux.zip
 
 
-FROM ubuntu:20.04
+FROM ubuntu:21.04
 
 ENV DEBIAN_FRONTEND noninteractive
 
