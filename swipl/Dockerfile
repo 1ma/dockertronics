@@ -31,7 +31,7 @@ RUN make -j$(nproc)
 RUN make install
 
 
-FROM alpine:3.12
+FROM alpine:3.13
 
 COPY --from=0 /usr/local /usr/local
 
