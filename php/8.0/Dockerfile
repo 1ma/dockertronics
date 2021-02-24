@@ -94,20 +94,19 @@ RUN apk add --no-cache \
     --with-pgsql \
     --with-readline \
     --with-sodium \
-    --with-xmlrpc \
     --with-xsl \
     --with-zip \
     --with-zlib \
  && make -j$(nproc) \
  && make install
 
- RUN wget -q https://github.com/tideways/php-xhprof-extension/archive/v${XHPROF_VERSION}.tar.gz \
-  && tar zxof v${XHPROF_VERSION}.tar.gz \
-  && cd ./php-xhprof-extension-${XHPROF_VERSION} \
-  && phpize \
-  && ./configure \
-  && make \
-  && make install
+RUN wget -q https://github.com/tideways/php-xhprof-extension/archive/v${XHPROF_VERSION}.tar.gz \
+ && tar zxof v${XHPROF_VERSION}.tar.gz \
+ && cd ./php-xhprof-extension-${XHPROF_VERSION} \
+ && phpize \
+ && ./configure \
+ && make \
+ && make install
 
 RUN wget -q https://github.com/wikimedia/php-excimer/archive/${EXCIMER_VERSION}.tar.gz \
  && tar zxof ${EXCIMER_VERSION}.tar.gz \
@@ -124,14 +123,14 @@ RUN pecl channel-update pecl.php.net \
     csv \
     ds \
     event-beta \
-#    gnupg \        # borked
+    gnupg-beta \
     igbinary \
     maxminddb \
     memcached \
     mongodb \
     msgpack \
     pcov \
-#    protobuf \     # borked
+    protobuf \
     rdkafka \
     redis \
 #    ssh2-beta \    # borked
@@ -179,7 +178,6 @@ RUN rm -rf php-${PHP_VERSION} \
     --with-pear \
     --with-pgsql \
     --with-sodium \
-    --with-xmlrpc \
     --with-xsl \
     --with-zip \
     --with-zlib \
@@ -241,9 +239,6 @@ RUN apk add --no-cache \
     sqlite-libs \
     yaml \
  && rm /etc/php/mods-available/amqp.ini \
- && rm /etc/php/mods-available/gnupg.ini \
- && rm /etc/php/mods-available/memcached.ini \
- && rm /etc/php/mods-available/protobuf.ini \
  && rm /etc/php/mods-available/ssh2.ini \
  && rm /etc/php/mods-available/uv.ini
 
