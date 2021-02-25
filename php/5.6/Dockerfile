@@ -151,7 +151,9 @@ RUN pecl install \
     ssh2-0.13 \
     xdebug-2.5.5 \
     xhprof-${XHPROF_VERSION} \
-    yar-1.2.5
+    yar-1.2.5 \
+ && chmod 644 /usr/lib/php/*.so \
+ && strip --strip-all /usr/lib/php/*.so
 
 RUN rm -rf php-${PHP_VERSION} \
  && tar zxof php-${PHP_VERSION}.tar.gz \

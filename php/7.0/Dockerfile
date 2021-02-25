@@ -153,7 +153,9 @@ RUN pecl install \
     ssh2-beta \
     uv-beta \
     xdebug-2.7.2 \
-    yar
+    yar \
+ && chmod 644 /usr/lib/php/*.so \
+ && strip --strip-all /usr/lib/php/*.so
 
 RUN rm -rf php-${PHP_VERSION} \
  && tar zxof php-${PHP_VERSION}.tar.gz \

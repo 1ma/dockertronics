@@ -13,7 +13,7 @@ COPY --from=postgres /usr/local/pgsql/lib     /usr/lib
 
 WORKDIR /tmp
 
-ADD "https://www.php.net/distributions/php-${PHP_VERSION}.tar.gz" .
+ADD https://www.php.net/distributions/php-${PHP_VERSION}.tar.gz .
 
 RUN apk add --no-cache \
     # generic dependencies for compiling the source
@@ -122,7 +122,10 @@ RUN pecl channel-update pecl.php.net \
     ssh2-beta \
     uv-beta \
     xdebug \
-    yar
+    yaml \
+    yar \
+ && chmod 644 /usr/lib/php/*.so \
+ && strip --strip-all /usr/lib/php/*.so
 
 RUN rm -rf php-${PHP_VERSION} \
  && tar zxof php-${PHP_VERSION}.tar.gz \
