@@ -1,7 +1,7 @@
 FROM postgres:13-alpine
 
 ENV PGTAP_VERSION v1.1.0
-ENV POSTGIS_VERSION 3.0.1
+ENV POSTGIS_VERSION 3.1.1
 
 RUN echo "@edge-testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
  && apk --no-cache add \
