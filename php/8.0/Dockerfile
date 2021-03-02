@@ -126,7 +126,7 @@ RUN pecl channel-update pecl.php.net \
     protobuf \
     rdkafka \
     redis \
-#    ssh2-beta \    # borked
+    ssh2-beta \
 #    uv-beta \      # borked
     xdebug \
     yaml \
