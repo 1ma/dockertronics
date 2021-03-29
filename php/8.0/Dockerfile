@@ -109,11 +109,11 @@ RUN wget -q https://github.com/tideways/php-xhprof-extension/archive/v${XHPROF_V
 
 RUN pecl channel-update pecl.php.net \
  && pecl install \
-#    amqp \         # borked
+    amqp-beta \
     apcu \
     csv \
     ds \
-    event-beta \
+    event \
     excimer \
     gnupg-beta \
     grpc \
