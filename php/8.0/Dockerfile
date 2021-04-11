@@ -115,7 +115,7 @@ RUN pecl channel-update pecl.php.net \
     ds \
     event \
     excimer \
-    gnupg-beta \
+    gnupg \
     grpc \
     igbinary \
     maxminddb \
