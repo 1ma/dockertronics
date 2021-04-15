@@ -8,7 +8,7 @@ ADD https://github.com/alire-project/alire/releases/download/v${ALIRE_VERSION}/a
 
 RUN unzip alr-${ALIRE_VERSION}-bin-linux.zip \
  && apk add binutils \
- && strip bin/alr
+ && strip --strip-all bin/alr
 
 
 FROM ubuntu:21.04
