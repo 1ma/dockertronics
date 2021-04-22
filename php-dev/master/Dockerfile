@@ -9,7 +9,8 @@ COPY composer-releases-pubkey.asc .
 ADD https://github.com/composer/composer/releases/download/${BOOTSTRAP_VERSION}/composer.phar .
 ADD https://github.com/composer/composer/releases/download/${BOOTSTRAP_VERSION}/composer.phar.asc .
 
-RUN gpg --import composer-releases-pubkey.asc \
+RUN apk add gnupg \
+ && gpg --import composer-releases-pubkey.asc \
  && gpg --verify composer.phar.asc composer.phar \
  && php composer.phar global config bin-dir /usr/local/bin \
  && php composer.phar global config minimum-stability dev \
