@@ -1,11 +1,17 @@
 FROM 1maa/php:8.0
 
+ENV BOOTSTRAP_VERSION=2.0.12
 ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV COMPOSER_HOME=/opt/composer
 
-ADD https://getcomposer.org/composer.phar .
+COPY composer-releases-pubkey.asc .
 
-RUN php composer.phar global config bin-dir /usr/local/bin \
+ADD https://github.com/composer/composer/releases/download/${BOOTSTRAP_VERSION}/composer.phar .
+ADD https://github.com/composer/composer/releases/download/${BOOTSTRAP_VERSION}/composer.phar.asc .
+
+RUN gpg --import composer-releases-pubkey.asc \
+ && gpg --verify composer.phar.asc composer.phar \
+ && php composer.phar global config bin-dir /usr/local/bin \
  && php composer.phar global config minimum-stability dev \
  && php composer.phar global config prefer-stable true \
  && php composer.phar global require --prefer-dist \
