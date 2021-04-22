@@ -1,6 +1,6 @@
 # 1maa/postgres:12-alpine
 
-An extension of the official `postgres:12-alpine` image with a few additional, non-contrib extensions.
+An extension of the official `postgres:13-alpine` image with a few additional, non-contrib extensions.
 
 
 ### Non-Contrib Extension List
@@ -17,9 +17,9 @@ An extension of the official `postgres:12-alpine` image with a few additional, n
 
 ## 1maa/postgres:12-src
 
-An experimental image of Postgres 12.2 built from source, also based on Alpine Linux.
+An experimental image of Postgres 13.2 built from source, also based on Alpine Linux.
 It is much smaller than the first one I built, but it still doesn't have any of the above extensions.
-In the future I'd like to replace `1maa/postgres:12-alpine` with this one.
+In the future I'd like to replace `1maa/postgres:13-alpine` with this one.
 
 ```
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
