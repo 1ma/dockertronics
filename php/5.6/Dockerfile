@@ -11,14 +11,24 @@ ENV LDFLAGS="-s"
 
 WORKDIR /tmp
 
-RUN apk upgrade --no-cache \
- && apk add --no-cache \
+COPY 5.6/pubkey.asc .
+
+ADD https://www.php.net/distributions/php-${PHP_VERSION}.tar.gz .
+ADD https://www.php.net/distributions/php-${PHP_VERSION}.tar.gz.asc .
+
+RUN apk add --no-cache gnupg \
+ && gpg --import pubkey.asc \
+ && gpg --verify php-${PHP_VERSION}.tar.gz.asc php-${PHP_VERSION}.tar.gz
+
+RUN apk add --no-cache \
     # generic dependencies for compiling the source
     autoconf \
     automake \
     build-base \
     file \
     flex \
+    libcrypto1.1@edge-main \
+    libssl1.1@edge-main \
     libtool \
     re2c \
 \
@@ -45,7 +55,6 @@ RUN apk upgrade --no-cache \
     postgresql-dev \
     rabbitmq-c-dev \
     readline-dev \
- && wget -q https://www.php.net/distributions/php-${PHP_VERSION}.tar.gz \
  && tar zxof php-${PHP_VERSION}.tar.gz \
  && cd ./php-${PHP_VERSION} \
  && ./configure \
@@ -92,15 +101,6 @@ RUN apk upgrade --no-cache \
  && make -j$(nproc) \
  && make install
 
-# Unsupported in PHP5
-#RUN wget -q https://github.com/tideways/php-xhprof-extension/archive/v${XHPROF_VERSION}.tar.gz \
-# && tar zxof v${XHPROF_VERSION}.tar.gz \
-# && cd ./php-xhprof-extension-${XHPROF_VERSION} \
-# && phpize \
-# && ./configure \
-# && make \
-# && make install
-
 RUN wget -q https://github.com/maxmind/MaxMind-DB-Reader-php/archive/v${MAXMINDDB_VERSION}.tar.gz \
  && tar zxof v${MAXMINDDB_VERSION}.tar.gz \
  && cd MaxMind-DB-Reader-php-${MAXMINDDB_VERSION}/ext \
@@ -108,15 +108,6 @@ RUN wget -q https://github.com/maxmind/MaxMind-DB-Reader-php/archive/v${MAXMINDD
  && ./configure \
  && make \
  && make install
-
-# Installed with PECL
-#RUN wget -q https://github.com/php/pecl-networking-gearman/archive/gearman-${GEARMAN_VERSION}.tar.gz \
-# && tar zxof gearman-${GEARMAN_VERSION}.tar.gz \
-# && cd pecl-networking-gearman-gearman-${GEARMAN_VERSION} \
-# && phpize \
-# && ./configure \
-# && make \
-# && make install
 
 RUN pecl channel-update pecl.php.net \
  && pecl install \
@@ -228,6 +219,7 @@ RUN apk upgrade --no-cache \
     gmp \
     gpgme \
     libcurl \
+    libcrypto1.1@edge-main \
     libevent \
     libgd \
     libmaxminddb \
@@ -236,6 +228,7 @@ RUN apk upgrade --no-cache \
     librdkafka \
     libsodium \
     libssh2 \
+    libssl1.1@edge-main \
     libxml2 \
     libxslt \
     libzip \
@@ -244,9 +237,15 @@ RUN apk upgrade --no-cache \
  && rm /etc/php/mods-available/amqp.ini \
  && rm /etc/php/mods-available/csv.ini \
  && rm /etc/php/mods-available/ds.ini \
+ && rm /etc/php/mods-available/excimer.ini \
+ && rm /etc/php/mods-available/grpc.ini \
+ && rm /etc/php/mods-available/mongodb.ini \
  && rm /etc/php/mods-available/pcov.ini \
+ && rm /etc/php/mods-available/protobuf.ini \
+ && rm /etc/php/mods-available/rdkafka.ini \
  && rm /etc/php/mods-available/tideways_xhprof.ini \
- && rm /etc/php/mods-available/uv.ini
+ && rm /etc/php/mods-available/uv.ini \
+ && rm /etc/php/mods-available/yaml.ini
 
 EXPOSE 9000
 

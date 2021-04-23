@@ -11,10 +11,19 @@ ENV XHPROF_VERSION=5.0.4
 ENV CFLAGS="-Os -march=x86-64"
 ENV LDFLAGS="-s"
 
+WORKDIR /tmp
+
+COPY 7.1/pubkey.asc .
+
+ADD https://www.php.net/distributions/php-${PHP_VERSION}.tar.gz .
+ADD https://www.php.net/distributions/php-${PHP_VERSION}.tar.gz.asc .
+
+RUN apk add --no-cache gnupg \
+ && gpg --import pubkey.asc \
+ && gpg --verify php-${PHP_VERSION}.tar.gz.asc php-${PHP_VERSION}.tar.gz
+
 COPY --from=postgres /usr/local/pgsql/include /usr/include
 COPY --from=postgres /usr/local/pgsql/lib     /usr/lib
-
-WORKDIR /tmp
 
 RUN apk add --no-cache \
     # generic dependencies for compiling the source
@@ -49,7 +58,6 @@ RUN apk add --no-cache \
     openssl-dev \
     rabbitmq-c-dev \
     readline-dev \
- && wget -q https://www.php.net/distributions/php-${PHP_VERSION}.tar.gz \
  && tar zxof php-${PHP_VERSION}.tar.gz \
  && cd ./php-${PHP_VERSION} \
  && ./configure \
@@ -248,7 +256,10 @@ RUN apk add --no-cache \
     libzip \
     rabbitmq-c \
     readline \
- && rm /etc/php/mods-available/csv.ini
+ && rm /etc/php/mods-available/csv.ini \
+ && rm /etc/php/mods-available/excimer.ini \
+ && rm /etc/php/mods-available/grpc.ini \
+ && rm /etc/php/mods-available/yaml.ini
 
 EXPOSE 9000
 

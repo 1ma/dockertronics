@@ -4,15 +4,16 @@ ENV BOOTSTRAP_VERSION=2.0.12
 ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV COMPOSER_HOME=/opt/composer
 
-COPY composer-releases-pubkey.asc .
+COPY composer-pubkey.asc .
 
 ADD https://github.com/composer/composer/releases/download/${BOOTSTRAP_VERSION}/composer.phar .
 ADD https://github.com/composer/composer/releases/download/${BOOTSTRAP_VERSION}/composer.phar.asc .
 
 RUN apk add gnupg \
- && gpg --import composer-releases-pubkey.asc \
- && gpg --verify composer.phar.asc composer.phar \
- && php composer.phar global config bin-dir /usr/local/bin \
+ && gpg --import composer-pubkey.asc \
+ && gpg --verify composer.phar.asc composer.phar
+
+RUN php composer.phar global config bin-dir /usr/local/bin \
  && php composer.phar global config minimum-stability dev \
  && php composer.phar global config prefer-stable true \
  && php composer.phar global require --prefer-dist --ignore-platform-reqs \

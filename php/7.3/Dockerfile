@@ -8,12 +8,19 @@ ENV XHPROF_VERSION=5.0.4
 ENV CFLAGS="-Os -march=x86-64"
 ENV LDFLAGS="-s"
 
-COPY --from=postgres /usr/local/pgsql/include /usr/include
-COPY --from=postgres /usr/local/pgsql/lib     /usr/lib
-
 WORKDIR /tmp
 
+COPY 7.3/pubkey.asc .
+
 ADD https://www.php.net/distributions/php-${PHP_VERSION}.tar.gz .
+ADD https://www.php.net/distributions/php-${PHP_VERSION}.tar.gz.asc .
+
+RUN apk add --no-cache gnupg \
+ && gpg --import pubkey.asc \
+ && gpg --verify php-${PHP_VERSION}.tar.gz.asc php-${PHP_VERSION}.tar.gz
+
+COPY --from=postgres /usr/local/pgsql/include /usr/include
+COPY --from=postgres /usr/local/pgsql/lib     /usr/lib
 
 RUN apk add --no-cache \
     # generic dependencies for compiling the source
