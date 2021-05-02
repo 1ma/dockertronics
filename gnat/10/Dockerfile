@@ -1,26 +1,27 @@
-FROM alpine:3.13
+FROM 1maa/alpine:3.13 AS alire
 
-ENV ALIRE_VERSION 1.0.0
+ENV ALIRE_VERSION v1.0.0
 
 WORKDIR /tmp
 
-ADD https://github.com/alire-project/alire/releases/download/v${ALIRE_VERSION}/alr-${ALIRE_VERSION}-bin-linux.zip .
-
-RUN unzip alr-${ALIRE_VERSION}-bin-linux.zip \
- && apk add binutils \
- && strip --strip-all bin/alr
-
-
-FROM ubuntu:21.04
-
-ENV DEBIAN_FRONTEND noninteractive
-
-COPY --from=0 /tmp/bin/alr /usr/local/bin/alr
-
-RUN apt-get update && apt-get install -y \
-    curl \
+RUN apk add --no-cache \
+    binutils \
+    gcc-gnat@edge-main \
     git \
-    gnat \
-    gprbuild \
-    unzip \
- && rm -rf /var/lib/apt/lists/*
+    gprbuild@edge-testing \
+    libc-dev@edge-main \
+ && git clone --depth 1 --branch ${ALIRE_VERSION} --recurse-submodules https://github.com/alire-project/alire.git \
+ && gprbuild -j$(nproc) -XALIRE_BUILD_MODE=release -P alire/alr_env \
+ && strip --strip-all alire/bin/alr
+
+
+FROM 1maa/alpine:3.13
+
+COPY --from=alire /tmp/alire/bin/alr /usr/local/bin/alr
+
+RUN apk add --no-cache \
+    curl \
+    gcc-gnat@edge-main \
+    git \
+    gprbuild@edge-testing \
+    libc-dev@edge-main
