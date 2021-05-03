@@ -36,3 +36,5 @@ COPY etc /etc/php
 
 COPY --from=0 ${COMPOSER_HOME} ${COMPOSER_HOME}
 COPY --from=0 /usr/local/bin /usr/local/bin
+
+RUN apk add --no-cache git
