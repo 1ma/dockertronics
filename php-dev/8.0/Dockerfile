@@ -18,7 +18,8 @@ RUN php composer.phar global config bin-dir /usr/local/bin \
  && php composer.phar global require --prefer-dist \
     composer/composer \
     d11wtq/boris \
-    deployer/deployer \
+    deployer/deployer:^7.0 \
+    friendsofphp/php-cs-fixer \
     phing/phing \
     phploc/phploc \
     phpmetrics/phpmetrics \
