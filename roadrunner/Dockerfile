@@ -1,6 +1,6 @@
 FROM golang:alpine
 
-ENV RR_VERSION=2.0.1
+ENV RR_VERSION=2.1.1
 
 WORKDIR /tmp
 
@@ -15,7 +15,7 @@ RUN apk add --no-cache \
     -trimpath \
     -ldflags "-X github.com/spiral/roadrunner-binary/v2/cli.Version=${RR_VERSION} -X github.com/spiral/roadrunner-binary/v2/cli.BuildTime=$(date +%FT%T%z) -s -w -d" \
     -o /usr/local/bin/rr \
-    main.go \
+    cmd/rr/main.go \
  && file /usr/local/bin/rr \
  && upx --lzma /usr/local/bin/rr \
  && file /usr/local/bin/rr
