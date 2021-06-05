@@ -22,12 +22,13 @@ RUN apt-get update \
 ADD https://github.com/gcc-mirror/gcc/archive/${GCC_COMMIT}.tar.gz .
 
 RUN tar zxf ${GCC_COMMIT}.tar.gz \
- && cd gcc-${GCC_COMMIT} \
+ && mv gcc-${GCC_COMMIT} gcc-src \
+ && cd gcc-src \
  && ./contrib/download_prerequisites \
  && cd .. \
  && mkdir gcc-build \
  && cd gcc-build \
- && ../gcc-${GCC_COMMIT}/configure --prefix=/usr/local/gcc --disable-multilib --enable-languages=c,c++,ada
+ && ../gcc-src/configure --prefix=/usr/local/gcc --disable-multilib --enable-languages=c,c++,ada
 
 RUN make -C gcc-build -j$(nproc)
 
@@ -36,11 +37,10 @@ RUN make -C gcc-build install
 
 FROM ubuntu:20.04
 
-ENV GCC_COMMIT=c94424b0ed786ec92b6904da69af8b5243b34fdc
 ENV PATH=/usr/local/gcc/bin:$PATH
 
-COPY --from=0 /usr/local/gcc         /usr/local/gcc
-COPY --from=0 /tmp/gcc-${GCC_COMMIT} /usr/local/src/gcc
+COPY --from=0 /usr/local/gcc /usr/local/gcc
+COPY --from=0 /tmp/gcc-src   /usr/local/src/gcc
 
 RUN ln -s /usr/local/gcc/bin/gcc /usr/local/gcc/bin/cc \
  && ln -s /usr/local/gcc/bin/gcc /usr/local/gcc/bin/gnatgcc \
