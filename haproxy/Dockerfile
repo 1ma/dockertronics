@@ -1,10 +1,10 @@
 FROM 1maa/alpine:3.13
 
-ENV HAPROXY_VERSION=2.3.10
+ENV HAPROXY_VERSION=2.4.0
 
 WORKDIR /tmp
 
-ADD https://www.haproxy.org/download/2.3/src/haproxy-${HAPROXY_VERSION}.tar.gz .
+ADD https://www.haproxy.org/download/2.4/src/haproxy-${HAPROXY_VERSION}.tar.gz .
 
 RUN apk add --no-cache \
     build-base \
@@ -18,7 +18,6 @@ RUN apk add --no-cache \
  && make -C haproxy-${HAPROXY_VERSION} all -j$(nproc) \
     CPU_CFLAGS="-Os -march=x86-64" \
     DEBUG_CFLAGS= \
-    EXTRA_OBJS="contrib/prometheus-exporter/service-prometheus.o" \
     LDFLAGS="-s" \
     LUA_INC="/usr/include/lua5.3" \
     LUA_LIB="/usr/lib/lua5.3" \
@@ -29,6 +28,7 @@ RUN apk add --no-cache \
     USE_OPENSSL=1 \
     USE_PCRE2=1 \
     USE_PCRE2_JIT=1 \
+    USE_PROMEX=1 \
     USE_REGPARM=1 \
     USE_STATIC_PCRE2=1 \
     USE_ZLIB=1 \
