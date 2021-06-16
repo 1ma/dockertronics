@@ -1,4 +1,4 @@
-FROM 1maa/php:7.4
+FROM 1maa/php:8.1
 
 ENV BOOTSTRAP_VERSION=2.1.3
 ENV COMPOSER_ALLOW_SUPERUSER=1
@@ -9,7 +9,8 @@ COPY composer-pubkey.asc .
 ADD https://github.com/composer/composer/releases/download/${BOOTSTRAP_VERSION}/composer.phar .
 ADD https://github.com/composer/composer/releases/download/${BOOTSTRAP_VERSION}/composer.phar.asc .
 
-RUN gpg --import composer-pubkey.asc \
+RUN apk add gnupg \
+ && gpg --import composer-pubkey.asc \
  && gpg --verify composer.phar.asc composer.phar
 
 RUN php composer.phar global config bin-dir /usr/local/bin \
@@ -18,17 +19,17 @@ RUN php composer.phar global config bin-dir /usr/local/bin \
  && php composer.phar global require --prefer-dist \
     composer/composer \
     d11wtq/boris \
-    deployer/deployer \
+    deployer/deployer:^7.0 \
     friendsofphp/php-cs-fixer \
     phing/phing \
     phploc/phploc \
     phpmetrics/phpmetrics \
     psy/psysh \
-    qossmic/deptrac-shim \
+#    qossmic/deptrac-shim \
  && rm -rf ${COMPOSER_HOME}/.htaccess ${COMPOSER_HOME}/cache
 
 
-FROM 1maa/php:7.4
+FROM 1maa/php:8.1
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV COMPOSER_HOME=/opt/composer
