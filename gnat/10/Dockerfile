@@ -1,4 +1,4 @@
-FROM 1maa/alpine:3.13 AS alire
+FROM 1maa/alpine:3.14 AS alire
 
 ENV ALIRE_VERSION v1.0.1
 
@@ -15,7 +15,7 @@ RUN apk add --no-cache \
  && strip --strip-all alire/bin/alr
 
 
-FROM 1maa/alpine:3.13
+FROM 1maa/alpine:3.14
 
 COPY --from=alire /tmp/alire/bin/alr /usr/local/bin/alr
 
