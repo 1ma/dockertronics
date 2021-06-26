@@ -1,7 +1,7 @@
 FROM postgres:13-alpine
 
 ENV PGTAP_VERSION v1.1.0
-ENV POSTGIS_VERSION 3.1.1
+ENV POSTGIS_VERSION 3.1.2
 
 RUN echo "@edge-testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
  && apk --no-cache add \
@@ -12,7 +12,7 @@ RUN echo "@edge-testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /e
     git \
     json-c-dev \
     libxml2-dev \
-    llvm10 \
+    llvm11 \
     perl \
     proj-dev@edge-testing \
     protobuf-c-dev \
