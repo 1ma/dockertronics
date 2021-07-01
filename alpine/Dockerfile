@@ -10,7 +10,8 @@ FROM alpine:3.14
 # list of mirrors: https://mirrors.alpinelinux.org/
 COPY --from=0 https-repositories /etc/apk/repositories
 
-RUN apk add --no-cache --upgrade \
+RUN apk upgrade --no-cache \
+ && apk add --no-cache --upgrade \
     tini
 
 ENTRYPOINT ["/sbin/tini", "--"]
