@@ -2,7 +2,7 @@ FROM 1maa/postgres:13-src AS postgres
 
 FROM 1maa/alpine:3.14 AS build
 
-ENV PHP_VERSION=8.1.0alpha2
+ENV PHP_VERSION=8.1.0alpha3
 ENV XHPROF_VERSION=5.0.4
 
 ENV CFLAGS="-Os -march=x86-64"
@@ -12,8 +12,8 @@ WORKDIR /tmp
 
 COPY 8.1/pubkey.asc .
 
-ADD https://downloads.php.net/~patrickallaert/php-${PHP_VERSION}.tar.gz .
-ADD https://downloads.php.net/~patrickallaert/php-${PHP_VERSION}.tar.gz.asc .
+ADD https://downloads.php.net/~ramsey/php-${PHP_VERSION}.tar.gz .
+ADD https://downloads.php.net/~ramsey/php-${PHP_VERSION}.tar.gz.asc .
 
 RUN apk add --no-cache gnupg \
  && gpg --import pubkey.asc \
