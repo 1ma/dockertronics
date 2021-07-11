@@ -23,7 +23,7 @@ RUN php composer.phar global config bin-dir /usr/local/bin \
     phing/phing \
     phploc/phploc \
     phpmetrics/phpmetrics \
-    psy/psysh \
+    uma/composer-psysh \
  && rm -rf ${COMPOSER_HOME}/.htaccess ${COMPOSER_HOME}/cache
 
 
