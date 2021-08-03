@@ -9,6 +9,7 @@ services:
 image: docker:latest
 
 variables:
+  DOCKER_BUILDKIT: 1
   DOCKER_TLS_CERTDIR: /certs
 
 sanity-check:
