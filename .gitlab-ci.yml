@@ -25,7 +25,7 @@ alpine:
     CONTEXT: alpine
     IMAGE: 1maa/alpine:3.14
   script:
-    - docker build --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
+    - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
@@ -36,163 +36,127 @@ beanstalkd:
     CONTEXT: beanstalkd
     IMAGE: 1maa/beanstalkd:latest
   script:
-    - docker build --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
+    - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
 erlang:
   stage: tier1
-  only:
-    changes:
-      - erlang/**/*
   variables:
     CONTEXT: erlang
     IMAGE: 1maa/erlang:23-alpine
   script:
-    - docker build --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
+    - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
 gnat-9:
   stage: tier1
-  only:
-    changes:
-      - gnat/**/*
   variables:
     CONTEXT: gnat/9
     IMAGE: 1maa/fsf-gnat:9
   script:
-    - docker build --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
+    - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
 gnat-10:
   stage: tier1
-  only:
-    changes:
-      - gnat/**/*
   variables:
     CONTEXT: gnat/10
     IMAGE: 1maa/fsf-gnat:10
   script:
-    - docker build --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
+    - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
 haproxy:
   stage: tier1
-  only:
-    changes:
-      - haproxy/**/*
   variables:
     CONTEXT: haproxy
     IMAGE: 1maa/haproxy:2.4
   script:
-    - docker build --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
+    - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
 jekyll:
   stage: tier1
-  only:
-    changes:
-      - jekyll/**/*
   variables:
     CONTEXT: jekyll
     IMAGE: 1maa/jekyll:latest
   script:
-    - docker build --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
+    - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
 mariadb:
   stage: tier1
-  only:
-    changes:
-      - mariadb/**/*
   variables:
     CONTEXT: mariadb
     IMAGE: 1maa/mariadb:10.4
   script:
-    - docker build --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
+    - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
 mysql-5.7:
   stage: tier1
-  only:
-    changes:
-      - mysql/**/*
   variables:
     CONTEXT: mysql
     IMAGE: 1maa/mysql:5.7
   script:
-    - docker build --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile.57 $CONTEXT
+    - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile.57 $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
 mysql-8.0:
   stage: tier1
-  only:
-    changes:
-      - mysql/**/*
   variables:
     CONTEXT: mysql
     IMAGE: 1maa/mysql:8.0
   script:
-    - docker build --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile.80 $CONTEXT
+    - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile.80 $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
 postgres:
   stage: tier1
-  only:
-    changes:
-      - postgres/**/*
   variables:
     CONTEXT: postgres
     IMAGE: 1maa/postgres:13-alpine
   script:
-    - docker build --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
+    - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
 postgres-src:
   stage: tier1
-  only:
-    changes:
-      - postgres/**/*
   variables:
     CONTEXT: postgres
     IMAGE: 1maa/postgres:13-src
   script:
-    - docker build --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile.src $CONTEXT
+    - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile.src $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
 sleepy:
   stage: tier1
-  only:
-    changes:
-      - sleepy/**/*
   variables:
     CONTEXT: sleepy
     IMAGE: 1maa/sleepy:latest
   script:
-    - docker build --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
+    - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
 swipl:
   stage: tier1
-  only:
-    changes:
-      - swipl/**/*
   variables:
     CONTEXT: swipl
     IMAGE: 1maa/swipl:latest
   script:
-    - docker build --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
+    - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
@@ -202,7 +166,7 @@ xhgui:
     CONTEXT: xhgui
     IMAGE: 1maa/xhgui:latest
   script:
-    - docker build --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
+    - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
@@ -210,15 +174,11 @@ php-7.3:
   stage: tier2
   needs:
     - alpine
-  only:
-    changes:
-      - php/**/*
-      - php-dev/**/*
   variables:
     CONTEXT: php
     IMAGE: 1maa/php:7.3
   script:
-    - docker build --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/7.3/Dockerfile $CONTEXT
+    - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/7.3/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
@@ -226,16 +186,11 @@ php-7.4:
   stage: tier2
   needs:
     - alpine
-  only:
-    changes:
-      - php/**/*
-      - php-dev/**/*
-      - roadrunner/**/*
   variables:
     CONTEXT: php
     IMAGE: 1maa/php:7.4
   script:
-    - docker build --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/7.4/Dockerfile $CONTEXT
+    - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/7.4/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
@@ -243,15 +198,11 @@ php-8.0:
   stage: tier2
   needs:
     - alpine
-  only:
-    changes:
-      - php/**/*
-      - php-dev/**/*
   variables:
     CONTEXT: php
     IMAGE: 1maa/php:8.0
   script:
-    - docker build --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/8.0/Dockerfile $CONTEXT
+    - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/8.0/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
@@ -259,15 +210,11 @@ php-8.1:
   stage: tier2
   needs:
     - alpine
-  only:
-    changes:
-      - php/**/*
-      - php-dev/**/*
   variables:
     CONTEXT: php
     IMAGE: 1maa/php:8.1
   script:
-    - docker build --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/8.1/Dockerfile $CONTEXT
+    - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/8.1/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
@@ -276,15 +223,11 @@ php-master:
   needs:
     - alpine
   allow_failure: true
-  only:
-    changes:
-      - php/**/*
-      - php-dev/**/*
   variables:
     CONTEXT: php
     IMAGE: 1maa/php:latest
   script:
-    - docker build --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/master/Dockerfile $CONTEXT
+    - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/master/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
@@ -292,14 +235,11 @@ sakila:
   stage: tier2
   needs:
     - mysql-8.0
-  only:
-    changes:
-      - mysql/**/*
   variables:
     CONTEXT: sakila
     IMAGE: 1maa/sakila:latest
   script:
-    - docker build --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
+    - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
@@ -307,14 +247,11 @@ selfsig:
   stage: tier2
   needs:
     - alpine
-  only:
-    changes:
-      - selfsig/**/*
   variables:
     CONTEXT: selfsig
     IMAGE: 1maa/selfsig:latest
   script:
-    - docker build --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
+    - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
@@ -322,14 +259,11 @@ sftp:
   stage: tier2
   needs:
     - alpine
-  only:
-    changes:
-      - sftp/**/*
   variables:
     CONTEXT: sftp
     IMAGE: 1maa/sftp:latest
   script:
-    - docker build --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
+    - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
@@ -337,14 +271,11 @@ sqlite:
   stage: tier2
   needs:
     - alpine
-  only:
-    changes:
-      - sqlite/**/*
   variables:
     CONTEXT: sqlite
     IMAGE: 1maa/sqlite:latest
   script:
-    - docker build --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
+    - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
@@ -352,15 +283,11 @@ php-7.3-dev:
   stage: tier3
   needs:
     - php-7.3
-  only:
-    changes:
-      - php/**/*
-      - php-dev/**/*
   variables:
     CONTEXT: php-dev
     IMAGE: 1maa/php-dev:7.3
   script:
-    - docker build --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/7.3/Dockerfile $CONTEXT
+    - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/7.3/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
@@ -368,15 +295,11 @@ php-7.4-dev:
   stage: tier3
   needs:
     - php-7.4
-  only:
-    changes:
-      - php/**/*
-      - php-dev/**/*
   variables:
     CONTEXT: php-dev
     IMAGE: 1maa/php-dev:7.4
   script:
-    - docker build --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/7.4/Dockerfile $CONTEXT
+    - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/7.4/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
@@ -384,15 +307,11 @@ php-8.0-dev:
   stage: tier3
   needs:
     - php-8.0
-  only:
-    changes:
-      - php/**/*
-      - php-dev/**/*
   variables:
     CONTEXT: php-dev
     IMAGE: 1maa/php-dev:8.0
   script:
-    - docker build --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/8.0/Dockerfile $CONTEXT
+    - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/8.0/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
@@ -400,15 +319,11 @@ php-8.1-dev:
   stage: tier3
   needs:
     - php-8.1
-  only:
-    changes:
-      - php/**/*
-      - php-dev/**/*
   variables:
     CONTEXT: php-dev
     IMAGE: 1maa/php-dev:8.1
   script:
-    - docker build --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/8.1/Dockerfile $CONTEXT
+    - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/8.1/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
@@ -417,15 +332,11 @@ php-master-dev:
   needs:
     - php-master
   allow_failure: true
-  only:
-    changes:
-      - php/**/*
-      - php-dev/**/*
   variables:
     CONTEXT: php-dev
     IMAGE: 1maa/php-dev:latest
   script:
-    - docker build --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/master/Dockerfile $CONTEXT
+    - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/master/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
@@ -433,13 +344,10 @@ roadrunner:
   stage: tier3
   needs:
     - php-8.0
-  only:
-    changes:
-      - roadrunner/**/*
   variables:
     CONTEXT: roadrunner
     IMAGE: 1maa/roadrunner:8.0
   script:
-    - docker build --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
+    - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
