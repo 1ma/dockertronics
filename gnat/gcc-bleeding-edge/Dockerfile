@@ -1,9 +1,11 @@
 FROM ubuntu:20.04
 
 ENV DEBIAN_FRONTEND=noninteractive
-ENV GCC_COMMIT=c94424b0ed786ec92b6904da69af8b5243b34fdc
+ENV GCC_COMMIT=6bebd55e12375b397ed187630bb57d58611dfc5f
 
 WORKDIR /tmp
+
+ADD https://github.com/gcc-mirror/gcc/archive/${GCC_COMMIT}.tar.gz gcc.tar.gz
 
 RUN apt-get update \
  && apt-get install --yes \
@@ -17,18 +19,14 @@ RUN apt-get update \
     make \
     perl \
     texinfo \
- && rm -rf /var/lib/apt/lists/*
+ && tar zxf gcc.tar.gz \
+ && cp -r gcc-${GCC_COMMIT} gcc-src \
+ && cd gcc-${GCC_COMMIT} \
+ && ./contrib/download_prerequisites
 
-ADD https://github.com/gcc-mirror/gcc/archive/${GCC_COMMIT}.tar.gz .
-
-RUN tar zxf ${GCC_COMMIT}.tar.gz \
- && mv gcc-${GCC_COMMIT} gcc-src \
- && cd gcc-src \
- && ./contrib/download_prerequisites \
- && cd .. \
- && mkdir gcc-build \
+RUN mkdir gcc-build \
  && cd gcc-build \
- && ../gcc-src/configure --prefix=/usr/local/gcc --disable-multilib --enable-languages=c,c++,ada
+ && ../gcc-${GCC_COMMIT}/configure --prefix=/usr/local/gcc --disable-multilib --enable-languages=c,c++,ada
 
 RUN make -C gcc-build -j$(nproc)
 
