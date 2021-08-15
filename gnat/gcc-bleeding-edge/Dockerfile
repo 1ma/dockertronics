@@ -42,6 +42,9 @@ COPY --from=0 /tmp/gcc-src   /usr/local/src/gcc
 
 RUN ln -s /usr/local/gcc/bin/gcc /usr/local/gcc/bin/cc \
  && ln -s /usr/local/gcc/bin/gcc /usr/local/gcc/bin/gnatgcc \
+ && echo "/usr/local/gcc/lib64" >> /etc/ld.so.conf.d/gcc.conf \
+ && echo "/usr/local/gcc/lib/gcc/x86_64-pc-linux-gnu/12.0.0/adalib" >> /etc/ld.so.conf.d/gcc.conf \
+ && ldconfig -v \
  && apt-get update \
  && apt-get install --yes --no-install-recommends \
     binutils \
