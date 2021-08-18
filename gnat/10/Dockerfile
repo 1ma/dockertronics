@@ -1,6 +1,6 @@
 FROM 1maa/alpine:3.14 AS alire
 
-ENV ALIRE_VERSION v1.0.1
+ENV ALIRE_VERSION v1.1.0-rc1
 
 WORKDIR /tmp
 
