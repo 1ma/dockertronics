@@ -1,6 +1,6 @@
 FROM alpine:3.14
 
-ENV PG_RELEASE=13.3
+ENV PG_RELEASE=13.4
 
 WORKDIR /tmp
 
