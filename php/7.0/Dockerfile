@@ -11,13 +11,13 @@ ENV LDFLAGS="-s"
 
 WORKDIR /tmp
 
-COPY 7.0/pubkey.asc .
+COPY 7.0/pubkeys.asc .
 
 ADD https://www.php.net/distributions/php-${PHP_VERSION}.tar.gz .
 ADD https://www.php.net/distributions/php-${PHP_VERSION}.tar.gz.asc .
 
 RUN apk add --no-cache gnupg \
- && gpg --import pubkey.asc \
+ && gpg --import pubkeys.asc \
  && gpg --verify php-${PHP_VERSION}.tar.gz.asc php-${PHP_VERSION}.tar.gz
 
 RUN apk add --no-cache \
