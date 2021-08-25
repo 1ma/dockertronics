@@ -1,14 +1,25 @@
-FROM 1maa/php-dev:7.3
+FROM php:7.3-alpine
+
+ENV COMPOSER_VERSION=2.1.6
+ENV COMPOSER_ALLOW_SUPERUSER=1
 
 WORKDIR /tmp
 
+COPY composer-pubkey.asc .
+
 ADD https://github.com/perftools/xhgui/archive/master.tar.gz .
+ADD https://github.com/composer/composer/releases/download/${COMPOSER_VERSION}/composer.phar .
+ADD https://github.com/composer/composer/releases/download/${COMPOSER_VERSION}/composer.phar.asc .
+
+RUN apk add --no-cache gnupg \
+ && gpg --import composer-pubkey.asc \
+ && gpg --verify composer.phar.asc composer.phar
 
 RUN tar zxf master.tar.gz \
  && cd xhgui-master \
- && composer update \
- && composer require alcaeus/mongo-php-adapter \
- && composer install --no-dev -a
+ && php /tmp/composer.phar update \
+ && php /tmp/composer.phar require alcaeus/mongo-php-adapter \
+ && php /tmp/composer.phar install --no-dev -a
 
 
 FROM php:7.3-apache
