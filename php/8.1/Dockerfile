@@ -1,5 +1,3 @@
-FROM 1maa/postgres:13-src AS postgres
-
 FROM 1maa/alpine:3.14 AS build
 
 ENV PHP_VERSION=8.1.0beta3
@@ -18,9 +16,6 @@ ADD https://downloads.php.net/~ramsey/php-${PHP_VERSION}.tar.gz.asc .
 RUN apk add --no-cache gnupg \
  && gpg --import pubkey.asc \
  && gpg --verify php-${PHP_VERSION}.tar.gz.asc php-${PHP_VERSION}.tar.gz
-
-COPY --from=postgres /usr/local/pgsql/include /usr/include
-COPY --from=postgres /usr/local/pgsql/lib     /usr/lib
 
 RUN apk add --no-cache \
     # generic dependencies for compiling the source
@@ -49,6 +44,7 @@ RUN apk add --no-cache \
     libzip-dev \
     oniguruma-dev \
     openssl-dev \
+    postgresql-dev \
     readline-dev \
     sqlite-dev \
  && tar zxof php-${PHP_VERSION}.tar.gz \
@@ -162,8 +158,6 @@ RUN rm -rf php-${PHP_VERSION} \
 
 FROM 1maa/alpine:3.14
 
-COPY --from=postgres /usr/local/pgsql/lib/libpq.so.5.13 /usr/lib/libpq.so.5
-
 COPY etc /etc/php
 
 COPY --from=build /tmp/php.ini      /etc/php/cli/php.ini
@@ -180,6 +174,7 @@ RUN apk add --no-cache \
     libcurl \
     libffi \
     libgd \
+    libpq \
     libsodium \
     libxml2 \
     libxslt \

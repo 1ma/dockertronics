@@ -1,5 +1,3 @@
-FROM 1maa/postgres:13-src AS postgres
-
 FROM 1maa/alpine:3.14 AS build
 
 ENV PHP_VERSION=7.3.29
@@ -18,9 +16,6 @@ ADD https://www.php.net/distributions/php-${PHP_VERSION}.tar.gz.asc .
 RUN apk add --no-cache gnupg \
  && gpg --import pubkey.asc \
  && gpg --verify php-${PHP_VERSION}.tar.gz.asc php-${PHP_VERSION}.tar.gz
-
-COPY --from=postgres /usr/local/pgsql/include /usr/include
-COPY --from=postgres /usr/local/pgsql/lib     /usr/lib
 
 RUN apk add --no-cache \
     # generic dependencies for compiling the source
@@ -53,6 +48,7 @@ RUN apk add --no-cache \
     libxslt-dev \
     libzip-dev \
     openssl-dev \
+    postgresql-dev \
     rabbitmq-c-dev \
     readline-dev \
     yaml-dev \
@@ -111,6 +107,8 @@ RUN wget -q https://github.com/tideways/php-xhprof-extension/archive/v${XHPROF_V
  && make \
  && make install
 
+RUN apk del --no-cache postgresql-dev
+
 RUN pecl channel-update pecl.php.net \
  && pecl install \
     amqp \
@@ -137,6 +135,8 @@ RUN pecl channel-update pecl.php.net \
     yar \
  && chmod 644 /usr/lib/php/*.so \
  && strip --strip-all /usr/lib/php/*.so
+
+RUN apk add --no-cache postgresql-dev
 
 RUN rm -rf php-${PHP_VERSION} \
  && tar zxof php-${PHP_VERSION}.tar.gz \
@@ -204,8 +204,6 @@ RUN rm -rf php-${PHP_VERSION} \
 
 FROM 1maa/alpine:3.14
 
-COPY --from=postgres /usr/local/pgsql/lib/libpq.so.5.13 /usr/lib/libpq.so.5
-
 COPY etc /etc/php
 
 COPY --from=build /tmp/php.ini      /etc/php/cli/php.ini
@@ -225,6 +223,7 @@ RUN apk add --no-cache \
     libgd \
     libmaxminddb \
     libmemcached-libs \
+    libpq \
     librdkafka \
     libsodium \
     libssh2 \

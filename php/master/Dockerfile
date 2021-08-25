@@ -1,14 +1,9 @@
-FROM 1maa/postgres:13-src AS postgres
-
 FROM 1maa/alpine:3.14 AS build
 
 ENV PHP_VERSION=master
 
 ENV CFLAGS="-Os -march=x86-64"
 ENV LDFLAGS="-s"
-
-COPY --from=postgres /usr/local/pgsql/include /usr/include
-COPY --from=postgres /usr/local/pgsql/lib     /usr/lib
 
 WORKDIR /tmp
 
@@ -42,6 +37,7 @@ RUN apk add --no-cache \
     libzip-dev \
     oniguruma-dev \
     openssl-dev \
+    postgresql-dev \
     readline-dev \
     sqlite-dev \
  && tar zxof ${PHP_VERSION}.tar.gz \
@@ -157,8 +153,6 @@ RUN rm -rf php-src-${PHP_VERSION} \
 
 FROM 1maa/alpine:3.14
 
-COPY --from=postgres /usr/local/pgsql/lib/libpq.so.5.13 /usr/lib/libpq.so.5
-
 COPY etc /etc/php
 
 COPY --from=build /tmp/php.ini      /etc/php/cli/php.ini
@@ -175,6 +169,7 @@ RUN apk add --no-cache \
     libcurl \
     libffi \
     libgd \
+    libpq \
     libsodium \
     libxml2 \
     libxslt \
