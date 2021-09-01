@@ -53,7 +53,7 @@ package body Gnatvsn is
 
    function Gnat_Version_String return String is
    begin
-      return "12.0.0";
+      return "12.0.0 20210712 (experimental)";
    end Gnat_Version_String;
 
 end Gnatvsn;
