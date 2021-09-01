@@ -7,7 +7,7 @@ COPY ./main.go .
 RUN apk add --no-cache \
     file \
     upx \
- && GO111MODULE=auto CGO_ENABLE=0 go build -trimpath -tags netgo -v -ldflags="-d -s -w" -o sleepy \
+ && GO111MODULE=off CGO_ENABLED=0 go build -trimpath -ldflags="-d -s -w" -o sleepy \
  && file sleepy \
  && upx --lzma sleepy \
  && file sleepy \

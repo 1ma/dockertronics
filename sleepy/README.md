@@ -11,7 +11,7 @@ It was primarily designed to aid in testing the [Hydra](https://gitlab.com/1ma/h
 Note: Needs the [go toolchain](https://golang.org/dl/) available on your system.
 
 ```
-$ CGO_ENABLE=0 go build -tags netgo -v -ldflags="-d -s -w" -o sleepy
+$ GO111MODULE=off CGO_ENABLED=0 go build -ldflags="-d -s -w" -o sleepy
 ```
 
 
@@ -23,7 +23,7 @@ $ ./sleepy [port, default 1234]
 ```
 
 Alternatively, you can run the Docker image:
- 
+
 ```
 $ docker run --rm -it -p 127.0.0.1:1234:1234 1maa/sleepy:latest
 [sleepy] 2019/03/04 16:53:09 Sleepy built with go1.12
