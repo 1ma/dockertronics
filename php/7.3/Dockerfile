@@ -118,14 +118,12 @@ RUN pecl channel-update pecl.php.net \
     event \
     excimer \
     gnupg \
-    grpc \
     igbinary \
     maxminddb \
     memcached \
     mongodb \
     msgpack \
     pcov \
-    protobuf \
     rdkafka \
     redis \
     ssh2-beta \

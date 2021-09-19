@@ -136,7 +136,6 @@ RUN pecl install \
     gnupg \
     libsodium-1.0.7 \
     mongodb \
-    protobuf \
     rdkafka \
     redis-4.3.0 \
     ssh2-0.13 \
@@ -238,10 +237,8 @@ RUN apk upgrade --no-cache \
  && rm /etc/php/mods-available/csv.ini \
  && rm /etc/php/mods-available/ds.ini \
  && rm /etc/php/mods-available/excimer.ini \
- && rm /etc/php/mods-available/grpc.ini \
  && rm /etc/php/mods-available/mongodb.ini \
  && rm /etc/php/mods-available/pcov.ini \
- && rm /etc/php/mods-available/protobuf.ini \
  && rm /etc/php/mods-available/rdkafka.ini \
  && rm /etc/php/mods-available/tideways_xhprof.ini \
  && rm /etc/php/mods-available/uv.ini \

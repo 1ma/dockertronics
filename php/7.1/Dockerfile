@@ -153,7 +153,6 @@ RUN pecl install \
     libsodium \
     mongodb \
     pcov \
-    protobuf \
     rdkafka \
     redis \
     ssh2-beta \
@@ -257,7 +256,6 @@ RUN apk add --no-cache \
     readline \
  && rm /etc/php/mods-available/csv.ini \
  && rm /etc/php/mods-available/excimer.ini \
- && rm /etc/php/mods-available/grpc.ini \
  && rm /etc/php/mods-available/yaml.ini
 
 EXPOSE 9000
