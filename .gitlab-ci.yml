@@ -266,19 +266,6 @@ php-8.1:
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
-php-master:
-  stage: tier2
-  needs:
-    - alpine
-  allow_failure: true
-  variables:
-    CONTEXT: php
-    IMAGE: 1maa/php:latest
-  script:
-    - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/master/Dockerfile $CONTEXT
-    - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
-    - docker push $IMAGE
-
 sakila:
   stage: tier2
   needs:
@@ -420,19 +407,6 @@ php-8.1-dev:
     IMAGE: 1maa/php-dev:8.1
   script:
     - docker build --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/8.1/Dockerfile $CONTEXT
-    - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
-    - docker push $IMAGE
-
-php-master-dev:
-  stage: tier3
-  needs:
-    - php-master
-  allow_failure: true
-  variables:
-    CONTEXT: php-dev
-    IMAGE: 1maa/php-dev:latest
-  script:
-    - docker build --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/master/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
