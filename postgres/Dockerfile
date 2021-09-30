@@ -1,4 +1,4 @@
-FROM postgres:13-alpine
+FROM postgres:14-alpine
 
 ENV PGTAP_VERSION 1.1.0
 ENV POSTGIS_VERSION 3.1.3
@@ -36,7 +36,7 @@ RUN tar zxf postgres-json-schema.tar.gz \
  && make install
 
 
-FROM postgres:13-alpine
+FROM postgres:14-alpine
 
 COPY --from=0 /usr/local/lib/postgresql/bitcode/postgis*                  /usr/local/lib/postgresql/bitcode/
 COPY --from=0 /usr/local/lib/postgresql/postgis*                          /usr/local/lib/postgresql/
