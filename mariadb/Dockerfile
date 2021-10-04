@@ -7,7 +7,7 @@ COPY conf.d/* conf.d/
 RUN chmod -R 644 conf.d/*
 
 
-FROM mariadb:10.4
+FROM mariadb:10.6
 
 ENV TERM=xterm
 
