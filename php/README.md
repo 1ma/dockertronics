@@ -1,4 +1,4 @@
 ## 1ma's PHP images repository
 
 
-A set of bespoken PHP images for PHP 5.6, 7.0, 7.1 and 7.2, built from source.
+A set of bespoken PHP images for PHP 7.3, 7.4, 8.0 and 8.1, built from source.
