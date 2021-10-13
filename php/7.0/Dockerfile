@@ -230,7 +230,7 @@ RUN pecl install \
     event \
     gnupg \
     libsodium \
-    mongodb \
+    mongodb-1.9.2 \
     rdkafka \
     redis \
     ssh2-beta \

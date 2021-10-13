@@ -235,7 +235,7 @@ RUN pecl install \
     redis \
     ssh2-beta \
     uv-beta \
-    xdebug \
+    xdebug-2.9.8 \
     yar \
  && chmod 644 /usr/lib/php/*.so \
  && strip --strip-all /usr/lib/php/*.so
