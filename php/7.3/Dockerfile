@@ -43,7 +43,6 @@ RUN apk add --no-cache \
     librdkafka-dev \
     libsodium-dev \
     libssh2-dev \
-    libuv-dev \
     libxml2-dev \
     libxslt-dev \
     libzip-dev \
@@ -190,7 +189,6 @@ ADD https://pecl.php.net/get/pcov .
 ADD https://pecl.php.net/get/rdkafka .
 ADD https://pecl.php.net/get/redis .
 ADD https://pecl.php.net/get/ssh2-beta .
-ADD https://pecl.php.net/get/uv-beta .
 ADD https://pecl.php.net/get/xdebug .
 ADD https://pecl.php.net/get/yaml .
 ADD https://pecl.php.net/get/yar .
@@ -214,7 +212,6 @@ RUN apk del --no-cache postgresql-dev \
     rdkafka \
     redis \
     ssh2-beta \
-    uv-beta \
     xdebug \
     yaml \
     yar \
@@ -247,7 +244,6 @@ RUN apk add --no-cache \
     librdkafka \
     libsodium \
     libssh2 \
-    libuv \
     libxml2 \
     libxslt \
     libzip \
