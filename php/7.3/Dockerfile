@@ -113,7 +113,7 @@ RUN pecl channel-update pecl.php.net \
  && pecl install \
     amqp \
     apcu \
-    csv \
+    csv-0.3.1 \
     ds \
     event \
     excimer \
