@@ -45,7 +45,6 @@ RUN apk add --no-cache \
     librdkafka-dev \
     libsodium-dev \
     libssh2-dev \
-    libuv-dev \
     libxml2-dev \
     libxslt-dev \
     libzip-dev \
@@ -55,8 +54,9 @@ RUN apk add --no-cache \
     rabbitmq-c-dev \
     readline-dev \
     sqlite-dev \
-    yaml-dev \
- && tar zxof php-${PHP_VERSION}.tar.gz \
+    yaml-dev
+
+RUN tar zxof php-${PHP_VERSION}.tar.gz \
  && cd ./php-${PHP_VERSION} \
  && ./configure \
     EXTENSION_DIR="/usr/lib/php" \
@@ -101,43 +101,6 @@ RUN apk add --no-cache \
     --with-zlib \
  && make -j$(nproc) \
  && make install
-
-RUN wget -q https://github.com/tideways/php-xhprof-extension/archive/v${XHPROF_VERSION}.tar.gz \
- && tar zxof v${XHPROF_VERSION}.tar.gz \
- && cd ./php-xhprof-extension-${XHPROF_VERSION} \
- && phpize \
- && ./configure \
- && make \
- && make install
-
-RUN apk del --no-cache postgresql-dev
-
-RUN pecl channel-update pecl.php.net \
- && pecl install \
-    amqp-beta \
-    apcu \
-    csv \
-    ds \
-    event \
-    excimer \
-    gnupg \
-    igbinary \
-    maxminddb \
-    memcached \
-    mongodb \
-    msgpack \
-    pcov \
-    rdkafka \
-    redis \
-    ssh2-beta \
-#    uv-beta \      # borked
-    xdebug \
-    yaml \
-    yar \
- && chmod 644 /usr/lib/php/*.so \
- && strip --strip-all /usr/lib/php/*.so
-
-RUN apk add --no-cache postgresql-dev
 
 RUN rm -rf php-${PHP_VERSION} \
  && tar zxof php-${PHP_VERSION}.tar.gz \
@@ -202,6 +165,62 @@ RUN rm -rf php-${PHP_VERSION} \
 \
  && upx --lzma /usr/bin/php /usr/sbin/php-fpm
 
+RUN wget -q https://github.com/tideways/php-xhprof-extension/archive/v${XHPROF_VERSION}.tar.gz \
+ && tar zxof v${XHPROF_VERSION}.tar.gz \
+ && cd ./php-xhprof-extension-${XHPROF_VERSION} \
+ && phpize \
+ && ./configure \
+ && make \
+ && make install
+
+# Force invalidation of the build cache from here on if any
+# extension has released a new version since the last build
+ADD https://pecl.php.net/get/amqp .
+ADD https://pecl.php.net/get/apcu .
+ADD https://pecl.php.net/get/csv .
+ADD https://pecl.php.net/get/ds .
+ADD https://pecl.php.net/get/event .
+ADD https://pecl.php.net/get/excimer .
+ADD https://pecl.php.net/get/gnupg .
+ADD https://pecl.php.net/get/igbinary .
+ADD https://pecl.php.net/get/maxminddb .
+ADD https://pecl.php.net/get/memcached .
+ADD https://pecl.php.net/get/mongodb .
+ADD https://pecl.php.net/get/msgpack .
+ADD https://pecl.php.net/get/pcov .
+ADD https://pecl.php.net/get/rdkafka .
+ADD https://pecl.php.net/get/redis .
+ADD https://pecl.php.net/get/ssh2-beta .
+ADD https://pecl.php.net/get/xdebug .
+ADD https://pecl.php.net/get/yaml .
+ADD https://pecl.php.net/get/yar .
+
+RUN apk del --no-cache postgresql-dev \
+ && pecl channel-update pecl.php.net \
+ && pecl install \
+    amqp-beta \
+    apcu \
+    csv \
+    ds \
+    event \
+    excimer \
+    gnupg \
+    igbinary \
+    maxminddb \
+    memcached \
+    mongodb \
+    msgpack \
+    pcov \
+    rdkafka \
+    redis \
+    ssh2-beta \
+    xdebug \
+    yaml \
+    yar \
+ && chmod 644 /usr/lib/php/*.so \
+ && strip --strip-all /usr/lib/php/*.so
+
+
 FROM 1maa/alpine:3.14
 
 COPY etc /etc/php
@@ -228,7 +247,6 @@ RUN apk add --no-cache \
     librdkafka \
     libsodium \
     libssh2 \
-    libuv \
     libxml2 \
     libxslt \
     libzip \
@@ -238,8 +256,7 @@ RUN apk add --no-cache \
     sqlite-libs \
     yaml \
  && rm /etc/php/mods-available/amqp.ini \
- && rm /etc/php/mods-available/ssh2.ini \
- && rm /etc/php/mods-available/uv.ini
+ && rm /etc/php/mods-available/ssh2.ini
 
 EXPOSE 9000
 

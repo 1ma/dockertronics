@@ -53,8 +53,9 @@ RUN apk add --no-cache \
     openssl-dev \
     postgresql-dev \
     rabbitmq-c-dev \
-    readline-dev \
- && tar zxof php-${PHP_VERSION}.tar.gz \
+    readline-dev
+
+RUN tar zxof php-${PHP_VERSION}.tar.gz \
  && cd ./php-${PHP_VERSION} \
  && ./configure \
     EXTENSION_DIR="/usr/lib/php" \
@@ -98,71 +99,6 @@ RUN apk add --no-cache \
     --with-zlib \
  && make -j$(nproc) \
  && make install
-
-RUN wget -q https://github.com/tideways/php-xhprof-extension/archive/v${XHPROF_VERSION}.tar.gz \
- && tar zxof v${XHPROF_VERSION}.tar.gz \
- && cd ./php-xhprof-extension-${XHPROF_VERSION} \
- && phpize \
- && ./configure \
- && make \
- && make install
-
-RUN wget -q https://github.com/maxmind/MaxMind-DB-Reader-php/archive/v${MAXMINDDB_VERSION}.tar.gz \
- && tar zxof v${MAXMINDDB_VERSION}.tar.gz \
- && cd MaxMind-DB-Reader-php-${MAXMINDDB_VERSION}/ext \
- && phpize \
- && ./configure \
- && make \
- && make install
-
-RUN wget -q https://github.com/php/pecl-networking-gearman/archive/gearman-${GEARMAN_VERSION}.tar.gz \
- && tar zxof gearman-${GEARMAN_VERSION}.tar.gz \
- && cd pecl-networking-gearman-gearman-${GEARMAN_VERSION} \
- && phpize \
- && ./configure \
- && make \
- && make install
-
-RUN apk del --no-cache postgresql-dev
-
-RUN pecl channel-update pecl.php.net \
- && pecl install \
-    igbinary \
-    msgpack
-
-RUN wget -q https://github.com/php-memcached-dev/php-memcached/archive/v${MEMCACHED_VERSION}.tar.gz \
- && tar zxof v${MEMCACHED_VERSION}.tar.gz \
- && cd php-memcached-${MEMCACHED_VERSION} \
- && phpize \
- && ./configure \
-    --enable-memcached-igbinary \
-    --enable-memcached-json \
-    --enable-memcached-msgpack \
-    --enable-memcached-protocol \
-    --enable-memcached-sasl \
-    --enable-memcached-session \
- && make \
- && make install
-
-RUN pecl install \
-    amqp \
-    apcu \
-    ds \
-    event \
-    gnupg \
-    libsodium \
-    mongodb \
-    pcov \
-    rdkafka \
-    redis \
-    ssh2-beta \
-    uv-beta \
-    xdebug \
-    yar \
- && chmod 644 /usr/lib/php/*.so \
- && strip --strip-all /usr/lib/php/*.so
-
-RUN apk add --no-cache postgresql-dev
 
 RUN rm -rf php-${PHP_VERSION} \
  && tar zxof php-${PHP_VERSION}.tar.gz \
@@ -222,6 +158,88 @@ RUN rm -rf php-${PHP_VERSION} \
         sapi/fpm/www.conf.in > /tmp/www.conf \
 \
  && upx --lzma /usr/bin/php /usr/sbin/php-fpm
+
+RUN wget -q https://github.com/tideways/php-xhprof-extension/archive/v${XHPROF_VERSION}.tar.gz \
+ && tar zxof v${XHPROF_VERSION}.tar.gz \
+ && cd ./php-xhprof-extension-${XHPROF_VERSION} \
+ && phpize \
+ && ./configure \
+ && make \
+ && make install
+
+RUN wget -q https://github.com/maxmind/MaxMind-DB-Reader-php/archive/v${MAXMINDDB_VERSION}.tar.gz \
+ && tar zxof v${MAXMINDDB_VERSION}.tar.gz \
+ && cd MaxMind-DB-Reader-php-${MAXMINDDB_VERSION}/ext \
+ && phpize \
+ && ./configure \
+ && make \
+ && make install
+
+RUN wget -q https://github.com/php/pecl-networking-gearman/archive/gearman-${GEARMAN_VERSION}.tar.gz \
+ && tar zxof gearman-${GEARMAN_VERSION}.tar.gz \
+ && cd pecl-networking-gearman-gearman-${GEARMAN_VERSION} \
+ && phpize \
+ && ./configure \
+ && make \
+ && make install
+
+# Force invalidation of the build cache from here on if any
+# extension has released a new version since the last build
+ADD https://pecl.php.net/get/amqp .
+ADD https://pecl.php.net/get/apcu .
+ADD https://pecl.php.net/get/ds .
+ADD https://pecl.php.net/get/event .
+ADD https://pecl.php.net/get/gnupg .
+ADD https://pecl.php.net/get/igbinary .
+ADD https://pecl.php.net/get/libsodium .
+ADD https://pecl.php.net/get/mongodb .
+ADD https://pecl.php.net/get/msgpack .
+ADD https://pecl.php.net/get/pcov .
+ADD https://pecl.php.net/get/rdkafka .
+ADD https://pecl.php.net/get/redis .
+ADD https://pecl.php.net/get/ssh2-beta .
+ADD https://pecl.php.net/get/uv-beta .
+ADD https://pecl.php.net/get/xdebug .
+ADD https://pecl.php.net/get/yar .
+
+RUN apk del --no-cache postgresql-dev \
+ && pecl channel-update pecl.php.net \
+ && pecl install \
+    igbinary \
+    msgpack
+
+RUN wget -q https://github.com/php-memcached-dev/php-memcached/archive/v${MEMCACHED_VERSION}.tar.gz \
+ && tar zxof v${MEMCACHED_VERSION}.tar.gz \
+ && cd php-memcached-${MEMCACHED_VERSION} \
+ && phpize \
+ && ./configure \
+    --enable-memcached-igbinary \
+    --enable-memcached-json \
+    --enable-memcached-msgpack \
+    --enable-memcached-protocol \
+    --enable-memcached-sasl \
+    --enable-memcached-session \
+ && make \
+ && make install
+
+RUN pecl install \
+    amqp \
+    apcu \
+    ds \
+    event \
+    gnupg \
+    libsodium \
+    mongodb \
+    pcov \
+    rdkafka \
+    redis \
+    ssh2-beta \
+    uv-beta \
+    xdebug \
+    yar \
+ && chmod 644 /usr/lib/php/*.so \
+ && strip --strip-all /usr/lib/php/*.so
+
 
 FROM 1maa/alpine:3.14
 

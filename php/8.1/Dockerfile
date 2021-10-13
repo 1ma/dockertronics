@@ -46,8 +46,9 @@ RUN apk add --no-cache \
     openssl-dev \
     postgresql-dev \
     readline-dev \
-    sqlite-dev \
- && tar zxof php-${PHP_VERSION}.tar.gz \
+    sqlite-dev
+
+RUN tar zxof php-${PHP_VERSION}.tar.gz \
  && cd ./php-${PHP_VERSION} \
  && ./configure \
     EXTENSION_DIR="/usr/lib/php" \
@@ -155,6 +156,7 @@ RUN rm -rf php-${PHP_VERSION} \
         sapi/fpm/www.conf.in > /tmp/www.conf \
 \
  && upx --lzma /usr/bin/php /usr/sbin/php-fpm
+
 
 FROM 1maa/alpine:3.14
 

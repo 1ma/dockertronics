@@ -1,10 +1,8 @@
-FROM 1maa/alpine:3.8
+FROM 1maa/alpine:3.8 AS build
 
 ENV PHP_VERSION=5.6.40
-ENV GEARMAN_VERSION=1.1.2
 ENV MAXMINDDB_VERSION=1.6.0
 ENV MEMCACHED_VERSION=2.2.0
-ENV XHPROF_VERSION=2.1.1
 
 ENV CFLAGS="-Os -march=x86-64"
 ENV LDFLAGS="-s"
@@ -54,8 +52,9 @@ RUN apk add --no-cache \
     libzip-dev \
     postgresql-dev \
     rabbitmq-c-dev \
-    readline-dev \
- && tar zxof php-${PHP_VERSION}.tar.gz \
+    readline-dev
+
+RUN tar zxof php-${PHP_VERSION}.tar.gz \
  && cd ./php-${PHP_VERSION} \
  && ./configure \
     EXTENSION_DIR="/usr/lib/php" \
@@ -100,50 +99,6 @@ RUN apk add --no-cache \
     --with-zlib \
  && make -j$(nproc) \
  && make install
-
-RUN wget -q https://github.com/maxmind/MaxMind-DB-Reader-php/archive/v${MAXMINDDB_VERSION}.tar.gz \
- && tar zxof v${MAXMINDDB_VERSION}.tar.gz \
- && cd MaxMind-DB-Reader-php-${MAXMINDDB_VERSION}/ext \
- && phpize \
- && ./configure \
- && make \
- && make install
-
-RUN pecl channel-update pecl.php.net \
- && pecl install \
-    igbinary-2.0.8 \
-    msgpack-0.5.7
-
-RUN wget -q https://github.com/php-memcached-dev/php-memcached/archive/${MEMCACHED_VERSION}.tar.gz \
- && tar zxof ${MEMCACHED_VERSION}.tar.gz \
- && cd php-memcached-${MEMCACHED_VERSION} \
- && phpize \
- && ./configure \
-    --enable-memcached-igbinary \
-    --enable-memcached-json \
-    --enable-memcached-msgpack \
-    --enable-memcached-protocol \
-    --enable-memcached-sasl \
-    --enable-memcached-session \
- && make \
- && make install
-
-RUN pecl install \
-    amqp \
-    apcu-4.0.11 \
-    event \
-    gearman-${GEARMAN_VERSION} \
-    gnupg \
-    libsodium-1.0.7 \
-    mongodb \
-    rdkafka \
-    redis-4.3.0 \
-    ssh2-0.13 \
-    xdebug-2.5.5 \
-    xhprof-${XHPROF_VERSION} \
-    yar-1.2.5 \
- && chmod 644 /usr/lib/php/*.so \
- && strip --strip-all /usr/lib/php/*.so
 
 RUN rm -rf php-${PHP_VERSION} \
  && tar zxof php-${PHP_VERSION}.tar.gz \
@@ -200,17 +155,79 @@ RUN rm -rf php-${PHP_VERSION} \
         -e 's#;catch_workers_output = yes#catch_workers_output = yes#' \
         sapi/fpm/php-fpm.conf.in > /tmp/php-fpm.conf
 
+RUN wget -q https://github.com/maxmind/MaxMind-DB-Reader-php/archive/v${MAXMINDDB_VERSION}.tar.gz \
+ && tar zxof v${MAXMINDDB_VERSION}.tar.gz \
+ && cd MaxMind-DB-Reader-php-${MAXMINDDB_VERSION}/ext \
+ && phpize \
+ && ./configure \
+ && make \
+ && make install
+
+# Force invalidation of the build cache from here on if any
+# extension has released a new version since the last build
+ADD https://pecl.php.net/get/amqp .
+ADD https://pecl.php.net/get/apcu .
+ADD https://pecl.php.net/get/event .
+ADD https://pecl.php.net/get/gearman .
+ADD https://pecl.php.net/get/gnupg .
+ADD https://pecl.php.net/get/igbinary .
+ADD https://pecl.php.net/get/libsodium .
+ADD https://pecl.php.net/get/mongodb .
+ADD https://pecl.php.net/get/msgpack .
+ADD https://pecl.php.net/get/rdkafka .
+ADD https://pecl.php.net/get/redis .
+ADD https://pecl.php.net/get/ssh2-beta .
+ADD https://pecl.php.net/get/xdebug .
+ADD https://pecl.php.net/get/xhprof .
+ADD https://pecl.php.net/get/yar .
+
+RUN pecl channel-update pecl.php.net \
+ && pecl install \
+    igbinary-2.0.8 \
+    msgpack-0.5.7
+
+RUN wget -q https://github.com/php-memcached-dev/php-memcached/archive/${MEMCACHED_VERSION}.tar.gz \
+ && tar zxof ${MEMCACHED_VERSION}.tar.gz \
+ && cd php-memcached-${MEMCACHED_VERSION} \
+ && phpize \
+ && ./configure \
+    --enable-memcached-igbinary \
+    --enable-memcached-json \
+    --enable-memcached-msgpack \
+    --enable-memcached-protocol \
+    --enable-memcached-sasl \
+    --enable-memcached-session \
+ && make \
+ && make install
+
+RUN pecl install \
+    amqp \
+    apcu-4.0.11 \
+    event \
+    gearman-1.1.2 \
+    gnupg \
+    libsodium-1.0.7 \
+    mongodb \
+    rdkafka \
+    redis-4.3.0 \
+    ssh2-0.13 \
+    xdebug-2.5.5 \
+    xhprof-2.1.1 \
+    yar-1.2.5 \
+ && chmod 644 /usr/lib/php/*.so \
+ && strip --strip-all /usr/lib/php/*.so
+
 
 FROM 1maa/alpine:3.8
 
 COPY etc /etc/php
 
-COPY --from=0 /tmp/php.ini      /etc/php/cli/php.ini
-COPY --from=0 /tmp/php.ini      /etc/php/fpm/php.ini
-COPY --from=0 /tmp/php-fpm.conf /etc/php/fpm/php-fpm.conf
-COPY --from=0 /usr/bin/php      /usr/bin/php
-COPY --from=0 /usr/sbin/php-fpm /usr/sbin/php-fpm
-COPY --from=0 /usr/lib/php/*.so /usr/lib/php/
+COPY --from=build /tmp/php.ini      /etc/php/cli/php.ini
+COPY --from=build /tmp/php.ini      /etc/php/fpm/php.ini
+COPY --from=build /tmp/php-fpm.conf /etc/php/fpm/php-fpm.conf
+COPY --from=build /usr/bin/php      /usr/bin/php
+COPY --from=build /usr/sbin/php-fpm /usr/sbin/php-fpm
+COPY --from=build /usr/lib/php/*.so /usr/lib/php/
 
 RUN apk upgrade --no-cache \
  && apk add --no-cache \
