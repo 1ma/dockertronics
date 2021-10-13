@@ -1,13 +1,12 @@
 FROM 1maa/php:8.1
 
-ENV BOOTSTRAP_VERSION=2.1.6
 ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV COMPOSER_HOME=/opt/composer
 
 COPY composer-pubkey.asc .
 
-ADD https://github.com/composer/composer/releases/download/${BOOTSTRAP_VERSION}/composer.phar .
-ADD https://github.com/composer/composer/releases/download/${BOOTSTRAP_VERSION}/composer.phar.asc .
+ADD https://getcomposer.org/download/latest-stable/composer.phar .
+ADD https://getcomposer.org/download/latest-stable/composer.phar.asc .
 
 RUN apk add gnupg \
  && gpg --import composer-pubkey.asc \
