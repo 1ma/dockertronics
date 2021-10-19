@@ -148,7 +148,9 @@ RUN rm -rf php-${PHP_VERSION} \
     --with-zlib \
  && make -j$(nproc) \
  && mv sapi/fpm/php-fpm /usr/sbin/php-fpm \
- && cp php.ini-production /tmp/php.ini \
+\
+ && sed -e 's#;phar.readonly = On#phar.readonly = Off#' \
+        php.ini-production > /tmp/php.ini \
 \
  && sed -e 's#@php_fpm_sysconfdir@#/etc/php/fpm#' \
         -e 's#;daemonize = yes#daemonize = no#' \
