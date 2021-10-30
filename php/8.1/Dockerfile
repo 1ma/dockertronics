@@ -1,6 +1,6 @@
 FROM 1maa/alpine:3.14 AS build
 
-ENV PHP_VERSION=8.1.0RC4
+ENV PHP_VERSION=8.1.0RC5
 ENV XHPROF_VERSION=5.0.4
 
 ENV CFLAGS="-Os -march=x86-64"
@@ -10,8 +10,8 @@ WORKDIR /tmp
 
 COPY 8.1/pubkeys.asc .
 
-ADD https://downloads.php.net/~ramsey/php-${PHP_VERSION}.tar.gz .
-ADD https://downloads.php.net/~ramsey/php-${PHP_VERSION}.tar.gz.asc .
+ADD https://downloads.php.net/~patrickallaert/php-${PHP_VERSION}.tar.gz .
+ADD https://downloads.php.net/~patrickallaert/php-${PHP_VERSION}.tar.gz.asc .
 
 RUN apk add --no-cache gnupg \
  && gpg --import pubkeys.asc \
