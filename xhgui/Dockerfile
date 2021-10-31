@@ -1,6 +1,5 @@
 FROM php:7.3-alpine
 
-ENV COMPOSER_VERSION=2.1.6
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
 WORKDIR /tmp
@@ -8,8 +7,8 @@ WORKDIR /tmp
 COPY composer-pubkey.asc .
 
 ADD https://github.com/perftools/xhgui/archive/master.tar.gz .
-ADD https://github.com/composer/composer/releases/download/${COMPOSER_VERSION}/composer.phar .
-ADD https://github.com/composer/composer/releases/download/${COMPOSER_VERSION}/composer.phar.asc .
+ADD https://getcomposer.org/download/latest-stable/composer.phar .
+ADD https://getcomposer.org/download/latest-stable/composer.phar.asc .
 
 RUN apk add --no-cache gnupg \
  && gpg --import composer-pubkey.asc \
