@@ -23,7 +23,7 @@ alpine:
   stage: tier1
   variables:
     CONTEXT: alpine
-    IMAGE: 1maa/alpine:3.14
+    IMAGE: 1maa/alpine:3.15
   script:
     - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS

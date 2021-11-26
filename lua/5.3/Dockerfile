@@ -1,4 +1,4 @@
-FROM 1maa/alpine:3.14
+FROM 1maa/alpine:3.15
 
 ENV LUA_VERSION 5.3.6
 

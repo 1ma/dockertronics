@@ -1,4 +1,4 @@
-FROM 1maa/alpine:3.14 AS build
+FROM 1maa/alpine:3.15 AS build
 
 ENV PHP_VERSION=8.0.13
 ENV XHPROF_VERSION=5.0.4
@@ -42,6 +42,7 @@ RUN apk add --no-cache \
     libmaxminddb-dev \
     libmemcached-dev \
     libpng-dev \
+    libpq-dev \
     librdkafka-dev \
     libsodium-dev \
     libssh2-dev \
@@ -50,7 +51,6 @@ RUN apk add --no-cache \
     libzip-dev \
     oniguruma-dev \
     openssl-dev \
-    postgresql-dev \
     rabbitmq-c-dev \
     readline-dev \
     sqlite-dev \
@@ -197,8 +197,7 @@ ADD https://pecl.php.net/get/xdebug .
 ADD https://pecl.php.net/get/yaml .
 ADD https://pecl.php.net/get/yar .
 
-RUN apk del --no-cache postgresql-dev \
- && pecl channel-update pecl.php.net \
+RUN pecl channel-update pecl.php.net \
  && pecl install \
     amqp-beta \
     apcu \
@@ -223,7 +222,7 @@ RUN apk del --no-cache postgresql-dev \
  && strip --strip-all /usr/lib/php/*.so
 
 
-FROM 1maa/alpine:3.14
+FROM 1maa/alpine:3.15
 
 COPY etc /etc/php
 

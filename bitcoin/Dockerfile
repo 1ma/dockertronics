@@ -1,4 +1,4 @@
-FROM alpine:3.14 AS builder
+FROM alpine:3.15 AS builder
 
 ENV BITCOIN_VERSION=22.0
 
@@ -58,7 +58,7 @@ RUN make -C ./build -j$(nproc) \
  && upx --lzma /usr/local/bin/*
 
 
-FROM alpine:3.14
+FROM alpine:3.15
 
 COPY --from=builder /usr/local/bin/* /usr/local/bin/
 

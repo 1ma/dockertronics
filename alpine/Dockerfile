@@ -5,7 +5,7 @@ COPY https-repositories .
 RUN chmod 644 https-repositories
 
 
-FROM alpine:3.14
+FROM alpine:3.15
 
 # list of mirrors: https://mirrors.alpinelinux.org/
 COPY --from=0 https-repositories /etc/apk/repositories
