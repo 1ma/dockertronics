@@ -84,7 +84,7 @@ haproxy:
   stage: tier1
   variables:
     CONTEXT: haproxy
-    IMAGE: 1maa/haproxy:2.4
+    IMAGE: 1maa/haproxy:2.5
   script:
     - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
@@ -321,10 +321,10 @@ php-8.1-dev:
 roadrunner:
   stage: tier3
   needs:
-    - php-8.0
+    - php-8.1
   variables:
     CONTEXT: roadrunner
-    IMAGE: 1maa/roadrunner:8.0
+    IMAGE: 1maa/roadrunner:8.1
   script:
     - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
