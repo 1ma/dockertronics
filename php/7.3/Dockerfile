@@ -1,7 +1,6 @@
 FROM 1maa/alpine:3.15 AS build
 
 ENV PHP_VERSION=7.3.33
-ENV XHPROF_VERSION=5.0.4
 
 ENV CFLAGS="-Os -march=x86-64"
 ENV LDFLAGS="-s"
@@ -164,14 +163,6 @@ RUN rm -rf php-${PHP_VERSION} \
         sapi/fpm/www.conf.in > /tmp/www.conf \
 \
  && upx --lzma /usr/bin/php /usr/sbin/php-fpm
-
-RUN wget -q https://github.com/tideways/php-xhprof-extension/archive/v${XHPROF_VERSION}.tar.gz \
- && tar zxof v${XHPROF_VERSION}.tar.gz \
- && cd ./php-xhprof-extension-${XHPROF_VERSION} \
- && phpize \
- && ./configure \
- && make \
- && make install
 
 # Force invalidation of the build cache from here on if any
 # extension has released a new version since the last build
