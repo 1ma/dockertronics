@@ -9,7 +9,7 @@ ADD https://www.haproxy.org/download/2.5/src/haproxy-${HAPROXY_VERSION}.tar.gz .
 RUN apk add --no-cache \
     build-base \
     linux-headers \
-    lua5.3-dev \
+    lua5.4-dev \
     openssl-dev \
     pcre2-dev \
     upx \
@@ -19,8 +19,8 @@ RUN apk add --no-cache \
     CPU_CFLAGS="-Os -march=x86-64" \
     DEBUG_CFLAGS= \
     LDFLAGS="-s" \
-    LUA_INC="/usr/include/lua5.3" \
-    LUA_LIB="/usr/lib/lua5.3" \
+    LUA_INC="/usr/include/lua5.4" \
+    LUA_LIB="/usr/lib/lua5.4" \
     TARGET=linux-glibc \
     USE_BACKTRACE= \
     USE_GETADDRINFO=1 \
@@ -44,7 +44,7 @@ COPY config /etc/haproxy
 COPY --from=0 /tmp/haproxy /usr/sbin/haproxy
 
 RUN apk add --no-cache \
-    lua5.3-libs
+    lua5.4-libs
 
 STOPSIGNAL SIGUSR1
 
