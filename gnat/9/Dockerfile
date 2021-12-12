@@ -1,12 +1,12 @@
 FROM alpine:3.15
 
-ENV ALIRE_VERSION 1.0.1
+ENV ALIRE_VERSION 1.1.1
 
 WORKDIR /tmp
 
-ADD https://github.com/alire-project/alire/releases/download/v${ALIRE_VERSION}/alr-${ALIRE_VERSION}-bin-linux.zip .
+ADD https://github.com/alire-project/alire/releases/download/v${ALIRE_VERSION}/alr-${ALIRE_VERSION}-bin-x86_64-linux.zip .
 
-RUN unzip alr-${ALIRE_VERSION}-bin-linux.zip \
+RUN unzip alr-${ALIRE_VERSION}-bin-x86_64-linux.zip \
  && apk add binutils \
  && strip --strip-all bin/alr
 
