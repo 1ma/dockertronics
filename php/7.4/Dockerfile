@@ -1,6 +1,6 @@
 FROM 1maa/alpine:3.15 AS build
 
-ENV PHP_VERSION=7.4.26
+ENV PHP_VERSION=7.4.27
 
 ENV CFLAGS="-Os -march=x86-64"
 ENV LDFLAGS="-s"
@@ -247,6 +247,7 @@ RUN apk add --no-cache \
     oniguruma \
     rabbitmq-c \
     readline \
+    sqlite-libs \
     yaml
 
 EXPOSE 9000

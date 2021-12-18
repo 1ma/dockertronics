@@ -1,6 +1,6 @@
 FROM 1maa/alpine:3.15 AS build
 
-ENV PHP_VERSION=8.0.13
+ENV PHP_VERSION=8.0.14
 
 ENV CFLAGS="-Os -march=x86-64"
 ENV LDFLAGS="-s"
@@ -190,7 +190,7 @@ ADD https://pecl.php.net/get/yar .
 
 RUN pecl channel-update pecl.php.net \
  && pecl install \
-    amqp-beta \
+    amqp \
     apcu \
     csv \
     ds \
@@ -246,9 +246,7 @@ RUN apk add --no-cache \
     rabbitmq-c \
     readline \
     sqlite-libs \
-    yaml \
- && rm /etc/php/mods-available/amqp.ini \
- && rm /etc/php/mods-available/ssh2.ini
+    yaml
 
 EXPOSE 9000
 
