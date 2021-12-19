@@ -8,8 +8,7 @@ COPY composer-pubkey.asc .
 ADD https://getcomposer.org/download/latest-stable/composer.phar .
 ADD https://getcomposer.org/download/latest-stable/composer.phar.asc .
 
-RUN apk add gnupg \
- && gpg --import composer-pubkey.asc \
+RUN gpg --import composer-pubkey.asc \
  && gpg --verify composer.phar.asc composer.phar
 
 RUN php composer.phar global config bin-dir /usr/local/bin \
