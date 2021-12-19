@@ -1,4 +1,4 @@
-FROM alpine:3.15
+FROM alpine:3.15 AS builder
 
 ENV PG_RELEASE=14.1
 
@@ -38,7 +38,7 @@ FROM alpine:3.15
 
 ENV LANG=en_US.UTF-8
 
-COPY --from=0 /usr/local/pgsql /usr/local/pgsql
+COPY --from=builder /usr/local/pgsql /usr/local/pgsql
 
 RUN apk add --no-cache \
     libxml2 \
