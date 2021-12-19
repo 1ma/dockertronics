@@ -10,14 +10,33 @@ An extension of the official `postgres:14-alpine` image with a few additional, n
 - [postGIS](http://postgis.net): Spatial and Geographic objects for PostgreSQL.
 
 
-### postgresql.conf tweaks
+### Configuration tweaks
 
-- `shared_buffers = 32MB -> 2GB`
-- `work_mem = 4MB -> 128MB`
-- `maintenance_work_mem = 64MB -> 512MB`
-- `effective_io_concurrency = 1 -> 2`
-- `random_page_cost = 4.0 -> 1.0`
-- `log_statement = 'none' -> 'all'`
+The tweaks were guided by the [PGTune utility](https://pgtune.leopard.in.ua/) assuming Postgres v14, Linux OS,
+a Desktop Application workload (i.e. developer machine), 16GiB of RAM and SSD storage.
+
+In addition `log_statement` is set to `'all'` to ease in troubleshooting issues.
+
+```
+# DB Version: 14
+# OS Type: linux
+# DB Type: desktop
+# Total Memory (RAM): 16 GB
+# Data Storage: ssd
+
+max_connections = 20
+shared_buffers = 1GB
+effective_cache_size = 4GB
+maintenance_work_mem = 1GB
+checkpoint_completion_target = 0.9
+wal_buffers = 16MB
+default_statistics_target = 100
+random_page_cost = 1.1
+effective_io_concurrency = 200
+work_mem = 21845kB
+min_wal_size = 100MB
+max_wal_size = 2GB
+```
 
 
 ## 1maa/postgres:14-src

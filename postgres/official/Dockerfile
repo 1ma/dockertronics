@@ -13,8 +13,8 @@ RUN echo "@edge-testing https://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /
  && apk --no-cache add \
     build-base \
     clang-dev \
-    geos-dev@edge-testing \
     gdal-dev@edge-testing \
+    geos-dev@edge-testing \
     json-c-dev \
     libxml2-dev \
     llvm12 \
@@ -44,21 +44,14 @@ COPY --from=0 /usr/local/share/postgresql/extension/pgtap*                /usr/l
 COPY --from=0 /usr/local/share/postgresql/extension/postgis*              /usr/local/share/postgresql/extension/
 COPY --from=0 /usr/local/share/postgresql/extension/postgres-json-schema* /usr/local/share/postgresql/extension/
 
-RUN sed -e "s@#shared_buffers = 32MB@shared_buffers = 2GB@" \
-        -e "s@#work_mem = 4MB@work_mem = 128MB@" \
-        -e "s@#maintenance_work_mem = 64MB@maintenance_work_mem = 512MB@" \
-        -e "s@#effective_io_concurrency = 1@effective_io_concurrency = 2@" \
-        -e "s@#random_page_cost = 4.0@random_page_cost = 1.0@" \
-        -e "s@#log_statement = 'none'@log_statement = 'all'@" \
-        /usr/local/share/postgresql/postgresql.conf.sample > /etc/postgresql.conf \
- && chown postgres:postgres /etc/postgresql.conf \
- && echo "@edge-testing https://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
+RUN echo "@edge-testing https://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
  && apk --no-cache add \
     build-base \
-    geos@edge-testing \
     gdal@edge-testing \
+    geos@edge-testing \
     json-c \
     libxml2 \
+    musl-locales \
     perl-dev \
     proj@edge-testing \
     protobuf-c \
@@ -69,4 +62,17 @@ RUN sed -e "s@#shared_buffers = 32MB@shared_buffers = 2GB@" \
     /usr/share/gdal \
     /usr/share/proj
 
-CMD ["postgres", "-c", "config_file=/etc/postgresql.conf"]
+CMD ["-c", "checkpoint_completion_target=0.9", \
+     "-c", "default_statistics_target=100",    \
+     "-c", "effective_cache_size=4GB",         \
+     "-c", "effective_io_concurrency=200",     \
+     "-c", "log_statement=all",                \
+     "-c", "maintenance_work_mem=1GB",         \
+     "-c", "max_connections=20",               \
+     "-c", "max_wal_size=2GB",                 \
+     "-c", "min_wal_size=100MB",               \
+     "-c", "random_page_cost=1.1",             \
+     "-c", "shared_buffers=1GB",               \
+     "-c", "wal_buffers=16MB",                 \
+     "-c", "work_mem=21845kB"                  \
+]

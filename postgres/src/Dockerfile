@@ -31,10 +31,10 @@ RUN cd postgresql-${PG_RELEASE} \
  && rm -rf /usr/local/pgsql/share/doc \
  && rm -rf /usr/local/pgsql/share/man
 
-COPY postgres.sh /usr/local/pgsql/bin/postgres.sh
+COPY postgres-entrypoint.sh /usr/local/pgsql/bin/postgres-entrypoint.sh
 
 
-FROM alpine:3.15
+FROM 1maa/alpine:3.15
 
 ENV LANG=en_US.UTF-8
 
@@ -43,6 +43,7 @@ COPY --from=builder /usr/local/pgsql /usr/local/pgsql
 RUN apk add --no-cache \
     libxml2 \
     libxslt \
+    musl-locales \
     readline \
  && addgroup -S postgres \
  && adduser -h /var/lib/postgres -s /bin/sh -S -D -G postgres postgres \
@@ -53,4 +54,8 @@ USER postgres
 
 VOLUME ["/var/lib/postgres/data"]
 
-CMD ["/usr/local/pgsql/bin/postgres.sh"]
+STOPSIGNAL SIGINT
+
+EXPOSE 5432
+
+CMD ["/usr/local/pgsql/bin/postgres-entrypoint.sh"]
