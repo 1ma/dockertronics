@@ -51,7 +51,7 @@ RUN apk add --no-cache \
     readline \
  && addgroup --system postgres \
  && adduser --system --disabled-password --home /var/lib/postgres --shell /bin/false --ingroup postgres postgres \
- && mkdir /var/lib/postgres/data \
+ && mkdir /var/lib/postgres/data /docker-entrypoint-initdb.d \
  && chown postgres:postgres /var/lib/postgres/data
 
 USER postgres

@@ -10,21 +10,26 @@ if [ ! -f /var/lib/postgres/data/PG_VERSION ]; then
     --pwfile=<(echo "${POSTGRES_PASSWORD}") \
     --username="${POSTGRES_USER}"
 
-  # If $POSTGRES_DB is not the default value create that database for user $POSTGRES_USER
-  # Postgres needs to be momentarily brought up in the background to be able to create a new database
-  if [ 'postgres' != "${POSTGRES_DB}" ]; then
-    pg_ctl -D /var/lib/postgres/data start
+  # Postgres needs to be momentarily brought up in the background to be
+  # able to create a non-default database or execute SQL init scripts
+  pg_ctl -D /var/lib/postgres/data --wait start
 
-    createdb                        \
-      --username "${POSTGRES_USER}" \
-      --owner "${POSTGRES_USER}"    \
-      --echo                        \
-      "${POSTGRES_DB}"
+  createdb                        \
+    --username "${POSTGRES_USER}" \
+    --owner "${POSTGRES_USER}"    \
+    --echo                        \
+    "${POSTGRES_DB}"
 
-    # TODO: execute any .sql files in /docker-entrypoint-init.d
+  for f in /docker-entrypoint-initdb.d/*; do
+    case "$f" in
+      *.sql)    echo "running $f";                  psql -v ON_ERROR_STOP=1 --echo-all --dbname "${POSTGRES_DB}" --username "${POSTGRES_USER}" -f "$f" || exit 1; echo ;;
+      *.sql.gz) echo "running $f"; gunzip -c "$f" | psql -v ON_ERROR_STOP=1 --echo-all --dbname "${POSTGRES_DB}" --username "${POSTGRES_USER}"         || exit 1; echo ;;
+      *.sql.xz) echo "running $f"; xzcat "$f"     | psql -v ON_ERROR_STOP=1 --echo-all --dbname "${POSTGRES_DB}" --username "${POSTGRES_USER}"         || exit 1; echo ;;
+      *)        echo "ignoring $f" ;;
+    esac
+  done
 
-    pg_ctl -D /var/lib/postgres/data -m fast stop
-  fi
+  pg_ctl -D /var/lib/postgres/data --wait --mode fast stop
 
   # Allow authenticated connections from other Docker containers
   echo "host    all             all             all                     scram-sha-256" >> /var/lib/postgres/data/pg_hba.conf
