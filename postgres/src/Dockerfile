@@ -31,12 +31,16 @@ RUN cd postgresql-${PG_RELEASE} \
  && rm -rf /usr/local/pgsql/share/doc \
  && rm -rf /usr/local/pgsql/share/man
 
-COPY postgres-entrypoint.sh /usr/local/pgsql/bin/postgres-entrypoint.sh
+COPY startup.sh /usr/local/pgsql/bin/startup.sh
 
 
 FROM 1maa/alpine:3.15
 
 ENV LANG=en_US.UTF-8
+ENV PATH=/usr/local/pgsql/bin:$PATH
+ENV POSTGRES_DB=postgres
+ENV POSTGRES_USER=postgres
+ENV POSTGRES_PASSWORD=postgres
 
 COPY --from=builder /usr/local/pgsql /usr/local/pgsql
 
@@ -45,8 +49,8 @@ RUN apk add --no-cache \
     libxslt \
     musl-locales \
     readline \
- && addgroup -S postgres \
- && adduser -h /var/lib/postgres -s /bin/sh -S -D -G postgres postgres \
+ && addgroup --system postgres \
+ && adduser --system --disabled-password --home /var/lib/postgres --shell /bin/false --ingroup postgres postgres \
  && mkdir /var/lib/postgres/data \
  && chown postgres:postgres /var/lib/postgres/data
 
@@ -58,4 +62,4 @@ STOPSIGNAL SIGINT
 
 EXPOSE 5432
 
-CMD ["/usr/local/pgsql/bin/postgres-entrypoint.sh"]
+CMD ["/usr/local/pgsql/bin/startup.sh"]
