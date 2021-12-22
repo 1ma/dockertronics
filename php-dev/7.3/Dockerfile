@@ -11,7 +11,8 @@ ADD https://getcomposer.org/download/latest-stable/composer.phar.asc .
 RUN gpg --import composer-pubkey.asc \
  && gpg --verify composer.phar.asc composer.phar
 
-RUN php composer.phar global config bin-dir /usr/local/bin \
+RUN php composer.phar global config allow-plugins.uma/composer-psysh true \
+ && php composer.phar global config bin-dir /usr/local/bin \
  && php composer.phar global config minimum-stability dev \
  && php composer.phar global config prefer-stable true \
  && php composer.phar global require --prefer-dist \
