@@ -213,7 +213,7 @@ RUN pecl channel-update pecl.php.net \
  && strip --strip-all /usr/lib/php/*.so
 
 
-FROM 1maa/alpine:3.15
+FROM 1maa/alpine:3.15 AS php
 
 COPY etc /etc/php
 
@@ -251,3 +251,47 @@ RUN apk add --no-cache \
 EXPOSE 9000
 
 CMD ["/usr/sbin/php-fpm", "-R"]
+
+
+FROM php AS build-dev
+
+ENV COMPOSER_ALLOW_SUPERUSER=1
+ENV COMPOSER_HOME=/opt/composer
+
+COPY composer-pubkey.asc .
+
+ADD https://getcomposer.org/download/latest-stable/composer.phar .
+ADD https://getcomposer.org/download/latest-stable/composer.phar.asc .
+
+RUN gpg --import composer-pubkey.asc \
+ && gpg --verify composer.phar.asc composer.phar
+
+RUN php composer.phar global config allow-plugins.uma/composer-psysh true \
+ && php composer.phar global config bin-dir /usr/local/bin \
+ && php composer.phar global config minimum-stability dev \
+ && php composer.phar global config prefer-stable true \
+ && php composer.phar global require --prefer-dist \
+    composer/composer \
+    d11wtq/boris \
+    deployer/deployer:^7.0 \
+    friendsofphp/php-cs-fixer \
+    phing/phing \
+    phploc/phploc \
+    phpmetrics/phpmetrics \
+    phpunit/phpunit \
+    qossmic/deptrac-shim \
+    uma/composer-psysh \
+ && rm -rf ${COMPOSER_HOME}/.htaccess ${COMPOSER_HOME}/cache
+
+
+FROM php AS php-dev
+
+ENV COMPOSER_ALLOW_SUPERUSER=1
+ENV COMPOSER_HOME=/opt/composer
+
+COPY etc-dev /etc/php
+
+COPY --from=build-dev ${COMPOSER_HOME} ${COMPOSER_HOME}
+COPY --from=build-dev /usr/local/bin /usr/local/bin
+
+RUN apk add --no-cache git
