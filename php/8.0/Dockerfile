@@ -272,7 +272,6 @@ RUN php composer.phar global config allow-plugins.uma/composer-psysh true \
  && php composer.phar global config prefer-stable true \
  && php composer.phar global require --prefer-dist \
     composer/composer \
-    d11wtq/boris \
     deployer/deployer:^7.0 \
     friendsofphp/php-cs-fixer \
     phing/phing \
