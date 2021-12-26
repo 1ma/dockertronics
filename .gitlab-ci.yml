@@ -146,7 +146,7 @@ protoc:
     CONTEXT: protoc
     IMAGE: 1maa/protoc:latest
   script:
-    - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
+    - docker build --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
