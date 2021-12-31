@@ -4,11 +4,11 @@ FROM 1maa/alpine:3.15
 #   https://www.sqlite.org/howtocompile.html
 #   https://www.sqlite.org/compile.html
 
-ENV SQLITE_VERSION=3370000
+ENV SQLITE_VERSION=3370200
 
 WORKDIR /tmp
 
-ADD https://www.sqlite.org/2021/sqlite-amalgamation-${SQLITE_VERSION}.zip .
+ADD https://www.sqlite.org/2022/sqlite-amalgamation-${SQLITE_VERSION}.zip .
 
 RUN apk add --no-cache \
     build-base \
