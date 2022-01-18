@@ -152,6 +152,7 @@ swipl:
 
 xhgui:
   stage: tier1
+  allow_failure: true
   variables:
     CONTEXT: xhgui
     IMAGE: 1maa/xhgui:latest
