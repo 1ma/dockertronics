@@ -1,7 +1,9 @@
 FROM alpine:latest AS librdkafka
 
 # Versions available on Ubuntu: https://packages.ubuntu.com/search?keywords=librdkafka
-ENV LIBRDKAFKA_VERSION=1.8.0
+ENV LIBRDKAFKA_VERSION=0.11.3
+ENV CFLAGS="-Os -march=x86-64"
+ENV LDFLAGS="-s"
 
 WORKDIR /tmp
 
@@ -18,16 +20,16 @@ RUN apk add --no-cache \
  && ln -s /usr/bin/python3 /usr/bin/python \
  && unzip v${LIBRDKAFKA_VERSION}.zip
 
-RUN cd librdkafka-${LIBRDKAFKA_VERSION} \
- && ./configure --help \
+WORKDIR /tmp/librdkafka-${LIBRDKAFKA_VERSION}
+
+RUN ./configure --help \
  && ./configure
 
-RUN cd librdkafka-${LIBRDKAFKA_VERSION} \
- && make -j$(nproc)
+RUN make -j$(nproc)
 
-RUN cd librdkafka-${LIBRDKAFKA_VERSION} \
- && make install
+RUN make install
 
+RUN find examples/* -executable -exec cp {} /usr/local/bin \;
 
 FROM 1maa/alpine:3.15 AS build
 
@@ -216,8 +218,8 @@ ADD https://pecl.php.net/get/xdebug .
 ADD https://pecl.php.net/get/yaml .
 ADD https://pecl.php.net/get/yar .
 
-COPY --from=librdkafka /usr/local/lib     /usr/lib
 COPY --from=librdkafka /usr/local/include /usr/include
+COPY --from=librdkafka /usr/local/lib     /usr/lib
 
 RUN apk add --no-cache libsasl lz4-libs && pecl channel-update pecl.php.net \
  && pecl install \
@@ -256,6 +258,7 @@ COPY --from=build /usr/bin/php      /usr/bin/php
 COPY --from=build /usr/sbin/php-fpm /usr/sbin/php-fpm
 COPY --from=build /usr/lib/php/*.so /usr/lib/php/
 
+COPY --from=librdkafka /usr/local/bin /usr/bin
 COPY --from=librdkafka /usr/local/lib /usr/lib
 
 RUN apk add --no-cache \
