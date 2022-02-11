@@ -2,8 +2,8 @@
 
 ### Description
 
-A simple extension of the `erlang:24-alpine` image with rebar3, an open TCP
-port (8080) to be able to expose a web service and a few global plugins:
+The latest and greatest Erlang/OTP built from source with an open TCP port
+to be able to expose a web service, and rebar3 with a few plugins:
 
 * rebar_cmd -> ability to define custom tasks in rebar.config
 * rebar3_auto -> automatically compile & reload modified source files
