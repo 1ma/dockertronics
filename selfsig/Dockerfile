@@ -1,9 +1,9 @@
-FROM 1maa/alpine:3.15
+FROM alpine:latest
 
 ENV ALGO rsa
 ENV BITS 4096
 ENV FQDN example.com
 
-RUN apk add --no-cache libressl
+RUN apk add --no-cache openssl3
 
-CMD openssl req -x509 -nodes -days 3650 -newkey ${ALGO}:${BITS} -keyout /tmp/${FQDN}.key -out /tmp/${FQDN}.crt -subj "/CN=*.${FQDN}"
+CMD openssl3 req -x509 -nodes -days 3650 -newkey ${ALGO}:${BITS} -keyout /tmp/${FQDN}.key -out /tmp/${FQDN}.crt -subj "/CN=*.${FQDN}"

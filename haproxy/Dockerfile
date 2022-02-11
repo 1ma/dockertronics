@@ -10,7 +10,7 @@ RUN apk add --no-cache \
     build-base \
     linux-headers \
     lua5.4-dev \
-    openssl-dev \
+    openssl3-dev \
     pcre2-dev \
     upx \
     zlib-dev \
@@ -44,6 +44,7 @@ COPY config /etc/haproxy
 COPY --from=0 /tmp/haproxy /usr/sbin/haproxy
 
 RUN apk add --no-cache \
+    libssl3 \
     lua5.4-libs
 
 STOPSIGNAL SIGUSR1

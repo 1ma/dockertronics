@@ -1,6 +1,6 @@
 FROM alpine:3.15 AS builder
 
-ENV PG_RELEASE=14.1
+ENV PG_RELEASE=14.2
 
 WORKDIR /tmp
 
@@ -11,7 +11,7 @@ RUN apk add --no-cache \
     libxml2-dev \
     libxslt-dev \
     linux-headers \
-    openssl-dev \
+    openssl3-dev \
     readline-dev \
     zlib-dev \
  && tar zxof postgresql-${PG_RELEASE}.tar.gz \
@@ -45,6 +45,7 @@ ENV POSTGRES_PASSWORD=postgres
 COPY --from=builder /usr/local/pgsql /usr/local/pgsql
 
 RUN apk add --no-cache \
+    libssl3 \
     libxml2 \
     libxslt \
     musl-locales \

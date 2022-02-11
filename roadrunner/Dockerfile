@@ -1,10 +1,10 @@
 FROM golang:alpine
 
-ENV RR_VERSION=2.7.0
+ENV RR_VERSION=2.7.7
 
 WORKDIR /tmp
 
-ADD https://github.com/spiral/roadrunner-binary/archive/v${RR_VERSION}.zip .
+ADD https://github.com/roadrunner-server/roadrunner/archive/v${RR_VERSION}.zip .
 
 RUN apk add --no-cache \
     file \
