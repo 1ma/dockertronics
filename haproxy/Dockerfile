@@ -1,4 +1,4 @@
-FROM 1maa/alpine:3.15
+FROM alpine:latest
 
 ENV HAPROXY_VERSION=2.5.1
 
@@ -37,7 +37,7 @@ RUN apk add --no-cache \
  && mv haproxy-${HAPROXY_VERSION}/haproxy .
 
 
-FROM 1maa/alpine:3.15
+FROM 1maa/alpine:latest
 
 COPY config /etc/haproxy
 

@@ -1,6 +1,7 @@
 FROM golang:alpine
 
 ENV RR_VERSION=2.7.7
+ENV CGO_ENABLED=0
 
 WORKDIR /tmp
 
@@ -9,21 +10,23 @@ ADD https://github.com/roadrunner-server/roadrunner/archive/v${RR_VERSION}.zip .
 RUN apk add --no-cache \
     file \
     upx \
- && unzip v${RR_VERSION}.zip \
- && cd roadrunner-binary-${RR_VERSION} \
- && CGO_ENABLED=0 go build \
+ && unzip v${RR_VERSION}.zip
+
+WORKDIR /tmp/roadrunner-${RR_VERSION}
+
+RUN go build \
     -trimpath \
     -ldflags "-X github.com/spiral/roadrunner-binary/v2/cli.Version=${RR_VERSION} -X github.com/spiral/roadrunner-binary/v2/cli.BuildTime=$(date +%FT%T%z) -s -w -d" \
-    -o /usr/local/bin/rr \
+    -o /tmp/rr \
     cmd/rr/main.go \
- && file /usr/local/bin/rr \
- && upx --lzma /usr/local/bin/rr \
- && file /usr/local/bin/rr
+ && file /tmp/rr \
+ && upx --lzma /tmp/rr \
+ && file /tmp/rr
 
 
 FROM 1maa/php:8.1
 
-COPY --from=0 /usr/local/bin/rr /usr/local/bin/rr
+COPY --from=0 /tmp/rr /usr/local/bin/rr
 COPY .rr.yaml .
 
 RUN ln -s /etc/php/mods-available/xdebug.ini /etc/php/cli/conf.d/xdebug.ini

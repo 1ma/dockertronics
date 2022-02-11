@@ -1,4 +1,4 @@
-FROM 1maa/alpine:3.15
+FROM alpine:latest
 
 # References:
 #   https://www.sqlite.org/howtocompile.html

@@ -1,4 +1,4 @@
-FROM 1maa/alpine:3.15
+FROM 1maa/alpine:latest
 
 COPY key/id_rsa.pub /authorized_keys
 

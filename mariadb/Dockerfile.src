@@ -1,4 +1,4 @@
-FROM 1maa/alpine:3.15
+FROM alpine:latest
 
 WORKDIR /tmp
 

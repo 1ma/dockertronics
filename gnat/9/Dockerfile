@@ -1,4 +1,4 @@
-FROM alpine:3.15
+FROM alpine:latest
 
 ENV ALIRE_VERSION 1.1.1
 

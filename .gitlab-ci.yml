@@ -23,11 +23,11 @@ alpine:
   stage: tier1
   variables:
     CONTEXT: alpine
-    IMAGE: 1maa/alpine:3.15
   script:
-    - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
+    - docker build --cache-from 1maa/alpine:latest --build-arg BUILDKIT_INLINE_CACHE=1 -t 1maa/alpine:3.15 -t 1maa/alpine:latest -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
-    - docker push $IMAGE
+    - docker push 1maa/alpine:3.15
+    - docker push 1maa/alpine:latest
 
 beanstalkd:
   stage: tier1
@@ -75,6 +75,26 @@ haproxy:
   variables:
     CONTEXT: haproxy
     IMAGE: 1maa/haproxy:2.5
+  script:
+    - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
+    - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
+    - docker push $IMAGE
+
+lua-5.3:
+  stage: tier1
+  variables:
+    CONTEXT: lua/5.3
+    IMAGE: 1maa/lua:5.3
+  script:
+    - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
+    - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
+    - docker push $IMAGE
+
+lua-5.4:
+  stage: tier1
+  variables:
+    CONTEXT: lua/5.4
+    IMAGE: 1maa/lua:5.4
   script:
     - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
@@ -147,6 +167,18 @@ sleepy:
   variables:
     CONTEXT: sleepy
     IMAGE: 1maa/sleepy:latest
+  script:
+    - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
+    - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
+    - docker push $IMAGE
+
+sqlite:
+  stage: tier1
+  needs:
+    - alpine
+  variables:
+    CONTEXT: sqlite
+    IMAGE: 1maa/sqlite:latest
   script:
     - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
@@ -272,18 +304,6 @@ sftp:
   variables:
     CONTEXT: sftp
     IMAGE: 1maa/sftp:latest
-  script:
-    - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
-    - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
-    - docker push $IMAGE
-
-sqlite:
-  stage: tier2
-  needs:
-    - alpine
-  variables:
-    CONTEXT: sqlite
-    IMAGE: 1maa/sqlite:latest
   script:
     - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS

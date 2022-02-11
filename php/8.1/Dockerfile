@@ -1,4 +1,4 @@
-FROM 1maa/alpine:3.15 AS build
+FROM 1maa/alpine:latest AS build
 
 ENV PHP_VERSION=8.1.2
 
@@ -217,7 +217,7 @@ RUN pecl channel-update pecl.php.net \
  && strip --strip-all /usr/lib/php/*.so
 
 
-FROM 1maa/alpine:3.15 AS php
+FROM 1maa/alpine:latest AS php
 
 COPY etc /etc/php
 

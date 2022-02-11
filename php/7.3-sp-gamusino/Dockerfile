@@ -31,7 +31,7 @@ RUN make install
 
 RUN find examples/* -executable -exec cp {} /usr/local/bin \;
 
-FROM 1maa/alpine:3.15 AS build
+FROM 1maa/alpine:latest AS build
 
 ENV PHP_VERSION=7.3.33
 
@@ -246,7 +246,7 @@ RUN apk add --no-cache libsasl lz4-libs && pecl channel-update pecl.php.net \
  && strip --strip-all /usr/lib/php/*.so
 
 
-FROM 1maa/alpine:3.15 AS php
+FROM 1maa/alpine:latest AS php
 
 COPY etc /etc/php
 

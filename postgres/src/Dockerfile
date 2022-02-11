@@ -1,4 +1,4 @@
-FROM alpine:3.15 AS builder
+FROM alpine:latest AS builder
 
 ENV PG_RELEASE=14.2
 
@@ -34,7 +34,7 @@ RUN cd postgresql-${PG_RELEASE} \
 COPY startup.sh /usr/local/pgsql/bin/startup.sh
 
 
-FROM 1maa/alpine:3.15
+FROM 1maa/alpine:latest
 
 ENV LANG=en_US.UTF-8
 ENV PATH=/usr/local/pgsql/bin:$PATH
