@@ -1,6 +1,6 @@
 FROM 1maa/alpine:latest AS build
 
-ENV PHP_VERSION=8.0.15
+ENV PHP_VERSION=8.0.16
 
 ENV CFLAGS="-Os -march=x86-64"
 ENV LDFLAGS="-s"
