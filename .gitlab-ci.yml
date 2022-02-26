@@ -50,15 +50,25 @@ bitcoind:
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
-erlang:
+erlang-24:
   stage: tier1
   variables:
     CONTEXT: erlang
-    IMAGE: 1maa/erlang:latest
+    IMAGE: 1maa/erlang:24-alpine
   script:
-    - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
+    - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 --build-arg ERLANG_VERSION=24.2.2 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
+
+erlang-25:
+  stage: tier1
+  variables:
+    CONTEXT: erlang
+  script:
+    - docker build --cache-from 1maa/erlang:25-alpine --build-arg BUILDKIT_INLINE_CACHE=1 --build-arg ERLANG_VERSION=25.0-rc1 -t 1maa/erlang:25-alpine -t 1maa/erlang:latest -f $CONTEXT/Dockerfile $CONTEXT
+    - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
+    - docker push 1maa/erlang:25-alpine
+    - docker push 1maa/erlang:latest
 
 gnat-9:
   stage: tier1
