@@ -1,6 +1,6 @@
 FROM ubuntu:latest AS builder
 
-ENV BITCOIN_VERSION=22.0
+ARG BITCOIN_VERSION=22.0
 
 WORKDIR /tmp
 
@@ -21,7 +21,9 @@ RUN apt-get update \
      autoconf \
      automake \
      build-essential \
-     libboost-all-dev \
+     libboost-filesystem-dev \
+     libboost-system-dev \
+     libboost-thread-dev \
      libevent-dev \
      libsqlite3-dev \
      libtool \
@@ -45,8 +47,15 @@ RUN mkdir build \
     --disable-man \
     --disable-tests \
     --disable-zmq \
+    --with-daemon=yes \
     --with-gui=no \
+    --with-libmultiprocess=no \
     --with-libs=no \
+    --with-miniupnpc=no \
+    --with-mpgen=no \
+    --with-natpmp=no \
+    --with-qrencode=no \
+    --with-utils=yes \
     --without-bdb
 
 RUN make -C ./build -j$(nproc)
@@ -64,4 +73,4 @@ VOLUME /var/lib/bitcoin
 
 EXPOSE 8333
 
-CMD ["/usr/local/bin/bitcoind", "-datadir=/var/lib/bitcoin", "-nodebuglogfile"]
+CMD ["/usr/local/bin/bitcoind", "-datadir=/var/lib/bitcoin", "-listen=1", "-bind=0.0.0.0", "-nodebuglogfile"]
