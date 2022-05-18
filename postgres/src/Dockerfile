@@ -1,6 +1,6 @@
 FROM alpine:latest AS builder
 
-ENV PG_RELEASE=14.2
+ENV PG_RELEASE=14.3
 
 WORKDIR /tmp
 
