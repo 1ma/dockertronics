@@ -1,6 +1,6 @@
 FROM alpine:latest AS builder
 
-ENV BITCOIN_VERSION=23.0
+ARG BITCOIN_VERSION=23.0
 
 WORKDIR /tmp
 
@@ -48,12 +48,20 @@ RUN mkdir build \
     --disable-man \
     --disable-tests \
     --disable-zmq \
+    --with-daemon=yes \
     --with-gui=no \
+    --with-libmultiprocess=no \
     --with-libs=no \
+    --with-miniupnpc=no \
+    --with-mpgen=no \
+    --with-natpmp=no \
+    --with-qrencode=no \
+    --with-utils=yes \
     --without-bdb
 
-RUN make -C ./build -j$(nproc) \
- && make -C ./build install \
+RUN make -C ./build -j$(nproc)
+
+RUN make -C ./build install \
  && file /usr/local/bin/* \
  && upx --lzma /usr/local/bin/*
 
@@ -66,4 +74,4 @@ VOLUME /var/lib/bitcoin
 
 EXPOSE 8333
 
-CMD ["/usr/local/bin/bitcoind", "-datadir=/var/lib/bitcoin", "-nodebuglogfile"]
+CMD ["/usr/local/bin/bitcoind", "-datadir=/var/lib/bitcoin", "-listen=1", "-bind=0.0.0.0", "-nodebuglogfile"]
