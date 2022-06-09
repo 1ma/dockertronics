@@ -1,6 +1,6 @@
 FROM alpine:latest
 
-ENV LUA_VERSION 5.3.6
+ARG LUA_VERSION=5.3.6
 
 WORKDIR /tmp
 

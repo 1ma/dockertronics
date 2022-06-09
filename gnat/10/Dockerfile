@@ -1,6 +1,6 @@
 FROM 1maa/alpine:latest AS alire
 
-ENV ALIRE_VERSION v1.1.1
+ARG ALIRE_VERSION=v1.1.1
 
 WORKDIR /tmp
 

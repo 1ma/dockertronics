@@ -1,6 +1,6 @@
 FROM alpine:latest
 
-ENV ALIRE_VERSION 1.1.1
+ARG ALIRE_VERSION=1.1.1
 
 WORKDIR /tmp
 

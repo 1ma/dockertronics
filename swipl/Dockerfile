@@ -1,6 +1,6 @@
 FROM alpine:latest
 
-ENV SWIPL_VERSION 8.5.12
+ARG SWIPL_VERSION=8.5.12
 
 WORKDIR /tmp
 
