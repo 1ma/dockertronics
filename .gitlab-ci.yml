@@ -229,7 +229,6 @@ gnat-10:
 
 php-7.3:
   stage: tier2
-  allow_failure: true
   needs:
     - alpine
   variables:
@@ -244,7 +243,6 @@ php-7.3:
 
 php-7.4:
   stage: tier2
-  allow_failure: true
   needs:
     - alpine
   variables:
@@ -259,7 +257,6 @@ php-7.4:
 
 php-8.0:
   stage: tier2
-  allow_failure: true
   needs:
     - alpine
   variables:
@@ -274,7 +271,6 @@ php-8.0:
 
 php-8.1:
   stage: tier2
-  allow_failure: true
   needs:
     - alpine
   variables:
