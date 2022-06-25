@@ -90,6 +90,16 @@ haproxy:
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
+lnd:
+  stage: tier1
+  variables:
+    CONTEXT: lnd
+    IMAGE: 1maa/lnd:latest
+  script:
+    - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
+    - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
+    - docker push $IMAGE
+
 lua-5.3:
   stage: tier1
   variables:
