@@ -50,6 +50,16 @@ bitcoind:
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
+core-lightning:
+  stage: tier1
+  variables:
+    CONTEXT: core-lightning
+    IMAGE: 1maa/core-lightning:latest
+  script:
+    - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/ubuntu/Dockerfile $CONTEXT
+    - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
+    - docker push $IMAGE
+
 erlang-24:
   stage: tier1
   variables:
