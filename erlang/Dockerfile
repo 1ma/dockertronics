@@ -1,6 +1,6 @@
 FROM alpine:latest AS build
 
-ARG ERLANG_VERSION=25.0.2
+ARG ERLANG_VERSION=25.0.4
 
 ENV CFLAGS="-Os -march=x86-64"
 ENV LDFLAGS="-s"
