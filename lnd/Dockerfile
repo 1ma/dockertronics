@@ -1,4 +1,4 @@
-FROM golang:1.18-alpine AS build
+FROM golang:1.19-alpine AS build
 
 ARG LND_VERSION=0.15.0-beta
 ARG RELEASE_SIGNER=roasbeef
