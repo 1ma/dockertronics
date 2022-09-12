@@ -1,6 +1,6 @@
 FROM alpine:latest
 
-ARG HAPROXY_VERSION=2.6.2
+ARG HAPROXY_VERSION=2.6.5
 
 WORKDIR /tmp
 
