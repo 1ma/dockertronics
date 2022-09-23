@@ -1,6 +1,6 @@
 FROM ubuntu:latest AS builder
 
-ARG CLN_VERSION=v0.12.0
+ARG CLN_VERSION=v0.12.1
 
 WORKDIR /tmp
 
