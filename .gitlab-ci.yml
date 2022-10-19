@@ -66,7 +66,7 @@ erlang-24:
     CONTEXT: erlang
     IMAGE: 1maa/erlang:24-alpine
   script:
-    - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 --build-arg ERLANG_VERSION=24.3.4.5 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
+    - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 --build-arg ERLANG_VERSION=24.3.4.6 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 

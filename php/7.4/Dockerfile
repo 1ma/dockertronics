@@ -1,6 +1,6 @@
 FROM 1maa/alpine:latest AS build
 
-ARG PHP_VERSION=7.4.30
+ARG PHP_VERSION=7.4.32
 
 ENV CFLAGS="-Os -march=x86-64"
 ENV LDFLAGS="-s"
@@ -186,6 +186,7 @@ ADD https://pecl.php.net/get/pcov .
 ADD https://pecl.php.net/get/rdkafka .
 ADD https://pecl.php.net/get/redis .
 ADD https://pecl.php.net/get/runkit7 .
+ADD https://pecl.php.net/get/simdjson .
 ADD https://pecl.php.net/get/ssh2-beta .
 ADD https://pecl.php.net/get/vld .
 ADD https://pecl.php.net/get/xdebug .
@@ -210,6 +211,7 @@ RUN pecl channel-update pecl.php.net \
     rdkafka \
     redis \
     runkit7-alpha \
+    simdjson \
     ssh2-beta \
     vld-beta \
     xdebug \
