@@ -23,6 +23,7 @@ RUN echo "@edge-testing https://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /
     protobuf-c-dev \
  && tar zxf postgis.tar.gz \
  && cd postgis-${POSTGIS_VERSION} \
+ && ./configure \
  && make -j$(nproc) \
  && make install
 

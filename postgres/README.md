@@ -1,6 +1,6 @@
-# 1maa/postgres:14-alpine
+# 1maa/postgres:15-alpine
 
-An extension of the official `postgres:14-alpine` image with a few additional, non-contrib extensions.
+An extension of the official `postgres:15-alpine` image with a few additional, non-contrib extensions.
 
 
 ### Non-Contrib Extension List
@@ -12,13 +12,13 @@ An extension of the official `postgres:14-alpine` image with a few additional, n
 
 ### Configuration tweaks
 
-The tweaks were guided by the [PGTune utility](https://pgtune.leopard.in.ua/) assuming Postgres v14, Linux OS,
+The tweaks were guided by the [PGTune utility](https://pgtune.leopard.in.ua/) assuming Postgres v15, Linux OS,
 a Desktop Application workload (i.e. developer machine), 16GiB of RAM and SSD storage.
 
 In addition `log_statement` is set to `'all'` to ease in troubleshooting issues.
 
 ```
-# DB Version: 14
+# DB Version: 15
 # OS Type: linux
 # DB Type: desktop
 # Total Memory (RAM): 16 GB
@@ -39,14 +39,14 @@ max_wal_size = 2GB
 ```
 
 
-## 1maa/postgres:14-src
+## 1maa/postgres:15-src
 
-An experimental image of Postgres 14 built from source, also based on Alpine Linux.
+An experimental image of Postgres built from source, also based on Alpine Linux.
 It is much smaller than the first one I built, but it still doesn't have any of the above extensions.
-In the future I'd like to replace `1maa/postgres:14-alpine` with this one.
+In the future I'd like to replace `1maa/postgres:15-alpine` with this one.
 
 ```
-REPOSITORY      TAG         IMAGE ID       CREATED       SIZE
-1maa/postgres   14-src      b89c6695d84a   3 weeks ago   34.9MB
-1maa/postgres   14-alpine   9391542d695e   5 hours ago   563MB
+REPOSITORY      TAG         IMAGE ID       CREATED          SIZE
+1maa/postgres   15-src      1b65cbdd4a79   2 minutes ago    40.5MB
+1maa/postgres   15-alpine   1ea38ef5f1a8   6 minutes ago    1.23GB
 ```

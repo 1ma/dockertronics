@@ -164,7 +164,7 @@ postgres:
   stage: tier1
   variables:
     CONTEXT: postgres/official
-    IMAGE: 1maa/postgres:14-alpine
+    IMAGE: 1maa/postgres:15-alpine
   script:
     - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
@@ -309,7 +309,7 @@ postgres-src:
     - alpine
   variables:
     CONTEXT: postgres/src
-    IMAGE: 1maa/postgres:14-src
+    IMAGE: 1maa/postgres:15-src
   script:
     - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
