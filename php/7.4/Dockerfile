@@ -214,7 +214,7 @@ RUN pecl channel-update pecl.php.net \
     simdjson \
     ssh2-beta \
     vld-beta \
-    xdebug \
+    xdebug-3.1.5 \
     yaml \
     yar \
  && chmod 644 /usr/lib/php/*.so \

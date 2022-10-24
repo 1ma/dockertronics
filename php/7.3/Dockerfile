@@ -182,6 +182,7 @@ ADD https://pecl.php.net/get/pcov .
 ADD https://pecl.php.net/get/rdkafka .
 ADD https://pecl.php.net/get/redis .
 ADD https://pecl.php.net/get/runkit7 .
+ADD https://pecl.php.net/get/simdjson .
 ADD https://pecl.php.net/get/ssh2-beta .
 ADD https://pecl.php.net/get/vld .
 ADD https://pecl.php.net/get/xdebug .
@@ -206,9 +207,10 @@ RUN pecl channel-update pecl.php.net \
     rdkafka \
     redis \
     runkit7-alpha \
+    simdjson \
     ssh2-beta \
     vld-beta \
-    xdebug \
+    xdebug-3.1.5 \
     yaml \
     yar \
  && chmod 644 /usr/lib/php/*.so \
