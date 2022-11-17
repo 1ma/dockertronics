@@ -1,6 +1,6 @@
 FROM alpine:latest
 
-ARG ALIRE_VERSION=1.1.1
+ARG ALIRE_VERSION=1.2.1
 
 WORKDIR /tmp
 
@@ -11,7 +11,7 @@ RUN unzip alr-${ALIRE_VERSION}-bin-x86_64-linux.zip \
  && strip --strip-all bin/alr
 
 
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
 ENV DEBIAN_FRONTEND noninteractive
 

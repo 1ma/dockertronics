@@ -1,6 +1,6 @@
 FROM golang:1.19-alpine AS build
 
-ARG LND_VERSION=0.15.3-beta
+ARG LND_VERSION=0.15.5-beta.rc1
 ARG RELEASE_SIGNER=roasbeef
 
 ENV CGO_ENABLED=0

@@ -1,12 +1,12 @@
 FROM 1maa/alpine:latest AS alire
 
-ARG ALIRE_VERSION=v1.1.1
+ARG ALIRE_VERSION=v1.2.1
 
 WORKDIR /tmp
 
 RUN apk add --no-cache \
     binutils \
-    gcc-gnat \
+    gcc-gnat@edge-main \
     git \
     gprbuild@edge-testing \
     libc-dev \
@@ -21,7 +21,7 @@ COPY --from=alire /tmp/alire/bin/alr /usr/local/bin/alr
 
 RUN apk add --no-cache \
     curl \
-    gcc-gnat \
+    gcc-gnat@edge-main \
     git \
     gprbuild@edge-testing \
     libc-dev

@@ -4,7 +4,7 @@ FROM alpine:latest
 #   https://www.sqlite.org/howtocompile.html
 #   https://www.sqlite.org/compile.html
 
-ARG SQLITE_VERSION=3390400
+ARG SQLITE_VERSION=3400000
 
 WORKDIR /tmp
 
