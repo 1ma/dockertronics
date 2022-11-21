@@ -274,11 +274,9 @@ RUN gpg --import composer-pubkey.asc \
 
 RUN php composer.phar global config allow-plugins.uma/composer-psysh true \
  && php composer.phar global config bin-dir /usr/local/bin \
- && php composer.phar global config minimum-stability dev \
- && php composer.phar global config prefer-stable true \
- && php composer.phar global require --prefer-dist \
+ && php composer.phar global require \
     composer/composer \
-    deployer/deployer:^7.0 \
+    deployer/deployer \
     friendsofphp/php-cs-fixer \
     phing/phing \
     phploc/phploc \
