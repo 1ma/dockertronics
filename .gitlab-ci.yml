@@ -44,7 +44,7 @@ bitcoind:
   stage: tier1
   variables:
     CONTEXT: bitcoin
-    IMAGE: 1maa/bitcoind:22.0
+    IMAGE: 1maa/bitcoind:24.0
   script:
     - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/alpine/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS

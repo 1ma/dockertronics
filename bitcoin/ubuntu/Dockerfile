@@ -1,6 +1,6 @@
 FROM ubuntu:latest AS builder
 
-ARG BITCOIN_VERSION=23.0
+ARG BITCOIN_VERSION=24.0
 
 WORKDIR /tmp
 
