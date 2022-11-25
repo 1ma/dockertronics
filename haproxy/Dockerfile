@@ -10,7 +10,7 @@ RUN apk add --no-cache \
     build-base \
     linux-headers \
     lua5.4-dev \
-    openssl3-dev \
+    openssl-dev \
     pcre2-dev \
     upx \
     zlib-dev \

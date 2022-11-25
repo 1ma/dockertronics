@@ -15,7 +15,7 @@ ADD https://github.com/erlang/rebar3/releases/latest/download/rebar3 .
 RUN apk add --no-cache \
     build-base \
     ncurses-dev \
-    openssl3-dev \
+    openssl-dev \
     perl \
     unixodbc-dev \
  && tar zxf otp_src_${ERLANG_VERSION}.tar.gz \

@@ -11,7 +11,7 @@ RUN apk add --no-cache \
     libxml2-dev \
     libxslt-dev \
     linux-headers \
-    openssl3-dev \
+    openssl-dev \
     readline-dev \
     zlib-dev \
  && tar zxof postgresql-${PG_RELEASE}.tar.gz \

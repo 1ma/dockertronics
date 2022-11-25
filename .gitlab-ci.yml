@@ -24,9 +24,9 @@ alpine:
   variables:
     CONTEXT: alpine
   script:
-    - docker build --cache-from 1maa/alpine:latest --build-arg BUILDKIT_INLINE_CACHE=1 -t 1maa/alpine:3.16 -t 1maa/alpine:latest -f $CONTEXT/Dockerfile $CONTEXT
+    - docker build --cache-from 1maa/alpine:latest --build-arg BUILDKIT_INLINE_CACHE=1 -t 1maa/alpine:3.17 -t 1maa/alpine:latest -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
-    - docker push 1maa/alpine:3.16
+    - docker push 1maa/alpine:3.17
     - docker push 1maa/alpine:latest
 
 beanstalkd:
