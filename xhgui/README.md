@@ -12,9 +12,9 @@ services:
   xhgui:
     image: 1maa/xhgui:latest
     environment:
-      - XHGUI_MONGO_HOST=mongo
+      - XHGUI_MONGO_HOSTNAME=mongo
     ports:
-      - 127.0.0.1:8000:80
+      - "127.0.0.1:8000:80"
 
   mongo:
     image: mongo:4.1

@@ -15,7 +15,7 @@ RUN apk add --no-cache gnupg \
  && gpg --verify composer.phar.asc composer.phar
 
 RUN tar zxf master.tar.gz \
- && cd xhgui-master \
+ && cd xhgui-0.21.x \
  && php /tmp/composer.phar update \
  && php /tmp/composer.phar require alcaeus/mongo-php-adapter \
  && php /tmp/composer.phar install --no-dev -a
@@ -24,7 +24,7 @@ RUN tar zxf master.tar.gz \
 FROM php:7.3-apache
 
 COPY          vhost.conf        /etc/apache2/sites-available/000-default.conf
-COPY --from=0 /tmp/xhgui-master /var/www/xhgui
+COPY --from=0 /tmp/xhgui-0.21.x /var/www/xhgui
 
 RUN cp ${PHP_INI_DIR}/php.ini-production ${PHP_INI_DIR}/php.ini \
  && apt-get update \

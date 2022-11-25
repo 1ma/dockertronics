@@ -1,7 +1,7 @@
 FROM golang:1.19-alpine AS build
 
-ARG LND_VERSION=0.15.5-beta.rc1
-ARG RELEASE_SIGNER=roasbeef
+ARG LND_VERSION=0.15.5-beta.rc2
+ARG RELEASE_SIGNER=positiveblue
 
 ENV CGO_ENABLED=0
 
