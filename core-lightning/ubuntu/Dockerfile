@@ -1,6 +1,6 @@
 FROM ubuntu:latest AS builder
 
-ARG CLN_VERSION=v0.12.1
+ARG CLN_VERSION=v22.11
 
 WORKDIR /tmp
 
@@ -35,7 +35,8 @@ WORKDIR /tmp/lightning
 COPY developer_pubkey.pem .
 
 RUN gpg --import developer_pubkey.pem \
- && git verify-tag ${CLN_VERSION}
+ && git verify-tag "${CLN_VERSION}" || \
+  { git verify-tag --raw "${CLN_VERSION}" 2>&1 | grep EXPKEYSIG && echo "Accepting expired key!"; }
 
 RUN poetry install
 
