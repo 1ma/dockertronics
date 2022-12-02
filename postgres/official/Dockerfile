@@ -1,7 +1,7 @@
 FROM postgres:15-alpine
 
 ARG PGTAP_VERSION=1.2.0
-ARG POSTGIS_VERSION=3.3.1
+ARG POSTGIS_VERSION=3.3.2
 
 WORKDIR /tmp
 
@@ -17,7 +17,7 @@ RUN echo "@edge-testing https://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /
     geos-dev@edge-testing \
     json-c-dev \
     libxml2-dev \
-    llvm13 \
+    llvm15 \
     perl \
     proj-dev@edge-testing \
     protobuf-c-dev \
