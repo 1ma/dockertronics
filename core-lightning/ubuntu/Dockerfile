@@ -54,6 +54,7 @@ RUN make install
 FROM ubuntu:latest
 
 COPY --from=builder /usr/local/bin/lightning* /usr/local/bin/
+COPY --from=builder /usr/local/bin/reckless   /usr/local/bin/
 COPY --from=builder /usr/local/libexec        /usr/local/libexec
 
 CMD ["/usr/local/bin/lightningd"]
