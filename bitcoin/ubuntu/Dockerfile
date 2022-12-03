@@ -21,6 +21,7 @@ RUN apt-get update \
      autoconf \
      automake \
      build-essential \
+     curl \
      libboost-filesystem-dev \
      libboost-system-dev \
      libboost-thread-dev \
@@ -34,13 +35,17 @@ RUN tar zxf bitcoin-${BITCOIN_VERSION}.tar.gz
 
 RUN ./bitcoin-${BITCOIN_VERSION}/autogen.sh
 
+ENV BDB_PREFIX="/tmp/build/db4"
 ENV CFLAGS="-O2 --static -static -fPIC"
 ENV CXXFLAGS="-O2 --static -static -fPIC"
 ENV LDFLAGS="-s -static-libgcc -static-libstdc++"
 
 RUN mkdir build \
  && cd build \
+ && ../bitcoin-${BITCOIN_VERSION}/contrib/install_db4.sh $(pwd) \
  && ../bitcoin-${BITCOIN_VERSION}/configure \
+    BDB_CFLAGS="-I${BDB_PREFIX}/include" \
+    BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-4.8" \
     --disable-bench \
     --disable-gui-tests \
     --disable-maintainer-mode \
@@ -55,8 +60,7 @@ RUN mkdir build \
     --with-mpgen=no \
     --with-natpmp=no \
     --with-qrencode=no \
-    --with-utils=yes \
-    --without-bdb
+    --with-utils=yes
 
 RUN make -C ./build -j$(nproc)
 
