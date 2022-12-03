@@ -20,12 +20,9 @@ RUN apt-get update \
     python3 \
     python3-dev \
     python3-pip \
-    zlib1g-dev
-
-RUN pip3 install \
+    zlib1g-dev \
+ && pip3 install \
     mako \
-    mistune==0.8.4 \
-    mrkd \
     poetry
 
 RUN git clone --depth 1 --branch ${CLN_VERSION} https://github.com/ElementsProject/lightning.git
