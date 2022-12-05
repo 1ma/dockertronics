@@ -32,8 +32,7 @@ WORKDIR /tmp/lightning
 COPY developer_pubkey.pem .
 
 RUN gpg --import developer_pubkey.pem \
- && git verify-tag "${CLN_VERSION}" || \
-  { git verify-tag --raw "${CLN_VERSION}" 2>&1 | grep EXPKEYSIG && echo "Accepting expired key!"; }
+ && git verify-tag "${CLN_VERSION}"
 
 RUN poetry install
 
