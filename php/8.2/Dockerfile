@@ -1,13 +1,13 @@
-FROM 1maa/alpine:3.16 AS build
+FROM 1maa/alpine:latest AS build
 
-ARG PHP_VERSION=7.4.33
+ARG PHP_VERSION=8.2.0
 
 ENV CFLAGS="-Os -march=x86-64"
 ENV LDFLAGS="-s"
 
 WORKDIR /tmp
 
-COPY 7.4/pubkeys.asc .
+COPY 8.2/pubkeys.asc .
 
 ADD https://www.php.net/distributions/php-${PHP_VERSION}.tar.gz .
 ADD https://www.php.net/distributions/php-${PHP_VERSION}.tar.gz.asc .
@@ -95,7 +95,6 @@ RUN tar zxof php-${PHP_VERSION}.tar.gz \
     --with-pgsql \
     --with-readline \
     --with-sodium \
-    --with-xmlrpc \
     --with-xsl \
     --with-zip \
     --with-zlib \
@@ -141,7 +140,6 @@ RUN rm -rf php-${PHP_VERSION} \
     --with-pear \
     --with-pgsql \
     --with-sodium \
-    --with-xmlrpc \
     --with-xsl \
     --with-zip \
     --with-zlib \
@@ -197,7 +195,7 @@ RUN pecl channel-update pecl.php.net \
  && pecl install \
     amqp \
     apcu \
-    csv-0.3.2 \
+    csv \
     ds \
     event \
     excimer \
@@ -214,14 +212,14 @@ RUN pecl channel-update pecl.php.net \
     simdjson \
     ssh2-beta \
     vld-beta \
-    xdebug-3.1.6 \
+    xdebug \
     yaml \
-    yar \
+#    yar \  # PHP 8.2 fix https://github.com/laruence/yar/pull/177
  && chmod 644 /usr/lib/php/*.so \
  && strip --strip-all /usr/lib/php/*.so
 
 
-FROM 1maa/alpine:3.16 AS php
+FROM 1maa/alpine:latest AS php
 
 COPY etc /etc/php
 
@@ -254,7 +252,8 @@ RUN apk add --no-cache \
     rabbitmq-c \
     readline \
     sqlite-libs \
-    yaml
+    yaml \
+ && rm /etc/php/mods-available/yar.ini
 
 EXPOSE 9000
 

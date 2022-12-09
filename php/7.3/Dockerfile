@@ -193,7 +193,7 @@ RUN pecl channel-update pecl.php.net \
  && pecl install \
     amqp \
     apcu \
-    csv-0.3.1 \
+    csv-0.3.2 \
     ds \
     event \
     excimer \
@@ -210,7 +210,7 @@ RUN pecl channel-update pecl.php.net \
     simdjson \
     ssh2-beta \
     vld-beta \
-    xdebug-3.1.5 \
+    xdebug-3.1.6 \
     yaml \
     yar \
  && chmod 644 /usr/lib/php/*.so \
