@@ -1,6 +1,6 @@
 FROM golang:alpine
 
-ARG RR_VERSION=2.12.0
+ARG RR_VERSION=2.12.1
 
 ENV CGO_ENABLED=0
 
@@ -25,7 +25,7 @@ RUN go build \
  && file /tmp/rr
 
 
-FROM 1maa/php:8.1
+FROM 1maa/php:8.2
 
 COPY --from=0 /tmp/rr /usr/local/bin/rr
 COPY .rr.yaml .
