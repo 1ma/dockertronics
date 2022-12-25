@@ -94,7 +94,7 @@ haproxy:
   stage: tier1
   variables:
     CONTEXT: haproxy
-    IMAGE: 1maa/haproxy:2.6
+    IMAGE: 1maa/haproxy:2.7
   script:
     - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS

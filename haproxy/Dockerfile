@@ -1,10 +1,10 @@
 FROM alpine:latest
 
-ARG HAPROXY_VERSION=2.6.6
+ARG HAPROXY_VERSION=2.7.1
 
 WORKDIR /tmp
 
-ADD https://www.haproxy.org/download/2.6/src/haproxy-${HAPROXY_VERSION}.tar.gz .
+ADD https://www.haproxy.org/download/2.7/src/haproxy-${HAPROXY_VERSION}.tar.gz .
 
 RUN apk add --no-cache \
     build-base \
