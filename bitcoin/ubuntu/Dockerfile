@@ -52,6 +52,7 @@ RUN mkdir build \
     --disable-man \
     --disable-tests \
     --disable-zmq \
+    --enable-lto \
     --with-daemon=yes \
     --with-gui=no \
     --with-libmultiprocess=no \
