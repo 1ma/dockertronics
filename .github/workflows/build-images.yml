@@ -8,8 +8,6 @@ on:
 
 ## pending images:
 # erlang 24, 25 (tier 1)
-# gnat 9, 10 (tier 1)
-# mysql 5.7, 8.0 (tier 1)
 # php all versions (tier 2)
 
 jobs:
@@ -40,6 +38,9 @@ jobs:
             tags: "1maa/erlang:26-alpine,1maa/erlang:latest"
             cache-tag: "1maa/erlang:26-alpine"
           -
+            context: "gnat/9"
+            tags: "1maa/fsf-gnat:9"
+          -
             context: "haproxy"
             tags: "1maa/haproxy:2.7"
           -
@@ -54,6 +55,14 @@ jobs:
           -
             context: "mariadb"
             tags: "1maa/mariadb:10.6"
+          -
+            context: "mysql"
+            dockerfile: "mysql/Dockerfile.57"
+            tags: "1maa/mysql:5.7"
+          -
+            context: "mysql"
+            dockerfile: "mysql/Dockerfile.80"
+            tags: "1maa/mysql:8.0"
           -
             context: "postgres/official"
             tags: "1maa/postgres:15-alpine"
@@ -94,6 +103,9 @@ jobs:
       fail-fast: false
       matrix:
         images:
+          -
+            context: "gnat/10"
+            tags: "1maa/fsf-gnat:10"
           -
             context: "postgres/src"
             tags: "1maa/postgres:15-src"

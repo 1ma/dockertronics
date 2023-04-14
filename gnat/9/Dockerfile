@@ -11,7 +11,7 @@ RUN unzip alr-${ALIRE_VERSION}-bin-x86_64-linux.zip \
  && strip --strip-all bin/alr
 
 
-FROM ubuntu:22.04
+FROM ubuntu:20.04
 
 ENV DEBIAN_FRONTEND noninteractive
 
