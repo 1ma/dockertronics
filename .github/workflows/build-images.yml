@@ -7,8 +7,6 @@ on:
   workflow_dispatch:
 
 ## pending images:
-# bitcoin
-# core lightning
 # erlang 24, 25 (tier 1)
 # gnat 9, 10 (tier 1)
 # mysql 5.7, 8.0 (tier 1)
@@ -29,6 +27,14 @@ jobs:
           -
             context: "beanstalkd"
             tags: "1maa/beanstalkd:latest"
+          -
+            context: "bitcoin"
+            dockerfile: "bitcoin/alpine/Dockerfile"
+            tags: "1maa/bitcoind:24.0"
+          -
+            context: "core-lightning"
+            dockerfile: "core-lightning/ubuntu/Dockerfile"
+            tags: "1maa/core-lightning:latest"
           -
             context: "erlang"
             tags: "1maa/erlang:26-alpine,1maa/erlang:latest"
@@ -77,6 +83,7 @@ jobs:
           context: ${{ matrix.images.context }}
           docker-hub-pass: ${{ secrets.DOCKER_HUB_PASS }}
           docker-hub-user: 1maa
+          dockerfile: ${{ matrix.images.dockerfile || format('{0}/Dockerfile', matrix.images.context) }}
           tags: ${{ matrix.images.tags }}
 
   tier2:
@@ -104,6 +111,7 @@ jobs:
           context: ${{ matrix.images.context }}
           docker-hub-pass: ${{ secrets.DOCKER_HUB_PASS }}
           docker-hub-user: 1maa
+          dockerfile: ${{ matrix.images.dockerfile || format('{0}/Dockerfile', matrix.images.context) }}
           tags: ${{ matrix.images.tags }}
 
   tier3:
@@ -125,4 +133,5 @@ jobs:
           context: ${{ matrix.images.context }}
           docker-hub-pass: ${{ secrets.DOCKER_HUB_PASS }}
           docker-hub-user: 1maa
+          dockerfile: ${{ matrix.images.dockerfile || format('{0}/Dockerfile', matrix.images.context) }}
           tags: ${{ matrix.images.tags }}
