@@ -23,19 +23,19 @@ jobs:
           - { context: "erlang", tags: "1maa/erlang:26-alpine,1maa/erlang:latest", cache-tag: "1maa/erlang:26-alpine" }
           - { context: "gnat/9", tags: "1maa/fsf-gnat:9" }
           - { context: "haproxy", tags: "1maa/haproxy:2.7" }
-          - { context: "lnd",  tags: "1maa/lnd:latest" }
-          - { context: "lua/5.3",  tags: "1maa/lua:5.3" }
-          - { context: "lua/5.4",  tags: "1maa/lua:5.4" }
-          - { context: "mariadb",  tags: "1maa/mariadb:10.6" }
-          - { context: "mysql",  tags: "1maa/mysql:5.7", dockerfile: "mysql/Dockerfile.57" }
-          - { context: "mysql",  tags: "1maa/mysql:8.0", dockerfile: "mysql/Dockerfile.80" }
-          - { context: "postgres/official",  tags: "1maa/postgres:15-alpine" }
-          - { context: "protoc",  tags: "1maa/protoc:latest" }
-          - { context: "selfsig",  tags: "1maa/selfsig:latest" }
-          - { context: "sleepy",  tags: "1maa/sleepy:latest" }
-          - { context: "sqlite",  tags: "1maa/sqlite:latest" }
-          - { context: "swipl",  tags: "1maa/swipl:latest" }
-          - { context: "xhgui",  tags: "1maa/xhgui:latest" }
+          - { context: "lnd", tags: "1maa/lnd:latest" }
+          - { context: "lua/5.3", tags: "1maa/lua:5.3" }
+          - { context: "lua/5.4", tags: "1maa/lua:5.4" }
+          - { context: "mariadb", tags: "1maa/mariadb:10.6" }
+          - { context: "mysql", tags: "1maa/mysql:5.7", dockerfile: "mysql/Dockerfile.57" }
+          - { context: "mysql", tags: "1maa/mysql:8.0", dockerfile: "mysql/Dockerfile.80" }
+          - { context: "postgres/official", tags: "1maa/postgres:15-alpine" }
+          - { context: "protoc", tags: "1maa/protoc:latest" }
+          - { context: "selfsig", tags: "1maa/selfsig:latest" }
+          - { context: "sleepy", tags: "1maa/sleepy:latest" }
+          - { context: "sqlite", tags: "1maa/sqlite:latest" }
+          - { context: "swipl", tags: "1maa/swipl:latest" }
+          - { context: "xhgui", tags: "1maa/xhgui:latest" }
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/docker-generic
@@ -56,20 +56,20 @@ jobs:
       fail-fast: false
       matrix:
         images:
-          - { context: "gnat/10",  tags: "1maa/fsf-gnat:10" }
-          - { context: "postgres/src",  tags: "1maa/postgres:15-src" }
-          - { context: "sakila",  tags: "1maa/sakila:latest" }
-          - { context: "sftp",  tags: "1maa/sftp:latest" }
+          - { context: "gnat/10", tag: "1maa/fsf-gnat:10" }
+          - { context: "postgres/src", tag: "1maa/postgres:15-src" }
+          - { context: "sakila", tag: "1maa/sakila:latest" }
+          - { context: "sftp", tag: "1maa/sftp:latest" }
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/docker-generic
         with:
-          cache-tag: ${{ matrix.images.cache-tag || matrix.images.tags }}
+          cache-tag: ${{ matrix.images.tag }}
           context: ${{ matrix.images.context }}
           docker-hub-pass: ${{ secrets.DOCKER_HUB_PASS }}
           docker-hub-user: 1maa
-          dockerfile: ${{ matrix.images.dockerfile || format('{0}/Dockerfile', matrix.images.context) }}
-          tags: ${{ matrix.images.tags }}
+          dockerfile: ${{ format('{0}/Dockerfile', matrix.images.context) }}
+          tags: ${{ matrix.images.tag }}
 
   php:
     name: Build PHP images (Tier 2)
@@ -102,16 +102,14 @@ jobs:
       fail-fast: false
       matrix:
         images:
-          -
-            context: "roadrunner"
-            tags: "1maa/roadrunner:8.2"
+          - { context: "roadrunner", tag: "1maa/roadrunner:8.2" }
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/docker-generic
         with:
-          cache-tag: ${{ matrix.images.cache-tag || matrix.images.tags }}
+          cache-tag: ${{ matrix.images.tag }}
           context: ${{ matrix.images.context }}
           docker-hub-pass: ${{ secrets.DOCKER_HUB_PASS }}
           docker-hub-user: 1maa
-          dockerfile: ${{ matrix.images.dockerfile || format('{0}/Dockerfile', matrix.images.context) }}
-          tags: ${{ matrix.images.tags }}
+          dockerfile: ${{ format('{0}/Dockerfile', matrix.images.context) }}
+          tags: ${{ matrix.images.tag }}

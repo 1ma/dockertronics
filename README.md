@@ -1,6 +1,6 @@
 # 1ma's Dockerfile repository
 
-[![pipeline status](https://gitlab.com/1ma/dockertronics/badges/master/pipeline.svg)](https://gitlab.com/1ma/dockertronics/pipelines)
+[![pipeline status](https://github.com/1ma/dockertronics/actions/workflows/build-images.yml/badge.svg)](https://github.com/1ma/dockertronics/actions/workflows/build-images.yml)
 
 https://hub.docker.com/u/1maa/
 
