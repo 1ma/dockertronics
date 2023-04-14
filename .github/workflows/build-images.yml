@@ -1,0 +1,82 @@
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+## pending images:
+# erlang 24, 25 (tier 1)
+# gnat 9, 10 (tier 1)
+# mysql 5.7, 8.0 (tier 1)
+# php all versions (tier 2)
+
+jobs:
+  tier1:
+    name: Build Tier 1 images
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        images:
+          - ["alpine", "1maa/alpine:3.17,1maa/alpine:latest", "1maa/alpine:3.17"]
+          - ["beanstalkd", "1maa/beanstalkd:latest"]
+          - ["bitcoin", "1maa/bitcoind:24.0"]
+          - ["core-lightning", "1maa/core-lightning:latest"]
+          - ["haproxy", "1maa/haproxy:2.7"]
+          - ["lnd", "1maa/lnd:latest"]
+          - ["lua/5.3", "1maa/lua:5.3"]
+          - ["lua/5.4", "1maa/lua:5.4"]
+          - ["mariadb", "1maa/mariadb:10.6"]
+          - ["postgres/official", "1maa/postgres:15-alpine"]
+          - ["protoc", "1maa/protoc:latest"]
+          - ["selfsig", "1maa/selfsig:latest"]
+          - ["sleepy", "1maa/sleepy:latest"]
+          - ["sqlite", "1maa/sqlite:latest"]
+          - ["swipl", "1maa/swipl:latest"]
+          - ["xhgui", "1maa/xhgui:latest"]
+    steps:
+      - uses: ./.github/actions/docker
+        with:
+          cache-tag: ${{ matrix.images[2] || matrix.images[1] }}
+          context: ${{ matrix.images[0] }}
+          docker-hub-pass: ${{ secrets.DOCKER_HUB_PASS }}
+          docker-hub-user: 1maa
+          tags: ${{ matrix.images[1] }}
+
+  tier2:
+    name: Build Tier 2 images
+    runs-on: ubuntu-latest
+    needs: [tier1]
+    strategy:
+      fail-fast: false
+      matrix:
+        images:
+          - ["postgres/src", "1maa/postgres:15-src"]
+          - ["sakila", "1maa/sakila:latest"]
+          - ["sftp", "1maa/sftp:latest"]
+    steps:
+      - uses: ./.github/actions/docker
+        with:
+          cache-tag: ${{ matrix.images[2] || matrix.images[1] }}
+          context: ${{ matrix.images[0] }}
+          docker-hub-pass: ${{ secrets.DOCKER_HUB_PASS }}
+          docker-hub-user: 1maa
+          tags: ${{ matrix.images[1] }}
+
+  tier3:
+    name: Build Tier 3 images
+    runs-on: ubuntu-latest
+    needs: [tier2]
+    strategy:
+      fail-fast: false
+      matrix:
+        images:
+          - ["roadrunner", "1maa/roadrunner:8.2"]
+    steps:
+      - uses: ./.github/actions/docker
+        with:
+          cache-tag: ${{ matrix.images[2] || matrix.images[1] }}
+          context: ${{ matrix.images[0] }}
+          docker-hub-pass: ${{ secrets.DOCKER_HUB_PASS }}
+          docker-hub-user: 1maa
+          tags: ${{ matrix.images[1] }}
