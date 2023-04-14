@@ -7,7 +7,6 @@ on:
   workflow_dispatch:
 
 ## pending images:
-# erlang 24, 25 (tier 1)
 # php all versions (tier 2)
 
 jobs:
@@ -93,6 +92,37 @@ jobs:
           docker-hub-pass: ${{ secrets.DOCKER_HUB_PASS }}
           docker-hub-user: 1maa
           dockerfile: ${{ matrix.images.dockerfile || format('{0}/Dockerfile', matrix.images.context) }}
+          tags: ${{ matrix.images.tags }}
+
+  erlang:
+    name: Build old Erlang images (Tier 1)
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        images:
+          -
+            build-args: "ERLANG_VERSION=24.3.4.10"
+            context: "erlang"
+            tags: "1maa/erlang:24-alpine"
+          -
+            build-args: "ERLANG_VERSION=25.3"
+            context: "erlang"
+            tags: "1maa/erlang:25-alpine"
+    steps:
+      - uses: actions/checkout@v3
+      - uses: docker/setup-buildx-action@v2
+      - uses: docker/login-action@v2
+        with:
+          username: 1maa
+          password: ${{ secrets.DOCKER_HUB_PASS }}
+      - uses: docker/build-push-action@v4
+        with:
+          build-args: ${{ matrix.images.build-args }}
+          cache-from: type=registry,ref=${{ matrix.images.tags }}
+          cache-to: type=inline
+          context: ${{ matrix.images.context }}
+          push: true
           tags: ${{ matrix.images.tags }}
 
   tier2:
