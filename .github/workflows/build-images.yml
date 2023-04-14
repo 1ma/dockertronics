@@ -22,30 +22,62 @@ jobs:
       fail-fast: false
       matrix:
         images:
-          - ["alpine", "1maa/alpine:3.17,1maa/alpine:latest", "1maa/alpine:3.17"]
-          - ["beanstalkd", "1maa/beanstalkd:latest"]
-          - ["erlang", "1maa/erlang:26-alpine,1maa/erlang:latest", "1maa/erlang:26-alpine"]
-          - ["haproxy", "1maa/haproxy:2.7"]
-          - ["lnd", "1maa/lnd:latest"]
-          - ["lua/5.3", "1maa/lua:5.3"]
-          - ["lua/5.4", "1maa/lua:5.4"]
-          - ["mariadb", "1maa/mariadb:10.6"]
-          - ["postgres/official", "1maa/postgres:15-alpine"]
-          - ["protoc", "1maa/protoc:latest"]
-          - ["selfsig", "1maa/selfsig:latest"]
-          - ["sleepy", "1maa/sleepy:latest"]
-          - ["sqlite", "1maa/sqlite:latest"]
-          - ["swipl", "1maa/swipl:latest"]
-          - ["xhgui", "1maa/xhgui:latest"]
+          -
+            context: "alpine"
+            tags: "1maa/alpine:3.17,1maa/alpine:latest"
+            cache-tag: "1maa/alpine:3.17"
+          -
+            context: "beanstalkd"
+            tags: "1maa/beanstalkd:latest"
+          -
+            context: "erlang"
+            tags: "1maa/erlang:26-alpine,1maa/erlang:latest"
+            cache-tag: "1maa/erlang:26-alpine"
+          -
+            context: "haproxy"
+            tags: "1maa/haproxy:2.7"
+          -
+            context: "lnd"
+            tags: "1maa/lnd:latest"
+          -
+            context: "lua/5.3"
+            tags: "1maa/lua:5.3"
+          -
+            context: "lua/5.4"
+            tags: "1maa/lua:5.4"
+          -
+            context: "mariadb"
+            tags: "1maa/mariadb:10.6"
+          -
+            context: "postgres/official"
+            tags: "1maa/postgres:15-alpine"
+          -
+            context: "protoc"
+            tags: "1maa/protoc:latest"
+          -
+            context: "selfsig"
+            tags: "1maa/selfsig:latest"
+          -
+            context: "sleepy"
+            tags: "1maa/sleepy:latest"
+          -
+            context: "sqlite"
+            tags: "1maa/sqlite:latest"
+          -
+            context: "swipl"
+            tags: "1maa/swipl:latest"
+          -
+            context: "xhgui"
+            tags: "1maa/xhgui:latest"
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/docker
         with:
-          cache-tag: ${{ matrix.images[2] || matrix.images[1] }}
-          context: ${{ matrix.images[0] }}
+          cache-tag: ${{ matrix.images.cache-tag || matrix.images.tags }}
+          context: ${{ matrix.images.context }}
           docker-hub-pass: ${{ secrets.DOCKER_HUB_PASS }}
           docker-hub-user: 1maa
-          tags: ${{ matrix.images[1] }}
+          tags: ${{ matrix.images.tags }}
 
   tier2:
     name: Build Tier 2 images
@@ -55,18 +87,24 @@ jobs:
       fail-fast: false
       matrix:
         images:
-          - ["postgres/src", "1maa/postgres:15-src"]
-          - ["sakila", "1maa/sakila:latest"]
-          - ["sftp", "1maa/sftp:latest"]
+          -
+            context: "postgres/src"
+            tags: "1maa/postgres:15-src"
+          -
+            context: "sakila"
+            tags: "1maa/sakila:latest"
+          -
+            context: "sftp"
+            tags: "1maa/sftp:latest"
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/docker
         with:
-          cache-tag: ${{ matrix.images[2] || matrix.images[1] }}
-          context: ${{ matrix.images[0] }}
+          cache-tag: ${{ matrix.images.cache-tag || matrix.images.tags }}
+          context: ${{ matrix.images.context }}
           docker-hub-pass: ${{ secrets.DOCKER_HUB_PASS }}
           docker-hub-user: 1maa
-          tags: ${{ matrix.images[1] }}
+          tags: ${{ matrix.images.tags }}
 
   tier3:
     name: Build Tier 3 images
@@ -76,13 +114,15 @@ jobs:
       fail-fast: false
       matrix:
         images:
-          - ["roadrunner", "1maa/roadrunner:8.2"]
+          -
+            context: "roadrunner"
+            tags: "1maa/roadrunner:8.2"
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/docker
         with:
-          cache-tag: ${{ matrix.images[2] || matrix.images[1] }}
-          context: ${{ matrix.images[0] }}
+          cache-tag: ${{ matrix.images.cache-tag || matrix.images.tags }}
+          context: ${{ matrix.images.context }}
           docker-hub-pass: ${{ secrets.DOCKER_HUB_PASS }}
           docker-hub-user: 1maa
-          tags: ${{ matrix.images[1] }}
+          tags: ${{ matrix.images.tags }}
