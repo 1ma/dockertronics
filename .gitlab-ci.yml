@@ -66,7 +66,7 @@ erlang-24:
     CONTEXT: erlang
     IMAGE: 1maa/erlang:24-alpine
   script:
-    - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 --build-arg ERLANG_VERSION=24.3.4.9 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
+    - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 --build-arg ERLANG_VERSION=24.3.4.10 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
@@ -76,7 +76,7 @@ erlang-25:
     CONTEXT: erlang
     IMAGE: 1maa/erlang:25-alpine
   script:
-    - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 --build-arg ERLANG_VERSION=25.2.3 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
+    - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 --build-arg ERLANG_VERSION=25.3 -t $IMAGE -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - docker push $IMAGE
 
@@ -84,10 +84,11 @@ erlang-26:
   stage: tier1
   variables:
     CONTEXT: erlang
+    IMAGE: 1maa/erlang:26-alpine
   script:
-    - docker build --cache-from 1maa/erlang:26-alpine --build-arg BUILDKIT_INLINE_CACHE=1 -t 1maa/erlang:26-alpine -t 1maa/erlang:latest -f $CONTEXT/Dockerfile $CONTEXT
+    - docker build --cache-from $IMAGE --build-arg BUILDKIT_INLINE_CACHE=1 -t $IMAGE -t 1maa/erlang:latest -f $CONTEXT/Dockerfile $CONTEXT
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
-    - docker push 1maa/erlang:26-alpine
+    - docker push $IMAGE
     - docker push 1maa/erlang:latest
 
 gnat-9:
