@@ -35,6 +35,7 @@ jobs:
           - ["swipl", "1maa/swipl:latest"]
           - ["xhgui", "1maa/xhgui:latest"]
     steps:
+      - uses: actions/checkout@v3
       - uses: ./.github/actions/docker
         with:
           cache-tag: ${{ matrix.images[2] || matrix.images[1] }}
@@ -55,6 +56,7 @@ jobs:
           - ["sakila", "1maa/sakila:latest"]
           - ["sftp", "1maa/sftp:latest"]
     steps:
+      - uses: actions/checkout@v3
       - uses: ./.github/actions/docker
         with:
           cache-tag: ${{ matrix.images[2] || matrix.images[1] }}
@@ -73,6 +75,7 @@ jobs:
         images:
           - ["roadrunner", "1maa/roadrunner:8.2"]
     steps:
+      - uses: actions/checkout@v3
       - uses: ./.github/actions/docker
         with:
           cache-tag: ${{ matrix.images[2] || matrix.images[1] }}
