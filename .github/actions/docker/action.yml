@@ -2,6 +2,9 @@ name: Docker Setup
 description: Sets up a Docker builder
 
 inputs:
+  build-args:
+    description: Build arguments
+    required: true
   cache-tag:
     description: Registry tag to cache from
     required: true
@@ -31,6 +34,7 @@ runs:
         password: ${{ inputs.docker-hub-pass }}
     - uses: docker/build-push-action@v4
       with:
+        build-args: ${{ inputs.build-args }}
         cache-from: type=registry,ref=${{ inputs.cache-tag }}
         cache-to: type=inline
         context: ${{ inputs.context }}
