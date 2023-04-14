@@ -1,15 +1,12 @@
-name: Docker Setup
-description: Sets up a Docker builder
+name: PHP Docker image builder
+description: Sets up a Docker builder tailored for PHP images
 
 inputs:
-  build-args:
-    description: Build arguments
+  tag:
+    description: Tag of the base PHP image
     required: true
-  cache-tag:
-    description: Registry tag to cache from
-    required: true
-  context:
-    description: Docker build context
+  dev-tag:
+    description: Tag of the development PHP image
     required: true
   docker-hub-user:
     description: User for authentication against Docker Hub
@@ -19,9 +16,6 @@ inputs:
     required: true
   dockerfile:
     description: Path to the Dockerfile
-    required: true
-  tags:
-    description: List of docker image names
     required: true
 
 runs:
@@ -34,10 +28,19 @@ runs:
         password: ${{ inputs.docker-hub-pass }}
     - uses: docker/build-push-action@v4
       with:
-        build-args: ${{ inputs.build-args }}
-        cache-from: type=registry,ref=${{ inputs.cache-tag }}
+        cache-from: type=registry,ref=${{ inputs.tag }}
         cache-to: type=inline
-        context: ${{ inputs.context }}
+        context: php
         file: ${{ inputs.dockerfile }}
         push: true
-        tags: ${{ inputs.tags }}
+        tags: ${{ inputs.tag }}
+        target: php
+    - uses: docker/build-push-action@v4
+      with:
+        cache-from: type=registry,ref=${{ inputs.tag }}
+        cache-to: type=inline
+        context: php
+        file: ${{ inputs.dockerfile }}
+        push: true
+        tags: ${{ inputs.dev-tag }}
+        target: php-dev
