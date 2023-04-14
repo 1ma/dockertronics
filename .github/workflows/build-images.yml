@@ -5,6 +5,8 @@ on:
   workflow_dispatch:
 
 ## pending images:
+# bitcoin
+# core lightning
 # erlang 24, 25 (tier 1)
 # gnat 9, 10 (tier 1)
 # mysql 5.7, 8.0 (tier 1)
@@ -20,8 +22,6 @@ jobs:
         images:
           - ["alpine", "1maa/alpine:3.17,1maa/alpine:latest", "1maa/alpine:3.17"]
           - ["beanstalkd", "1maa/beanstalkd:latest"]
-          - ["bitcoin", "1maa/bitcoind:24.0", "bitcoin/alpine/Dockerfile"]
-          - ["core-lightning", "1maa/core-lightning:latest", "core-lightning/ubuntu/Dockerfile"]
           - ["erlang", "1maa/erlang:26-alpine,1maa/erlang:latest", "1maa/erlang:26-alpine"]
           - ["haproxy", "1maa/haproxy:2.7"]
           - ["lnd", "1maa/lnd:latest"]
@@ -43,7 +43,6 @@ jobs:
           context: ${{ matrix.images[0] }}
           docker-hub-pass: ${{ secrets.DOCKER_HUB_PASS }}
           docker-hub-user: 1maa
-          dockerfile: ${{ matrix.images[2] || format('{0}/Dockerfile', matrix.images[0]) }}
           tags: ${{ matrix.images[1] }}
 
   tier2:
