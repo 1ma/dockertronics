@@ -14,6 +14,10 @@ inputs:
   docker-hub-pass:
     description: Docker Hub password of the given user
     required: true
+  dockerfile:
+    description: Path to the Dockerfile
+    required: false
+    default: Dockerfile
   tags:
     description: List of docker image names
     required: true
@@ -31,5 +35,6 @@ runs:
         cache-from: type=registry,ref=${{ inputs.cache-tag }}
         cache-to: type=inline
         context: ${{ inputs.context }}
+        file: ${{ inputs.dockerfile }}
         push: true
         tags: ${{ inputs.tags }}
