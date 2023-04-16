@@ -279,7 +279,6 @@ RUN php composer.phar global config allow-plugins.uma/composer-psysh true \
     deployer/deployer \
     friendsofphp/php-cs-fixer \
     phing/phing \
-    phploc/phploc \
     phpmetrics/phpmetrics \
     phpunit/phpunit \
     qossmic/deptrac-shim \
