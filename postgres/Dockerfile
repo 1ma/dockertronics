@@ -1,10 +1,10 @@
 FROM alpine:latest AS builder
 
-ENV PG_RELEASE=15.2
+ARG POSTGRES_VERSION=15.2
 
 WORKDIR /tmp
 
-ADD https://ftp.postgresql.org/pub/source/v${PG_RELEASE}/postgresql-${PG_RELEASE}.tar.gz .
+ADD https://ftp.postgresql.org/pub/source/v${POSTGRES_VERSION}/postgresql-${POSTGRES_VERSION}.tar.gz .
 
 RUN apk add --no-cache \
     build-base \
@@ -14,8 +14,8 @@ RUN apk add --no-cache \
     openssl-dev \
     readline-dev \
     zlib-dev \
- && tar zxof postgresql-${PG_RELEASE}.tar.gz \
- && cd postgresql-${PG_RELEASE} \
+ && tar zxof postgresql-${POSTGRES_VERSION}.tar.gz \
+ && cd postgresql-${POSTGRES_VERSION} \
  && ./configure \
     CFLAGS="-Os -march=x86-64" \
     LDFLAGS="-s" \
@@ -24,8 +24,8 @@ RUN apk add --no-cache \
     --with-libxslt \
     --with-ssl=openssl
 
-RUN make -C postgresql-${PG_RELEASE} world -j$(nproc) \
- && make -C postgresql-${PG_RELEASE} install-world \
+RUN make -C postgresql-${POSTGRES_VERSION} world -j$(nproc) \
+ && make -C postgresql-${POSTGRES_VERSION} install-world \
  && rm -rf /tmp/pgsql/share/doc \
  && rm -rf /tmp/pgsql/share/man
 
