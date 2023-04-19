@@ -31,7 +31,6 @@ jobs:
           - { context: "mariadb", tags: "1maa/mariadb:10.6" }
           - { context: "mysql", tags: "1maa/mysql:5.7", dockerfile: "mysql/Dockerfile.57" }
           - { context: "mysql", tags: "1maa/mysql:8.0", dockerfile: "mysql/Dockerfile.80" }
-          - { context: "postgres/official", tags: "1maa/postgres:15-alpine" }
           - { context: "protoc", tags: "1maa/protoc:latest" }
           - { context: "selfsig", tags: "1maa/selfsig:latest" }
           - { context: "sleepy", tags: "1maa/sleepy:latest" }
@@ -60,7 +59,7 @@ jobs:
       matrix:
         images:
           - { context: "gnat/10", tag: "1maa/fsf-gnat:10" }
-          - { context: "postgres/src", tag: "1maa/postgres:15-src" }
+          - { context: "postgres", tag: "1maa/postgres:15-alpine" }
           - { context: "sakila", tag: "1maa/sakila:latest" }
           - { context: "sftp", tag: "1maa/sftp:latest" }
     steps:
