@@ -29,8 +29,6 @@ RUN make -C postgresql-${POSTGRES_VERSION} world -j$(nproc) \
  && rm -rf /tmp/pgsql/share/doc \
  && rm -rf /tmp/pgsql/share/man
 
-COPY docker-entrypoint.sh /tmp/pgsql/bin
-
 
 FROM 1maa/alpine:latest AS postgis
 
@@ -98,6 +96,8 @@ COPY --from=postgis /usr/local/lib/postgis_raster-3.so   /usr/local/lib
 COPY --from=postgis /usr/local/lib/postgis_topology-3.so /usr/local/lib
 COPY --from=postgis /usr/local/share/contrib/postgis-3.3 /usr/local/share/contrib/postgis-3.3
 COPY --from=cleanup /tmp                                 /usr/local/share/extension
+
+COPY docker-entrypoint.sh /usr/local/bin
 
 RUN apk add --no-cache \
     gdal \
