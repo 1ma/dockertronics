@@ -20,7 +20,7 @@ jobs:
           - { context: "beanstalkd", tags: "1maa/beanstalkd:latest" }
           - { context: "bitcoin", tags: "1maa/bitcoind:24.0", dockerfile: "bitcoin/alpine/Dockerfile" }
           - { context: "core-lightning", tags: "1maa/core-lightning:latest", dockerfile: "core-lightning/ubuntu/Dockerfile" }
-          - { context: "erlang", tags: "1maa/erlang:24-alpine", build-args: "ERLANG_VERSION=24.3.4.10" }
+          - { context: "erlang", tags: "1maa/erlang:24-alpine", build-args: "ERLANG_VERSION=24.3.4.11" }
           - { context: "erlang", tags: "1maa/erlang:25-alpine", build-args: "ERLANG_VERSION=25.3" }
           - { context: "erlang", tags: "1maa/erlang:26-alpine,1maa/erlang:latest", cache-tag: "1maa/erlang:26-alpine" }
           - { context: "gnat/9", tags: "1maa/fsf-gnat:9" }
