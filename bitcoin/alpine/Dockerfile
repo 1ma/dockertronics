@@ -13,6 +13,7 @@ COPY developer_pubkeys.pem .
 RUN apk add --no-cache \
     coreutils \
     gnupg \
+    gnupg-keyboxd \
  && gpg --import developer_pubkeys.pem \
  && gpg --verify SHA256SUMS.asc SHA256SUMS \
  && sha256sum --ignore-missing -c SHA256SUMS

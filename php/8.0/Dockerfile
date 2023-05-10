@@ -12,7 +12,8 @@ COPY 8.0/pubkeys.asc .
 ADD https://www.php.net/distributions/php-${PHP_VERSION}.tar.gz .
 ADD https://www.php.net/distributions/php-${PHP_VERSION}.tar.gz.asc .
 
-RUN apk add --no-cache gnupg \
+RUN apk add --no-cache \
+    gnupg \
  && gpg --import pubkeys.asc \
  && gpg --verify php-${PHP_VERSION}.tar.gz.asc php-${PHP_VERSION}.tar.gz
 

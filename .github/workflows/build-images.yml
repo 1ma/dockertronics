@@ -16,7 +16,7 @@ jobs:
       fail-fast: false
       matrix:
         images:
-          - { context: "alpine", tags: "1maa/alpine:3.17,1maa/alpine:latest", cache-tag: "1maa/alpine:3.17" }
+          - { context: "alpine", tags: "1maa/alpine:3.18,1maa/alpine:latest", cache-tag: "1maa/alpine:3.18" }
           - { context: "beanstalkd", tags: "1maa/beanstalkd:latest" }
           - { context: "bitcoin", tags: "1maa/bitcoind:24.0", dockerfile: "bitcoin/alpine/Dockerfile" }
           - { context: "core-lightning", tags: "1maa/core-lightning:latest", dockerfile: "core-lightning/ubuntu/Dockerfile" }
@@ -24,7 +24,6 @@ jobs:
           - { context: "erlang", tags: "1maa/erlang:25-alpine", build-args: "ERLANG_VERSION=25.3" }
           - { context: "erlang", tags: "1maa/erlang:26-alpine,1maa/erlang:latest", cache-tag: "1maa/erlang:26-alpine" }
           - { context: "gnat/9", tags: "1maa/fsf-gnat:9" }
-          - { context: "haproxy", tags: "1maa/haproxy:2.7" }
           - { context: "lnd", tags: "1maa/lnd:latest" }
           - { context: "lua/5.3", tags: "1maa/lua:5.3" }
           - { context: "lua/5.4", tags: "1maa/lua:5.4" }
@@ -59,6 +58,7 @@ jobs:
       matrix:
         images:
           - { context: "gnat/10", tag: "1maa/fsf-gnat:10" }
+          - { context: "haproxy", tag: "1maa/haproxy:2.7" }
           - { context: "postgres", tag: "1maa/postgres:11-alpine", build-args: "POSTGRES_VERSION=11.19" }
           - { context: "postgres", tag: "1maa/postgres:12-alpine", build-args: "POSTGRES_VERSION=12.14" }
           - { context: "postgres", tag: "1maa/postgres:13-alpine", build-args: "POSTGRES_VERSION=13.10" }

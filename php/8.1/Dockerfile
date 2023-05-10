@@ -12,7 +12,9 @@ COPY 8.1/pubkeys.asc .
 ADD https://www.php.net/distributions/php-${PHP_VERSION}.tar.gz .
 ADD https://www.php.net/distributions/php-${PHP_VERSION}.tar.gz.asc .
 
-RUN apk add --no-cache gnupg \
+RUN apk add --no-cache \
+    gnupg \
+    gnupg-keyboxd \
  && gpg --import pubkeys.asc \
  && gpg --verify php-${PHP_VERSION}.tar.gz.asc php-${PHP_VERSION}.tar.gz
 
@@ -269,7 +271,9 @@ COPY composer-pubkey.asc .
 ADD https://getcomposer.org/download/latest-stable/composer.phar .
 ADD https://getcomposer.org/download/latest-stable/composer.phar.asc .
 
-RUN gpg --import composer-pubkey.asc \
+RUN apk add --no-cache \
+    gnupg-keyboxd \
+ && gpg --import composer-pubkey.asc \
  && gpg --verify composer.phar.asc composer.phar
 
 RUN php composer.phar global config allow-plugins.uma/composer-psysh true \
