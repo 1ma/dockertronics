@@ -1,6 +1,6 @@
-FROM ubuntu:latest AS builder
+FROM ubuntu:22.04 AS builder
 
-ARG CLN_VERSION=v23.02.2
+ARG CLN_VERSION=v23.05
 
 WORKDIR /tmp
 
@@ -45,7 +45,7 @@ RUN make -j$(nproc)
 RUN make install
 
 
-FROM ubuntu:latest
+FROM ubuntu:22.04
 
 COPY --from=builder /usr/local/bin/lightning* /usr/local/bin/
 COPY --from=builder /usr/local/bin/reckless   /usr/local/bin/

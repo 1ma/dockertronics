@@ -1,6 +1,6 @@
 FROM golang:1.20-alpine AS build
 
-ARG LND_VERSION=0.16.0-beta
+ARG LND_VERSION=0.16.2-beta
 ARG RELEASE_SIGNER=positiveblue
 
 ENV CGO_ENABLED=0

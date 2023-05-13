@@ -1,6 +1,6 @@
-FROM ubuntu:latest AS builder
+FROM ubuntu:22.04 AS builder
 
-ARG BITCOIN_VERSION=24.0.1
+ARG BITCOIN_VERSION=24.1
 
 WORKDIR /tmp
 
@@ -70,7 +70,7 @@ RUN make -C ./build install \
  && upx --lzma /usr/local/bin/*
 
 
-FROM ubuntu:latest
+FROM ubuntu:22.04
 
 COPY --from=builder /usr/local/bin/* /usr/local/bin/
 
