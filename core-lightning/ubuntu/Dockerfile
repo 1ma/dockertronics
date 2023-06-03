@@ -22,8 +22,7 @@ RUN apt-get update \
     python3-pip \
     zlib1g-dev
 
-RUN pip3 install --upgrade pip \
- && pip3 install mako
+RUN pip3 install --user mako
 
 RUN git clone --depth 1 --branch ${CLN_VERSION} https://github.com/ElementsProject/lightning.git
 
@@ -47,8 +46,7 @@ RUN make install
 
 FROM ubuntu:22.04
 
-COPY --from=builder /usr/local/bin/lightning* /usr/local/bin/
-COPY --from=builder /usr/local/bin/reckless   /usr/local/bin/
-COPY --from=builder /usr/local/libexec        /usr/local/libexec
+COPY --from=builder /usr/local/bin     /usr/local/bin
+COPY --from=builder /usr/local/libexec /usr/local/libexec
 
 CMD ["/usr/local/bin/lightningd"]
