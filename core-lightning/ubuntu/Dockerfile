@@ -28,9 +28,9 @@ RUN git clone --depth 1 --branch ${CLN_VERSION} https://github.com/ElementsProje
 
 WORKDIR /tmp/lightning
 
-COPY developer_pubkey.pem .
+COPY developer_pubkeys.pem .
 
-RUN gpg --import developer_pubkey.pem \
+RUN gpg --import developer_pubkeys.pem \
  && git verify-tag "${CLN_VERSION}"
 
 ENV LDFLAGS="-s"
