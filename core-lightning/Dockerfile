@@ -1,6 +1,6 @@
 FROM ubuntu:22.04 AS builder
 
-ARG CLN_VERSION=v23.05
+ARG CLN_VERSION=v23.05.2
 
 WORKDIR /tmp
 
