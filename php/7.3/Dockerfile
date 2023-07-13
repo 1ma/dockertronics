@@ -248,7 +248,8 @@ RUN apk add --no-cache \
     libzip \
     rabbitmq-c \
     readline \
-    yaml
+    yaml \
+ && rm /etc/php/mods-available/secp256k1_nostr.ini
 
 EXPOSE 9000
 

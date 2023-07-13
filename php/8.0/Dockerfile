@@ -1,6 +1,7 @@
 FROM 1maa/alpine:3.16 AS build
 
 ARG PHP_VERSION=8.0.29
+ARG SECP256K1_NOSTR_EXT_VERSION=v0.1.0
 
 ENV CFLAGS="-Os -march=x86-64"
 ENV LDFLAGS="-s"
@@ -34,6 +35,7 @@ RUN apk add --no-cache \
     bzip2-dev \
     curl-dev \
     gd-dev \
+    git \
     gmp-dev \
     gpgme-dev \
     libevent-dev \
@@ -166,6 +168,12 @@ RUN rm -rf php-${PHP_VERSION} \
         sapi/fpm/www.conf.in > /tmp/www.conf \
 \
  && upx --lzma /usr/bin/php /usr/sbin/php-fpm
+
+RUN git clone --recurse-submodules https://github.com/1ma/secp256k1-nostr-php \
+ && cd secp256k1-nostr-php \
+ && git checkout ${SECP256K1_NOSTR_EXT_VERSION} \
+ && make secp256k1 ext \
+ && make -C ext install
 
 # Force invalidation of the build cache from here on if any
 # extension has released a new version since the last build
