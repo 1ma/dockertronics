@@ -48,6 +48,7 @@ RUN apk add --no-cache \
     librdkafka-dev \
     libsodium-dev \
     libssh2-dev \
+    libuv-dev \
     libxml2-dev \
     libxslt-dev \
     libzip-dev \
@@ -196,7 +197,8 @@ ADD https://pecl.php.net/get/rdkafka .
 ADD https://pecl.php.net/get/redis .
 ADD https://pecl.php.net/get/runkit7 .
 ADD https://pecl.php.net/get/simdjson .
-ADD https://pecl.php.net/get/ssh2-beta .
+ADD https://pecl.php.net/get/ssh2 .
+ADD https://pecl.php.net/get/uv .
 ADD https://pecl.php.net/get/vld .
 ADD https://pecl.php.net/get/xdebug .
 ADD https://pecl.php.net/get/yaml .
@@ -221,7 +223,8 @@ RUN pecl channel-update pecl.php.net \
     redis \
     runkit7-alpha \
     simdjson \
-    ssh2-beta \
+    ssh2 \
+    uv-0.2.4 \
     vld-beta \
     xdebug-3.1.6 \
     yaml \
@@ -256,6 +259,7 @@ RUN apk add --no-cache \
     librdkafka \
     libsodium \
     libssh2 \
+    libuv \
     libxml2 \
     libxslt \
     libzip \
