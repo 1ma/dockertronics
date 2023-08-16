@@ -1,6 +1,6 @@
 FROM alpine:latest AS builder
 
-ARG POSTGRES_VERSION=15.3
+ARG POSTGRES_VERSION=15.4
 
 WORKDIR /tmp
 
@@ -32,8 +32,8 @@ RUN make -C postgresql-${POSTGRES_VERSION} world -j$(nproc) \
 
 FROM 1maa/alpine:latest AS postgis
 
-ARG PGTAP_VERSION=1.2.0
-ARG POSTGIS_VERSION=3.3.2
+ARG PGTAP_VERSION=1.3.0
+ARG POSTGIS_VERSION=3.4.0
 
 WORKDIR /tmp
 
@@ -49,7 +49,7 @@ RUN apk --no-cache add \
     geos-dev \
     json-c-dev \
     libxml2-dev \
-    llvm15 \
+    llvm16 \
     perl \
     proj-dev \
     protobuf-c-dev \
@@ -67,8 +67,6 @@ RUN tar zxf v${PGTAP_VERSION}.tar.gz \
  && make -C pgtap-${PGTAP_VERSION} -j$(nproc) \
  && make -C pgtap-${PGTAP_VERSION} install
 
-# Refactor this mess once ./configure --prefix works again,
-# presumably when PostGIS 3.4.0 is released
 FROM alpine:latest AS cleanup
 
 WORKDIR /tmp
@@ -89,12 +87,14 @@ COPY --from=builder /tmp/pgsql                           /usr/local
 COPY --from=postgis /usr/local/bin/pgsql2shp             /usr/local/bin
 COPY --from=postgis /usr/local/bin/pgtopo_export         /usr/local/bin
 COPY --from=postgis /usr/local/bin/pgtopo_import         /usr/local/bin
+COPY --from=postgis /usr/local/bin/postgis               /usr/local/bin
+COPY --from=postgis /usr/local/bin/postgis_restore       /usr/local/bin
 COPY --from=postgis /usr/local/bin/raster2pgsql          /usr/local/bin
 COPY --from=postgis /usr/local/bin/shp2pgsql             /usr/local/bin
 COPY --from=postgis /usr/local/lib/postgis-3.so          /usr/local/lib
 COPY --from=postgis /usr/local/lib/postgis_raster-3.so   /usr/local/lib
 COPY --from=postgis /usr/local/lib/postgis_topology-3.so /usr/local/lib
-COPY --from=postgis /usr/local/share/contrib/postgis-3.3 /usr/local/share/contrib/postgis-3.3
+COPY --from=postgis /usr/local/share/contrib/postgis-3.4 /usr/local/share/contrib/postgis-3.4
 COPY --from=cleanup /tmp                                 /usr/local/share/extension
 
 COPY docker-entrypoint.sh /usr/local/bin

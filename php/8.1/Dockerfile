@@ -1,6 +1,6 @@
 FROM 1maa/alpine:latest AS build
 
-ARG PHP_VERSION=8.1.21
+ARG PHP_VERSION=8.1.22
 ARG SECP256K1_NOSTR_EXT_VERSION=v0.1.0
 
 ENV CFLAGS="-Os -march=x86-64"
@@ -171,9 +171,8 @@ RUN rm -rf php-${PHP_VERSION} \
 \
  && upx --lzma /usr/bin/php /usr/sbin/php-fpm
 
-RUN git clone --recurse-submodules https://github.com/1ma/secp256k1-nostr-php \
+RUN git clone --branch ${SECP256K1_NOSTR_EXT_VERSION} --recurse-submodules https://github.com/1ma/secp256k1-nostr-php \
  && cd secp256k1-nostr-php \
- && git checkout ${SECP256K1_NOSTR_EXT_VERSION} \
  && make secp256k1 ext \
  && make -C ext install
 
