@@ -57,7 +57,6 @@ jobs:
       matrix:
         images:
           - { context: "haproxy", tag: "1maa/haproxy:2.8" }
-          - { context: "postgres", tag: "1maa/postgres:11-alpine", build-args: "POSTGRES_VERSION=11.21" }
           - { context: "postgres", tag: "1maa/postgres:12-alpine", build-args: "POSTGRES_VERSION=12.16" }
           - { context: "postgres", tag: "1maa/postgres:13-alpine", build-args: "POSTGRES_VERSION=13.12" }
           - { context: "postgres", tag: "1maa/postgres:14-alpine", build-args: "POSTGRES_VERSION=14.9" }
@@ -99,24 +98,3 @@ jobs:
           docker-hub-pass: ${{ secrets.DOCKER_HUB_PASS }}
           docker-hub-user: 1maa
           dockerfile: ${{ matrix.images.dockerfile }}
-
-  tier3:
-    name: Build Tier 3 images
-    runs-on: ubuntu-latest
-    needs:
-      - tier2-php
-    strategy:
-      fail-fast: false
-      matrix:
-        images:
-          - { context: "roadrunner", tag: "1maa/roadrunner:8.2" }
-    steps:
-      - uses: actions/checkout@v3
-      - uses: ./.github/actions/docker-generic
-        with:
-          cache-tag: ${{ matrix.images.tag }}
-          context: ${{ matrix.images.context }}
-          docker-hub-pass: ${{ secrets.DOCKER_HUB_PASS }}
-          docker-hub-user: 1maa
-          dockerfile: ${{ format('{0}/Dockerfile', matrix.images.context) }}
-          tags: ${{ matrix.images.tag }}
