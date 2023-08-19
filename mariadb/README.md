@@ -1,3 +1,0 @@
-# MariaDB
-
-An extended `mariadb:10.6` official image with the same settings as `1maa/mysql:5.7`

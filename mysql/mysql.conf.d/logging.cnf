@@ -1,6 +1,0 @@
-[mysqld]
-general_log	= on
-general_log_file	= /var/lib/mysql/general.log
-
-slow_query_log	= on
-slow_query_log_file	= /var/lib/mysql/slow.log
