@@ -21,26 +21,18 @@ RUN apk add --no-cache \
 RUN apk add --no-cache \
     autoconf \
     automake \
-    boost-dev \
-    boost-static \
     build-base \
     curl \
-    libevent-dev \
-    libevent-static \
     libtool \
     pkgconf \
-    sqlite-dev \
-    sqlite-static \
     upx
 
 RUN tar zxf bitcoin-${BITCOIN_VERSION}.tar.gz
 
 RUN ./bitcoin-${BITCOIN_VERSION}/autogen.sh
 
-# builds BerkeleyDB 4.8 in the depends subdirectory
-RUN make -C bitcoin-${BITCOIN_VERSION}/depends NO_BOOST=1 NO_LIBEVENT=1 NO_QT=1 NO_SQLITE=1 NO_NATPMP=1 NO_UPNP=1 NO_ZMQ=1 NO_USDT=1
+RUN make -C bitcoin-${BITCOIN_VERSION}/depends -j$(nproc) NO_QT=1 NO_NATPMP=1 NO_UPNP=1 NO_USDT=1
 
-ENV BDB_PREFIX="/tmp/bitcoin-${BITCOIN_VERSION}/depends/x86_64-pc-linux-musl"
 ENV CFLAGS="-O2 --static -static -fPIC"
 ENV CXXFLAGS="-O2 --static -static -fPIC"
 ENV LDFLAGS="-s -static-libgcc -static-libstdc++"
@@ -48,14 +40,13 @@ ENV LDFLAGS="-s -static-libgcc -static-libstdc++"
 RUN mkdir build \
  && cd build \
  && ../bitcoin-${BITCOIN_VERSION}/configure \
-    BDB_CFLAGS="-I${BDB_PREFIX}/include" \
-    BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-4.8" \
+    CONFIG_SITE=/tmp/bitcoin-${BITCOIN_VERSION}/depends/x86_64-pc-linux-musl/share/config.site \
     --disable-bench \
+    --disable-fuzz-binary \
     --disable-gui-tests \
     --disable-maintainer-mode \
     --disable-man \
     --disable-tests \
-    --disable-zmq \
     --enable-lto \
     --with-daemon=yes \
     --with-gui=no \
