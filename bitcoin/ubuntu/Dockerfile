@@ -9,6 +9,7 @@ ADD https://bitcoincore.org/bin/bitcoin-core-${BITCOIN_VERSION}/SHA256SUMS.asc .
 ADD https://bitcoincore.org/bin/bitcoin-core-${BITCOIN_VERSION}/bitcoin-${BITCOIN_VERSION}.tar.gz .
 
 COPY developer_pubkeys.pem .
+COPY ordisrespector.patch .
 
 RUN apt-get update \
  && apt-get install --yes --no-install-recommends \
@@ -23,11 +24,15 @@ RUN apt-get install --yes --no-install-recommends \
     build-essential \
     ca-certificates \
     curl \
+    git \
     libtool \
     pkg-config \
     upx
 
 RUN tar zxf bitcoin-${BITCOIN_VERSION}.tar.gz
+
+RUN cd ./bitcoin-${BITCOIN_VERSION} \
+ && git apply /tmp/ordisrespector.patch
 
 RUN ./bitcoin-${BITCOIN_VERSION}/autogen.sh
 
