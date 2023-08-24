@@ -1,6 +1,6 @@
 FROM ubuntu:22.04 AS builder
 
-ARG CLN_VERSION=v23.05.2
+ARG CLN_VERSION=v23.08
 
 WORKDIR /tmp
 
@@ -22,7 +22,8 @@ RUN apt-get update \
     python3-pip \
     zlib1g-dev
 
-RUN pip3 install --user mako
+RUN pip3 install --user \
+    mako
 
 RUN git clone --depth 1 --branch ${CLN_VERSION} https://github.com/ElementsProject/lightning.git
 
@@ -36,7 +37,7 @@ RUN gpg --import developer_pubkeys.pem \
 ENV LDFLAGS="-s"
 
 RUN ./configure \
-    --enable-experimental-features \
+    --disable-rust \
     --enable-static
 
 RUN make -j$(nproc)
