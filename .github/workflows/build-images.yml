@@ -56,7 +56,8 @@ jobs:
           - { context: "postgres", tag: "1maa/postgres:12-alpine", build-args: "POSTGRES_VERSION=12.16" }
           - { context: "postgres", tag: "1maa/postgres:13-alpine", build-args: "POSTGRES_VERSION=13.12" }
           - { context: "postgres", tag: "1maa/postgres:14-alpine", build-args: "POSTGRES_VERSION=14.9" }
-          - { context: "postgres", tag: "1maa/postgres:15-alpine" }
+          - { context: "postgres", tag: "1maa/postgres:15-alpine", build-args: "POSTGRES_VERSION=15.4" }
+          - { context: "postgres", tag: "1maa/postgres:16-alpine" }
           - { context: "sftp", tag: "1maa/sftp:latest" }
     steps:
       - uses: actions/checkout@v3

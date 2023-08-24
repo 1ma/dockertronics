@@ -1,6 +1,6 @@
 FROM alpine:latest AS builder
 
-ARG POSTGRES_VERSION=15.4
+ARG POSTGRES_VERSION=16beta3
 
 WORKDIR /tmp
 
@@ -22,7 +22,8 @@ RUN apk add --no-cache \
     --prefix=/tmp/pgsql \
     --with-libxml \
     --with-libxslt \
-    --with-ssl=openssl
+    --with-ssl=openssl \
+    --without-icu
 
 RUN make -C postgresql-${POSTGRES_VERSION} world -j$(nproc) \
  && make -C postgresql-${POSTGRES_VERSION} install-world \
