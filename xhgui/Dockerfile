@@ -14,8 +14,15 @@ RUN apk add --no-cache gnupg \
  && gpg --import composer-pubkey.asc \
  && gpg --verify composer.phar.asc composer.phar
 
+RUN apk add --no-cache \
+    autoconf \
+    build-base \
+ && pecl install mongodb \
+ && docker-php-ext-enable mongodb
+
 RUN tar zxf master.tar.gz \
  && cd xhgui-0.21.x \
+ && php /tmp/composer.phar config --unset platform.ext-mongodb \
  && php /tmp/composer.phar update \
  && php /tmp/composer.phar require alcaeus/mongo-php-adapter \
  && php /tmp/composer.phar install --no-dev -a

@@ -6,7 +6,7 @@ A `php:7.3-apache` image with [xhgui](https://github.com/perftools/xhgui) preins
 ### Sample Docker Compose file
 
 ```yaml
-version: "3"
+name: xhgui
 
 services:
   xhgui:
@@ -17,7 +17,7 @@ services:
       - "127.0.0.1:8000:80"
 
   mongo:
-    image: mongo:4.1
+    image: mongo:7.0
     environment:
       - MONGO_INITDB_DATABASE=xhprof
 ```
