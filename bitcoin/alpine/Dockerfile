@@ -26,6 +26,7 @@ RUN apk add --no-cache \
     curl \
     git \
     libtool \
+    linux-headers \
     pkgconf \
     upx
 
