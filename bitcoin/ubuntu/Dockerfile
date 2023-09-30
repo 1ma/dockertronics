@@ -74,8 +74,12 @@ FROM ubuntu:22.04
 
 COPY --from=builder /usr/local/bin/* /usr/local/bin/
 
+COPY bitcoin.conf /etc/bitcoin/bitcoin.conf
+
+RUN mkdir /root/.bitcoin && echo "datadir=/var/lib/bitcoin" > /root/.bitcoin/bitcoin.conf
+
 VOLUME /var/lib/bitcoin
 
 EXPOSE 8333
 
-CMD ["/usr/local/bin/bitcoind", "-datadir=/var/lib/bitcoin", "-listen=1", "-bind=0.0.0.0", "-nodebuglogfile"]
+CMD ["/usr/local/bin/bitcoind", "-conf=/etc/bitcoin/bitcoin.conf"]
