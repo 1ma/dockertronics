@@ -34,6 +34,7 @@ RUN apk add --no-cache \
     argon2-dev \
     bzip2-dev \
     curl-dev \
+    db-dev \
     gd-dev \
     git \
     gmp-dev \
@@ -52,6 +53,7 @@ RUN apk add --no-cache \
     libxml2-dev \
     libxslt-dev \
     libzip-dev \
+    lmdb-dev \
     oniguruma-dev \
     openssl-dev \
     rabbitmq-c-dev \
@@ -76,6 +78,7 @@ RUN tar zxof php-${PHP_VERSION}.tar.gz \
 \
     --enable-bcmath \
     --enable-calendar \
+    --enable-dba \
     --enable-exif \
     --enable-ftp \
     --enable-gd \
@@ -88,8 +91,10 @@ RUN tar zxof php-${PHP_VERSION}.tar.gz \
 \
     --with-bz2 \
     --with-curl \
+    --with-db4 \
     --with-ffi \
     --with-gmp \
+    --with-lmdb \
     --with-mysqli \
     --with-openssl \
     --with-password-argon2 \
@@ -123,6 +128,7 @@ RUN rm -rf php-${PHP_VERSION} \
 \
     --enable-bcmath \
     --enable-calendar \
+    --enable-dba \
     --enable-exif \
     --enable-ftp \
     --enable-gd \
@@ -134,8 +140,10 @@ RUN rm -rf php-${PHP_VERSION} \
 \
     --with-bz2 \
     --with-curl \
+    --with-db4 \
     --with-ffi \
     --with-gmp \
+    --with-lmdb \
     --with-mysqli \
     --with-openssl \
     --with-password-argon2 \
@@ -244,6 +252,7 @@ COPY --from=build /usr/lib/php/*.so /usr/lib/php/
 
 RUN apk add --no-cache \
     argon2-libs \
+    db \
     gmp \
     gpgme \
     libcurl \
@@ -260,6 +269,7 @@ RUN apk add --no-cache \
     libxml2 \
     libxslt \
     libzip \
+    lmdb \
     oniguruma \
     rabbitmq-c \
     readline \
