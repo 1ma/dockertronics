@@ -1,6 +1,6 @@
 FROM alpine:latest AS builder
 
-ARG POSTGRES_VERSION=16.0
+ARG POSTGRES_VERSION=16.1
 
 WORKDIR /tmp
 

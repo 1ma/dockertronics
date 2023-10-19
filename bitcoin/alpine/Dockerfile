@@ -1,6 +1,6 @@
 FROM alpine:latest AS builder
 
-ARG BITCOIN_VERSION=25.0
+ARG BITCOIN_VERSION=25.1
 
 WORKDIR /tmp
 
