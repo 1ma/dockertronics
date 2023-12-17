@@ -2,8 +2,8 @@ name: Generic Docker image builder
 description: Sets up a Docker builder
 
 inputs:
-  build-args:
-    description: Build arguments
+  build-arg:
+    description: First Build argument
     required: true
   second-arg:
     description: Second Build argument
@@ -37,8 +37,8 @@ runs:
         password: ${{ inputs.docker-hub-pass }}
     - uses: docker/build-push-action@v5
       with:
-        build-args: |
-          ${{ inputs.build-args }}
+        build-arg: |
+          ${{ inputs.build-arg }}
           ${{ inputs.second-arg }}
         cache-from: type=registry,ref=${{ inputs.cache-tag }}
         cache-to: type=inline

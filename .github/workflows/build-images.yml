@@ -18,14 +18,14 @@ jobs:
         images:
           - { context: "alpine", tags: "1maa/alpine:3.19,1maa/alpine:latest", cache-tag: "1maa/alpine:3.19" }
           - { context: "beanstalkd", tags: "1maa/beanstalkd:latest" }
-          - { context: "bitcoin", tags: "1maa/bitcoin:v22", dockerfile: "bitcoin/alpine/Dockerfile", build-args: "BITCOIN_VERSION=22.1", second-arg: "ALPINE_VERSION=3.18" }
-          - { context: "bitcoin", tags: "1maa/bitcoin:v23", dockerfile: "bitcoin/alpine/Dockerfile", build-args: "BITCOIN_VERSION=23.2" }
-          - { context: "bitcoin", tags: "1maa/bitcoin:v24", dockerfile: "bitcoin/alpine/Dockerfile", build-args: "BITCOIN_VERSION=24.2" }
-          - { context: "bitcoin", tags: "1maa/bitcoin:v25", dockerfile: "bitcoin/alpine/Dockerfile", build-args: "BITCOIN_VERSION=25.1" }
+          - { context: "bitcoin", tags: "1maa/bitcoin:v22", dockerfile: "bitcoin/alpine/Dockerfile", build-arg: "BITCOIN_VERSION=22.1", second-arg: "ALPINE_VERSION=3.18" }
+          - { context: "bitcoin", tags: "1maa/bitcoin:v23", dockerfile: "bitcoin/alpine/Dockerfile", build-arg: "BITCOIN_VERSION=23.2" }
+          - { context: "bitcoin", tags: "1maa/bitcoin:v24", dockerfile: "bitcoin/alpine/Dockerfile", build-arg: "BITCOIN_VERSION=24.2" }
+          - { context: "bitcoin", tags: "1maa/bitcoin:v25", dockerfile: "bitcoin/alpine/Dockerfile", build-arg: "BITCOIN_VERSION=25.1" }
           - { context: "bitcoin", tags: "1maa/bitcoin:v26,1maa/bitcoin:latest", dockerfile: "bitcoin/alpine/Dockerfile", cache-tag: "1maa/bitcoin:v26" }
           - { context: "core-lightning", tags: "1maa/core-lightning:latest" }
-          - { context: "erlang", tags: "1maa/erlang:24-alpine", build-args: "ERLANG_VERSION=24.3.4.14" }
-          - { context: "erlang", tags: "1maa/erlang:25-alpine", build-args: "ERLANG_VERSION=25.3.2.7" }
+          - { context: "erlang", tags: "1maa/erlang:24-alpine", build-arg: "ERLANG_VERSION=24.3.4.14" }
+          - { context: "erlang", tags: "1maa/erlang:25-alpine", build-arg: "ERLANG_VERSION=25.3.2.7" }
           - { context: "erlang", tags: "1maa/erlang:26-alpine,1maa/erlang:latest", cache-tag: "1maa/erlang:26-alpine" }
           - { context: "lua/5.3", tags: "1maa/lua:5.3" }
           - { context: "lua/5.4", tags: "1maa/lua:5.4" }
@@ -39,7 +39,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/docker-generic
         with:
-          build-args: ${{ matrix.images.build-args || '' }}
+          build-arg: ${{ matrix.images.build-arg || '' }}
           second-arg: ${{ matrix.images.second-arg || '' }}
           cache-tag: ${{ matrix.images.cache-tag || matrix.images.tags }}
           context: ${{ matrix.images.context }}
@@ -57,28 +57,28 @@ jobs:
       fail-fast: false
       matrix:
         images:
-          - { context: "bitcoin/regtest", tags: "1maa/bitcoin:v22-regtest", build-args: "BITCOIN_TAG=v22" }
-          - { context: "bitcoin/regtest", tags: "1maa/bitcoin:v23-regtest", build-args: "BITCOIN_TAG=v23" }
-          - { context: "bitcoin/regtest", tags: "1maa/bitcoin:v24-regtest", build-args: "BITCOIN_TAG=v24" }
-          - { context: "bitcoin/regtest", tags: "1maa/bitcoin:v25-regtest", build-args: "BITCOIN_TAG=v25" }
+          - { context: "bitcoin/regtest", tags: "1maa/bitcoin:v22-regtest", build-arg: "BITCOIN_TAG=v22" }
+          - { context: "bitcoin/regtest", tags: "1maa/bitcoin:v23-regtest", build-arg: "BITCOIN_TAG=v23" }
+          - { context: "bitcoin/regtest", tags: "1maa/bitcoin:v24-regtest", build-arg: "BITCOIN_TAG=v24" }
+          - { context: "bitcoin/regtest", tags: "1maa/bitcoin:v25-regtest", build-arg: "BITCOIN_TAG=v25" }
           - { context: "bitcoin/regtest", tags: "1maa/bitcoin:v26-regtest,1maa/bitcoin:regtest", cache-tag: "1maa/bitcoin:v26-regtest" }
-          - { context: "bitcoin/testnet", tags: "1maa/bitcoin:v22-testnet", build-args: "BITCOIN_TAG=v22" }
-          - { context: "bitcoin/testnet", tags: "1maa/bitcoin:v23-testnet", build-args: "BITCOIN_TAG=v23" }
-          - { context: "bitcoin/testnet", tags: "1maa/bitcoin:v24-testnet", build-args: "BITCOIN_TAG=v24" }
-          - { context: "bitcoin/testnet", tags: "1maa/bitcoin:v25-testnet", build-args: "BITCOIN_TAG=v25" }
+          - { context: "bitcoin/testnet", tags: "1maa/bitcoin:v22-testnet", build-arg: "BITCOIN_TAG=v22" }
+          - { context: "bitcoin/testnet", tags: "1maa/bitcoin:v23-testnet", build-arg: "BITCOIN_TAG=v23" }
+          - { context: "bitcoin/testnet", tags: "1maa/bitcoin:v24-testnet", build-arg: "BITCOIN_TAG=v24" }
+          - { context: "bitcoin/testnet", tags: "1maa/bitcoin:v25-testnet", build-arg: "BITCOIN_TAG=v25" }
           - { context: "bitcoin/testnet", tags: "1maa/bitcoin:v26-testnet,1maa/bitcoin:testnet", cache-tag: "1maa/bitcoin:v26-testnet" }
           - { context: "haproxy", tags: "1maa/haproxy:2.9" }
-          - { context: "postgres", tags: "1maa/postgres:12-alpine", build-args: "POSTGRES_VERSION=12.17" }
-          - { context: "postgres", tags: "1maa/postgres:13-alpine", build-args: "POSTGRES_VERSION=13.13" }
-          - { context: "postgres", tags: "1maa/postgres:14-alpine", build-args: "POSTGRES_VERSION=14.10" }
-          - { context: "postgres", tags: "1maa/postgres:15-alpine", build-args: "POSTGRES_VERSION=15.5" }
+          - { context: "postgres", tags: "1maa/postgres:12-alpine", build-arg: "POSTGRES_VERSION=12.17" }
+          - { context: "postgres", tags: "1maa/postgres:13-alpine", build-arg: "POSTGRES_VERSION=13.13" }
+          - { context: "postgres", tags: "1maa/postgres:14-alpine", build-arg: "POSTGRES_VERSION=14.10" }
+          - { context: "postgres", tags: "1maa/postgres:15-alpine", build-arg: "POSTGRES_VERSION=15.5" }
           - { context: "postgres", tags: "1maa/postgres:16-alpine" }
           - { context: "sftp", tags: "1maa/sftp:latest" }
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/docker-generic
         with:
-          build-args: ${{ matrix.images.build-args || '' }}
+          build-arg: ${{ matrix.images.build-arg || '' }}
           cache-tag: ${{ matrix.images.cache-tag || matrix.images.tags }}
           context: ${{ matrix.images.context }}
           docker-hub-pass: ${{ secrets.DOCKER_HUB_PASS }}
