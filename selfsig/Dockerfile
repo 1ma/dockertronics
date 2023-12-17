@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM alpine:3.18
 
 ENV ALGO rsa
 ENV BITS 4096

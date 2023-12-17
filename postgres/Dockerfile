@@ -1,4 +1,4 @@
-FROM alpine:latest AS builder
+FROM alpine:3.18 AS builder
 
 ARG POSTGRES_VERSION=16.1
 
@@ -68,7 +68,7 @@ RUN tar zxf v${PGTAP_VERSION}.tar.gz \
  && make -C pgtap-${PGTAP_VERSION} -j$(nproc) \
  && make -C pgtap-${PGTAP_VERSION} install
 
-FROM alpine:latest AS cleanup
+FROM alpine:3.18 AS cleanup
 
 WORKDIR /tmp
 

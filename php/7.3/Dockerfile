@@ -212,7 +212,7 @@ RUN pecl channel-update pecl.php.net \
     igbinary \
     maxminddb \
     memcached \
-    mongodb \
+    mongodb-1.16.2 \
     msgpack \
     pcov \
     rdkafka \

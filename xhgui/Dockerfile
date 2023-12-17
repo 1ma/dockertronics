@@ -17,7 +17,7 @@ RUN apk add --no-cache gnupg \
 RUN apk add --no-cache \
     autoconf \
     build-base \
- && pecl install mongodb \
+ && pecl install mongodb-1.16.2 \
  && docker-php-ext-enable mongodb
 
 RUN tar zxf master.tar.gz \
@@ -42,8 +42,7 @@ RUN cp ${PHP_INI_DIR}/php.ini-production ${PHP_INI_DIR}/php.ini \
  && docker-php-ext-install -j$(nproc) \
     pdo_mysql \
     pdo_pgsql \
- && pecl install \
-    mongodb \
+ && pecl install mongodb-1.16.2 \
  && docker-php-ext-enable mongodb \
  && a2enmod rewrite
 

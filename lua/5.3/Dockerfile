@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM alpine:3.18
 
 ARG LUA_VERSION=5.3.6
 
