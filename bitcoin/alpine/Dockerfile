@@ -1,4 +1,6 @@
-FROM alpine:3.18 AS builder
+ARG ALPINE_VERSION=3.19
+
+FROM alpine:${ALPINE_VERSION} AS builder
 
 ARG BITCOIN_VERSION=26.0
 
@@ -71,7 +73,7 @@ RUN make -C ./build install \
  && upx --lzma /usr/local/bin/*
 
 
-FROM alpine:3.18
+FROM alpine:${ALPINE_VERSION}
 
 COPY --from=builder /usr/local/bin/* /usr/local/bin/
 
