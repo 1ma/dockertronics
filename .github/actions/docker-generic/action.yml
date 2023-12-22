@@ -37,7 +37,7 @@ runs:
         password: ${{ inputs.docker-hub-pass }}
     - uses: docker/build-push-action@v5
       with:
-        build-arg: |
+        build-args: |
           ${{ inputs.build-arg }}
           ${{ inputs.second-arg }}
         cache-from: type=registry,ref=${{ inputs.cache-tag }}

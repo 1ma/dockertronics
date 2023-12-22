@@ -21,7 +21,7 @@ RUN apk add --no-cache \
  && docker-php-ext-enable mongodb
 
 RUN tar zxf master.tar.gz \
- && cd xhgui-0.21.x \
+ && cd xhgui-0.23.x \
  && php /tmp/composer.phar config --unset platform.ext-mongodb \
  && php /tmp/composer.phar update \
  && php /tmp/composer.phar require alcaeus/mongo-php-adapter \
@@ -31,7 +31,7 @@ RUN tar zxf master.tar.gz \
 FROM php:7.3-apache
 
 COPY          vhost.conf        /etc/apache2/sites-available/000-default.conf
-COPY --from=0 /tmp/xhgui-0.21.x /var/www/xhgui
+COPY --from=0 /tmp/xhgui-0.23.x /var/www/xhgui
 
 RUN cp ${PHP_INI_DIR}/php.ini-production ${PHP_INI_DIR}/php.ini \
  && apt-get update \

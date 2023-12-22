@@ -1,6 +1,6 @@
 FROM ubuntu:22.04 AS builder
 
-ARG CLN_VERSION=v23.11.1
+ARG CLN_VERSION=v24.02
 
 WORKDIR /tmp
 
@@ -23,6 +23,7 @@ RUN apt-get update \
     zlib1g-dev
 
 RUN pip3 install --user \
+    grpcio-tools \
     mako
 
 RUN git clone --depth 1 --branch ${CLN_VERSION} https://github.com/ElementsProject/lightning.git
