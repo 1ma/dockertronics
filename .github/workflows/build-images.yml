@@ -25,8 +25,9 @@ jobs:
           - { context: "bitcoin", tags: "1maa/bitcoin:v26,1maa/bitcoin:latest", dockerfile: "bitcoin/alpine/Dockerfile", cache-tag: "1maa/bitcoin:v26" }
           - { context: "core-lightning", tags: "1maa/core-lightning:latest" }
           - { context: "erlang", tags: "1maa/erlang:24-alpine", build-arg: "ERLANG_VERSION=24.3.4.16" }
-          - { context: "erlang", tags: "1maa/erlang:25-alpine", build-arg: "ERLANG_VERSION=25.3.2.9" }
-          - { context: "erlang", tags: "1maa/erlang:26-alpine,1maa/erlang:latest", cache-tag: "1maa/erlang:26-alpine" }
+          - { context: "erlang", tags: "1maa/erlang:25-alpine", build-arg: "ERLANG_VERSION=25.3.2.10" }
+          - { context: "erlang", tags: "1maa/erlang:26-alpine", build-arg: "ERLANG_VERSION=26.2.3" }
+          - { context: "erlang", tags: "1maa/erlang:27-alpine,1maa/erlang:latest", cache-tag: "1maa/erlang:27-alpine" }
           - { context: "lua/5.3", tags: "1maa/lua:5.3" }
           - { context: "lua/5.4", tags: "1maa/lua:5.4" }
           - { context: "protoc", tags: "1maa/protoc:latest" }

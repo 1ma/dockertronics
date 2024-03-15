@@ -51,6 +51,7 @@ exec postgres                         \
   -c default_statistics_target=100    \
   -c effective_cache_size=4GB         \
   -c effective_io_concurrency=200     \
+  -c huge_pages=off                   \
   -c log_statement=all                \
   -c maintenance_work_mem=1GB         \
   -c max_connections=20               \
