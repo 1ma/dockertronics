@@ -14,6 +14,7 @@ COPY ordisrespector.patch .
 RUN apt-get update \
  && apt-get install --yes --no-install-recommends \
     gnupg \
+ && rm -rf /var/lib/apt/lists/* \
  && gpg --import developer_pubkeys.pem \
  && gpg --verify SHA256SUMS.asc SHA256SUMS \
  && sha256sum --ignore-missing -c SHA256SUMS
@@ -27,7 +28,8 @@ RUN apt-get install --yes --no-install-recommends \
     git \
     libtool \
     pkg-config \
-    upx
+    upx \
+ && rm -rf /var/lib/apt/lists/*
 
 RUN tar zxf bitcoin-${BITCOIN_VERSION}.tar.gz
 
@@ -78,8 +80,8 @@ COPY bitcoin.conf /etc/bitcoin/bitcoin.conf
 
 RUN mkdir /root/.bitcoin && echo "datadir=/var/lib/bitcoin" > /root/.bitcoin/bitcoin.conf
 
-VOLUME /var/lib/bitcoin
+VOLUME ["/var/lib/bitcoin"]
 
 EXPOSE 8333
 
-CMD ["/usr/local/bin/bitcoind", "-conf=/etc/bitcoin/bitcoin.conf"]
+ENTRYPOINT ["/usr/local/bin/bitcoind", "-conf=/etc/bitcoin/bitcoin.conf"]

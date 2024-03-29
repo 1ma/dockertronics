@@ -81,8 +81,8 @@ COPY bitcoin.conf /etc/bitcoin/bitcoin.conf
 
 RUN mkdir /root/.bitcoin && echo "datadir=/var/lib/bitcoin" > /root/.bitcoin/bitcoin.conf
 
-VOLUME /var/lib/bitcoin
+VOLUME ["/var/lib/bitcoin"]
 
 EXPOSE 8333
 
-CMD ["/usr/local/bin/bitcoind", "-conf=/etc/bitcoin/bitcoin.conf"]
+ENTRYPOINT ["/usr/local/bin/bitcoind", "-conf=/etc/bitcoin/bitcoin.conf"]

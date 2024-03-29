@@ -20,7 +20,8 @@ RUN apt-get update \
     python3 \
     python3-dev \
     python3-pip \
-    zlib1g-dev
+    zlib1g-dev \
+ && rm -rf /var/lib/apt/lists/*
 
 RUN pip3 install --user \
     grpcio-tools \

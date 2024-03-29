@@ -15,7 +15,7 @@ COPY ssh/* /etc/ssh/
 
 RUN chmod 400 /etc/ssh/ssh_host_*
 
-VOLUME /jail/sftp
+VOLUME ["/jail/sftp"]
 
 EXPOSE 22
 
