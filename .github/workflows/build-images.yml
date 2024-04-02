@@ -59,6 +59,7 @@ jobs:
       fail-fast: false
       matrix:
         images:
+          - { context: "bitcoin", tags: "1maa/signet-miner:latest", dockerfile: "bitcoin/signet-miner/Dockerfile" }
           - { context: "bitcoin/regtest", tags: "1maa/bitcoin:v22-regtest", build-arg: "BITCOIN_TAG=v22" }
           - { context: "bitcoin/regtest", tags: "1maa/bitcoin:v23-regtest", build-arg: "BITCOIN_TAG=v23" }
           - { context: "bitcoin/regtest", tags: "1maa/bitcoin:v24-regtest", build-arg: "BITCOIN_TAG=v24" }
@@ -85,7 +86,7 @@ jobs:
           context: ${{ matrix.images.context }}
           docker-hub-pass: ${{ secrets.DOCKER_HUB_PASS }}
           docker-hub-user: 1maa
-          dockerfile: ${{ format('{0}/Dockerfile', matrix.images.context) }}
+          dockerfile: ${{ matrix.images.dockerfile || format('{0}/Dockerfile', matrix.images.context) }}
           tags: ${{ matrix.images.tags }}
 
   tier2-php:
