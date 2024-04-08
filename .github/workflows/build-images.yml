@@ -21,13 +21,13 @@ jobs:
           - { context: "bitcoin", tags: "1maa/bitcoin:v22", dockerfile: "bitcoin/alpine/Dockerfile", build-arg: "BITCOIN_VERSION=22.1", second-arg: "ALPINE_VERSION=3.18" }
           - { context: "bitcoin", tags: "1maa/bitcoin:v23", dockerfile: "bitcoin/alpine/Dockerfile", build-arg: "BITCOIN_VERSION=23.2" }
           - { context: "bitcoin", tags: "1maa/bitcoin:v24", dockerfile: "bitcoin/alpine/Dockerfile", build-arg: "BITCOIN_VERSION=24.2" }
-          - { context: "bitcoin", tags: "1maa/bitcoin:v25", dockerfile: "bitcoin/alpine/Dockerfile", build-arg: "BITCOIN_VERSION=25.1" }
+          - { context: "bitcoin", tags: "1maa/bitcoin:v25", dockerfile: "bitcoin/alpine/Dockerfile", build-arg: "BITCOIN_VERSION=25.2" }
           - { context: "bitcoin", tags: "1maa/bitcoin:v26,1maa/bitcoin:latest", dockerfile: "bitcoin/alpine/Dockerfile", cache-tag: "1maa/bitcoin:v26" }
           - { context: "core-lightning", tags: "1maa/core-lightning:latest" }
           - { context: "electrs", tags: "1maa/electrs:latest" }
-          - { context: "erlang", tags: "1maa/erlang:24-alpine", build-arg: "ERLANG_VERSION=24.3.4.16" }
-          - { context: "erlang", tags: "1maa/erlang:25-alpine", build-arg: "ERLANG_VERSION=25.3.2.10" }
-          - { context: "erlang", tags: "1maa/erlang:26-alpine", build-arg: "ERLANG_VERSION=26.2.3" }
+          - { context: "erlang", tags: "1maa/erlang:24-alpine", build-arg: "ERLANG_VERSION=24.3.4.17" }
+          - { context: "erlang", tags: "1maa/erlang:25-alpine", build-arg: "ERLANG_VERSION=25.3.2.11" }
+          - { context: "erlang", tags: "1maa/erlang:26-alpine", build-arg: "ERLANG_VERSION=26.2.4" }
           - { context: "erlang", tags: "1maa/erlang:27-alpine,1maa/erlang:latest", cache-tag: "1maa/erlang:27-alpine" }
           - { context: "lua/5.3", tags: "1maa/lua:5.3" }
           - { context: "lua/5.4", tags: "1maa/lua:5.4" }

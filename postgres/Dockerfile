@@ -33,7 +33,7 @@ RUN make -C postgresql-${POSTGRES_VERSION} world -j$(nproc) \
 
 FROM 1maa/alpine:latest AS postgis
 
-ARG PGTAP_VERSION=1.3.2
+ARG PGTAP_VERSION=1.3.3
 ARG POSTGIS_VERSION=3.4.2
 
 WORKDIR /tmp
