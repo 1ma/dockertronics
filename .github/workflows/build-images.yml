@@ -26,8 +26,8 @@ jobs:
           - { context: "core-lightning", tags: "1maa/core-lightning:latest" }
           - { context: "electrs", tags: "1maa/electrs:latest" }
           - { context: "erlang", tags: "1maa/erlang:24-alpine", build-arg: "ERLANG_VERSION=24.3.4.17" }
-          - { context: "erlang", tags: "1maa/erlang:25-alpine", build-arg: "ERLANG_VERSION=25.3.2.11" }
-          - { context: "erlang", tags: "1maa/erlang:26-alpine", build-arg: "ERLANG_VERSION=26.2.4" }
+          - { context: "erlang", tags: "1maa/erlang:25-alpine", build-arg: "ERLANG_VERSION=25.3.2.12" }
+          - { context: "erlang", tags: "1maa/erlang:26-alpine", build-arg: "ERLANG_VERSION=26.2.5" }
           - { context: "erlang", tags: "1maa/erlang:27-alpine,1maa/erlang:latest", cache-tag: "1maa/erlang:27-alpine" }
           - { context: "lua/5.3", tags: "1maa/lua:5.3" }
           - { context: "lua/5.4", tags: "1maa/lua:5.4" }
@@ -72,10 +72,10 @@ jobs:
           - { context: "bitcoin/testnet", tags: "1maa/bitcoin:v25-testnet", build-arg: "BITCOIN_TAG=v25" }
           - { context: "bitcoin/testnet", tags: "1maa/bitcoin:v26-testnet,1maa/bitcoin:testnet", cache-tag: "1maa/bitcoin:v26-testnet" }
           - { context: "haproxy", tags: "1maa/haproxy:2.9" }
-          - { context: "postgres", tags: "1maa/postgres:12-alpine", build-arg: "POSTGRES_VERSION=12.18" }
-          - { context: "postgres", tags: "1maa/postgres:13-alpine", build-arg: "POSTGRES_VERSION=13.14" }
-          - { context: "postgres", tags: "1maa/postgres:14-alpine", build-arg: "POSTGRES_VERSION=14.11" }
-          - { context: "postgres", tags: "1maa/postgres:15-alpine", build-arg: "POSTGRES_VERSION=15.6" }
+          - { context: "postgres", tags: "1maa/postgres:12-alpine", build-arg: "POSTGRES_VERSION=12.19" }
+          - { context: "postgres", tags: "1maa/postgres:13-alpine", build-arg: "POSTGRES_VERSION=13.15" }
+          - { context: "postgres", tags: "1maa/postgres:14-alpine", build-arg: "POSTGRES_VERSION=14.12" }
+          - { context: "postgres", tags: "1maa/postgres:15-alpine", build-arg: "POSTGRES_VERSION=15.7" }
           - { context: "postgres", tags: "1maa/postgres:16-alpine" }
           - { context: "sftp", tags: "1maa/sftp:latest" }
     steps:
