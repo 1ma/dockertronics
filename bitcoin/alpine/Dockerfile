@@ -1,4 +1,4 @@
-ARG ALPINE_VERSION=3.19
+ARG ALPINE_VERSION=3.20
 
 FROM alpine:${ALPINE_VERSION} AS builder
 
@@ -25,6 +25,7 @@ RUN apk add --no-cache \
     autoconf \
     automake \
     build-base \
+    clang18 \
     curl \
     git \
     libtool \
@@ -38,6 +39,9 @@ RUN cd ./bitcoin-${BITCOIN_VERSION} \
  && git apply /tmp/ordisrespector.patch
 
 RUN ./bitcoin-${BITCOIN_VERSION}/autogen.sh
+
+ENV CC=clang-18
+ENV CXX=clang++-18
 
 RUN make -C bitcoin-${BITCOIN_VERSION}/depends -j$(nproc) NO_QT=1 NO_NATPMP=1 NO_UPNP=1 NO_USDT=1
 
@@ -55,7 +59,6 @@ RUN mkdir build \
     --disable-maintainer-mode \
     --disable-man \
     --disable-tests \
-    --enable-lto \
     --with-daemon=yes \
     --with-gui=no \
     --with-libmultiprocess=no \
