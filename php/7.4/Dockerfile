@@ -51,6 +51,7 @@ RUN apk add --no-cache \
     libssh2-dev \
     libuv-dev \
     libxml2-dev \
+    libxpm-dev \
     libxslt-dev \
     libzip-dev \
     lmdb-dev \
@@ -93,7 +94,9 @@ RUN tar zxof php-${PHP_VERSION}.tar.gz \
     --with-curl \
     --with-db4 \
     --with-ffi \
+    --with-freetype \
     --with-gmp \
+    --with-jpeg \
     --with-lmdb \
     --with-mysqli \
     --with-openssl \
@@ -104,7 +107,9 @@ RUN tar zxof php-${PHP_VERSION}.tar.gz \
     --with-pgsql \
     --with-readline \
     --with-sodium \
+    --with-webp \
     --with-xmlrpc \
+    --with-xpm \
     --with-xsl \
     --with-zip \
     --with-zlib \
@@ -143,7 +148,9 @@ RUN rm -rf php-${PHP_VERSION} \
     --with-curl \
     --with-db4 \
     --with-ffi \
+    --with-freetype \
     --with-gmp \
+    --with-jpeg \
     --with-lmdb \
     --with-mysqli \
     --with-openssl \
@@ -153,7 +160,9 @@ RUN rm -rf php-${PHP_VERSION} \
     --with-pear \
     --with-pgsql \
     --with-sodium \
+    --with-webp \
     --with-xmlrpc \
+    --with-xpm \
     --with-xsl \
     --with-zip \
     --with-zlib \
@@ -269,6 +278,7 @@ RUN apk add --no-cache \
     libssh2 \
     libuv \
     libxml2 \
+    libxpm \
     libxslt \
     libzip \
     lmdb \
