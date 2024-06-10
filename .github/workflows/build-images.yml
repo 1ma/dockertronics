@@ -71,7 +71,7 @@ jobs:
           - { context: "bitcoin/testnet", tags: "1maa/bitcoin:v24-testnet", build-arg: "BITCOIN_TAG=v24" }
           - { context: "bitcoin/testnet", tags: "1maa/bitcoin:v25-testnet", build-arg: "BITCOIN_TAG=v25" }
           - { context: "bitcoin/testnet", tags: "1maa/bitcoin:v26-testnet,1maa/bitcoin:testnet", cache-tag: "1maa/bitcoin:v26-testnet" }
-          - { context: "haproxy", tags: "1maa/haproxy:2.9" }
+          - { context: "haproxy", tags: "1maa/haproxy:3.0" }
           - { context: "postgres", tags: "1maa/postgres:12-alpine", build-arg: "POSTGRES_VERSION=12.19" }
           - { context: "postgres", tags: "1maa/postgres:13-alpine", build-arg: "POSTGRES_VERSION=13.15" }
           - { context: "postgres", tags: "1maa/postgres:14-alpine", build-arg: "POSTGRES_VERSION=14.12" }

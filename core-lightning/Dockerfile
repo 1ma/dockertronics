@@ -1,6 +1,6 @@
 FROM ubuntu:22.04 AS builder
 
-ARG CLN_VERSION=v24.02.2
+ARG CLN_VERSION=v24.05
 
 WORKDIR /tmp
 
@@ -12,6 +12,7 @@ RUN apt-get update \
     gettext \
     git \
     gnupg \
+    jq \
     libgmp-dev \
     libsodium-dev \
     libsqlite3-dev \
