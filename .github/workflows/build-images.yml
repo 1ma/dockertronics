@@ -59,7 +59,6 @@ jobs:
       fail-fast: false
       matrix:
         images:
-          - { context: "bitcoin", tags: "1maa/signet-faucet:latest", dockerfile: "bitcoin/signet-faucet/Dockerfile" }
           - { context: "bitcoin", tags: "1maa/signet-miner:latest", dockerfile: "bitcoin/signet-miner/Dockerfile" }
           - { context: "bitcoin/regtest", tags: "1maa/bitcoin:v22-regtest", build-arg: "BITCOIN_TAG=v22" }
           - { context: "bitcoin/regtest", tags: "1maa/bitcoin:v23-regtest", build-arg: "BITCOIN_TAG=v23" }
