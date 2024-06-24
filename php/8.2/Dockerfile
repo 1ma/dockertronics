@@ -242,7 +242,7 @@ RUN pecl channel-update pecl.php.net \
     vld-beta \
     xdebug \
     yaml \
-#    yar \  # PHP 8.2 fix https://github.com/laruence/yar/pull/177
+    yar \
  && chmod 644 /usr/lib/php/*.so \
  && strip --strip-all /usr/lib/php/*.so
 
@@ -283,8 +283,7 @@ RUN apk add --no-cache \
     rabbitmq-c \
     readline \
     sqlite-libs \
-    yaml \
- && rm /etc/php/mods-available/yar.ini
+    yaml
 
 EXPOSE 9000
 
