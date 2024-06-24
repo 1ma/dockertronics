@@ -1,4 +1,4 @@
-FROM alpine:3.19
+FROM alpine:3.20
 
 ARG HAPROXY_VERSION=3.0.0
 
