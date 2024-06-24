@@ -1,14 +1,15 @@
-FROM ubuntu:22.04 AS builder
+FROM ubuntu:24.04 AS builder
 
 ARG CLN_VERSION=v24.05
 
 WORKDIR /tmp
 
 RUN apt-get update \
- && apt-get install --yes --no-install-recommends \
+ && DEBIAN_FRONTEND="noninteractive" apt-get install --yes --no-install-recommends \
     autoconf \
     automake \
     build-essential \
+    ca-certificates \
     gettext \
     git \
     gnupg \
@@ -24,17 +25,17 @@ RUN apt-get update \
     zlib1g-dev \
  && rm -rf /var/lib/apt/lists/*
 
-RUN pip3 install --user \
+RUN pip3 install --break-system-packages --user \
     grpcio-tools \
     mako
 
-RUN git clone --depth 1 --branch ${CLN_VERSION} https://github.com/ElementsProject/lightning.git
-
-WORKDIR /tmp/lightning
+RUN git clone --depth 1 --branch ${CLN_VERSION} --recurse-submodules https://github.com/ElementsProject/lightning.git
 
 COPY developer_pubkeys.pem .
 
-RUN gpg --import developer_pubkeys.pem \
+WORKDIR /tmp/lightning
+
+RUN gpg --import /tmp/developer_pubkeys.pem \
  && git verify-tag "${CLN_VERSION}"
 
 ENV LDFLAGS="-s"
@@ -43,12 +44,13 @@ RUN ./configure \
     --disable-rust \
     --enable-static
 
-RUN make -j$(nproc)
+RUN make -j$(nproc) \
+ && git checkout -- .
 
 RUN make install
 
 
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 
 COPY --from=builder /usr/local/bin     /usr/local/bin
 COPY --from=builder /usr/local/libexec /usr/local/libexec

@@ -1,6 +1,6 @@
 FROM 1maa/alpine:latest AS build
 
-ARG PHP_VERSION=8.3.8
+ARG PHP_VERSION=8.3.9
 ARG SECP256K1_NOSTR_EXT_VERSION=v0.1.2
 
 ENV CFLAGS="-Os -march=x86-64"
@@ -242,7 +242,7 @@ RUN pecl channel-update pecl.php.net \
     vld-beta \
     xdebug \
     yaml \
-#    yar \  # PHP 8.2 fix https://github.com/laruence/yar/pull/177
+    yar \
  && chmod 644 /usr/lib/php/*.so \
  && strip --strip-all /usr/lib/php/*.so
 
@@ -283,8 +283,7 @@ RUN apk add --no-cache \
     rabbitmq-c \
     readline \
     sqlite-libs \
-    yaml \
- && rm /etc/php/mods-available/yar.ini
+    yaml
 
 EXPOSE 9000
 
