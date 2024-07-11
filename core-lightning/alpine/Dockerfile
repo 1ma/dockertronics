@@ -1,37 +1,34 @@
-FROM ubuntu:24.04 AS builder
+FROM alpine:3.20 AS builder
 
 ARG CLN_VERSION=v24.05
 
-WORKDIR /tmp
-
-RUN apt-get update \
- && DEBIAN_FRONTEND="noninteractive" apt-get install --yes --no-install-recommends \
+RUN apk add --no-cache \
     autoconf \
     automake \
-    build-essential \
+    build-base \
     ca-certificates \
     gettext \
     git \
     gnupg \
     jq \
-    libgmp-dev \
-    libsodium-dev \
-    libsqlite3-dev \
+    libpq-dev \
     libtool \
-    net-tools \
-    python3 \
-    python3-dev \
-    python3-pip \
-    zlib1g-dev \
- && rm -rf /var/lib/apt/lists/*
+    py3-pip \
+    py3-setuptools \
+    sqlite-dev \
+    sqlite-static \
+    zlib-dev \
+    zlib-static
 
-RUN pip3 install --break-system-packages --user \
+RUN pip install --break-system-packages \
     grpcio-tools \
     mako
 
-RUN git clone --depth 1 --branch ${CLN_VERSION} --recurse-submodules https://github.com/ElementsProject/lightning.git
+WORKDIR /tmp
 
 COPY developer_pubkeys.pem .
+
+RUN git clone --depth 1 --branch ${CLN_VERSION} --recurse-submodules https://github.com/ElementsProject/lightning.git
 
 WORKDIR /tmp/lightning
 
@@ -50,7 +47,11 @@ RUN make -j$(nproc) \
 RUN make install
 
 
-FROM ubuntu:24.04
+FROM alpine:3.20
+
+RUN apk add --no-cache \
+    libgcc \
+    libpq
 
 COPY --from=builder /usr/local/bin     /usr/local/bin
 COPY --from=builder /usr/local/libexec /usr/local/libexec
