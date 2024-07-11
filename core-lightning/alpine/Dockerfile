@@ -47,7 +47,14 @@ RUN make -j$(nproc) \
 RUN make install
 
 
-FROM alpine:3.20
+FROM golang:1.22-alpine AS trustedcoin
+
+ENV CGO_ENABLED=0
+
+RUN go install -trimpath -ldflags="-d -s -w" github.com/nbd-wtf/trustedcoin@latest
+
+
+FROM alpine:3.20 AS final
 
 RUN apk add --no-cache \
     libgcc \
@@ -55,5 +62,7 @@ RUN apk add --no-cache \
 
 COPY --from=builder /usr/local/bin     /usr/local/bin
 COPY --from=builder /usr/local/libexec /usr/local/libexec
+
+COPY --from=trustedcoin /go/bin/trustedcoin /usr/local/bin/
 
 CMD ["/usr/local/bin/lightningd"]

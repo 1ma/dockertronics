@@ -50,9 +50,18 @@ RUN make -j$(nproc) \
 RUN make install
 
 
-FROM debian:12-slim
+FROM golang:1.22-bookworm AS trustedcoin
+
+ENV CGO_ENABLED=0
+
+RUN go install -trimpath -ldflags="-d -s -w" github.com/nbd-wtf/trustedcoin@latest
+
+
+FROM debian:12-slim AS final
 
 COPY --from=builder /usr/local/bin     /usr/local/bin
 COPY --from=builder /usr/local/libexec /usr/local/libexec
+
+COPY --from=trustedcoin /go/bin/trustedcoin /usr/local/bin/
 
 CMD ["/usr/local/bin/lightningd"]
