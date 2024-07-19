@@ -1,4 +1,4 @@
-FROM ubuntu:24.04 AS builder
+FROM debian:12-slim AS builder
 
 ARG ELECTRS_VERSION=v0.10.5
 
@@ -26,7 +26,7 @@ RUN . "$HOME/.cargo/env" \
  && cargo build --locked --release
 
 
-FROM ubuntu:24.04
+FROM debian:12-slim
 
 COPY --from=builder /tmp/electrs/target/release/electrs /usr/local/bin/electrs
 
