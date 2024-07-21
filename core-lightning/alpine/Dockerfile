@@ -1,8 +1,10 @@
 FROM golang:1.22-alpine AS trustedcoin
 
+ARG TRUSTEDCOIN_VERSION=v0.8.2
+
 ENV CGO_ENABLED=0
 
-RUN go install -trimpath -ldflags="-d -s -w" github.com/nbd-wtf/trustedcoin@latest
+RUN go install -trimpath -ldflags="-d -s -w" github.com/nbd-wtf/trustedcoin@${TRUSTEDCOIN_VERSION}
 
 
 FROM alpine:3.20 AS builder
