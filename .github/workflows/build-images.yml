@@ -18,18 +18,11 @@ jobs:
         images:
           - { context: "alpine", tags: "1maa/alpine:3.20,1maa/alpine:latest", cache-tag: "1maa/alpine:3.20" }
           - { context: "beanstalkd", tags: "1maa/beanstalkd:latest" }
-          - { context: "bitcoin", tags: "1maa/bitcoin:v22", dockerfile: "bitcoin/alpine/Dockerfile", build-arg: "BITCOIN_VERSION=22.1", second-arg: "ALPINE_VERSION=3.18" }
-          - { context: "bitcoin", tags: "1maa/bitcoin:v23", dockerfile: "bitcoin/alpine/Dockerfile", build-arg: "BITCOIN_VERSION=23.2" }
-          - { context: "bitcoin", tags: "1maa/bitcoin:v24", dockerfile: "bitcoin/alpine/Dockerfile", build-arg: "BITCOIN_VERSION=24.2" }
-          - { context: "bitcoin", tags: "1maa/bitcoin:v25", dockerfile: "bitcoin/alpine/Dockerfile", build-arg: "BITCOIN_VERSION=25.2" }
-          - { context: "bitcoin", tags: "1maa/bitcoin:v26,1maa/bitcoin:latest", dockerfile: "bitcoin/alpine/Dockerfile", cache-tag: "1maa/bitcoin:v26" }
           - { context: "core-lightning", tags: "1maa/core-lightning:latest", dockerfile: "core-lightning/alpine/Dockerfile" }
           - { context: "electrs", tags: "1maa/electrs:latest" }
-          - { context: "erlang", tags: "1maa/erlang:24-alpine", build-arg: "ERLANG_VERSION=24.3.4.17" }
           - { context: "erlang", tags: "1maa/erlang:25-alpine", build-arg: "ERLANG_VERSION=25.3.2.13" }
           - { context: "erlang", tags: "1maa/erlang:26-alpine", build-arg: "ERLANG_VERSION=26.2.5.2" }
           - { context: "erlang", tags: "1maa/erlang:27-alpine,1maa/erlang:latest", cache-tag: "1maa/erlang:27-alpine" }
-          - { context: "lua/5.3", tags: "1maa/lua:5.3" }
           - { context: "lua/5.4", tags: "1maa/lua:5.4" }
           - { context: "protoc", tags: "1maa/protoc:latest" }
           - { context: "sakila", tags: "1maa/sakila:latest" }
@@ -59,17 +52,6 @@ jobs:
       fail-fast: false
       matrix:
         images:
-          - { context: "bitcoin", tags: "1maa/signet-miner:latest", dockerfile: "bitcoin/signet-miner/Dockerfile" }
-          - { context: "bitcoin/regtest", tags: "1maa/bitcoin:v22-regtest", build-arg: "BITCOIN_TAG=v22" }
-          - { context: "bitcoin/regtest", tags: "1maa/bitcoin:v23-regtest", build-arg: "BITCOIN_TAG=v23" }
-          - { context: "bitcoin/regtest", tags: "1maa/bitcoin:v24-regtest", build-arg: "BITCOIN_TAG=v24" }
-          - { context: "bitcoin/regtest", tags: "1maa/bitcoin:v25-regtest", build-arg: "BITCOIN_TAG=v25" }
-          - { context: "bitcoin/regtest", tags: "1maa/bitcoin:v26-regtest,1maa/bitcoin:regtest", cache-tag: "1maa/bitcoin:v26-regtest" }
-          - { context: "bitcoin/testnet", tags: "1maa/bitcoin:v22-testnet", build-arg: "BITCOIN_TAG=v22" }
-          - { context: "bitcoin/testnet", tags: "1maa/bitcoin:v23-testnet", build-arg: "BITCOIN_TAG=v23" }
-          - { context: "bitcoin/testnet", tags: "1maa/bitcoin:v24-testnet", build-arg: "BITCOIN_TAG=v24" }
-          - { context: "bitcoin/testnet", tags: "1maa/bitcoin:v25-testnet", build-arg: "BITCOIN_TAG=v25" }
-          - { context: "bitcoin/testnet", tags: "1maa/bitcoin:v26-testnet,1maa/bitcoin:testnet", cache-tag: "1maa/bitcoin:v26-testnet" }
           - { context: "haproxy", tags: "1maa/haproxy:3.0" }
           - { context: "postgres", tags: "1maa/postgres:12-alpine", build-arg: "POSTGRES_VERSION=12.19" }
           - { context: "postgres", tags: "1maa/postgres:13-alpine", build-arg: "POSTGRES_VERSION=13.15" }
@@ -98,9 +80,6 @@ jobs:
       fail-fast: false
       matrix:
         images:
-          - { tag: "1maa/php:7.3", dev-tag: "1maa/php-dev:7.3", dockerfile: "php/7.3/Dockerfile" }
-          - { tag: "1maa/php:7.4", dev-tag: "1maa/php-dev:7.4", dockerfile: "php/7.4/Dockerfile" }
-          - { tag: "1maa/php:8.0", dev-tag: "1maa/php-dev:8.0", dockerfile: "php/8.0/Dockerfile" }
           - { tag: "1maa/php:8.1", dev-tag: "1maa/php-dev:8.1", dockerfile: "php/8.1/Dockerfile" }
           - { tag: "1maa/php:8.2", dev-tag: "1maa/php-dev:8.2", dockerfile: "php/8.2/Dockerfile" }
           - { tag: "1maa/php:8.3", dev-tag: "1maa/php-dev:8.3", dockerfile: "php/8.3/Dockerfile" }
