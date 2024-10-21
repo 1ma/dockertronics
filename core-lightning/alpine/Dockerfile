@@ -9,7 +9,7 @@ RUN go install -trimpath -ldflags="-d -s -w" github.com/nbd-wtf/trustedcoin@${TR
 
 FROM alpine:3.20 AS builder
 
-ARG CLN_VERSION=v24.05
+ARG CLN_VERSION=v24.08.2
 
 RUN apk add --no-cache \
     autoconf \
