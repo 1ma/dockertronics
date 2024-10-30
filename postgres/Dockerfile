@@ -9,13 +9,10 @@ ADD https://ftp.postgresql.org/pub/source/v${POSTGRES_VERSION}/postgresql-${POST
 RUN apk add --no-cache \
     bison \
     build-base \
-    docbook-xml \
-    docbook-xsl \
     flex \
     libxml2-dev \
     libxslt-dev \
     linux-headers \
-    mandoc \
     openssl-dev \
     perl \
     readline-dev \
@@ -31,10 +28,8 @@ RUN apk add --no-cache \
     --with-ssl=openssl \
     --without-icu
 
-RUN make -C postgresql-${POSTGRES_VERSION} world \
- && make -C postgresql-${POSTGRES_VERSION} install-world \
- && rm -rf /tmp/pgsql/share/doc \
- && rm -rf /tmp/pgsql/share/man
+RUN make -C postgresql-${POSTGRES_VERSION} world-bin -j$(nproc) \
+ && make -C postgresql-${POSTGRES_VERSION} install-world-bin
 
 
 FROM 1maa/alpine:3.20 AS postgis

@@ -1,6 +1,6 @@
 FROM debian:12-slim AS builder
 
-ARG ELECTRS_VERSION=v0.10.6
+ARG ELECTRS_VERSION=v0.10.7
 
 WORKDIR /tmp
 
