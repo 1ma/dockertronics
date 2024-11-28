@@ -84,6 +84,7 @@ jobs:
           - { tag: "1maa/php:8.1", dev-tag: "1maa/php-dev:8.1", dockerfile: "php/8.1/Dockerfile" }
           - { tag: "1maa/php:8.2", dev-tag: "1maa/php-dev:8.2", dockerfile: "php/8.2/Dockerfile" }
           - { tag: "1maa/php:8.3", dev-tag: "1maa/php-dev:8.3", dockerfile: "php/8.3/Dockerfile" }
+          - { tag: "1maa/php:8.4", dev-tag: "1maa/php-dev:8.4", dockerfile: "php/8.4/Dockerfile" }
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/docker-php
