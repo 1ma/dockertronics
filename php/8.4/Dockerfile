@@ -235,7 +235,7 @@ RUN pecl channel-update pecl.php.net \
     memcached \
     mongodb \
     msgpack \
-#    pcov \    https://github.com/krakjoe/pcov/pull/111
+    pcov \
     rdkafka \
     redis \
 #    runkit7-alpha \
@@ -287,7 +287,6 @@ RUN apk add --no-cache \
     readline \
     sqlite-libs \
     yaml \
- && rm /etc/php/mods-available/pcov.ini \
  && rm /etc/php/mods-available/runkit7.ini \
  && rm /etc/php/mods-available/vld.ini
 

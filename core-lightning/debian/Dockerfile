@@ -9,7 +9,7 @@ RUN go install -trimpath -ldflags="-d -s -w" github.com/nbd-wtf/trustedcoin@${TR
 
 FROM debian:12-slim AS builder
 
-ARG CLN_VERSION=v24.08.2
+ARG CLN_VERSION=v24.11
 
 
 RUN apt-get update \
