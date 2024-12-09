@@ -7,9 +7,9 @@ ENV CGO_ENABLED=0
 RUN go install -trimpath -ldflags="-d -s -w" github.com/nbd-wtf/trustedcoin@${TRUSTEDCOIN_VERSION}
 
 
-FROM alpine:3.20 AS builder
+FROM alpine:3.21 AS builder
 
-ARG CLN_VERSION=v24.11
+ARG CLN_VERSION=v24.08.2
 
 RUN apk add --no-cache \
     autoconf \
@@ -58,7 +58,7 @@ RUN make install
 COPY --from=trustedcoin /go/bin/trustedcoin /usr/local/libexec/c-lightning/plugins/
 
 
-FROM alpine:3.20 AS final
+FROM alpine:3.21 AS final
 
 COPY --from=builder /usr/local/bin     /usr/local/bin
 COPY --from=builder /usr/local/libexec /usr/local/libexec

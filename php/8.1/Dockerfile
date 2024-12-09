@@ -1,4 +1,4 @@
-FROM 1maa/alpine:latest AS build
+FROM 1maa/alpine:3.20 AS build
 
 ARG PHP_VERSION=8.1.31
 ARG SECP256K1_NOSTR_EXT_VERSION=v0.1.3
@@ -247,7 +247,7 @@ RUN pecl channel-update pecl.php.net \
  && strip --strip-all /usr/lib/php/*.so
 
 
-FROM 1maa/alpine:latest AS php
+FROM 1maa/alpine:3.20 AS php
 
 COPY etc /etc/php
 

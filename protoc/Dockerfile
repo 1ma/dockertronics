@@ -4,7 +4,7 @@ RUN go install -ldflags="-d -s -w" -trimpath google.golang.org/grpc/cmd/protoc-g
  && go install -ldflags="-d -s -w" -trimpath google.golang.org/protobuf/cmd/protoc-gen-go@latest
 
 
-FROM alpine:3.20 AS types
+FROM alpine:3.21 AS types
 
 ARG PROTOC_VERSION=24.4
 
@@ -17,7 +17,7 @@ RUN unzip protoc-${PROTOC_VERSION}-linux-x86_64.zip \
  && find ./include -type f -exec chmod 644 {} \;
 
 
-FROM alpine:3.20
+FROM alpine:3.21
 
 COPY --from=plugins /go/bin      /usr/local/bin
 COPY --from=types   /tmp/include /usr/include
