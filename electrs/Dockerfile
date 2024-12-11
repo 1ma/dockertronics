@@ -1,6 +1,6 @@
 FROM debian:12-slim AS builder
 
-ARG ELECTRS_VERSION=v0.10.7
+ARG ELECTRS_VERSION=v0.10.9
 
 WORKDIR /tmp
 
@@ -16,7 +16,7 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/* \
  && gpg --import romanz.gpg \
  && git clone --branch=${ELECTRS_VERSION} https://github.com/romanz/electrs \
- && curl -s https://sh.rustup.rs | sh -s -- -y --default-toolchain none
+ && curl -s https://sh.rustup.rs | sh -s -- -y
 
 WORKDIR /tmp/electrs
 

@@ -1,6 +1,6 @@
 FROM alpine:3.21 AS builder
 
-ARG POSTGRES_VERSION=17.2
+ARG POSTGRES_VERSION=17.3
 
 WORKDIR /tmp
 
@@ -35,7 +35,7 @@ RUN make -C postgresql-${POSTGRES_VERSION} world-bin -j$(nproc) \
 FROM 1maa/alpine:3.21 AS postgis
 
 ARG PGTAP_VERSION=1.3.3
-ARG POSTGIS_VERSION=3.5.0
+ARG POSTGIS_VERSION=3.5.2
 
 WORKDIR /tmp
 
