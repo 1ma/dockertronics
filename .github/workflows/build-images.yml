@@ -25,7 +25,6 @@ jobs:
           - { context: "erlang", tags: "1maa/erlang:27-alpine,1maa/erlang:latest", cache-tag: "1maa/erlang:27-alpine" }
           - { context: "lua", tags: "1maa/lua:5.4" }
           - { context: "protoc", tags: "1maa/protoc:latest" }
-          - { context: "sakila", tags: "1maa/sakila:latest" }
           - { context: "selfsig", tags: "1maa/selfsig:latest" }
           - { context: "sleepy", tags: "1maa/sleepy:latest" }
           - { context: "sqlite", tags: "1maa/sqlite:latest" }
