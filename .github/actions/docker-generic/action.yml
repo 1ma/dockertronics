@@ -35,7 +35,7 @@ runs:
       with:
         username: ${{ inputs.docker-hub-user }}
         password: ${{ inputs.docker-hub-pass }}
-    - uses: docker/build-push-action@v5
+    - uses: docker/build-push-action@v6
       with:
         build-args: |
           ${{ inputs.build-arg }}

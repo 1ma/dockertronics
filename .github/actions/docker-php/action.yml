@@ -26,7 +26,7 @@ runs:
       with:
         username: ${{ inputs.docker-hub-user }}
         password: ${{ inputs.docker-hub-pass }}
-    - uses: docker/build-push-action@v5
+    - uses: docker/build-push-action@v6
       with:
         cache-from: type=registry,ref=${{ inputs.tag }}
         cache-to: type=inline
@@ -35,7 +35,7 @@ runs:
         push: true
         tags: ${{ inputs.tag }}
         target: php
-    - uses: docker/build-push-action@v5
+    - uses: docker/build-push-action@v6
       with:
         cache-from: type=registry,ref=${{ inputs.tag }}
         cache-to: type=inline
