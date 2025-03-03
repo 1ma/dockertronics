@@ -1,7 +1,7 @@
 FROM 1maa/alpine:latest AS build
 
 ARG PHP_VERSION=8.2.27
-ARG SECP256K1_NOSTR_EXT_VERSION=v0.1.3
+ARG SECP256K1_NOSTR_EXT_VERSION=v0.1.4
 
 ENV CFLAGS="-Os -march=x86-64"
 ENV LDFLAGS="-s"
@@ -189,7 +189,7 @@ RUN rm -rf php-${PHP_VERSION} \
 
 RUN git clone --branch ${SECP256K1_NOSTR_EXT_VERSION} --recurse-submodules https://github.com/1ma/secp256k1-nostr-php \
  && cd secp256k1-nostr-php \
- && make secp256k1 ext \
+ && make libsodium secp256k1 ext \
  && make -C ext install
 
 # Force invalidation of the build cache from here on if any
