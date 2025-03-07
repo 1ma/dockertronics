@@ -1,4 +1,4 @@
-FROM golang:1.23-bookworm AS trustedcoin
+FROM golang:1.24-bookworm AS trustedcoin
 
 ARG TRUSTEDCOIN_VERSION=v0.8.3
 
@@ -9,32 +9,33 @@ RUN go install -trimpath -ldflags="-d -s -w" github.com/nbd-wtf/trustedcoin@${TR
 
 FROM debian:12-slim AS builder
 
-ARG CLN_VERSION=v24.11.1
+ARG CLN_VERSION=v25.02
 
+ENV PATH="/root/.cargo/bin:${PATH}"
 
 RUN apt-get update \
  && DEBIAN_FRONTEND="noninteractive" apt-get install --yes --no-install-recommends \
     autoconf \
     automake \
     build-essential \
-    ca-certificates \
+    curl \
     gettext \
     git \
     gnupg \
     jq \
-    libgmp-dev \
     libpq-dev \
     libsodium-dev \
     libsqlite3-dev \
     libtool \
-    net-tools \
+    protobuf-compiler \
     python3-pip \
     zlib1g-dev \
  && rm -rf /var/lib/apt/lists/*
 
 RUN pip3 install --break-system-packages --user \
     grpcio-tools \
-    mako
+    mako \
+ && curl -s https://sh.rustup.rs | sh -s -- -y
 
 WORKDIR /tmp
 
@@ -50,13 +51,12 @@ RUN gpg --import /tmp/developer_pubkeys.pem \
 ENV LDFLAGS="-s"
 
 RUN ./configure \
-    --disable-rust \
     --enable-static
 
-RUN make -j$(nproc) \
+RUN make RUST_PROFILE=release \
  && git checkout -- .
 
-RUN make install
+RUN make install RUST_PROFILE=release
 
 COPY --from=trustedcoin /go/bin/trustedcoin /usr/local/libexec/c-lightning/plugins/
 
@@ -71,6 +71,7 @@ RUN apt-get update \
     ca-certificates \
     libpq5 \
     python-is-python3 \
+    libsodium23 \
  && rm -rf /var/lib/apt/lists/* \
  && addgroup --system cln \
  && adduser --system --disabled-password --home /home/cln --shell /bin/false --gecos cln --ingroup cln cln \
@@ -78,7 +79,7 @@ RUN apt-get update \
  && chmod -R 700 /home/cln/.lightning \
  && echo "disable-plugin=bcli" >> /home/cln/.lightning/config \
  && echo "disable-plugin=wss-proxy" >> /home/cln/.lightning/config \
- && echo "disable-plugin=clnrest" >> /home/cln/.lightning/config \
+ && echo "xpay-handle-pay=true" >> /home/cln/.lightning/config \
  && chown -R cln:cln /home/cln/.lightning
 
 VOLUME /home/.cln/.lightning/bitcoin
