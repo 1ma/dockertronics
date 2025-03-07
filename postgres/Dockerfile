@@ -83,7 +83,6 @@ FROM 1maa/alpine:latest
 ENV LANG=en_US.UTF-8
 ENV POSTGRES_DB=postgres
 ENV POSTGRES_USER=postgres
-ENV POSTGRES_PASSWORD=postgres
 
 COPY --from=builder /tmp/pgsql                           /usr/local
 COPY --from=postgis /usr/local/bin/pgsql2shp             /usr/local/bin

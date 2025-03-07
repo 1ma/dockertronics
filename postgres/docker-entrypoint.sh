@@ -7,7 +7,7 @@ if [ ! -f /var/lib/postgres/data/PG_VERSION ]; then
     --data-checksums                        \
     --locale="${LANG}"                      \
     --pgdata /var/lib/postgres/data         \
-    --pwfile=<(echo "${POSTGRES_PASSWORD}") \
+    --pwfile=/run/secrets/POSTGRES_PASSWORD \
     --username="${POSTGRES_USER}"
 
   # Allow authenticated connections from other Docker containers
