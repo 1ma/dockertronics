@@ -33,7 +33,7 @@ RUN apk add --no-cache \
     zlib-dev \
     zlib-static
 
-RUN pip install --break-system-packages \
+RUN pip install --break-system-packages --user \
     grpcio-tools \
     mako \
  && curl -s https://sh.rustup.rs | sh -s -- -y
@@ -77,6 +77,8 @@ RUN apk add --no-cache \
  && mkdir -p /home/cln/.lightning/bitcoin \
  && chmod -R 700 /home/cln/.lightning \
  && echo "disable-plugin=bcli" >> /home/cln/.lightning/config \
+ && echo "disable-plugin=cln-grpc" >> /home/cln/.lightning/config \
+ && echo "disable-plugin=clnrest" >> /home/cln/.lightning/config \
  && echo "disable-plugin=wss-proxy" >> /home/cln/.lightning/config \
  && echo "xpay-handle-pay=true" >> /home/cln/.lightning/config \
  && chown -R cln:cln /home/cln/.lightning

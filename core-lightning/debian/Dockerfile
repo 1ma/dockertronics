@@ -32,7 +32,7 @@ RUN apt-get update \
     zlib1g-dev \
  && rm -rf /var/lib/apt/lists/*
 
-RUN pip3 install --break-system-packages --user \
+RUN pip install --break-system-packages --user \
     grpcio-tools \
     mako \
  && curl -s https://sh.rustup.rs | sh -s -- -y
@@ -78,6 +78,8 @@ RUN apt-get update \
  && mkdir -p /home/cln/.lightning/bitcoin \
  && chmod -R 700 /home/cln/.lightning \
  && echo "disable-plugin=bcli" >> /home/cln/.lightning/config \
+ && echo "disable-plugin=cln-grpc" >> /home/cln/.lightning/config \
+ && echo "disable-plugin=clnrest" >> /home/cln/.lightning/config \
  && echo "disable-plugin=wss-proxy" >> /home/cln/.lightning/config \
  && echo "xpay-handle-pay=true" >> /home/cln/.lightning/config \
  && chown -R cln:cln /home/cln/.lightning
