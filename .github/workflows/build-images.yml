@@ -21,9 +21,9 @@ jobs:
           - { context: "core-lightning", tags: "1maa/core-lightning:debian", dockerfile: "core-lightning/debian/Dockerfile" }
           - { context: "core-lightning", tags: "1maa/core-lightning:alpine,1maa/core-lightning:latest", dockerfile: "core-lightning/alpine/Dockerfile", cache-tag: "1maa/core-lightning:alpine" }
           - { context: "electrs", tags: "1maa/electrs:latest" }
-          - { context: "erlang", tags: "1maa/erlang:25-alpine", build-arg: "ERLANG_VERSION=25.3.2.18" }
-          - { context: "erlang", tags: "1maa/erlang:26-alpine", build-arg: "ERLANG_VERSION=26.2.5.9" }
-          - { context: "erlang", tags: "1maa/erlang:27-alpine", build-arg: "ERLANG_VERSION=27.3" }
+          - { context: "erlang", tags: "1maa/erlang:25-alpine", build-arg: "ERLANG_VERSION=25.3.2.20" }
+          - { context: "erlang", tags: "1maa/erlang:26-alpine", build-arg: "ERLANG_VERSION=26.2.5.11" }
+          - { context: "erlang", tags: "1maa/erlang:27-alpine", build-arg: "ERLANG_VERSION=27.3.3" }
           - { context: "erlang", tags: "1maa/erlang:28-alpine,1maa/erlang:latest", cache-tag: "1maa/erlang:28-alpine" }
           - { context: "lua", tags: "1maa/lua:5.4" }
           - { context: "protoc", tags: "1maa/protoc:latest" }
