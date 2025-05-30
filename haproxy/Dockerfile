@@ -1,4 +1,4 @@
-FROM alpine:3.21
+FROM alpine:3.22
 
 ARG HAPROXY_VERSION=3.1.7
 
@@ -12,6 +12,7 @@ RUN apk add --no-cache \
     lua5.4-dev \
     openssl-dev \
     pcre2-dev \
+    pcre2-static \
     upx \
     zlib-dev \
  && tar zxf haproxy-${HAPROXY_VERSION}.tar.gz \

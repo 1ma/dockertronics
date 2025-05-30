@@ -1,4 +1,4 @@
-FROM alpine:3.21 AS build
+FROM alpine:3.22 AS build
 
 ARG ERLANG_VERSION=28.0-rc4
 
@@ -36,7 +36,7 @@ RUN make install \
  && find /usr/local -name src | xargs -r find | xargs rmdir -vp || true
 
 
-FROM alpine:3.21
+FROM alpine:3.22
 
 RUN apk add --no-cache \
     inotify-tools \

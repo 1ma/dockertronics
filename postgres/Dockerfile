@@ -1,4 +1,4 @@
-FROM alpine:3.21 AS builder
+FROM alpine:3.22 AS builder
 
 ARG POSTGRES_VERSION=17.4
 
@@ -32,7 +32,7 @@ RUN make -C postgresql-${POSTGRES_VERSION} world-bin -j$(nproc) \
  && make -C postgresql-${POSTGRES_VERSION} install-world-bin
 
 
-FROM 1maa/alpine:3.21 AS postgis
+FROM 1maa/alpine:3.22 AS postgis
 
 ARG PGTAP_VERSION=1.3.3
 ARG POSTGIS_VERSION=3.5.2
@@ -69,7 +69,7 @@ RUN tar zxf v${PGTAP_VERSION}.tar.gz \
  && make -C pgtap-${PGTAP_VERSION} -j$(nproc) \
  && make -C pgtap-${PGTAP_VERSION} install
 
-FROM alpine:3.21 AS cleanup
+FROM alpine:3.22 AS cleanup
 
 WORKDIR /tmp
 
