@@ -1,6 +1,6 @@
 FROM golang:1.24-bookworm AS trustedcoin
 
-ARG TRUSTEDCOIN_VERSION=v0.8.3
+ARG TRUSTEDCOIN_VERSION=v0.8.4
 
 ENV CGO_ENABLED=0
 
@@ -9,7 +9,7 @@ RUN go install -trimpath -ldflags="-d -s -w" github.com/nbd-wtf/trustedcoin@${TR
 
 FROM debian:12-slim AS builder
 
-ARG CLN_VERSION=v25.02.2
+ARG CLN_VERSION=v25.05
 
 ENV PATH="/root/.cargo/bin:${PATH}"
 

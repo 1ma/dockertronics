@@ -1,7 +1,7 @@
 FROM 1maa/alpine:3.16 AS build
 
 ARG PHP_VERSION=8.0.30
-ARG SECP256K1_NOSTR_EXT_VERSION=v0.1.4
+ARG SECP256K1_NOSTR_EXT_VERSION=v0.1.5
 
 ENV CFLAGS="-Os -march=x86-64"
 ENV LDFLAGS="-s"
@@ -47,6 +47,7 @@ RUN apk add --no-cache \
     libpng-dev \
     libpq-dev \
     librdkafka-dev \
+    libsecp256k1-dev \
     libsodium-dev \
     libssh2-dev \
     libuv-dev \
@@ -187,9 +188,9 @@ RUN rm -rf php-${PHP_VERSION} \
 \
  && upx --lzma /usr/bin/php /usr/sbin/php-fpm
 
-RUN git clone --branch ${SECP256K1_NOSTR_EXT_VERSION} --recurse-submodules https://github.com/1ma/secp256k1-nostr-php \
+RUN git clone --branch ${SECP256K1_NOSTR_EXT_VERSION} https://github.com/1ma/secp256k1-nostr-php \
  && cd secp256k1-nostr-php \
- && make libsodium secp256k1 ext \
+ && make ext \
  && make -C ext install
 
 # Force invalidation of the build cache from here on if any
@@ -272,6 +273,7 @@ RUN apk add --no-cache \
     libmemcached-libs \
     libpq \
     librdkafka \
+    libsecp256k1 \
     libsodium \
     libssh2 \
     libuv \

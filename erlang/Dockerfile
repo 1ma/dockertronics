@@ -1,11 +1,11 @@
 FROM alpine:3.22 AS build
 
-ARG ERLANG_VERSION=28.0-rc4
+ARG ERLANG_VERSION=28.0.1
 
 ENV CFLAGS="-Os -march=x86-64"
 ENV LDFLAGS="-s"
 
-# https://www.erlang.org/docs/24/installation_guide/install
+# https://www.erlang.org/docs/28/system/install
 
 WORKDIR /tmp
 
