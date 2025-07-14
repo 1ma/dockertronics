@@ -30,7 +30,6 @@ jobs:
           - { context: "selfsig", tags: "1maa/selfsig:latest" }
           - { context: "sleepy", tags: "1maa/sleepy:latest" }
           - { context: "sqlite", tags: "1maa/sqlite:latest" }
-          - { context: "xhgui", tags: "1maa/xhgui:latest" }
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/docker-generic
