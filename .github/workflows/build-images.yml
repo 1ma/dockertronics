@@ -16,7 +16,7 @@ jobs:
       fail-fast: false
       matrix:
         images:
-          - { context: "alpine", tags: "1maa/alpine:3.22,1maa/alpine:latest", cache-tag: "1maa/alpine:3.22" }
+          - { context: "alpine", tags: "1maa/alpine:3.22,1maa/alpine:latest", cache-tag: "1maa/alpine:3.22", platforms: "linux/amd64,linux/arm64" }
           - { context: "beanstalkd", tags: "1maa/beanstalkd:latest" }
           - { context: "core-lightning", tags: "1maa/core-lightning:debian", dockerfile: "core-lightning/debian/Dockerfile" }
           - { context: "core-lightning", tags: "1maa/core-lightning:alpine,1maa/core-lightning:latest", dockerfile: "core-lightning/alpine/Dockerfile", cache-tag: "1maa/core-lightning:alpine" }
@@ -31,16 +31,16 @@ jobs:
           - { context: "sleepy", tags: "1maa/sleepy:latest" }
           - { context: "sqlite", tags: "1maa/sqlite:latest" }
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ./.github/actions/docker-generic
         with:
           build-arg: ${{ matrix.images.build-arg || '' }}
-          second-arg: ${{ matrix.images.second-arg || '' }}
           cache-tag: ${{ matrix.images.cache-tag || matrix.images.tags }}
           context: ${{ matrix.images.context }}
           docker-hub-pass: ${{ secrets.DOCKER_HUB_PASS }}
           docker-hub-user: 1maa
           dockerfile: ${{ matrix.images.dockerfile || format('{0}/Dockerfile', matrix.images.context) }}
+          platforms: ${{ matrix.images.platforms || 'linux/amd64' }}
           tags: ${{ matrix.images.tags }}
 
   tier2:
@@ -61,7 +61,7 @@ jobs:
           - { context: "postgres", tags: "1maa/postgres:17-alpine" }
           - { context: "sftp", tags: "1maa/sftp:latest" }
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ./.github/actions/docker-generic
         with:
           build-arg: ${{ matrix.images.build-arg || '' }}
@@ -70,6 +70,7 @@ jobs:
           docker-hub-pass: ${{ secrets.DOCKER_HUB_PASS }}
           docker-hub-user: 1maa
           dockerfile: ${{ matrix.images.dockerfile || format('{0}/Dockerfile', matrix.images.context) }}
+          platforms: linux/amd64
           tags: ${{ matrix.images.tags }}
 
   tier2-php:
@@ -81,12 +82,12 @@ jobs:
       fail-fast: false
       matrix:
         images:
-          - { tag: "1maa/php:8.1", dev-tag: "1maa/php-dev:8.1", dockerfile: "php/8.1/Dockerfile" }
+          - { tag: "1maa/php:8.1", dev-tag: "1maa/php-dev:8.1", dockerfile: "php/8.1/Dockerfile", platforms: "linux/amd64" }
           - { tag: "1maa/php:8.2", dev-tag: "1maa/php-dev:8.2", dockerfile: "php/8.2/Dockerfile" }
           - { tag: "1maa/php:8.3", dev-tag: "1maa/php-dev:8.3", dockerfile: "php/8.3/Dockerfile" }
           - { tag: "1maa/php:8.4", dev-tag: "1maa/php-dev:8.4", dockerfile: "php/8.4/Dockerfile" }
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ./.github/actions/docker-php
         with:
           tag: ${{ matrix.images.tag }}
@@ -94,3 +95,4 @@ jobs:
           docker-hub-pass: ${{ secrets.DOCKER_HUB_PASS }}
           docker-hub-user: 1maa
           dockerfile: ${{ matrix.images.dockerfile }}
+          platforms: ${{ matrix.images.platform || 'linux/amd64,linux/arm64' }}

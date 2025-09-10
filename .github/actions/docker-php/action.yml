@@ -17,6 +17,9 @@ inputs:
   dockerfile:
     description: Path to the Dockerfile
     required: true
+  platforms:
+    description: Build platforms
+    required: true
 
 runs:
   using: "composite"
@@ -41,6 +44,7 @@ runs:
         cache-to: type=inline
         context: php
         file: ${{ inputs.dockerfile }}
+        platforms: ${{ inputs.platforms }}
         push: true
         tags: ${{ inputs.dev-tag }}
         target: php-dev
