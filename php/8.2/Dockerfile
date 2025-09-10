@@ -3,7 +3,7 @@ FROM 1maa/alpine:latest AS build
 ARG PHP_VERSION=8.2.29
 ARG SECP256K1_NOSTR_EXT_VERSION=v0.1.5
 
-ENV CFLAGS="-Os -march=x86-64"
+ENV CFLAGS="-Os"
 ENV LDFLAGS="-s"
 
 WORKDIR /tmp

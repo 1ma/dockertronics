@@ -9,7 +9,7 @@ RUN go install -trimpath -ldflags="-d -s -w" github.com/nbd-wtf/trustedcoin@${TR
 
 FROM alpine:3.22 AS builder
 
-ARG CLN_VERSION=v25.05
+ARG CLN_VERSION=v25.09.3
 
 ENV PATH="/root/.cargo/bin:${PATH}"
 
