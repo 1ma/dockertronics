@@ -35,7 +35,7 @@ RUN make -C postgresql-${POSTGRES_VERSION} world-bin -j$(nproc) \
 FROM 1maa/alpine:3.22 AS postgis
 
 ARG PGTAP_VERSION=1.3.3
-ARG POSTGIS_VERSION=3.5.3
+ARG POSTGIS_VERSION=3.6.0
 
 WORKDIR /tmp
 
@@ -95,7 +95,7 @@ COPY --from=postgis /usr/local/bin/shp2pgsql             /usr/local/bin
 COPY --from=postgis /usr/local/lib/postgis-3.so          /usr/local/lib
 COPY --from=postgis /usr/local/lib/postgis_raster-3.so   /usr/local/lib
 COPY --from=postgis /usr/local/lib/postgis_topology-3.so /usr/local/lib
-COPY --from=postgis /usr/local/share/contrib/postgis-3.5 /usr/local/share/contrib/postgis-3.5
+COPY --from=postgis /usr/local/share/contrib/postgis-3.6 /usr/local/share/contrib/postgis-3.6
 COPY --from=cleanup /tmp                                 /usr/local/share/extension
 
 COPY docker-entrypoint.sh /usr/local/bin
