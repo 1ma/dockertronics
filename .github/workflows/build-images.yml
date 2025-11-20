@@ -39,7 +39,6 @@ jobs:
           docker-hub-pass: ${{ secrets.DOCKER_HUB_PASS }}
           docker-hub-user: 1maa
           dockerfile: ${{ matrix.images.dockerfile || format('{0}/Dockerfile', matrix.images.context) }}
-          platforms: ${{ matrix.images.platforms || 'linux/amd64' }}
           tags: ${{ matrix.images.tags }}
 
   tier2:
@@ -70,7 +69,6 @@ jobs:
           docker-hub-pass: ${{ secrets.DOCKER_HUB_PASS }}
           docker-hub-user: 1maa
           dockerfile: ${{ matrix.images.dockerfile || format('{0}/Dockerfile', matrix.images.context) }}
-          platforms: linux/amd64
           tags: ${{ matrix.images.tags }}
 
   tier2-php:
@@ -82,7 +80,7 @@ jobs:
       fail-fast: false
       matrix:
         images:
-          - { tag: "1maa/php:8.1", dev-tag: "1maa/php-dev:8.1", dockerfile: "php/8.1/Dockerfile", platforms: "linux/amd64" }
+          - { tag: "1maa/php:8.1", dev-tag: "1maa/php-dev:8.1", dockerfile: "php/8.1/Dockerfile" }
           - { tag: "1maa/php:8.2", dev-tag: "1maa/php-dev:8.2", dockerfile: "php/8.2/Dockerfile" }
           - { tag: "1maa/php:8.3", dev-tag: "1maa/php-dev:8.3", dockerfile: "php/8.3/Dockerfile" }
           - { tag: "1maa/php:8.4", dev-tag: "1maa/php-dev:8.4", dockerfile: "php/8.4/Dockerfile" }
@@ -95,4 +93,3 @@ jobs:
           docker-hub-pass: ${{ secrets.DOCKER_HUB_PASS }}
           docker-hub-user: 1maa
           dockerfile: ${{ matrix.images.dockerfile }}
-          platforms: ${{ matrix.images.platforms || 'linux/amd64,linux/arm64' }}
