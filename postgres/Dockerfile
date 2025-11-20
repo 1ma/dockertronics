@@ -32,7 +32,7 @@ RUN make -C postgresql-${POSTGRES_VERSION} world-bin -j$(nproc) \
  && make -C postgresql-${POSTGRES_VERSION} install-world-bin
 
 
-FROM 1maa/alpine:3.22 AS postgis
+FROM alpine:3.22 AS postgis
 
 ARG PGTAP_VERSION=1.3.4
 ARG POSTGIS_VERSION=3.6.1
@@ -78,7 +78,7 @@ COPY --from=postgis /usr/local/share/extension /tmp
 RUN ls -1 | grep -v -E 'pgtap|postgis' | xargs rm -f
 
 
-FROM 1maa/alpine:latest
+FROM alpine:3.22
 
 ENV LANG=en_US.UTF-8
 ENV POSTGRES_DB=postgres
@@ -111,6 +111,7 @@ RUN apk add --no-cache \
     proj \
     protobuf-c \
     readline \
+    tini \
  && addgroup --system postgres \
  && adduser --system --disabled-password --home /var/lib/postgres --shell /bin/false --ingroup postgres postgres \
  && mkdir /var/lib/postgres/data /docker-entrypoint-initdb.d \
@@ -124,4 +125,5 @@ STOPSIGNAL SIGINT
 
 EXPOSE 5432
 
+ENTRYPOINT ["/sbin/tini", "--"]
 CMD ["/usr/local/bin/docker-entrypoint.sh"]

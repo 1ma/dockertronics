@@ -16,7 +16,6 @@ jobs:
       fail-fast: false
       matrix:
         images:
-          - { context: "alpine", tags: "1maa/alpine:3.22,1maa/alpine:latest", cache-tag: "1maa/alpine:3.22", platforms: "linux/amd64,linux/arm64" }
           - { context: "beanstalkd", tags: "1maa/beanstalkd:latest" }
           - { context: "core-lightning", tags: "1maa/core-lightning:debian", dockerfile: "core-lightning/debian/Dockerfile" }
           - { context: "core-lightning", tags: "1maa/core-lightning:alpine,1maa/core-lightning:latest", dockerfile: "core-lightning/alpine/Dockerfile", cache-tag: "1maa/core-lightning:alpine" }

@@ -1,4 +1,4 @@
-FROM 1maa/alpine:latest AS build
+FROM alpine:3.22 AS build
 
 ARG PHP_VERSION=8.4.14
 ARG SECP256K1_NOSTR_EXT_VERSION=v0.1.5
@@ -251,7 +251,7 @@ RUN pecl channel-update pecl.php.net \
  && strip --strip-all /usr/lib/php/*.so
 
 
-FROM 1maa/alpine:latest AS php
+FROM alpine:3.22 AS php
 
 COPY etc /etc/php
 
@@ -288,12 +288,14 @@ RUN apk add --no-cache \
     rabbitmq-c \
     readline \
     sqlite-libs \
+    tini \
     yaml \
  && rm /etc/php/mods-available/runkit7.ini \
  && rm /etc/php/mods-available/vld.ini
 
 EXPOSE 9000
 
+ENTRYPOINT ["/sbin/tini", "--"]
 CMD ["/usr/sbin/php-fpm", "-R"]
 
 

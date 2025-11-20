@@ -38,7 +38,7 @@ RUN apk add --no-cache \
  && mv haproxy-${HAPROXY_VERSION}/haproxy .
 
 
-FROM 1maa/alpine:latest
+FROM alpine:3.22
 
 COPY config /etc/haproxy
 
@@ -46,10 +46,12 @@ COPY --from=0 /tmp/haproxy /usr/sbin/haproxy
 
 RUN apk add --no-cache \
     libssl3 \
-    lua5.4-libs
+    lua5.4-libs \
+    tini
 
 STOPSIGNAL SIGUSR1
 
 EXPOSE 80
 
+ENTRYPOINT ["/sbin/tini", "--"]
 CMD ["/usr/sbin/haproxy", "-W", "-db", "-f", "/etc/haproxy/haproxy.cfg"]

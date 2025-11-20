@@ -1,9 +1,10 @@
-FROM 1maa/alpine:latest
+FROM alpine:3.22
 
 COPY key/id_rsa.pub /authorized_keys
 
 RUN apk add --no-cache \
     openssh \
+    tini \
  && adduser -D -H -h /sftp -s /sbin/nologin sftp \
  && echo 'root:root' | chpasswd \
  && echo 'sftp:sftp' | chpasswd \
@@ -19,4 +20,5 @@ VOLUME ["/jail/sftp"]
 
 EXPOSE 22
 
+ENTRYPOINT ["/sbin/tini", "--"]
 CMD ["/usr/sbin/sshd", "-D"]
