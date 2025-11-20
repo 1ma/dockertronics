@@ -1,4 +1,4 @@
-FROM debian:12-slim AS builder
+FROM debian:trixie-slim AS builder
 
 ARG ELECTRS_VERSION=v0.10.0
 
@@ -26,7 +26,7 @@ RUN . "$HOME/.cargo/env" \
  && cargo build --locked --release
 
 
-FROM debian:12-slim
+FROM debian:trixie-slim
 
 COPY --from=builder /tmp/electrs/target/release/electrs /usr/local/bin/electrs
 

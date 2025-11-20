@@ -1,4 +1,4 @@
-FROM golang:1.24-bookworm AS trustedcoin
+FROM golang:trixie AS trustedcoin
 
 ARG TRUSTEDCOIN_VERSION=v0.8.6
 
@@ -7,7 +7,7 @@ ENV CGO_ENABLED=0
 RUN go install -trimpath -ldflags="-d -s -w" github.com/nbd-wtf/trustedcoin@${TRUSTEDCOIN_VERSION}
 
 
-FROM debian:12-slim AS builder
+FROM debian:trixie-slim AS builder
 
 ARG CLN_VERSION=v25.09.3
 
@@ -61,17 +61,18 @@ RUN make install RUST_PROFILE=release
 COPY --from=trustedcoin /go/bin/trustedcoin /usr/local/libexec/c-lightning/plugins/
 
 
-FROM debian:12-slim AS final
+FROM debian:trixie-slim AS final
 
 COPY --from=builder /usr/local/bin     /usr/local/bin
 COPY --from=builder /usr/local/libexec /usr/local/libexec
 
 RUN apt-get update \
  && DEBIAN_FRONTEND="noninteractive" apt-get install --yes --no-install-recommends \
+    adduser \
     ca-certificates \
     libpq5 \
-    python-is-python3 \
     libsodium23 \
+    python-is-python3 \
  && rm -rf /var/lib/apt/lists/* \
  && addgroup --system cln \
  && adduser --system --disabled-password --home /home/cln --shell /bin/false --gecos cln --ingroup cln cln \

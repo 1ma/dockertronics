@@ -1,4 +1,4 @@
-FROM golang:1.24-alpine AS trustedcoin
+FROM golang:alpine AS trustedcoin
 
 ARG TRUSTEDCOIN_VERSION=v0.8.6
 
