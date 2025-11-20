@@ -9,24 +9,33 @@ on:
   workflow_dispatch:
 
 jobs:
-  tier1:
-    name: Build Tier 1 images
+  generic:
+    name: Build Docker images
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         images:
           - { context: "beanstalkd", tags: "1maa/beanstalkd:latest" }
-          - { context: "core-lightning", tags: "1maa/core-lightning:debian", dockerfile: "core-lightning/debian/Dockerfile" }
           - { context: "core-lightning", tags: "1maa/core-lightning:alpine,1maa/core-lightning:latest", dockerfile: "core-lightning/alpine/Dockerfile", cache-tag: "1maa/core-lightning:alpine" }
+          - { context: "core-lightning", tags: "1maa/core-lightning:debian", dockerfile: "core-lightning/debian/Dockerfile" }
           - { context: "electrs", tags: "1maa/electrs:latest" }
           - { context: "erlang", tags: "1maa/erlang:25-alpine", build-arg: "ERLANG_VERSION=25.3.2.21" }
           - { context: "erlang", tags: "1maa/erlang:26-alpine", build-arg: "ERLANG_VERSION=26.2.5.16" }
           - { context: "erlang", tags: "1maa/erlang:27-alpine", build-arg: "ERLANG_VERSION=27.3.4.6" }
           - { context: "erlang", tags: "1maa/erlang:28-alpine,1maa/erlang:latest", cache-tag: "1maa/erlang:28-alpine" }
+          - { context: "haproxy", tags: "1maa/haproxy:3.2" }
           - { context: "lua", tags: "1maa/lua:5.4" }
+          - { context: "postgres", tags: "1maa/postgres:12-alpine", build-arg: "POSTGRES_VERSION=12.22" }
+          - { context: "postgres", tags: "1maa/postgres:13-alpine", build-arg: "POSTGRES_VERSION=13.23" }
+          - { context: "postgres", tags: "1maa/postgres:14-alpine", build-arg: "POSTGRES_VERSION=14.20" }
+          - { context: "postgres", tags: "1maa/postgres:15-alpine", build-arg: "POSTGRES_VERSION=15.15" }
+          - { context: "postgres", tags: "1maa/postgres:16-alpine", build-arg: "POSTGRES_VERSION=16.11" }
+          - { context: "postgres", tags: "1maa/postgres:17-alpine", build-arg: "POSTGRES_VERSION=17.7" }
+          - { context: "postgres", tags: "1maa/postgres:18-alpine" }
           - { context: "protoc", tags: "1maa/protoc:latest" }
           - { context: "selfsig", tags: "1maa/selfsig:latest" }
+          - { context: "sftp", tags: "1maa/sftp:latest" }
           - { context: "sleepy", tags: "1maa/sleepy:latest" }
           - { context: "sqlite", tags: "1maa/sqlite:latest" }
     steps:
@@ -41,46 +50,13 @@ jobs:
           dockerfile: ${{ matrix.images.dockerfile || format('{0}/Dockerfile', matrix.images.context) }}
           tags: ${{ matrix.images.tags }}
 
-  tier2:
-    name: Build Tier 2 images
+  php:
+    name: Build PHP Docker images
     runs-on: ubuntu-latest
-    needs:
-      - tier1
     strategy:
       fail-fast: false
       matrix:
         images:
-          - { context: "haproxy", tags: "1maa/haproxy:3.2" }
-          - { context: "postgres", tags: "1maa/postgres:12-alpine", build-arg: "POSTGRES_VERSION=12.22" }
-          - { context: "postgres", tags: "1maa/postgres:13-alpine", build-arg: "POSTGRES_VERSION=13.23" }
-          - { context: "postgres", tags: "1maa/postgres:14-alpine", build-arg: "POSTGRES_VERSION=14.20" }
-          - { context: "postgres", tags: "1maa/postgres:15-alpine", build-arg: "POSTGRES_VERSION=15.15" }
-          - { context: "postgres", tags: "1maa/postgres:16-alpine", build-arg: "POSTGRES_VERSION=16.11" }
-          - { context: "postgres", tags: "1maa/postgres:17-alpine", build-arg: "POSTGRES_VERSION=17.7" }
-          - { context: "postgres", tags: "1maa/postgres:18-alpine" }
-          - { context: "sftp", tags: "1maa/sftp:latest" }
-    steps:
-      - uses: actions/checkout@v5
-      - uses: ./.github/actions/docker-generic
-        with:
-          build-arg: ${{ matrix.images.build-arg || '' }}
-          cache-tag: ${{ matrix.images.cache-tag || matrix.images.tags }}
-          context: ${{ matrix.images.context }}
-          docker-hub-pass: ${{ secrets.DOCKER_HUB_PASS }}
-          docker-hub-user: 1maa
-          dockerfile: ${{ matrix.images.dockerfile || format('{0}/Dockerfile', matrix.images.context) }}
-          tags: ${{ matrix.images.tags }}
-
-  tier2-php:
-    name: Build PHP images (Tier 2)
-    runs-on: ubuntu-latest
-    needs:
-      - tier1
-    strategy:
-      fail-fast: false
-      matrix:
-        images:
-          - { tag: "1maa/php:8.1", dev-tag: "1maa/php-dev:8.1", dockerfile: "php/8.1/Dockerfile" }
           - { tag: "1maa/php:8.2", dev-tag: "1maa/php-dev:8.2", dockerfile: "php/8.2/Dockerfile" }
           - { tag: "1maa/php:8.3", dev-tag: "1maa/php-dev:8.3", dockerfile: "php/8.3/Dockerfile" }
           - { tag: "1maa/php:8.4", dev-tag: "1maa/php-dev:8.4", dockerfile: "php/8.4/Dockerfile" }
