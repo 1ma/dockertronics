@@ -8,10 +8,14 @@ on:
     - cron: 0 4 * * SUN
   workflow_dispatch:
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   generic:
     name: Build Docker images
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
@@ -48,23 +52,79 @@ jobs:
           dockerfile: ${{ matrix.images.dockerfile || format('{0}/Dockerfile', matrix.images.context) }}
           tags: ${{ matrix.images.tags }}
 
-  php:
-    name: Build PHP Docker images
-    runs-on: ubuntu-latest
+  php-multiarch:
+    name: Build PHP ${{ matrix.versions }} image on ${{ matrix.runners }}
+    runs-on: ${{ matrix.runners }}
     strategy:
       fail-fast: false
       matrix:
-        images:
-          - { tag: "1maa/php:8.2", dev-tag: "1maa/php-dev:8.2", dockerfile: "php/8.2/Dockerfile" }
-          - { tag: "1maa/php:8.3", dev-tag: "1maa/php-dev:8.3", dockerfile: "php/8.3/Dockerfile" }
-          - { tag: "1maa/php:8.4", dev-tag: "1maa/php-dev:8.4", dockerfile: "php/8.4/Dockerfile" }
-          - { tag: "1maa/php:8.5", dev-tag: "1maa/php-dev:8.5", dockerfile: "php/8.5/Dockerfile" }
+        versions:
+          - "8.2"
+          - "8.3"
+          - "8.4"
+          - "8.5"
+        runners:
+          - "ubuntu-24.04"
+          - "ubuntu-24.04-arm"
     steps:
       - uses: actions/checkout@v6
       - uses: ./.github/actions/docker-php
         with:
-          tag: ${{ matrix.images.tag }}
-          dev-tag: ${{ matrix.images.dev-tag }}
-          docker-hub-pass: ${{ secrets.DOCKER_HUB_PASS }}
-          docker-hub-user: 1maa
-          dockerfile: ${{ matrix.images.dockerfile }}
+          runner: ${{ matrix.runners }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          version: ${{ matrix.versions }}
+
+  php-merge:
+    name: Merge PHP ${{ matrix.versions }} image
+    runs-on: ubuntu-24.04
+    needs:
+      - php-multiarch
+    strategy:
+      fail-fast: false
+      matrix:
+        versions:
+          - "8.2"
+          - "8.3"
+          - "8.4"
+          - "8.5"
+    steps:
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          username: 1maa
+          password: ${{ secrets.DOCKER_HUB_PASS }}
+      - run: |
+          docker buildx imagetools create \
+            -t 1maa/php:${{ matrix.versions }} \
+            ghcr.io/1ma/php:${{ matrix.versions }}-ubuntu-24.04 \
+            ghcr.io/1ma/php:${{ matrix.versions }}-ubuntu-24.04-arm
+      - run: |
+          docker buildx imagetools create \
+            -t 1maa/php-dev:${{ matrix.versions }} \
+            ghcr.io/1ma/php-dev:${{ matrix.versions }}-ubuntu-24.04 \
+            ghcr.io/1ma/php-dev:${{ matrix.versions }}-ubuntu-24.04-arm
+
+  ghcr-cleanup:
+    name: Cleanup stale GHCR tags
+    runs-on: ubuntu-24.04
+    needs:
+      - php-merge
+    steps:
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/delete-package-versions@v5
+        with:
+          package-name: php
+          package-type: container
+          delete-only-untagged-versions: true
+          min-versions-to-keep: 0
+      - uses: actions/delete-package-versions@v5
+        with:
+          package-name: php-dev
+          package-type: container
+          delete-only-untagged-versions: true
+          min-versions-to-keep: 0
