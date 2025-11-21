@@ -29,12 +29,6 @@ jobs:
           - { context: "erlang", tags: "1maa/erlang:28-alpine,1maa/erlang:latest", cache-tag: "1maa/erlang:28-alpine" }
           - { context: "haproxy", tags: "1maa/haproxy:3.2" }
           - { context: "lua", tags: "1maa/lua:5.4" }
-          - { context: "postgres", tags: "1maa/postgres:13-alpine", build-arg: "POSTGRES_VERSION=13.23" }
-          - { context: "postgres", tags: "1maa/postgres:14-alpine", build-arg: "POSTGRES_VERSION=14.20" }
-          - { context: "postgres", tags: "1maa/postgres:15-alpine", build-arg: "POSTGRES_VERSION=15.15" }
-          - { context: "postgres", tags: "1maa/postgres:16-alpine", build-arg: "POSTGRES_VERSION=16.11" }
-          - { context: "postgres", tags: "1maa/postgres:17-alpine", build-arg: "POSTGRES_VERSION=17.7" }
-          - { context: "postgres", tags: "1maa/postgres:18-alpine" }
           - { context: "protoc", tags: "1maa/protoc:latest" }
           - { context: "selfsig", tags: "1maa/selfsig:latest" }
           - { context: "sftp", tags: "1maa/sftp:latest" }
@@ -105,11 +99,64 @@ jobs:
             ghcr.io/1ma/php-dev:${{ matrix.versions }}-ubuntu-24.04 \
             ghcr.io/1ma/php-dev:${{ matrix.versions }}-ubuntu-24.04-arm
 
+  postgres-multiarch:
+    name: Build Postgres ${{ matrix.versions }} image on ${{ matrix.runners }}
+    runs-on: ${{ matrix.runners }}
+    strategy:
+      fail-fast: false
+      matrix:
+        versions:
+          - "13.23"
+          - "14.20"
+          - "15.15"
+          - "16.11"
+          - "17.7"
+          - "18.1"
+        runners:
+          - "ubuntu-24.04"
+          - "ubuntu-24.04-arm"
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ./.github/actions/docker-postgres
+        with:
+          runner: ${{ matrix.runners }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          version: ${{ matrix.versions }}
+
+  postgres-merge:
+    name: Merge Postgres ${{ matrix.versions }} image
+    runs-on: ubuntu-24.04
+    needs:
+      - postgres-multiarch
+    strategy:
+      fail-fast: false
+      matrix:
+        versions:
+          - "13.23"
+          - "14.20"
+          - "15.15"
+          - "16.11"
+          - "17.7"
+          - "18.1"
+    steps:
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          username: 1maa
+          password: ${{ secrets.DOCKER_HUB_PASS }}
+      - run: |
+          docker buildx imagetools create \
+            -t 1maa/postgres:${{ matrix.versions }}-alpine \
+            ghcr.io/1ma/postgres:${{ matrix.versions }}-ubuntu-24.04 \
+            ghcr.io/1ma/postgres:${{ matrix.versions }}-ubuntu-24.04-arm
+
   ghcr-cleanup:
     name: Cleanup stale GHCR tags
     runs-on: ubuntu-24.04
     needs:
       - php-merge
+      - postgres-merge
     steps:
       - uses: docker/login-action@v3
         with:
@@ -125,6 +172,12 @@ jobs:
       - uses: actions/delete-package-versions@v5
         with:
           package-name: php-dev
+          package-type: container
+          delete-only-untagged-versions: true
+          min-versions-to-keep: 0
+      - uses: actions/delete-package-versions@v5
+        with:
+          package-name: postgres
           package-type: container
           delete-only-untagged-versions: true
           min-versions-to-keep: 0
