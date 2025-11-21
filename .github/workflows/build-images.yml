@@ -24,9 +24,6 @@ jobs:
           - { context: "core-lightning", tags: "1maa/core-lightning:alpine,1maa/core-lightning:latest", dockerfile: "core-lightning/alpine/Dockerfile", cache-tag: "1maa/core-lightning:alpine" }
           - { context: "core-lightning", tags: "1maa/core-lightning:debian", dockerfile: "core-lightning/debian/Dockerfile" }
           - { context: "electrs", tags: "1maa/electrs:latest" }
-          - { context: "erlang", tags: "1maa/erlang:26-alpine", build-arg: "ERLANG_VERSION=26.2.5.16" }
-          - { context: "erlang", tags: "1maa/erlang:27-alpine", build-arg: "ERLANG_VERSION=27.3.4.6" }
-          - { context: "erlang", tags: "1maa/erlang:28-alpine,1maa/erlang:latest", cache-tag: "1maa/erlang:28-alpine" }
           - { context: "haproxy", tags: "1maa/haproxy:3.2" }
           - { context: "lua", tags: "1maa/lua:5.4" }
           - { context: "protoc", tags: "1maa/protoc:latest" }
@@ -45,6 +42,52 @@ jobs:
           docker-hub-user: 1maa
           dockerfile: ${{ matrix.images.dockerfile || format('{0}/Dockerfile', matrix.images.context) }}
           tags: ${{ matrix.images.tags }}
+
+  erlang-multiarch:
+    name: Build Erlang ${{ matrix.versions }} image on ${{ matrix.runners }}
+    runs-on: ${{ matrix.runners }}
+    strategy:
+      fail-fast: false
+      matrix:
+        versions:
+          - "26.2.5.16"
+          - "27.3.4.6"
+          - "28.1.1"
+        runners:
+          - "ubuntu-24.04"
+          - "ubuntu-24.04-arm"
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ./.github/actions/docker-erlang
+        with:
+          runner: ${{ matrix.runners }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          version: ${{ matrix.versions }}
+
+  erlang-merge:
+    name: Merge Erlang ${{ matrix.versions }} image
+    runs-on: ubuntu-24.04
+    needs:
+      - erlang-multiarch
+    strategy:
+      fail-fast: false
+      matrix:
+        versions:
+          - { major: "26", exact: "26.2.5.16" }
+          - { major: "27", exact: "27.3.4.6" }
+          - { major: "28", exact: "28.1.1" }
+    steps:
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          username: 1maa
+          password: ${{ secrets.DOCKER_HUB_PASS }}
+      - run: |
+          docker buildx imagetools create \
+            -t 1maa/erlang:${{ matrix.versions.major }}-alpine \
+            ghcr.io/1ma/erlang:${{ matrix.versions.exact }}-ubuntu-24.04 \
+            ghcr.io/1ma/erlang:${{ matrix.versions.exact }}-ubuntu-24.04-arm
 
   php-multiarch:
     name: Build PHP ${{ matrix.versions }} image on ${{ matrix.runners }}
@@ -133,12 +176,12 @@ jobs:
       fail-fast: false
       matrix:
         versions:
-          - "13.23"
-          - "14.20"
-          - "15.15"
-          - "16.11"
-          - "17.7"
-          - "18.1"
+          - { major: "13", exact: "13.23" }
+          - { major: "14", exact: "14.20" }
+          - { major: "15", exact: "15.15" }
+          - { major: "16", exact: "16.11" }
+          - { major: "17", exact: "17.7" }
+          - { major: "18", exact: "18.1" }
     steps:
       - uses: docker/setup-buildx-action@v3
       - uses: docker/login-action@v3
@@ -147,14 +190,15 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_PASS }}
       - run: |
           docker buildx imagetools create \
-            -t 1maa/postgres:${{ matrix.versions }}-alpine \
-            ghcr.io/1ma/postgres:${{ matrix.versions }}-ubuntu-24.04 \
-            ghcr.io/1ma/postgres:${{ matrix.versions }}-ubuntu-24.04-arm
+            -t 1maa/postgres:${{ matrix.versions.major }}-alpine \
+            ghcr.io/1ma/postgres:${{ matrix.versions.exact }}-ubuntu-24.04 \
+            ghcr.io/1ma/postgres:${{ matrix.versions.exact }}-ubuntu-24.04-arm
 
   ghcr-cleanup:
     name: Cleanup stale GHCR tags
     runs-on: ubuntu-24.04
     needs:
+      - erlang-merge
       - php-merge
       - postgres-merge
     steps:
@@ -163,6 +207,12 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/delete-package-versions@v5
+        with:
+          package-name: erlang
+          package-type: container
+          delete-only-untagged-versions: true
+          min-versions-to-keep: 0
       - uses: actions/delete-package-versions@v5
         with:
           package-name: php

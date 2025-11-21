@@ -2,7 +2,7 @@ FROM alpine:3.22 AS build
 
 ARG ERLANG_VERSION=28.1.1
 
-ENV CFLAGS="-Os -march=x86-64"
+ENV CFLAGS="-Os"
 ENV LDFLAGS="-s"
 
 # https://www.erlang.org/docs/28/system/install
