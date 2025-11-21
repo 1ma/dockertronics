@@ -20,13 +20,11 @@ jobs:
           - { context: "core-lightning", tags: "1maa/core-lightning:alpine,1maa/core-lightning:latest", dockerfile: "core-lightning/alpine/Dockerfile", cache-tag: "1maa/core-lightning:alpine" }
           - { context: "core-lightning", tags: "1maa/core-lightning:debian", dockerfile: "core-lightning/debian/Dockerfile" }
           - { context: "electrs", tags: "1maa/electrs:latest" }
-          - { context: "erlang", tags: "1maa/erlang:25-alpine", build-arg: "ERLANG_VERSION=25.3.2.21" }
           - { context: "erlang", tags: "1maa/erlang:26-alpine", build-arg: "ERLANG_VERSION=26.2.5.16" }
           - { context: "erlang", tags: "1maa/erlang:27-alpine", build-arg: "ERLANG_VERSION=27.3.4.6" }
           - { context: "erlang", tags: "1maa/erlang:28-alpine,1maa/erlang:latest", cache-tag: "1maa/erlang:28-alpine" }
           - { context: "haproxy", tags: "1maa/haproxy:3.2" }
           - { context: "lua", tags: "1maa/lua:5.4" }
-          - { context: "postgres", tags: "1maa/postgres:12-alpine", build-arg: "POSTGRES_VERSION=12.22" }
           - { context: "postgres", tags: "1maa/postgres:13-alpine", build-arg: "POSTGRES_VERSION=13.23" }
           - { context: "postgres", tags: "1maa/postgres:14-alpine", build-arg: "POSTGRES_VERSION=14.20" }
           - { context: "postgres", tags: "1maa/postgres:15-alpine", build-arg: "POSTGRES_VERSION=15.15" }
@@ -39,7 +37,7 @@ jobs:
           - { context: "sleepy", tags: "1maa/sleepy:latest" }
           - { context: "sqlite", tags: "1maa/sqlite:latest" }
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/docker-generic
         with:
           build-arg: ${{ matrix.images.build-arg || '' }}
@@ -62,7 +60,7 @@ jobs:
           - { tag: "1maa/php:8.4", dev-tag: "1maa/php-dev:8.4", dockerfile: "php/8.4/Dockerfile" }
           - { tag: "1maa/php:8.5", dev-tag: "1maa/php-dev:8.5", dockerfile: "php/8.5/Dockerfile" }
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/docker-php
         with:
           tag: ${{ matrix.images.tag }}

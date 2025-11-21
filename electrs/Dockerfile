@@ -1,6 +1,6 @@
 FROM debian:trixie-slim AS builder
 
-ARG ELECTRS_VERSION=v0.10.0
+ARG ELECTRS_VERSION=v0.11.0
 
 WORKDIR /tmp
 
