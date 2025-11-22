@@ -1,6 +1,6 @@
 FROM debian:trixie-slim AS builder
 
-ARG ELECTRS_VERSION=v0.10.10
+ARG ELECTRS_VERSION=v0.11.0
 
 WORKDIR /tmp
 
@@ -13,10 +13,11 @@ RUN apt-get update \
     curl \
     git \
     gnupg \
+    libclang-dev \
  && rm -rf /var/lib/apt/lists/* \
  && gpg --import romanz.gpg \
  && git clone --branch=${ELECTRS_VERSION} https://github.com/romanz/electrs \
- && curl -s https://sh.rustup.rs | sh -s -- -y
+ && curl -s https://sh.rustup.rs | sh -s -- -y --profile minimal
 
 WORKDIR /tmp/electrs
 

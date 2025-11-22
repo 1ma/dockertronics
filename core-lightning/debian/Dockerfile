@@ -35,7 +35,7 @@ RUN apt-get update \
 RUN pip install --break-system-packages --user \
     grpcio-tools \
     mako \
- && curl -s https://sh.rustup.rs | sh -s -- -y
+ && curl -s https://sh.rustup.rs | sh -s -- -y --profile minimal
 
 WORKDIR /tmp
 
