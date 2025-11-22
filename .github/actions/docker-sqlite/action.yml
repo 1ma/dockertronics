@@ -1,0 +1,33 @@
+name: SQLite Docker image builder
+description: Sets up a Docker builder tailored for SQLite images
+
+inputs:
+  runner:
+    description: Runner that is building the image
+    required: true
+  username:
+    description: GitHub Container Registry username
+    required: true
+  password:
+    description: GitHub Container Registry password
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v6
+    - uses: docker/setup-buildx-action@v3
+    - uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{ inputs.username }}
+        password: ${{ inputs.password }}
+    - uses: docker/build-push-action@v6
+      with:
+        cache-from: type=registry,ref=ghcr.io/1ma/sqlite:${{ inputs.runner }}
+        cache-to: type=inline
+        context: sqlite
+        provenance: false
+        push: true
+        sbom: false
+        tags: ghcr.io/1ma/sqlite:${{ inputs.runner }}
