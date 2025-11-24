@@ -51,7 +51,7 @@ jobs:
         versions:
           - "26.2.5.16"
           - "27.3.4.6"
-          - "28.1.1"
+          - "28.2"
         runners:
           - "ubuntu-24.04"
           - "ubuntu-24.04-arm"
@@ -75,7 +75,7 @@ jobs:
         versions:
           - { major: "26", exact: "26.2.5.16" }
           - { major: "27", exact: "27.3.4.6" }
-          - { major: "28", exact: "28.1.1" }
+          - { major: "28", exact: "28.2" }
     steps:
       - uses: docker/setup-buildx-action@v3
       - uses: docker/login-action@v3
