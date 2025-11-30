@@ -14,33 +14,21 @@ permissions:
 
 jobs:
   generic:
-    name: Build Docker images
+    name: Build dependency-free Docker images
     runs-on: ubuntu-24.04
-    strategy:
-      fail-fast: false
-      matrix:
-        images:
-          - { context: "beanstalkd", tags: "1maa/beanstalkd:latest" }
-          - { context: "core-lightning", tags: "1maa/core-lightning:alpine,1maa/core-lightning:latest", dockerfile: "core-lightning/alpine/Dockerfile", cache-tag: "1maa/core-lightning:alpine" }
-          - { context: "core-lightning", tags: "1maa/core-lightning:debian", dockerfile: "core-lightning/debian/Dockerfile" }
-          - { context: "electrs", tags: "1maa/electrs:latest" }
-          - { context: "haproxy", tags: "1maa/haproxy:3.2" }
-          - { context: "lua", tags: "1maa/lua:5.4" }
-          - { context: "protoc", tags: "1maa/protoc:latest" }
-          - { context: "selfsig", tags: "1maa/selfsig:latest" }
-          - { context: "sftp", tags: "1maa/sftp:latest" }
-          - { context: "sleepy", tags: "1maa/sleepy:latest" }
     steps:
       - uses: actions/checkout@v6
-      - uses: ./.github/actions/docker-generic
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
         with:
-          build-arg: ${{ matrix.images.build-arg || '' }}
-          cache-tag: ${{ matrix.images.cache-tag || matrix.images.tags }}
-          context: ${{ matrix.images.context }}
-          docker-hub-pass: ${{ secrets.DOCKER_HUB_PASS }}
-          docker-hub-user: 1maa
-          dockerfile: ${{ matrix.images.dockerfile || format('{0}/Dockerfile', matrix.images.context) }}
-          tags: ${{ matrix.images.tags }}
+          username: 1maa
+          password: ${{ secrets.DOCKER_HUB_PASS }}
+      - uses: docker/bake-action@v6
+        with:
+          provenance: false
+          push: true
+          sbom: false
+          targets: beanstalkd,cln-alpine,cln-debian,electrs,haproxy,lua,protoc,selfsig,sftp,sleepy
 
   erlang-multiarch:
     name: Build Erlang ${{ matrix.versions }} image on ${{ matrix.runners }}
