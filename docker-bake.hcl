@@ -10,6 +10,22 @@ variable "VERSION" {
   description = "Version of the software to build"
 }
 
+group "default" {
+  description = "Dependency-free and single-arch (linux/amd64) images that can be easily built concurrently"
+  targets = [
+    "beanstalkd",
+    "cln-alpine",
+    "cln-debian",
+    "electrs",
+    "haproxy",
+    "lua",
+    "protoc",
+    "selfsig",
+    "sftp",
+    "sleepy"
+  ]
+}
+
 target "beanstalkd" {
   context = "beanstalkd"
   cache-to = [{type = "inline"}]

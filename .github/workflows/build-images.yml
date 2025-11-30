@@ -28,7 +28,7 @@ jobs:
           provenance: false
           push: true
           sbom: false
-          targets: beanstalkd,cln-alpine,cln-debian,electrs,haproxy,lua,protoc,selfsig,sftp,sleepy
+          targets: default
 
   erlang-multiarch:
     name: Build Erlang ${{ matrix.versions }} image on ${{ matrix.runners }}
