@@ -1,3 +1,15 @@
+variable "VERSION" {
+  type = string
+  default = "0.0.0"
+  description = "Version of the software to build"
+}
+
+variable "RUNNER" {
+  type = string
+  default = "ubuntu-24.04"
+  description = "Runner that built the image"
+}
+
 target "beanstalkd" {
   context = "beanstalkd"
   cache-to = [{type = "inline"}]
@@ -104,4 +116,14 @@ target "sleepy" {
     ref = "1maa/sleepy:latest"
   }]
   tags = ["1maa/sleepy:latest"]
+}
+
+target "sqlite" {
+  context = "sqlite"
+  cache-to = [{type = "inline"}]
+  cache-from = [{
+    type = "registry"
+    ref = "ghcr.io/1ma/sqlite:${RUNNER}"
+  }]
+  tags = ["ghcr.io/1ma/sqlite:${RUNNER}"]
 }
