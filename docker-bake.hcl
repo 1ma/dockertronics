@@ -1,13 +1,13 @@
-variable "VERSION" {
-  type = string
-  default = "0.0.0"
-  description = "Version of the software to build"
-}
-
 variable "RUNNER" {
   type = string
   default = "ubuntu-24.04"
   description = "Runner that built the image"
+}
+
+variable "VERSION" {
+  type = string
+  default = "0.0.0"
+  description = "Version of the software to build"
 }
 
 target "beanstalkd" {
@@ -22,12 +22,12 @@ target "beanstalkd" {
 
 target "cln-alpine" {
   context = "core-lightning"
-  dockerfile = "alpine/Dockerfile"
   cache-to = [{type = "inline"}]
   cache-from = [{
     type = "registry"
     ref = "1maa/core-lightning:alpine"
   }]
+  dockerfile = "alpine/Dockerfile"
   tags = [
     "1maa/core-lightning:alpine",
     "1maa/core-lightning:latest"
@@ -36,12 +36,12 @@ target "cln-alpine" {
 
 target "cln-debian" {
   context = "core-lightning"
-  dockerfile = "debian/Dockerfile"
   cache-to = [{type = "inline"}]
   cache-from = [{
     type = "registry"
     ref = "1maa/core-lightning:debian"
   }]
+  dockerfile = "debian/Dockerfile"
   tags = ["1maa/core-lightning:debian"]
 }
 
@@ -89,6 +89,30 @@ target "lua" {
     ref = "1maa/lua:5.4"
   }]
   tags = ["1maa/lua:5.4"]
+}
+
+target "php" {
+  context = "php"
+  cache-to = [{type = "inline"}]
+  cache-from = [{
+    type = "registry"
+    ref = "ghcr.io/1ma/php:${VERSION}-${RUNNER}"
+  }]
+  dockerfile = "${VERSION}/Dockerfile"
+  tags = ["ghcr.io/1ma/php:${VERSION}-${RUNNER}"]
+  target = "php"
+}
+
+target "php-dev" {
+  context = "php"
+  cache-to = [{type = "inline"}]
+  cache-from = [{
+    type = "registry"
+    ref = "ghcr.io/1ma/php-dev:${VERSION}-${RUNNER}"
+  }]
+  dockerfile = "${VERSION}/Dockerfile"
+  tags = ["ghcr.io/1ma/php-dev:${VERSION}-${RUNNER}"]
+  target = "php-dev"
 }
 
 target "postgres" {
