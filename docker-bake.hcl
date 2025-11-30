@@ -55,6 +55,19 @@ target "electrs" {
   tags = ["1maa/electrs:latest"]
 }
 
+target "erlang" {
+  args = {
+    ERLANG_VERSION = "${VERSION}"
+  }
+  context = "erlang"
+  cache-to = [{type = "inline"}]
+  cache-from = [{
+    type = "registry"
+    ref = "ghcr.io/1ma/erlang:${VERSION}-${RUNNER}"
+  }]
+  tags = ["ghcr.io/1ma/erlang:${VERSION}-${RUNNER}"]
+}
+
 target "haproxy" {
   context = "haproxy"
   cache-to = [{type = "inline"}]
@@ -76,6 +89,19 @@ target "lua" {
     ref = "1maa/lua:5.4"
   }]
   tags = ["1maa/lua:5.4"]
+}
+
+target "postgres" {
+  args = {
+    POSTGRES_VERSION = "${VERSION}"
+  }
+  context = "postgres"
+  cache-to = [{type = "inline"}]
+  cache-from = [{
+    type = "registry"
+    ref = "ghcr.io/1ma/postgres:${VERSION}-${RUNNER}"
+  }]
+  tags = ["ghcr.io/1ma/postgres:${VERSION}-${RUNNER}"]
 }
 
 target "protoc" {

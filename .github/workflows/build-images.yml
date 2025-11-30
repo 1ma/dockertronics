@@ -43,14 +43,23 @@ jobs:
         runners:
           - "ubuntu-24.04"
           - "ubuntu-24.04-arm"
+    env:
+      RUNNER: ${{ matrix.runners }}
+      VERSION: ${{ matrix.versions }}
     steps:
       - uses: actions/checkout@v6
-      - uses: ./.github/actions/docker-erlang
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
         with:
-          runner: ${{ matrix.runners }}
+          registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-          version: ${{ matrix.versions }}
+      - uses: docker/bake-action@v6
+        with:
+          provenance: false
+          push: true
+          sbom: false
+          targets: erlang
 
   erlang-merge:
     name: Merge Erlang ${{ matrix.versions.major }} image
@@ -145,14 +154,23 @@ jobs:
         runners:
           - "ubuntu-24.04"
           - "ubuntu-24.04-arm"
+    env:
+      RUNNER: ${{ matrix.runners }}
+      VERSION: ${{ matrix.versions }}
     steps:
       - uses: actions/checkout@v6
-      - uses: ./.github/actions/docker-postgres
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
         with:
-          runner: ${{ matrix.runners }}
+          registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-          version: ${{ matrix.versions }}
+      - uses: docker/bake-action@v6
+        with:
+          provenance: false
+          push: true
+          sbom: false
+          targets: postgres
 
   postgres-merge:
     name: Merge Postgres ${{ matrix.versions.major }} image
