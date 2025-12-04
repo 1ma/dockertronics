@@ -1,4 +1,4 @@
-FROM alpine:3.22 AS builder
+FROM alpine:3.23 AS builder
 
 ARG POSTGRES_VERSION=18.1
 
@@ -32,7 +32,7 @@ RUN make -C postgresql-${POSTGRES_VERSION} world-bin -j$(nproc) \
  && make -C postgresql-${POSTGRES_VERSION} install-world-bin
 
 
-FROM alpine:3.22 AS postgis
+FROM alpine:3.23 AS postgis
 
 ARG PGTAP_VERSION=1.3.4
 ARG POSTGIS_VERSION=3.6.1
@@ -69,7 +69,7 @@ RUN tar zxf v${PGTAP_VERSION}.tar.gz \
  && make -C pgtap-${PGTAP_VERSION} -j$(nproc) \
  && make -C pgtap-${PGTAP_VERSION} install
 
-FROM alpine:3.22 AS cleanup
+FROM alpine:3.23 AS cleanup
 
 WORKDIR /tmp
 
@@ -78,7 +78,7 @@ COPY --from=postgis /usr/local/share/extension /tmp
 RUN ls -1 | grep -v -E 'pgtap|postgis' | xargs rm -f
 
 
-FROM alpine:3.22
+FROM alpine:3.23
 
 ENV LANG=en_US.UTF-8
 ENV POSTGRES_DB=postgres

@@ -1,4 +1,4 @@
-FROM alpine:3.22
+FROM alpine:3.23
 
 ARG HAPROXY_VERSION=3.2.9
 
@@ -38,7 +38,7 @@ RUN apk add --no-cache \
  && mv haproxy-${HAPROXY_VERSION}/haproxy .
 
 
-FROM alpine:3.22
+FROM alpine:3.23
 
 COPY config /etc/haproxy
 

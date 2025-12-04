@@ -1,4 +1,4 @@
-FROM alpine:3.22 AS build
+FROM alpine:3.23 AS build
 
 ARG PHP_VERSION=8.5.0
 ARG SECP256K1_NOSTR_EXT_VERSION=v0.1.5
@@ -249,7 +249,7 @@ RUN pecl channel-update pecl.php.net \
  && strip --strip-all /usr/lib/php/*.so
 
 
-FROM alpine:3.22 AS php
+FROM alpine:3.23 AS php
 
 COPY etc /etc/php
 

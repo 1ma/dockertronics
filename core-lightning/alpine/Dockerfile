@@ -7,7 +7,7 @@ ENV CGO_ENABLED=0
 RUN go install -trimpath -ldflags="-d -s -w" github.com/nbd-wtf/trustedcoin@${TRUSTEDCOIN_VERSION}
 
 
-FROM alpine:3.22 AS builder
+FROM alpine:3.23 AS builder
 
 ARG CLN_VERSION=v25.09.3
 
@@ -62,7 +62,7 @@ RUN make install RUST_PROFILE=release
 COPY --from=trustedcoin /go/bin/trustedcoin /usr/local/libexec/c-lightning/plugins/
 
 
-FROM alpine:3.22 AS final
+FROM alpine:3.23 AS final
 
 COPY --from=builder /usr/local/bin     /usr/local/bin
 COPY --from=builder /usr/local/libexec /usr/local/libexec
