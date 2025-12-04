@@ -242,7 +242,7 @@ RUN pecl channel-update pecl.php.net \
     ssh2 \
     uv \
 #    vld-beta \
-#    xdebug-alpha pending stable 3.5.0 \
+    xdebug \
     yaml \
     yar \
  && chmod 644 /usr/lib/php/*.so \
@@ -292,8 +292,7 @@ RUN apk add --no-cache \
  && rm /etc/php/mods-available/igbinary.ini \
  && rm /etc/php/mods-available/opcache.ini \
  && rm /etc/php/mods-available/runkit7.ini \
- && rm /etc/php/mods-available/vld.ini \
- && rm /etc/php/mods-available/xdebug.ini
+ && rm /etc/php/mods-available/vld.ini
 
 EXPOSE 9000
 
