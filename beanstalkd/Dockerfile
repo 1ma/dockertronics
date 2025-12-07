@@ -11,7 +11,7 @@ RUN apk add --no-cache \
     upx \
  && tar zxf master.tar.gz \
  && cd beanstalkd-master \
- && sed -i 's@-g@-Os -march=x86-64@' Makefile \
+ && sed -i 's@-g@-Os@' Makefile \
  && sed -i 's@LDFLAGS?=@LDFLAGS?=-s -static@' Makefile \
  && make \
  && make check \

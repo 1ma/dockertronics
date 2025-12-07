@@ -11,7 +11,7 @@ variable "VERSION" {
 }
 
 group "default" {
-  description = "Dependency-free and single-arch (linux/amd64) images that can be easily built concurrently"
+  description = "Dependency-free images that can be easily built concurrently"
   targets = [
     "beanstalkd",
     "cln-alpine",
@@ -33,6 +33,7 @@ target "beanstalkd" {
     type = "registry"
     ref = "1maa/beanstalkd:latest"
   }]
+  platforms = ["linux/amd64", "linux/arm64"]
   tags = ["1maa/beanstalkd:latest"]
 }
 
@@ -91,6 +92,7 @@ target "haproxy" {
     type = "registry"
     ref = "1maa/haproxy:3.2"
   }]
+  platforms = ["linux/amd64", "linux/arm64"]
   tags = [
     "1maa/haproxy:3.2",
     "1maa/haproxy:latest"
@@ -104,6 +106,7 @@ target "lua" {
     type = "registry"
     ref = "1maa/lua:5.4"
   }]
+  platforms = ["linux/amd64", "linux/arm64"]
   tags = ["1maa/lua:5.4"]
 }
 
@@ -151,6 +154,7 @@ target "protoc" {
     type = "registry"
     ref = "1maa/protoc:latest"
   }]
+  platforms = ["linux/amd64", "linux/arm64"]
   tags = ["1maa/protoc:latest"]
 }
 
@@ -161,6 +165,7 @@ target "selfsig" {
     type = "registry"
     ref = "1maa/selfsig:latest"
   }]
+  platforms = ["linux/amd64", "linux/arm64"]
   tags = ["1maa/selfsig:latest"]
 }
 
@@ -171,6 +176,7 @@ target "sftp" {
     type = "registry"
     ref = "1maa/sftp:latest"
   }]
+  platforms = ["linux/amd64", "linux/arm64"]
   tags = ["1maa/sftp:latest"]
 }
 
@@ -181,6 +187,7 @@ target "sleepy" {
     type = "registry"
     ref = "1maa/sleepy:latest"
   }]
+  platforms = ["linux/amd64", "linux/arm64"]
   tags = ["1maa/sleepy:latest"]
 }
 
