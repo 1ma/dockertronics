@@ -6,7 +6,7 @@ RUN go install -ldflags="-d -s -w" -trimpath google.golang.org/grpc/cmd/protoc-g
 
 FROM alpine:3.23 AS types
 
-ARG PROTOC_VERSION=29.4
+ARG PROTOC_VERSION=31.1
 
 WORKDIR /tmp
 
