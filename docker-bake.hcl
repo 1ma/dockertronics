@@ -13,7 +13,6 @@ variable "VERSION" {
 group "default" {
   description = "Dependency-free images that can be easily built concurrently"
   targets = [
-    "beanstalkd",
     "cln-alpine",
     "cln-debian",
     "electrs",
@@ -24,17 +23,6 @@ group "default" {
     "sftp",
     "sleepy"
   ]
-}
-
-target "beanstalkd" {
-  context = "beanstalkd"
-  cache-to = [{type = "inline"}]
-  cache-from = [{
-    type = "registry"
-    ref = "1maa/beanstalkd:latest"
-  }]
-  platforms = ["linux/amd64", "linux/arm64"]
-  tags = ["1maa/beanstalkd:latest"]
 }
 
 target "cln-alpine" {
