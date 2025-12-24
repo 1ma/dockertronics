@@ -23,27 +23,19 @@ RUN apk add --no-cache \
     bzip2-dev \
     curl-dev \
     db-dev \
-    enchant2-dev \
     freetds-dev \
-    freetype-dev \
-    gettext-dev \
     gmp-dev \
-    libavif-dev \
     libedit-dev \
     libffi-dev \
     libjpeg-turbo-dev \
     libpng-dev \
     libpq-dev \
     libsodium-dev \
-    libwebp-dev \
     libxml2-dev \
-    libxpm-dev \
     libxslt-dev \
     libzip-dev \
     lmdb-dev \
-    net-snmp-dev \
     oniguruma-dev \
-    openldap-dev \
     openssl-dev \
     pkgconf \
     sqlite-dev \
@@ -84,12 +76,9 @@ RUN ./configure \
     --enable-sysvshm=shared \
     --with-bz2=shared \
     --with-curl=shared \
-    --with-enchant=shared \
     --with-ffi=shared \
-    --with-gettext=shared \
     --with-gmp=shared \
     --with-iconv=shared \
-    --with-ldap=shared \
     --with-libedit=shared \
     --with-mysqli=shared \
     --with-openssl=shared \
@@ -99,7 +88,6 @@ RUN ./configure \
     --with-pdo-pgsql=shared \
     --with-pdo-sqlite=shared \
     --with-pgsql=shared \
-    --with-snmp=shared \
     --with-sodium=shared \
     --with-sqlite3=shared \
     --with-tidy=shared \
@@ -108,16 +96,10 @@ RUN ./configure \
     --with-zlib=shared \
 \
     --enable-gd-jis-conv \
-    --with-avif \
-    --with-freetype \
     --with-jpeg \
-    --with-webp \
-    --with-xpm \
 \
     --with-db4 \
     --with-lmdb \
-\
-    --with-ldap-sasl \
 \
     --with-openssl-argon2 \
     --with-password-argon2
@@ -126,12 +108,10 @@ RUN make -j4
 RUN make install
 
 RUN cp php.ini-development /usr/local/etc/php.ini
-COPY extensions.ini /usr/local/etc/conf.d/extensions.ini
+COPY --chmod=644 extensions.ini /usr/local/etc/conf.d/extensions.ini
 
 RUN apk add --no-cache \
     autoconf \
-    gpgme-dev \
-    libmaxminddb-dev \
     libmemcached-dev \
     librdkafka-dev \
     libssh2-dev \
@@ -145,11 +125,8 @@ RUN pecl channel-update pecl.php.net \
     apcu \
     csv \
     ds \
-    event \
     excimer \
-    gnupg \
     igbinary \
-    maxminddb \
     memcached \
     mongodb \
     msgpack \
@@ -162,3 +139,66 @@ RUN pecl channel-update pecl.php.net \
     xdebug \
     yaml \
     yar
+
+
+FROM alpine:3.23 AS prepare
+
+WORKDIR /tmp
+
+COPY --from=build /usr/local/bin/php                        /tmp/bin/php
+COPY --from=build /usr/local/etc/conf.d                     /tmp/etc/conf.d
+COPY --from=build /usr/local/etc/php-fpm.conf.default       /tmp/etc/php-fpm.conf
+COPY --from=build /usr/local/etc/php-fpm.d/www.conf.default /tmp/etc/php-fpm.d/www.conf
+COPY --from=build /usr/local/lib/php/extensions             /tmp/lib/php/extensions
+COPY --from=build /usr/local/php/php/fpm/status.html        /tmp/php/php/fpm/status.html
+COPY --from=build /usr/local/sbin/php-fpm                   /usr/local/sbin/php-fpm
+
+COPY composer-pubkey.asc .
+
+ADD https://getcomposer.org/download/latest-stable/composer.phar .
+ADD https://getcomposer.org/download/latest-stable/composer.phar.asc .
+
+RUN apk add --no-cache \
+    gnupg \
+ && gpg --import composer-pubkey.asc \
+ && gpg --verify composer.phar.asc composer.phar
+
+RUN rm composer.phar.asc composer-pubkey.asc \
+ && chmod 755 composer.phar \
+ && chmod 644 lib/php/extensions/no-debug-non-zts-20240924/*.so \
+ && mv composer.phar bin/composer
+
+
+FROM alpine:3.23 AS final
+
+COPY --from=prepare /tmp/ /usr/local/
+
+RUN apk add --no-cache \
+    argon2-libs \
+    db \
+    freetds \
+    git \
+    gmp \
+    libbz2 \
+    libcurl \
+    libedit \
+    libffi \
+    libjpeg-turbo \
+    libmemcached-libs \
+    libpng \
+    libpq \
+    librdkafka \
+    libsodium \
+    libssh2 \
+    libssl3 \
+    libuv \
+    libxml2 \
+    libxslt \
+    libzip \
+    lmdb \
+    oniguruma \
+    rabbitmq-c \
+    sqlite-libs \
+    tidyhtml-libs \
+    unixodbc \
+    yaml
