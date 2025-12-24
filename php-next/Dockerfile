@@ -18,37 +18,37 @@ RUN apk add --no-cache \
  && gpg --verify php-${PHP_VERSION}.tar.gz.asc php-${PHP_VERSION}.tar.gz
 
 RUN apk add --no-cache \
+    argon2-dev \
     build-base \
-    pkgconf \
-    libxml2-dev \
-    sqlite-dev \
-    openssl-dev \
     bzip2-dev \
     curl-dev \
     db-dev \
-    lmdb-dev \
     enchant2-dev \
-    libffi-dev \
-    libpng-dev \
-    libavif-dev \
-    libwebp-dev \
-    libjpeg-turbo-dev \
-    libxpm-dev \
+    freetds-dev \
     freetype-dev \
     gettext-dev \
     gmp-dev \
-    openldap-dev \
-    oniguruma-dev \
-    freetds-dev \
-    unixodbc-dev \
-    libpq-dev \
+    libavif-dev \
     libedit-dev \
-    net-snmp-dev \
+    libffi-dev \
+    libjpeg-turbo-dev \
+    libpng-dev \
+    libpq-dev \
     libsodium-dev \
-    argon2-dev \
-    tidyhtml-dev \
+    libwebp-dev \
+    libxml2-dev \
+    libxpm-dev \
     libxslt-dev \
-    libzip-dev
+    libzip-dev \
+    lmdb-dev \
+    net-snmp-dev \
+    oniguruma-dev \
+    openldap-dev \
+    openssl-dev \
+    pkgconf \
+    sqlite-dev \
+    tidyhtml-dev \
+    unixodbc-dev
 
 RUN tar zxof php-${PHP_VERSION}.tar.gz
 
@@ -56,11 +56,16 @@ WORKDIR /tmp/php-${PHP_VERSION}
 
 RUN ./configure \
     --prefix=/usr/local \
+    --with-config-file-path=/usr/local/etc \
+    --with-config-file-scan-dir=/usr/local/etc/conf.d \
 \
     --disable-cgi \
     --disable-phpdbg \
     --enable-cli \
     --enable-fpm \
+    --with-fpm-group=nobody \
+    --with-fpm-user=nobody \
+    --with-pear \
 \
     --enable-bcmath=shared \
     --enable-calendar=shared \
@@ -115,18 +120,17 @@ RUN ./configure \
     --with-ldap-sasl \
 \
     --with-openssl-argon2 \
-    --with-password-argon2 \
-\
-    --with-pear
+    --with-password-argon2
 
 RUN make -j4
 RUN make install
 
-COPY extensions.ini /usr/local/lib/php.ini
+RUN cp php.ini-development /usr/local/etc/php.ini
+COPY extensions.ini /usr/local/etc/conf.d/extensions.ini
 
 RUN apk add --no-cache autoconf
-RUN pecl channel-update pecl.php.net
-RUN pecl install \
+RUN pecl channel-update pecl.php.net \
+ && MAKEFLAGS="-j$(nproc)" pecl install \
     apcu \
     csv \
     ds \
