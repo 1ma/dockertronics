@@ -18,6 +18,7 @@ group "default" {
     "electrs",
     "haproxy",
     "lua",
+    "php-next",
     "protoc",
     "selfsig",
     "sftp",
@@ -62,7 +63,7 @@ target "electrs" {
 
 target "erlang" {
   args = {
-    ERLANG_VERSION = "${VERSION}"
+    ERLANG_VERSION = VERSION
   }
   context = "erlang"
   cache-to = [{type = "inline"}]
@@ -122,9 +123,19 @@ target "php-dev" {
   target = "php-dev"
 }
 
+target "php-next" {
+  context = "php-next"
+  cache-to = [{type = "inline"}]
+  cache-from = [{
+    type = "registry"
+    ref = "1maa/php-next:latest"
+  }]
+  tags = ["1maa/php-next:latest"]
+}
+
 target "postgres" {
   args = {
-    POSTGRES_VERSION = "${VERSION}"
+    POSTGRES_VERSION = VERSION
   }
   context = "postgres"
   cache-to = [{type = "inline"}]
