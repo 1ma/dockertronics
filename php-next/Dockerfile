@@ -92,7 +92,7 @@ RUN ./configure \
     --with-pdo-mysql=shared \
     --with-pdo-odbc=shared,unixODBC \
     --with-pdo-pgsql=shared \
-    --with-pdo_sqlite=shared \
+    --with-pdo-sqlite=shared \
     --with-pgsql=shared \
     --with-snmp=shared \
     --with-sodium=shared \
@@ -123,3 +123,18 @@ RUN make -j4
 RUN make install
 
 COPY extensions.ini /usr/local/lib/php.ini
+
+RUN apk add --no-cache autoconf
+RUN pecl channel-update pecl.php.net
+RUN pecl install \
+    apcu \
+    csv \
+    ds \
+    igbinary \
+    mongodb \
+    msgpack \
+    pcov \
+    redis \
+    simdjson \
+    xdebug \
+    yar
