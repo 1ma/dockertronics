@@ -128,17 +128,37 @@ RUN make install
 RUN cp php.ini-development /usr/local/etc/php.ini
 COPY extensions.ini /usr/local/etc/conf.d/extensions.ini
 
-RUN apk add --no-cache autoconf
+RUN apk add --no-cache \
+    autoconf \
+    gpgme-dev \
+    libmaxminddb-dev \
+    libmemcached-dev \
+    librdkafka-dev \
+    libssh2-dev \
+    libuv-dev \
+    rabbitmq-c-dev \
+    yaml-dev
+
 RUN pecl channel-update pecl.php.net \
  && MAKEFLAGS="-j$(nproc)" pecl install \
+    amqp \
     apcu \
     csv \
     ds \
+    event \
+    excimer \
+    gnupg \
     igbinary \
+    maxminddb \
+    memcached \
     mongodb \
     msgpack \
     pcov \
+    rdkafka \
     redis \
     simdjson \
+    ssh2 \
+    uv-beta \
     xdebug \
+    yaml \
     yar
