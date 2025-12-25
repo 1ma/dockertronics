@@ -114,6 +114,7 @@ RUN apk add --no-cache \
     autoconf \
     libmemcached-dev \
     librdkafka-dev \
+    libsecp256k1-dev \
     libssh2-dev \
     libuv-dev \
     rabbitmq-c-dev \
@@ -140,6 +141,10 @@ RUN pecl channel-update pecl.php.net \
     yaml \
     yar
 
+ADD https://github.com/php/pie/releases/latest/download/pie.phar /usr/local/bin/pie
+
+RUN chmod +x /usr/local/bin/pie
+RUN pie install --skip-enable-extension uma/secp256k1-nostr
 
 FROM alpine:3.23 AS prepare
 
@@ -151,7 +156,7 @@ COPY --from=build /usr/local/etc/php-fpm.conf.default       /tmp/etc/php-fpm.con
 COPY --from=build /usr/local/etc/php-fpm.d/www.conf.default /tmp/etc/php-fpm.d/www.conf
 COPY --from=build /usr/local/lib/php/extensions             /tmp/lib/php/extensions
 COPY --from=build /usr/local/php/php/fpm/status.html        /tmp/php/php/fpm/status.html
-COPY --from=build /usr/local/sbin/php-fpm                   /usr/local/sbin/php-fpm
+COPY --from=build /usr/local/sbin/php-fpm                   /tmp/sbin/php-fpm
 
 COPY composer-pubkey.asc .
 
@@ -188,6 +193,7 @@ RUN apk add --no-cache \
     libpng \
     libpq \
     librdkafka \
+    libsecp256k1 \
     libsodium \
     libssh2 \
     libssl3 \
