@@ -109,6 +109,7 @@ RUN make install
 
 RUN cp php.ini-development /usr/local/etc/php.ini
 COPY --chmod=644 extensions.ini /usr/local/etc/conf.d/extensions.ini
+COPY --chmod=644 fpm-overrides.conf /usr/local/etc/php-fpm.d/fpm-overrides.conf
 
 RUN apk add --no-cache \
     autoconf \
@@ -150,15 +151,18 @@ FROM alpine:3.23 AS prepare
 
 WORKDIR /tmp
 
-COPY --from=build /usr/local/bin/php                        /tmp/bin/php
-COPY --from=build /usr/local/etc/conf.d                     /tmp/etc/conf.d
-COPY --from=build /usr/local/etc/php-fpm.conf.default       /tmp/etc/php-fpm.conf
-COPY --from=build /usr/local/etc/php-fpm.d/www.conf.default /tmp/etc/php-fpm.d/www.conf
-COPY --from=build /usr/local/lib/php/extensions             /tmp/lib/php/extensions
-COPY --from=build /usr/local/php/php/fpm/status.html        /tmp/php/php/fpm/status.html
-COPY --from=build /usr/local/sbin/php-fpm                   /tmp/sbin/php-fpm
+COPY --from=build /usr/local/bin/php                          /tmp/bin/php
+COPY --from=build /usr/local/etc/conf.d                       /tmp/etc/conf.d
+COPY --from=build /usr/local/etc/php-fpm.conf.default         /tmp/etc/php-fpm.conf
+COPY --from=build /usr/local/etc/php-fpm.d/www.conf.default   /tmp/etc/php-fpm.d/default-www.conf
+COPY --from=build /usr/local/etc/php-fpm.d/fpm-overrides.conf /tmp/etc/php-fpm.d/fpm-overrides.conf
+COPY --from=build /usr/local/etc/php.ini                      /tmp/etc/php.ini
+COPY --from=build /usr/local/lib/php/extensions               /tmp/lib/php/extensions
+COPY --from=build /usr/local/php/php/fpm/status.html          /tmp/php/php/fpm/status.html
+COPY --from=build /usr/local/sbin/php-fpm                     /tmp/sbin/php-fpm
 
 COPY composer-pubkey.asc .
+COPY --chmod=755 entrypoint.sh /tmp/bin/entrypoint.sh
 
 ADD https://getcomposer.org/download/latest-stable/composer.phar .
 ADD https://getcomposer.org/download/latest-stable/composer.phar.asc .
@@ -208,3 +212,9 @@ RUN apk add --no-cache \
     tidyhtml-libs \
     unixodbc \
     yaml
+
+EXPOSE 9000
+EXPOSE 9001
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+CMD ["/usr/local/sbin/php-fpm", "--nodaemonize"]
