@@ -135,7 +135,6 @@ RUN pecl channel-update pecl.php.net \
     pcov \
     rdkafka \
     redis \
-    simdjson \
     ssh2 \
     uv-beta \
     xdebug \
