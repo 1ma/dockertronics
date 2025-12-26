@@ -17,9 +17,9 @@ RUN apk add --no-cache \
     zlib-dev \
  && tar zxf haproxy-${HAPROXY_VERSION}.tar.gz \
  && make -C haproxy-${HAPROXY_VERSION} all -j$(nproc) \
-    CPU_CFLAGS="-Os" \
+    CPU_CFLAGS="-g0 -Os" \
     DEBUG_CFLAGS= \
-    LDFLAGS="-s" \
+    LDFLAGS="-Wl,--strip-all" \
     LUA_INC="/usr/include/lua5.4" \
     LUA_LIB="/usr/lib/lua5.4" \
     TARGET=linux-glibc \

@@ -16,8 +16,8 @@ RUN apk add --no-cache \
  && cd lua-${LUA_VERSION} \
  && sed -i -e 's@-O2 @@' -e 's@-DLUA_COMPAT_5_3 @@' src/Makefile \
  && make linux-readline \
-    MYCFLAGS="-Os" \
-    MYLDFLAGS="-s -static" \
+    MYCFLAGS="-g0 -Os" \
+    MYLDFLAGS="-Wl,--strip-all -static" \
     MYLIBS="-lncursesw" \
  && file src/lua src/luac \
  && upx --lzma src/lua src/luac \

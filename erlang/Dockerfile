@@ -2,8 +2,8 @@ FROM alpine:3.23 AS build
 
 ARG ERLANG_VERSION=28.3
 
-ENV CFLAGS="-Os"
-ENV LDFLAGS="-s"
+ENV CFLAGS="-g0 -Os"
+ENV LDFLAGS="-Wl,--strip-all"
 
 # https://www.erlang.org/docs/28/system/install
 

@@ -20,8 +20,8 @@ RUN apk add --no-cache \
  && tar zxof postgresql-${POSTGRES_VERSION}.tar.gz \
  && cd postgresql-${POSTGRES_VERSION} \
  && ./configure \
-    CFLAGS="-Os" \
-    LDFLAGS="-s" \
+    CFLAGS="-g0 -Os" \
+    LDFLAGS="-Wl,--strip-all" \
     --prefix=/tmp/pgsql \
     --with-libxml \
     --with-libxslt \
@@ -58,8 +58,8 @@ RUN apk --no-cache add \
  && tar zxf postgis-${POSTGIS_VERSION}.tar.gz \
  && cd postgis-${POSTGIS_VERSION} \
  && ./configure \
-    CFLAGS="-Os" \
-    LDFLAGS="-s" \
+    CFLAGS="-g0 -Os" \
+    LDFLAGS="-Wl,--strip-all" \
     --enable-lto
 
 RUN make -C postgis-${POSTGIS_VERSION} -j$(nproc) \
