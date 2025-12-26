@@ -199,7 +199,6 @@ RUN apk add --no-cache \
     libsecp256k1 \
     libsodium \
     libssh2 \
-    libssl3 \
     libuv \
     libxml2 \
     libxslt \
