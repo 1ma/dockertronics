@@ -129,16 +129,18 @@ RUN pecl channel-update pecl.php.net \
     ds \
     excimer \
     igbinary \
-    memcached \
     mongodb \
     msgpack \
     pcov \
     rdkafka \
-    redis \
     ssh2 \
     uv-beta \
     xdebug \
     yaml \
+ && MAKEFLAGS="-j$(nproc)" pecl install \
+    --configureoptions 'enable-memcached-igbinary="yes" enable-memcached-msgpack="yes" enable-memcached-json="yes" enable-redis-igbinary="yes" enable-redis-lzf="yes" enable-redis-zstd="yes" enable-redis-msgpack="yes" enable-redis-lz4="yes" enable-msgpack="yes"' \
+    memcached \
+    redis \
     yar
 
 ADD https://github.com/php/pie/releases/latest/download/pie.phar /usr/local/bin/pie
