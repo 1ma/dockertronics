@@ -107,8 +107,9 @@ RUN ./configure \
 RUN make -j4
 RUN make install
 
-RUN cp php.ini-development /usr/local/etc/php.ini
-COPY --chmod=644 extensions.ini /usr/local/etc/conf.d/extensions.ini
+RUN cp php.ini-development          /usr/local/etc/php.ini
+COPY --chmod=644 extensions.ini     /usr/local/etc/conf.d/extensions.ini
+COPY --chmod=644 php-overrides.ini  /usr/local/etc/conf.d/php-overrides.ini
 COPY --chmod=644 fpm-overrides.conf /usr/local/etc/php-fpm.d/fpm-overrides.conf
 
 RUN apk add --no-cache \
