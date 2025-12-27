@@ -2,8 +2,8 @@ ARG ALPINE_VERSION=3.23
 
 FROM alpine:${ALPINE_VERSION} AS build
 
-ARG PHP_MAJOR=8.4
-ARG PHP_VERSION=8.4.16
+ARG PHP_MAJOR
+ARG PHP_VERSION
 
 ENV CFLAGS="-g0 -Os"
 ENV LDFLAGS="-Wl,--strip-all"
@@ -107,7 +107,7 @@ RUN ./configure \
     --with-openssl-argon2 \
     --with-password-argon2
 
-RUN make -j4
+RUN make -j$(nproc)
 RUN make install
 
 RUN cp php.ini-development                       /usr/local/etc/php.ini
@@ -152,7 +152,7 @@ RUN pie install --skip-enable-extension uma/secp256k1-nostr
 
 FROM alpine:${ALPINE_VERSION} AS prepare
 
-ARG PHP_API_LEVEL=20240924
+ARG PHP_API_LEVEL
 
 WORKDIR /tmp
 

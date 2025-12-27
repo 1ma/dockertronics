@@ -10,6 +10,24 @@ variable "VERSION" {
   description = "Version of the software to build"
 }
 
+variable "ALPINE_VERSION" {
+  type = string
+  default = "3.23"
+  description = "Version of Alpine for 1maa/php images"
+}
+
+variable "PHP_API_LEVEL" {
+  type = string
+  default = "20250925"
+  description = "PHP API Level (1maa/php images)"
+}
+
+variable "PHP_MAJOR" {
+  type = string
+  default = "8.5"
+  description = "PHP major version (1maa/php images)"
+}
+
 group "default" {
   description = "Dependency-free images that can be easily built concurrently"
   targets = [
@@ -22,17 +40,6 @@ group "default" {
     "selfsig",
     "sftp",
     "sleepy"
-  ]
-}
-
-group "php-next" {
-  description = "Next-gen PHP images"
-  targets = [
-    "php-next-81",
-    "php-next-82",
-    "php-next-83",
-    "php-next-84",
-    "php-next-85"
   ]
 }
 
@@ -110,106 +117,19 @@ target "lua" {
 }
 
 target "php" {
+  args = {
+    ALPINE_VERSION = ALPINE_VERSION
+    PHP_API_LEVEL = PHP_API_LEVEL
+    PHP_MAJOR = PHP_MAJOR
+    PHP_VERSION = VERSION
+  }
   context = "php"
   cache-to = [{type = "inline"}]
   cache-from = [{
     type = "registry"
-    ref = "ghcr.io/1ma/php:${VERSION}-${RUNNER}"
+    ref = "ghcr.io/1ma/php:${PHP_MAJOR}-${RUNNER}"
   }]
-  dockerfile = "${VERSION}/Dockerfile"
-  tags = ["ghcr.io/1ma/php:${VERSION}-${RUNNER}"]
-  target = "php"
-}
-
-target "php-dev" {
-  context = "php"
-  cache-to = [{type = "inline"}]
-  cache-from = [{
-    type = "registry"
-    ref = "ghcr.io/1ma/php-dev:${VERSION}-${RUNNER}"
-  }]
-  dockerfile = "${VERSION}/Dockerfile"
-  tags = ["ghcr.io/1ma/php-dev:${VERSION}-${RUNNER}"]
-  target = "php-dev"
-}
-
-target "php-next-81" {
-  args = {
-    ALPINE_VERSION = "3.20"
-    PHP_API_LEVEL = "20210902"
-    PHP_MAJOR = "8.1"
-    PHP_VERSION = "8.1.34"
-  }
-  context = "php-next"
-  cache-to = [{type = "inline"}]
-  cache-from = [{
-    type = "registry"
-    ref = "1maa/php-next:8.1"
-  }]
-  tags = ["1maa/php-next:8.1"]
-}
-
-target "php-next-82" {
-  args = {
-    PHP_API_LEVEL = "20220829"
-    PHP_VERSION = "8.2.30"
-    PHP_MAJOR = "8.2"
-  }
-  context = "php-next"
-  cache-to = [{type = "inline"}]
-  cache-from = [{
-    type = "registry"
-    ref = "1maa/php-next:8.2"
-  }]
-  tags = ["1maa/php-next:8.2"]
-}
-
-target "php-next-83" {
-  args = {
-    PHP_API_LEVEL = "20230831"
-    PHP_VERSION = "8.3.29"
-    PHP_MAJOR = "8.3"
-  }
-  context = "php-next"
-  cache-to = [{type = "inline"}]
-  cache-from = [{
-    type = "registry"
-    ref = "1maa/php-next:8.3"
-  }]
-  tags = ["1maa/php-next:8.3"]
-}
-
-target "php-next-84" {
-  args = {
-    PHP_API_LEVEL = "20240924"
-    PHP_VERSION = "8.4.16"
-    PHP_MAJOR = "8.4"
-  }
-  context = "php-next"
-  cache-to = [{type = "inline"}]
-  cache-from = [{
-    type = "registry"
-    ref = "1maa/php-next:8.4"
-  }]
-  tags = ["1maa/php-next:8.4"]
-}
-
-target "php-next-85" {
-  args = {
-    PHP_API_LEVEL = "20250925"
-    PHP_VERSION = "8.5.1"
-    PHP_MAJOR = "8.5"
-  }
-  context = "php-next"
-  cache-to = [{type = "inline"}]
-  cache-from = [{
-    type = "registry"
-    ref = "1maa/php-next:8.5"
-  }]
-  tags = [
-    "1maa/php-next:8.5",
-    "1maa/php-next:latest"
-  ]
+  tags = ["ghcr.io/1ma/php:${PHP_MAJOR}-${RUNNER}"]
 }
 
 target "postgres" {
