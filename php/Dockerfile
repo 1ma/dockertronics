@@ -150,9 +150,10 @@ ADD https://github.com/php/pie/releases/latest/download/pie.phar /usr/local/bin/
 RUN chmod +x /usr/local/bin/pie
 RUN pie install --skip-enable-extension uma/secp256k1-nostr
 
-FROM alpine:${ALPINE_VERSION} AS prepare
+RUN chmod 644 $(php-config --extension-dir)/*.so
 
-ARG PHP_API_LEVEL
+
+FROM alpine:${ALPINE_VERSION} AS prepare
 
 WORKDIR /tmp
 
@@ -179,12 +180,12 @@ RUN apk add --no-cache \
 
 RUN rm composer.phar.asc composer-pubkey.asc \
  && chmod 755 composer.phar \
- && chmod 644 lib/php/extensions/no-debug-non-zts-${PHP_API_LEVEL}/*.so \
  && mv composer.phar bin/composer
 
 RUN apk add --no-cache \
     upx \
  && upx --lzma /tmp/bin/php /tmp/sbin/php-fpm
+
 
 FROM alpine:${ALPINE_VERSION} AS final
 

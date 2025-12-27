@@ -16,12 +16,6 @@ variable "ALPINE_VERSION" {
   description = "Version of Alpine for 1maa/php images"
 }
 
-variable "PHP_API_LEVEL" {
-  type = string
-  default = "20250925"
-  description = "PHP API Level (1maa/php images)"
-}
-
 variable "PHP_MAJOR" {
   type = string
   default = "8.5"
@@ -119,7 +113,6 @@ target "lua" {
 target "php" {
   args = {
     ALPINE_VERSION = ALPINE_VERSION
-    PHP_API_LEVEL = PHP_API_LEVEL
     PHP_MAJOR = PHP_MAJOR
     PHP_VERSION = VERSION
   }

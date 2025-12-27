@@ -93,11 +93,11 @@ jobs:
       fail-fast: false
       matrix:
         php:
-          - { version: "8.1.34", major: "8.1", api_level: "20210902", alpine_version: "3.20" }
-          - { version: "8.2.30", major: "8.2", api_level: "20220829", alpine_version: "3.23" }
-          - { version: "8.3.29", major: "8.3", api_level: "20230831", alpine_version: "3.23" }
-          - { version: "8.4.16", major: "8.4", api_level: "20240924", alpine_version: "3.23" }
-          - { version: "8.5.1", major: "8.5", api_level: "20250925", alpine_version: "3.23" }
+          - { version: "8.1.34", major: "8.1", alpine_version: "3.20" }
+          - { version: "8.2.30", major: "8.2", alpine_version: "3.23" }
+          - { version: "8.3.29", major: "8.3", alpine_version: "3.23" }
+          - { version: "8.4.16", major: "8.4", alpine_version: "3.23" }
+          - { version: "8.5.1", major: "8.5", alpine_version: "3.23" }
         runners:
           - "ubuntu-24.04"
           - "ubuntu-24.04-arm"
@@ -105,7 +105,6 @@ jobs:
       RUNNER: ${{ matrix.runners }}
       VERSION: ${{ matrix.php.version }}
       PHP_MAJOR: ${{ matrix.php.major }}
-      PHP_API_LEVEL: ${{ matrix.php.api_level }}
       ALPINE_VERSION: ${{ matrix.php.alpine_version }}
     steps:
       - uses: actions/checkout@v6
