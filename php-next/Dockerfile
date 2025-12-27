@@ -182,6 +182,9 @@ RUN rm composer.phar.asc composer-pubkey.asc \
  && chmod 644 lib/php/extensions/no-debug-non-zts-${PHP_API_LEVEL}/*.so \
  && mv composer.phar bin/composer
 
+RUN apk add --no-cache \
+    upx \
+ && upx --lzma /tmp/bin/php /tmp/sbin/php-fpm
 
 FROM alpine:${ALPINE_VERSION} AS final
 

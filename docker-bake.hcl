@@ -28,6 +28,7 @@ group "default" {
 group "php-next" {
   description = "Next-gen PHP images"
   targets = [
+    "php-next-81",
     "php-next-82",
     "php-next-83",
     "php-next-84",
