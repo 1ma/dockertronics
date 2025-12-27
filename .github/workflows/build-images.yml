@@ -32,7 +32,7 @@ jobs:
           targets: default
 
   erlang-multiarch:
-    name: Build Erlang ${{ matrix.versions }} image on ${{ matrix.runners }}
+    name: Build Erlang ${{ matrix.versions }} on ${{ matrix.runners }}
     runs-on: ${{ matrix.runners }}
     strategy:
       fail-fast: false
@@ -87,24 +87,23 @@ jobs:
             ghcr.io/1ma/erlang:${{ matrix.versions.exact }}-ubuntu-24.04-arm
 
   php-multiarch:
-    name: Build PHP ${{ matrix.php.major }} image on ${{ matrix.runners }}
+    name: Build PHP ${{ matrix.php.version }} on ${{ matrix.runners }}
     runs-on: ${{ matrix.runners }}
     strategy:
       fail-fast: false
       matrix:
         php:
-          - { version: "8.1.34", major: "8.1", alpine_version: "3.20" }
-          - { version: "8.2.30", major: "8.2", alpine_version: "3.23" }
-          - { version: "8.3.29", major: "8.3", alpine_version: "3.23" }
-          - { version: "8.4.16", major: "8.4", alpine_version: "3.23" }
-          - { version: "8.5.1", major: "8.5", alpine_version: "3.23" }
+          - { version: "8.1.34", alpine_version: "3.20" }
+          - { version: "8.2.30", alpine_version: "3.23" }
+          - { version: "8.3.29", alpine_version: "3.23" }
+          - { version: "8.4.16", alpine_version: "3.23" }
+          - { version: "8.5.1", alpine_version: "3.23" }
         runners:
           - "ubuntu-24.04"
           - "ubuntu-24.04-arm"
     env:
       RUNNER: ${{ matrix.runners }}
       VERSION: ${{ matrix.php.version }}
-      PHP_MAJOR: ${{ matrix.php.major }}
       ALPINE_VERSION: ${{ matrix.php.alpine_version }}
     steps:
       - uses: actions/checkout@v6
@@ -148,7 +147,7 @@ jobs:
             ghcr.io/1ma/php:${{ matrix.versions }}-ubuntu-24.04-arm
 
   postgres-multiarch:
-    name: Build Postgres ${{ matrix.versions }} image on ${{ matrix.runners }}
+    name: Build Postgres ${{ matrix.versions }} on ${{ matrix.runners }}
     runs-on: ${{ matrix.runners }}
     strategy:
       fail-fast: false
@@ -209,7 +208,7 @@ jobs:
             ghcr.io/1ma/postgres:${{ matrix.versions.exact }}-ubuntu-24.04-arm
 
   sqlite-multiarch:
-    name: Build SQLite image on ${{ matrix.runners }}
+    name: Build SQLite on ${{ matrix.runners }}
     runs-on: ${{ matrix.runners }}
     strategy:
       fail-fast: false

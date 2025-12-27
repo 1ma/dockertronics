@@ -18,7 +18,7 @@ variable "ALPINE_VERSION" {
 
 variable "PHP_MAJOR" {
   type = string
-  default = "8.5"
+  default = format("%s.%s", split(".", VERSION)[0], split(".", VERSION)[1])
   description = "PHP major version (1maa/php images)"
 }
 
@@ -113,7 +113,6 @@ target "lua" {
 target "php" {
   args = {
     ALPINE_VERSION = ALPINE_VERSION
-    PHP_MAJOR = PHP_MAJOR
     PHP_VERSION = VERSION
   }
   context = "php"

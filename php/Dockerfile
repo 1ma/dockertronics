@@ -2,7 +2,6 @@ ARG ALPINE_VERSION=3.23
 
 FROM alpine:${ALPINE_VERSION} AS build
 
-ARG PHP_MAJOR
 ARG PHP_VERSION
 
 ENV CFLAGS="-g0 -Os"
@@ -10,14 +9,15 @@ ENV LDFLAGS="-Wl,--strip-all"
 
 WORKDIR /tmp
 
-COPY ${PHP_MAJOR}/release-pubkeys.asc .
+COPY pubkeys .
 
 ADD https://www.php.net/distributions/php-${PHP_VERSION}.tar.gz .
 ADD https://www.php.net/distributions/php-${PHP_VERSION}.tar.gz.asc .
 
-RUN apk add --no-cache \
+RUN RELEASE_PUBKEYS=$(echo ${PHP_VERSION} | cut -c1,3) \
+ && apk add --no-cache \
     gnupg \
- && gpg --import release-pubkeys.asc \
+ && gpg --import release-${RELEASE_PUBKEYS}.asc \
  && gpg --verify php-${PHP_VERSION}.tar.gz.asc php-${PHP_VERSION}.tar.gz
 
 RUN apk add --no-cache \
@@ -110,10 +110,16 @@ RUN ./configure \
 RUN make -j$(nproc)
 RUN make install
 
-RUN cp php.ini-development                       /usr/local/etc/php.ini
-COPY --chmod=644 ${PHP_MAJOR}/extensions.ini     /usr/local/etc/conf.d/extensions.ini
-COPY --chmod=644 ${PHP_MAJOR}/php-overrides.ini  /usr/local/etc/conf.d/php-overrides.ini
-COPY --chmod=644 fpm-overrides.conf              /usr/local/etc/php-fpm.d/fpm-overrides.conf
+RUN cp php.ini-development          /usr/local/etc/php.ini
+COPY --chmod=644 extensions.ini     /usr/local/etc/conf.d/extensions.ini
+COPY --chmod=644 php-overrides.ini  /usr/local/etc/conf.d/php-overrides.ini
+COPY --chmod=644 fpm-overrides.conf /usr/local/etc/php-fpm.d/fpm-overrides.conf
+
+# Append zend_extension=opcache.so to extensions.ini for versions of PHP lower than 8.5.0
+RUN set -eu; \
+  if php -r 'exit(version_compare(PHP_VERSION, "8.5.0", "<") ? 0 : 1);'; then \
+    echo 'zend_extension=opcache.so' >> /usr/local/etc/conf.d/extensions.ini; \
+  fi
 
 RUN apk add --no-cache \
     autoconf \
