@@ -18,11 +18,19 @@ group "default" {
     "electrs",
     "haproxy",
     "lua",
-    "php-next",
     "protoc",
     "selfsig",
     "sftp",
     "sleepy"
+  ]
+}
+
+group "php-next" {
+  description = "Next-gen PHP images"
+  targets = [
+    "php-next-82",
+    "php-next-83",
+    "php-next-84"
   ]
 }
 
@@ -123,14 +131,67 @@ target "php-dev" {
   target = "php-dev"
 }
 
-target "php-next" {
+target "php-next-81" {
+  args = {
+    PHP_API_LEVEL = "20210902"
+    PHP_MAJOR = "8.1"
+    PHP_VERSION = "8.1.34"
+  }
   context = "php-next"
   cache-to = [{type = "inline"}]
   cache-from = [{
     type = "registry"
-    ref = "1maa/php-next:latest"
+    ref = "1maa/php-next:8.1"
   }]
-  tags = ["1maa/php-next:latest"]
+  tags = ["1maa/php-next:8.1"]
+}
+
+target "php-next-82" {
+  args = {
+    PHP_API_LEVEL = "20220829"
+    PHP_VERSION = "8.2.30"
+    PHP_MAJOR = "8.2"
+  }
+  context = "php-next"
+  cache-to = [{type = "inline"}]
+  cache-from = [{
+    type = "registry"
+    ref = "1maa/php-next:8.2"
+  }]
+  tags = ["1maa/php-next:8.2"]
+}
+
+target "php-next-83" {
+  args = {
+    PHP_API_LEVEL = "20230831"
+    PHP_VERSION = "8.3.29"
+    PHP_MAJOR = "8.3"
+  }
+  context = "php-next"
+  cache-to = [{type = "inline"}]
+  cache-from = [{
+    type = "registry"
+    ref = "1maa/php-next:8.3"
+  }]
+  tags = ["1maa/php-next:8.3"]
+}
+
+target "php-next-84" {
+  args = {
+    PHP_API_LEVEL = "20240924"
+    PHP_VERSION = "8.4.16"
+    PHP_MAJOR = "8.4"
+  }
+  context = "php-next"
+  cache-to = [{type = "inline"}]
+  cache-from = [{
+    type = "registry"
+    ref = "1maa/php-next:8.4"
+  }]
+  tags = [
+    "1maa/php-next:8.4",
+    "1maa/php-next:latest"
+  ]
 }
 
 target "postgres" {

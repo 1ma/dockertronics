@@ -1,5 +1,6 @@
 FROM alpine:3.23 AS build
 
+ARG PHP_MAJOR=8.4
 ARG PHP_VERSION=8.4.16
 
 ENV CFLAGS="-g0 -Os"
@@ -7,14 +8,14 @@ ENV LDFLAGS="-Wl,--strip-all"
 
 WORKDIR /tmp
 
-COPY pubkeys.asc .
+COPY ${PHP_MAJOR}/release-pubkeys.asc .
 
 ADD https://www.php.net/distributions/php-${PHP_VERSION}.tar.gz .
 ADD https://www.php.net/distributions/php-${PHP_VERSION}.tar.gz.asc .
 
 RUN apk add --no-cache \
     gnupg \
- && gpg --import pubkeys.asc \
+ && gpg --import release-pubkeys.asc \
  && gpg --verify php-${PHP_VERSION}.tar.gz.asc php-${PHP_VERSION}.tar.gz
 
 RUN apk add --no-cache \
@@ -84,7 +85,7 @@ RUN ./configure \
     --with-openssl=shared \
     --with-pdo-dblib=shared \
     --with-pdo-mysql=shared \
-    --with-pdo-odbc=shared,unixODBC \
+    --with-pdo-odbc=shared,unixODBC,/usr \
     --with-pdo-pgsql=shared \
     --with-pdo-sqlite=shared \
     --with-pgsql=shared \
@@ -151,6 +152,8 @@ RUN pie install --skip-enable-extension uma/secp256k1-nostr
 
 FROM alpine:3.23 AS prepare
 
+ARG PHP_API_LEVEL=20240924
+
 WORKDIR /tmp
 
 COPY --from=build /usr/local/bin/php                          /tmp/bin/php
@@ -176,7 +179,7 @@ RUN apk add --no-cache \
 
 RUN rm composer.phar.asc composer-pubkey.asc \
  && chmod 755 composer.phar \
- && chmod 644 lib/php/extensions/no-debug-non-zts-20240924/*.so \
+ && chmod 644 lib/php/extensions/no-debug-non-zts-${PHP_API_LEVEL}/*.so \
  && mv composer.phar bin/composer
 
 
