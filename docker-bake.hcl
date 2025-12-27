@@ -30,7 +30,8 @@ group "php-next" {
   targets = [
     "php-next-82",
     "php-next-83",
-    "php-next-84"
+    "php-next-84",
+    "php-next-85"
   ]
 }
 
@@ -133,6 +134,7 @@ target "php-dev" {
 
 target "php-next-81" {
   args = {
+    ALPINE_VERSION = "3.20"
     PHP_API_LEVEL = "20210902"
     PHP_MAJOR = "8.1"
     PHP_VERSION = "8.1.34"
@@ -188,8 +190,23 @@ target "php-next-84" {
     type = "registry"
     ref = "1maa/php-next:8.4"
   }]
+  tags = ["1maa/php-next:8.4"]
+}
+
+target "php-next-85" {
+  args = {
+    PHP_API_LEVEL = "20250925"
+    PHP_VERSION = "8.5.1"
+    PHP_MAJOR = "8.5"
+  }
+  context = "php-next"
+  cache-to = [{type = "inline"}]
+  cache-from = [{
+    type = "registry"
+    ref = "1maa/php-next:8.5"
+  }]
   tags = [
-    "1maa/php-next:8.4",
+    "1maa/php-next:8.5",
     "1maa/php-next:latest"
   ]
 }

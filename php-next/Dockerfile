@@ -1,4 +1,6 @@
-FROM alpine:3.23 AS build
+ARG ALPINE_VERSION=3.23
+
+FROM alpine:${ALPINE_VERSION} AS build
 
 ARG PHP_MAJOR=8.4
 ARG PHP_VERSION=8.4.16
@@ -108,10 +110,10 @@ RUN ./configure \
 RUN make -j4
 RUN make install
 
-RUN cp php.ini-development          /usr/local/etc/php.ini
-COPY --chmod=644 extensions.ini     /usr/local/etc/conf.d/extensions.ini
-COPY --chmod=644 php-overrides.ini  /usr/local/etc/conf.d/php-overrides.ini
-COPY --chmod=644 fpm-overrides.conf /usr/local/etc/php-fpm.d/fpm-overrides.conf
+RUN cp php.ini-development                       /usr/local/etc/php.ini
+COPY --chmod=644 ${PHP_MAJOR}/extensions.ini     /usr/local/etc/conf.d/extensions.ini
+COPY --chmod=644 ${PHP_MAJOR}/php-overrides.ini  /usr/local/etc/conf.d/php-overrides.ini
+COPY --chmod=644 fpm-overrides.conf              /usr/local/etc/php-fpm.d/fpm-overrides.conf
 
 RUN apk add --no-cache \
     autoconf \
@@ -148,7 +150,7 @@ ADD https://github.com/php/pie/releases/latest/download/pie.phar /usr/local/bin/
 RUN chmod +x /usr/local/bin/pie
 RUN pie install --skip-enable-extension uma/secp256k1-nostr
 
-FROM alpine:3.23 AS prepare
+FROM alpine:${ALPINE_VERSION} AS prepare
 
 ARG PHP_API_LEVEL=20240924
 
@@ -181,11 +183,12 @@ RUN rm composer.phar.asc composer-pubkey.asc \
  && mv composer.phar bin/composer
 
 
-FROM alpine:3.23 AS final
+FROM alpine:${ALPINE_VERSION} AS final
 
 COPY --from=prepare /tmp/ /usr/local/
 
 RUN apk add --no-cache \
+    7zip \
     argon2-libs \
     db \
     freetds \
