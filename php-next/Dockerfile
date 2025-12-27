@@ -120,12 +120,10 @@ RUN apk add --no-cache \
     libsecp256k1-dev \
     libssh2-dev \
     libuv-dev \
-    rabbitmq-c-dev \
     yaml-dev
 
 RUN pecl channel-update pecl.php.net \
  && MAKEFLAGS="-j$(nproc)" pecl install \
-    amqp \
     apcu \
     csv \
     ds \
@@ -211,7 +209,6 @@ RUN apk add --no-cache \
     libzip \
     lmdb \
     oniguruma \
-    rabbitmq-c \
     sqlite-libs \
     tidyhtml-libs \
     unixodbc \
