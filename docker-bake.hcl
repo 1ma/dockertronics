@@ -10,16 +10,22 @@ variable "VERSION" {
   description = "Version of the software to build"
 }
 
-variable "ALPINE_VERSION" {
+variable "VERSION_MAJOR" {
   type = string
-  default = "3.23"
-  description = "Version of Alpine for 1maa/php images"
+  default = split(".", VERSION)[0]
+  description = "Major software version for caching tags"
 }
 
 variable "PHP_MAJOR" {
   type = string
   default = format("%s.%s", split(".", VERSION)[0], split(".", VERSION)[1])
-  description = "PHP major version (1maa/php images)"
+  description = "Major software version for caching tags (1maa/php only)"
+}
+
+variable "ALPINE_VERSION" {
+  type = string
+  default = "3.23"
+  description = "Version of Alpine for 1maa/php images"
 }
 
 group "default" {
@@ -80,9 +86,9 @@ target "erlang" {
   cache-to = [{type = "inline"}]
   cache-from = [{
     type = "registry"
-    ref = "ghcr.io/1ma/erlang:${VERSION}-${RUNNER}"
+    ref = "ghcr.io/1ma/erlang:${VERSION_MAJOR}-${RUNNER}"
   }]
-  tags = ["ghcr.io/1ma/erlang:${VERSION}-${RUNNER}"]
+  tags = ["ghcr.io/1ma/erlang:${VERSION_MAJOR}-${RUNNER}"]
 }
 
 target "haproxy" {
@@ -132,9 +138,9 @@ target "postgres" {
   cache-to = [{type = "inline"}]
   cache-from = [{
     type = "registry"
-    ref = "ghcr.io/1ma/postgres:${VERSION}-${RUNNER}"
+    ref = "ghcr.io/1ma/postgres:${VERSION_MAJOR}-${RUNNER}"
   }]
-  tags = ["ghcr.io/1ma/postgres:${VERSION}-${RUNNER}"]
+  tags = ["ghcr.io/1ma/postgres:${VERSION_MAJOR}-${RUNNER}"]
 }
 
 target "protoc" {

@@ -70,10 +70,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        versions:
-          - { major: "26", exact: "26.2.5.16" }
-          - { major: "27", exact: "27.3.4.6" }
-          - { major: "28", exact: "28.3" }
+        major:
+          - "26"
+          - "27"
+          - "28"
     steps:
       - uses: docker/setup-buildx-action@v3
       - uses: docker/login-action@v3
@@ -82,9 +82,9 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_PASS }}
       - run: |
           docker buildx imagetools create \
-            -t 1maa/erlang:${{ matrix.versions.major }}-alpine \
-            ghcr.io/1ma/erlang:${{ matrix.versions.exact }}-ubuntu-24.04 \
-            ghcr.io/1ma/erlang:${{ matrix.versions.exact }}-ubuntu-24.04-arm
+            -t 1maa/erlang:${{ matrix.major }}-alpine \
+            ghcr.io/1ma/erlang:${{ matrix.major }}-ubuntu-24.04 \
+            ghcr.io/1ma/erlang:${{ matrix.major }}-ubuntu-24.04-arm
 
   php-multiarch:
     name: Build PHP ${{ matrix.php.version }} on ${{ matrix.runners }}
@@ -188,13 +188,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        versions:
-          - { major: "13", exact: "13.23" }
-          - { major: "14", exact: "14.20" }
-          - { major: "15", exact: "15.15" }
-          - { major: "16", exact: "16.11" }
-          - { major: "17", exact: "17.7" }
-          - { major: "18", exact: "18.1" }
+        major:
+          - "13"
+          - "14"
+          - "15"
+          - "16"
+          - "17"
+          - "18"
     steps:
       - uses: docker/setup-buildx-action@v3
       - uses: docker/login-action@v3
@@ -203,9 +203,9 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_PASS }}
       - run: |
           docker buildx imagetools create \
-            -t 1maa/postgres:${{ matrix.versions.major }}-alpine \
-            ghcr.io/1ma/postgres:${{ matrix.versions.exact }}-ubuntu-24.04 \
-            ghcr.io/1ma/postgres:${{ matrix.versions.exact }}-ubuntu-24.04-arm
+            -t 1maa/postgres:${{ matrix.major }}-alpine \
+            ghcr.io/1ma/postgres:${{ matrix.major }}-ubuntu-24.04 \
+            ghcr.io/1ma/postgres:${{ matrix.major }}-ubuntu-24.04-arm
 
   sqlite-multiarch:
     name: Build SQLite on ${{ matrix.runners }}
