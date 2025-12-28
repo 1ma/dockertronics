@@ -40,7 +40,7 @@ USER electrs
 
 VOLUME ["/var/lib/electrs"]
 
-# Prometheus metrisc for mainnet and signet
+# Prometheus metrics for mainnet and signet
 EXPOSE 4224 34224
 
 # mainnet plain, mainnet ssl, signet plain, signet ssl

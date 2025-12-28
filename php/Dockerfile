@@ -9,16 +9,17 @@ ENV LDFLAGS="-Wl,--strip-all"
 
 WORKDIR /tmp
 
-COPY pubkeys .
-
 ADD https://www.php.net/distributions/php-${PHP_VERSION}.tar.gz .
 ADD https://www.php.net/distributions/php-${PHP_VERSION}.tar.gz.asc .
 
-RUN RELEASE_PUBKEYS=$(echo ${PHP_VERSION} | cut -c1,3) \
- && apk add --no-cache \
+COPY release-pubkeys.asc .
+
+RUN apk add --no-cache \
     gnupg \
- && gpg --import release-${RELEASE_PUBKEYS}.asc \
+ && gpg --import release-pubkeys.asc \
  && gpg --verify php-${PHP_VERSION}.tar.gz.asc php-${PHP_VERSION}.tar.gz
+
+RUN tar zxof php-${PHP_VERSION}.tar.gz
 
 RUN apk add --no-cache \
     argon2-dev \
@@ -44,8 +45,6 @@ RUN apk add --no-cache \
     sqlite-dev \
     tidyhtml-dev \
     unixodbc-dev
-
-RUN tar zxof php-${PHP_VERSION}.tar.gz
 
 WORKDIR /tmp/php-${PHP_VERSION}
 
@@ -105,10 +104,9 @@ RUN ./configure \
     --with-lmdb \
 \
     --with-openssl-argon2 \
-    --with-password-argon2
-
-RUN make -j$(nproc)
-RUN make install
+    --with-password-argon2 \
+ && make -j$(nproc) \
+ && make install
 
 RUN cp php.ini-development          /usr/local/etc/php.ini
 COPY --chmod=644 extensions.ini     /usr/local/etc/conf.d/extensions.ini
@@ -173,18 +171,18 @@ COPY --from=build /usr/local/lib/php/extensions               /tmp/lib/php/exten
 COPY --from=build /usr/local/php/php/fpm/status.html          /tmp/php/php/fpm/status.html
 COPY --from=build /usr/local/sbin/php-fpm                     /tmp/sbin/php-fpm
 
-COPY composer-pubkey.asc .
 COPY --chmod=755 entrypoint.sh /tmp/bin/entrypoint.sh
 
 ADD https://getcomposer.org/download/latest-stable/composer.phar .
 ADD https://getcomposer.org/download/latest-stable/composer.phar.asc .
 
+COPY composer-pubkey.asc .
+
 RUN apk add --no-cache \
     gnupg \
  && gpg --import composer-pubkey.asc \
- && gpg --verify composer.phar.asc composer.phar
-
-RUN rm composer.phar.asc composer-pubkey.asc \
+ && gpg --verify composer.phar.asc composer.phar \
+ && rm composer.phar.asc composer-pubkey.asc \
  && chmod 755 composer.phar \
  && mv composer.phar bin/composer
 
@@ -228,7 +226,6 @@ RUN apk add --no-cache \
     yaml
 
 EXPOSE 9000
-EXPOSE 9001
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 CMD ["/usr/local/sbin/php-fpm", "--nodaemonize"]
