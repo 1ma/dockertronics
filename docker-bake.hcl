@@ -22,12 +22,6 @@ variable "PHP_MAJOR" {
   description = "Major software version for caching tags (1maa/php only)"
 }
 
-variable "ALPINE_VERSION" {
-  type = string
-  default = "3.23"
-  description = "Version of Alpine for 1maa/php images"
-}
-
 group "default" {
   description = "Dependency-free images that can be easily built concurrently"
   targets = [
@@ -118,7 +112,6 @@ target "lua" {
 
 target "php" {
   args = {
-    ALPINE_VERSION = ALPINE_VERSION
     PHP_VERSION = VERSION
   }
   context = "php"

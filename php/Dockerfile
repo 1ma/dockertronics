@@ -1,6 +1,4 @@
-ARG ALPINE_VERSION=3.23
-
-FROM alpine:${ALPINE_VERSION} AS build
+FROM alpine:3.23 AS build
 
 ARG PHP_VERSION
 
@@ -157,7 +155,7 @@ RUN pie install --skip-enable-extension uma/secp256k1-nostr
 RUN chmod 644 $(php-config --extension-dir)/*.so
 
 
-FROM alpine:${ALPINE_VERSION} AS prepare
+FROM alpine:3.23 AS prepare
 
 WORKDIR /tmp
 
@@ -191,7 +189,7 @@ RUN apk add --no-cache \
  && upx --lzma /tmp/bin/php /tmp/sbin/php-fpm
 
 
-FROM alpine:${ALPINE_VERSION} AS final
+FROM alpine:3.23 AS final
 
 COPY --from=prepare /tmp/ /usr/local/
 
