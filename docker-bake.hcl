@@ -29,7 +29,6 @@ group "default" {
     "cln-debian",
     "electrs",
     "haproxy",
-    "lua",
     "protoc",
     "selfsig",
     "sftp",
@@ -97,17 +96,6 @@ target "haproxy" {
     "1maa/haproxy:3.2",
     "1maa/haproxy:latest"
   ]
-}
-
-target "lua" {
-  context = "lua"
-  cache-to = [{type = "inline"}]
-  cache-from = [{
-    type = "registry"
-    ref = "1maa/lua:5.4"
-  }]
-  platforms = ["linux/amd64", "linux/arm64"]
-  tags = ["1maa/lua:5.4"]
 }
 
 target "php" {
