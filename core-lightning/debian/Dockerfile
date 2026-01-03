@@ -9,7 +9,7 @@ RUN go install -trimpath -ldflags="-d -s -w" github.com/nbd-wtf/trustedcoin@${TR
 
 FROM debian:trixie-slim AS builder
 
-ARG CLN_VERSION=v25.09.3
+ARG CLN_VERSION=v25.12
 
 ENV PATH="/root/.cargo/bin:${PATH}"
 
@@ -27,6 +27,7 @@ RUN apt-get update \
     libsodium-dev \
     libsqlite3-dev \
     libtool \
+    lowdown \
     protobuf-compiler \
     python3-pip \
     zlib1g-dev \

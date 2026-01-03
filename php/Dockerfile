@@ -40,6 +40,7 @@ RUN apk add --no-cache \
     oniguruma-dev \
     openssl-dev \
     pkgconf \
+    rabbitmq-c-dev \
     sqlite-dev \
     tidyhtml-dev \
     unixodbc-dev
@@ -128,11 +129,13 @@ RUN apk add --no-cache \
 
 RUN pecl channel-update pecl.php.net \
  && MAKEFLAGS="-j$(nproc)" pecl install \
+    amqp \
     apcu \
     csv \
     ds \
     excimer \
     igbinary \
+    inotify \
     mongodb \
     msgpack \
     pcov \
@@ -218,6 +221,7 @@ RUN apk add --no-cache \
     libzip \
     lmdb \
     oniguruma \
+    rabbitmq-c \
     sqlite-libs \
     tidyhtml-libs \
     unixodbc \
