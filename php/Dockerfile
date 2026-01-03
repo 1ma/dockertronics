@@ -2,8 +2,8 @@ FROM alpine:3.23 AS build
 
 ARG PHP_VERSION
 
-ENV CFLAGS="-g0 -Os"
-ENV LDFLAGS="-Wl,--strip-all"
+ENV CFLAGS="-g0 -Os -fstack-protector-strong -fpic -fpie -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64"
+ENV LDFLAGS="-Wl,--strip-all -Wl,-O1 -pie"
 
 WORKDIR /tmp
 
