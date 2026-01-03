@@ -9,7 +9,7 @@ RUN go install -trimpath -ldflags="-d -s -w" github.com/nbd-wtf/trustedcoin@${TR
 
 FROM alpine:3.23 AS builder
 
-ARG CLN_VERSION=v25.09.3
+ARG CLN_VERSION=v25.12
 
 ENV PATH="/root/.cargo/bin:${PATH}"
 
@@ -25,6 +25,7 @@ RUN apk add --no-cache \
     libpq-dev \
     libsodium-dev \
     libtool \
+    lowdown \
     protoc \
     py3-pip \
     py3-setuptools \
@@ -51,11 +52,17 @@ RUN gpg --import /tmp/developer_pubkeys.pem \
 
 ENV LDFLAGS="-s"
 
+# Fix for v25.12 and up on Alpine Linux
+RUN sed -i '7i#include <unistd.h>' common/configvar.c
+
 RUN ./configure \
     --enable-static
 
 RUN make RUST_PROFILE=release \
  && git checkout -- .
+
+# Fix for v25.12 and up on Alpine Linux
+RUN sed -i '7i#include <unistd.h>' common/configvar.c
 
 RUN make install RUST_PROFILE=release
 
