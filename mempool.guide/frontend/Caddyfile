@@ -1,0 +1,25 @@
+:{$FRONTEND_HTTP_PORT} {
+	root /srv/browser
+
+	handle /api/v1/* {
+		reverse_proxy {$BACKEND_HTTP_HOST}:{$BACKEND_HTTP_PORT}
+	}
+
+	handle /api/* {
+		uri replace /api/ /api/v1/
+		reverse_proxy {$BACKEND_HTTP_HOST}:{$BACKEND_HTTP_PORT}
+	}
+
+	handle {
+		header {
+			Cache-Control "public, no-transform, max-age=1800"
+			Vary "Accept-Language, Cookie"
+		}
+
+		handle {
+			try_files {path} /index.html
+		}
+
+		file_server
+	}
+}

@@ -29,6 +29,8 @@ group "default" {
     "cln-debian",
     "electrs",
     "haproxy",
+    "mempool-guide-backend",
+    "mempool-guide-frontend",
     "protoc",
     "selfsig",
     "sftp",
@@ -96,6 +98,28 @@ target "haproxy" {
     "1maa/haproxy:3.2",
     "1maa/haproxy:latest"
   ]
+}
+
+target "mempool-guide-backend" {
+  context = "mempool.guide/backend"
+  cache-to = [{type = "inline"}]
+  cache-from = [{
+    type = "registry"
+    ref = "1maa/mempool.guide:backend"
+  }]
+  platforms = ["linux/amd64", "linux/arm64"]
+  tags = ["1maa/mempool.guide:backend"]
+}
+
+target "mempool-guide-frontend" {
+  context = "mempool.guide/frontend"
+  cache-to = [{type = "inline"}]
+  cache-from = [{
+    type = "registry"
+    ref = "1maa/mempool.guide:frontend"
+  }]
+  platforms = ["linux/amd64", "linux/arm64"]
+  tags = ["1maa/mempool.guide:frontend"]
 }
 
 target "php" {
