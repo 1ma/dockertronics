@@ -127,33 +127,33 @@ RUN apk add --no-cache \
     libuv-dev \
     yaml-dev
 
+ADD https://github.com/php/pie/releases/latest/download/pie.phar /usr/local/bin/pie
+
+RUN chmod +x /usr/local/bin/pie
+RUN pie install --skip-enable-extension apcu/apcu
+RUN pie install --skip-enable-extension arnaud-lb/inotify
+RUN pie install --skip-enable-extension girgias/csv
+RUN pie install --skip-enable-extension mongodb/mongodb-extension
+RUN pie install --skip-enable-extension pecl/pcov
+RUN pie install --skip-enable-extension pecl/yaml
+RUN pie install --skip-enable-extension rdkafka/rdkafka
+RUN pie install --skip-enable-extension uma/secp256k1-nostr
+RUN pie install --skip-enable-extension xdebug/xdebug
+
 RUN pecl channel-update pecl.php.net \
  && MAKEFLAGS="-j$(nproc)" pecl install \
     amqp \
-    apcu \
-    csv \
     ds \
     excimer \
     igbinary \
-    inotify \
-    mongodb \
     msgpack \
-    pcov \
-    rdkafka \
     ssh2 \
     uv-beta \
-    xdebug \
-    yaml \
  && MAKEFLAGS="-j$(nproc)" pecl install \
     --configureoptions 'enable-memcached-igbinary="yes" enable-memcached-msgpack="yes" enable-memcached-json="yes" enable-redis-igbinary="yes" enable-redis-lzf="yes" enable-redis-zstd="yes" enable-redis-msgpack="yes" enable-redis-lz4="yes" enable-msgpack="yes"' \
     memcached \
     redis \
     yar
-
-ADD https://github.com/php/pie/releases/latest/download/pie.phar /usr/local/bin/pie
-
-RUN chmod +x /usr/local/bin/pie
-RUN pie install --skip-enable-extension uma/secp256k1-nostr
 
 RUN chmod 644 $(php-config --extension-dir)/*.so
 
