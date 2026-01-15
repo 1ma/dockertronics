@@ -25,17 +25,23 @@ variable "PHP_MAJOR" {
 group "default" {
   description = "Dependency-free images that can be easily built concurrently"
   targets = [
-    "cln-alpine",
-    "cln-debian",
-    "electrs",
     "haproxy",
     "lnd",
-    "mempool-guide-backend",
-    "mempool-guide-frontend",
     "protoc",
     "selfsig",
     "sftp",
     "sleepy"
+  ]
+}
+
+group "rust-build" {
+  description = "Images involving cumbersome Rust builds"
+  targets = [
+    "cln-alpine",
+    "cln-debian",
+    "electrs",
+    "mempool-guide-backend",
+    "mempool-guide-frontend"
   ]
 }
 
