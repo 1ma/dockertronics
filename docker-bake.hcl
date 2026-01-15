@@ -29,6 +29,7 @@ group "default" {
     "cln-debian",
     "electrs",
     "haproxy",
+    "lnd",
     "mempool-guide-backend",
     "mempool-guide-frontend",
     "protoc",
@@ -98,6 +99,17 @@ target "haproxy" {
     "1maa/haproxy:3.2",
     "1maa/haproxy:latest"
   ]
+}
+
+target "lnd" {
+  context = "lnd"
+  cache-to = [{type = "inline"}]
+  cache-from = [{
+    type = "registry"
+    ref = "1maa/lnd:latest"
+  }]
+  platforms = ["linux/amd64", "linux/arm64"]
+  tags = ["1maa/lnd:latest"]
 }
 
 target "mempool-guide-backend" {
