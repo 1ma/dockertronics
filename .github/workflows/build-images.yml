@@ -56,9 +56,9 @@ jobs:
       fail-fast: false
       matrix:
         versions:
-          - "26.2.5.16"
-          - "27.3.4.6"
-          - "28.3"
+          - "26.2.5.17"
+          - "27.3.4.8"
+          - "28.3.1"
         runners:
           - "ubuntu-24.04"
           - "ubuntu-24.04-arm"
@@ -81,7 +81,7 @@ jobs:
           targets: erlang
 
   erlang-merge:
-    name: Merge Erlang ${{ matrix.versions.major }} image
+    name: Merge Erlang ${{ matrix.major }} image
     runs-on: ubuntu-24.04
     needs:
       - erlang-multiarch
@@ -112,9 +112,9 @@ jobs:
       matrix:
         versions:
           - "8.2.30"
-          - "8.3.29"
-          - "8.4.16"
-          - "8.5.1"
+          - "8.3.30"
+          - "8.4.18"
+          - "8.5.3"
         runners:
           - "ubuntu-24.04"
           - "ubuntu-24.04-arm"
@@ -169,11 +169,11 @@ jobs:
       matrix:
         versions:
           - "13.23"
-          - "14.20"
-          - "15.15"
-          - "16.11"
-          - "17.7"
-          - "18.1"
+          - "14.21"
+          - "15.16"
+          - "16.12"
+          - "17.8"
+          - "18.2"
         runners:
           - "ubuntu-24.04"
           - "ubuntu-24.04-arm"
@@ -196,7 +196,7 @@ jobs:
           targets: postgres
 
   postgres-merge:
-    name: Merge Postgres ${{ matrix.versions.major }} image
+    name: Merge Postgres ${{ matrix.major }} image
     runs-on: ubuntu-24.04
     needs:
       - postgres-multiarch

@@ -1,6 +1,6 @@
-FROM golang:1.25-alpine AS build
+FROM golang:alpine AS build
 
-ARG LND_VERSION=0.20.0-beta
+ARG LND_VERSION=0.20.1-beta
 ARG RELEASE_SIGNER=ellemouton
 
 ENV CGO_ENABLED=0

@@ -4,11 +4,11 @@ FROM alpine:3.23
 #   https://www.sqlite.org/howtocompile.html
 #   https://www.sqlite.org/compile.html
 
-ARG SQLITE_VERSION=3510100
+ARG SQLITE_VERSION=3510200
 
 WORKDIR /tmp
 
-ADD https://www.sqlite.org/2025/sqlite-amalgamation-${SQLITE_VERSION}.zip .
+ADD https://www.sqlite.org/2026/sqlite-amalgamation-${SQLITE_VERSION}.zip .
 
 RUN apk add --no-cache \
     build-base \

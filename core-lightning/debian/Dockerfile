@@ -9,7 +9,7 @@ RUN go install -trimpath -ldflags="-d -s -w" github.com/nbd-wtf/trustedcoin@${TR
 
 FROM debian:trixie-slim AS builder
 
-ARG CLN_VERSION=v25.12
+ARG CLN_VERSION=v25.12.1
 
 ENV PATH="/root/.cargo/bin:${PATH}"
 
