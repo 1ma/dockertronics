@@ -13,13 +13,15 @@ WORKDIR /tmp/mempool
 WORKDIR /tmp/mempool/frontend
 
 RUN npm install --omit=dev --omit=optional
+
 RUN cp mempool-frontend-config.sample.json mempool-frontend-config.json
-RUN node generate-config.js
-RUN ./node_modules/@angular/cli/bin/ng.js build --configuration production
-RUN node sync-assets.js 'src/resources/'
-RUN rsync -av ./src/resources ./dist/mempool/browser && node sync-assets.js 'dist/mempool/browser/resources/'
-RUN ./node_modules/.bin/browserify -p tinyify ./node_modules/@mempool/mempool.js/lib/index.js --standalone mempoolJS > ./dist/mempool/browser/mempool.js
-RUN ./node_modules/.bin/browserify -p tinyify ./node_modules/@mempool/mempool.js/lib/index-liquid.js --standalone liquidJS > ./dist/mempool/browser/liquid.js
+
+# Equivalent to "npm run build" without the --localize flag in ng command
+RUN npm run generate-themes
+RUN npm run generate-config
+RUN npm run ng -- build --configuration production
+RUN npm run sync-assets-dev
+RUN npm run sync-assets
 
 
 FROM caddy:alpine
@@ -33,6 +35,7 @@ ENV MAINNET_ENABLED=true
 ENV TESTNET_ENABLED=false
 ENV TESTNET_ENABLED=false
 ENV SIGNET_ENABLED=false
+ENV REGTEST_ENABLED=false
 ENV LIQUID_ENABLED=false
 ENV LIQUID_TESTNET_ENABLED=false
 
@@ -53,6 +56,7 @@ ENV AUDIT=false
 ENV MAINNET_BLOCK_AUDIT_START_HEIGHT=0
 ENV TESTNET_BLOCK_AUDIT_START_HEIGHT=0
 ENV SIGNET_BLOCK_AUDIT_START_HEIGHT=0
+ENV REGTEST_BLOCK_AUDIT_START_HEIGHT=0
 
 ENV LIGHTNING=false
 
