@@ -23,6 +23,14 @@ RUN npm run ng -- build --configuration production
 RUN npm run sync-assets-dev
 RUN npm run sync-assets
 
+WORKDIR /tmp/mempool/frontend/dist/mempool/browser
+
+RUN rm -rf \
+    resources/bitb \
+    resources/previews \
+    resources/promo-video \
+    resources/screenshots
+
 
 FROM caddy:alpine
 
