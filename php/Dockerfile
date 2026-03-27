@@ -1,4 +1,6 @@
-FROM alpine:3.23 AS build
+ARG PUBLIC_ALPINE_IMAGE="sha256:0000000000000000000000000000000000000000000000000000000000000000"
+
+FROM alpine@${PUBLIC_ALPINE_IMAGE} AS build
 
 ARG PHP_VERSION
 
@@ -158,7 +160,7 @@ RUN pecl channel-update pecl.php.net \
 RUN chmod 644 $(php-config --extension-dir)/*.so
 
 
-FROM alpine:3.23 AS prepare
+FROM alpine@${PUBLIC_ALPINE_IMAGE} AS prepare
 
 WORKDIR /tmp
 
@@ -192,7 +194,7 @@ RUN apk add --no-cache \
  && upx --lzma /tmp/bin/php /tmp/sbin/php-fpm
 
 
-FROM alpine:3.23 AS final
+FROM alpine@${PUBLIC_ALPINE_IMAGE} AS final
 
 COPY --from=prepare /tmp/ /usr/local/
 

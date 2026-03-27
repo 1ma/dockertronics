@@ -1,4 +1,6 @@
-FROM alpine:3.23 AS build
+ARG PUBLIC_ALPINE_IMAGE="sha256:0000000000000000000000000000000000000000000000000000000000000000"
+
+FROM alpine@${PUBLIC_ALPINE_IMAGE} AS build
 
 ARG ERLANG_VERSION=28.4.1
 
@@ -36,7 +38,7 @@ RUN make install \
  && find /usr/local -name src | xargs -r find | xargs rmdir -vp || true
 
 
-FROM alpine:3.23
+FROM alpine@${PUBLIC_ALPINE_IMAGE}
 
 RUN apk add --no-cache \
     inotify-tools \

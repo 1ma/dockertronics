@@ -46,6 +46,10 @@ group "rust-build" {
 }
 
 target "cln-alpine" {
+  args = {
+    PUBLIC_ALPINE_IMAGE = "sha256:25109184c71bdad752c8312a8623239686a9a2071e8825f20acb8f2198c3f659" # :3.23
+    PUBLIC_GOLANG_IMAGE = "sha256:2389ebfa5b7f43eeafbd6be0c3700cc46690ef842ad962f6c5bd6be49ed82039" # :alpine
+  }
   context = "core-lightning"
   cache-to = [{type = "inline"}]
   cache-from = [{
@@ -60,6 +64,10 @@ target "cln-alpine" {
 }
 
 target "cln-debian" {
+  args = {
+    PUBLIC_DEBIAN_IMAGE = "sha256:26f98ccd92fd0a44d6928ce8ff8f4921b4d2f535bfa07555ee5d18f61429cf0c" # :trixie-slim
+    PUBLIC_GOLANG_IMAGE = "sha256:ce3f1c8d3718a306811d8d5e547073b466b15e85bfa7e1b4f0dc45516c95b72d" # :trixie
+  }
   context = "core-lightning"
   cache-to = [{type = "inline"}]
   cache-from = [{
@@ -71,6 +79,9 @@ target "cln-debian" {
 }
 
 target "electrs" {
+  args = {
+    PUBLIC_DEBIAN_IMAGE = "sha256:26f98ccd92fd0a44d6928ce8ff8f4921b4d2f535bfa07555ee5d18f61429cf0c" # :trixie-slim
+  }
   context = "electrs"
   cache-to = [{type = "inline"}]
   cache-from = [{
@@ -83,6 +94,7 @@ target "electrs" {
 target "erlang" {
   args = {
     ERLANG_VERSION = VERSION
+    PUBLIC_ALPINE_IMAGE = "sha256:25109184c71bdad752c8312a8623239686a9a2071e8825f20acb8f2198c3f659" # :3.23
   }
   context = "erlang"
   cache-to = [{type = "inline"}]
@@ -94,6 +106,9 @@ target "erlang" {
 }
 
 target "haproxy" {
+  args = {
+    PUBLIC_ALPINE_IMAGE = "sha256:25109184c71bdad752c8312a8623239686a9a2071e8825f20acb8f2198c3f659" # :3.23
+  }
   context = "haproxy"
   cache-to = [{type = "inline"}]
   cache-from = [{
@@ -108,6 +123,10 @@ target "haproxy" {
 }
 
 target "lnd" {
+  args = {
+    PUBLIC_ALPINE_IMAGE = "sha256:25109184c71bdad752c8312a8623239686a9a2071e8825f20acb8f2198c3f659" # :3.23
+    PUBLIC_GOLANG_IMAGE = "sha256:2389ebfa5b7f43eeafbd6be0c3700cc46690ef842ad962f6c5bd6be49ed82039" # :alpine
+  }
   context = "lnd"
   cache-to = [{type = "inline"}]
   cache-from = [{
@@ -119,6 +138,9 @@ target "lnd" {
 }
 
 target "mempool-guide-backend" {
+  args = {
+    PUBLIC_NODE_IMAGE = "sha256:cf38e1f3c28ac9d81cdc0c51d8220320b3b618780e44ef96a39f76f7dbfef023" # :25-alpine
+  }
   context = "mempool.guide/backend"
   cache-to = [{type = "inline"}]
   cache-from = [{
@@ -130,6 +152,10 @@ target "mempool-guide-backend" {
 }
 
 target "mempool-guide-frontend" {
+  args = {
+    PUBLIC_CADDY_IMAGE = "sha256:fce4f15aad23222c0ac78a1220adf63bae7b94355d5ea28eee53910624acedfa" # :alpine
+    PUBLIC_NODE_IMAGE = "sha256:cf38e1f3c28ac9d81cdc0c51d8220320b3b618780e44ef96a39f76f7dbfef023" # :25-alpine
+  }
   context = "mempool.guide/frontend"
   cache-to = [{type = "inline"}]
   cache-from = [{
@@ -143,6 +169,7 @@ target "mempool-guide-frontend" {
 target "php" {
   args = {
     PHP_VERSION = VERSION
+    PUBLIC_ALPINE_IMAGE = "sha256:25109184c71bdad752c8312a8623239686a9a2071e8825f20acb8f2198c3f659" # :3.23
   }
   context = "php"
   cache-to = [{type = "inline"}]
@@ -156,6 +183,7 @@ target "php" {
 target "postgres" {
   args = {
     POSTGRES_VERSION = VERSION
+    PUBLIC_ALPINE_IMAGE = "sha256:25109184c71bdad752c8312a8623239686a9a2071e8825f20acb8f2198c3f659" # :3.23
   }
   context = "postgres"
   cache-to = [{type = "inline"}]
@@ -167,6 +195,10 @@ target "postgres" {
 }
 
 target "protoc" {
+  args = {
+    PUBLIC_ALPINE_IMAGE = "sha256:25109184c71bdad752c8312a8623239686a9a2071e8825f20acb8f2198c3f659" # :3.23
+    PUBLIC_GOLANG_IMAGE = "sha256:2389ebfa5b7f43eeafbd6be0c3700cc46690ef842ad962f6c5bd6be49ed82039" # :alpine
+  }
   context = "protoc"
   cache-to = [{type = "inline"}]
   cache-from = [{
@@ -178,6 +210,9 @@ target "protoc" {
 }
 
 target "selfsig" {
+  args = {
+    PUBLIC_ALPINE_IMAGE = "sha256:25109184c71bdad752c8312a8623239686a9a2071e8825f20acb8f2198c3f659" # :3.23
+  }
   context = "selfsig"
   cache-to = [{type = "inline"}]
   cache-from = [{
@@ -189,6 +224,9 @@ target "selfsig" {
 }
 
 target "sftp" {
+  args = {
+    PUBLIC_ALPINE_IMAGE = "sha256:25109184c71bdad752c8312a8623239686a9a2071e8825f20acb8f2198c3f659" # :3.23
+  }
   context = "sftp"
   cache-to = [{type = "inline"}]
   cache-from = [{
@@ -200,6 +238,9 @@ target "sftp" {
 }
 
 target "sleepy" {
+  args = {
+    PUBLIC_GOLANG_IMAGE = "sha256:2389ebfa5b7f43eeafbd6be0c3700cc46690ef842ad962f6c5bd6be49ed82039" # :alpine
+  }
   context = "sleepy"
   cache-to = [{type = "inline"}]
   cache-from = [{
@@ -211,6 +252,10 @@ target "sleepy" {
 }
 
 target "sqlite" {
+  args = {
+    PUBLIC_ALPINE_IMAGE = "sha256:25109184c71bdad752c8312a8623239686a9a2071e8825f20acb8f2198c3f659" # :3.23
+    PUBLIC_BUSYBOX_IMAGE = "sha256:1487d0af5f52b4ba31c7e465126ee2123fe3f2305d638e7827681e7cf6c83d5e" # :latest
+  }
   context = "sqlite"
   cache-to = [{type = "inline"}]
   cache-from = [{

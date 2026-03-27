@@ -1,4 +1,7 @@
-FROM golang:alpine AS trustedcoin
+ARG PUBLIC_ALPINE_IMAGE="sha256:0000000000000000000000000000000000000000000000000000000000000000"
+ARG PUBLIC_GOLANG_IMAGE="sha256:0000000000000000000000000000000000000000000000000000000000000000"
+
+FROM golang@${PUBLIC_GOLANG_IMAGE} AS trustedcoin
 
 ARG TRUSTEDCOIN_VERSION=v0.8.6
 
@@ -7,7 +10,7 @@ ENV CGO_ENABLED=0
 RUN go install -trimpath -ldflags="-d -s -w" github.com/nbd-wtf/trustedcoin@${TRUSTEDCOIN_VERSION}
 
 
-FROM alpine:3.23 AS builder
+FROM alpine@${PUBLIC_ALPINE_IMAGE} AS builder
 
 ARG CLN_VERSION=v25.12.1
 
@@ -69,7 +72,7 @@ RUN make install RUST_PROFILE=release
 COPY --from=trustedcoin /go/bin/trustedcoin /usr/local/libexec/c-lightning/plugins/
 
 
-FROM alpine:3.23 AS final
+FROM alpine@${PUBLIC_ALPINE_IMAGE} AS final
 
 COPY --from=builder /usr/local/bin     /usr/local/bin
 COPY --from=builder /usr/local/libexec /usr/local/libexec
