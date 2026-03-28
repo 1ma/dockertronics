@@ -254,7 +254,6 @@ target "sleepy" {
 target "sqlite" {
   args = {
     PUBLIC_ALPINE_IMAGE = "sha256:25109184c71bdad752c8312a8623239686a9a2071e8825f20acb8f2198c3f659" # :3.23
-    PUBLIC_BUSYBOX_IMAGE = "sha256:1487d0af5f52b4ba31c7e465126ee2123fe3f2305d638e7827681e7cf6c83d5e" # :latest
   }
   context = "sqlite"
   cache-to = [{type = "inline"}]
