@@ -12,7 +12,7 @@ RUN go install -trimpath -ldflags="-d -s -w" github.com/nbd-wtf/trustedcoin@${TR
 
 FROM debian@${PUBLIC_DEBIAN_IMAGE} AS builder
 
-ARG CLN_VERSION=v25.12.1
+ARG CLN_VERSION=v26.04.1
 
 ENV PATH="/root/.cargo/bin:${PATH}"
 

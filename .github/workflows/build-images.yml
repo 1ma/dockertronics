@@ -56,9 +56,9 @@ jobs:
       fail-fast: false
       matrix:
         versions:
-          - "26.2.5.18"
-          - "27.3.4.9"
-          - "28.4"
+          - "26.2.5.20"
+          - "27.3.4.11"
+          - "28.5"
         runners:
           - "ubuntu-24.04"
           - "ubuntu-24.04-arm"
@@ -113,8 +113,8 @@ jobs:
         versions:
           - "8.2.30"
           - "8.3.30"
-          - "8.4.19"
-          - "8.5.4"
+          - "8.4.20"
+          - "8.5.5"
         runners:
           - "ubuntu-24.04"
           - "ubuntu-24.04-arm"
