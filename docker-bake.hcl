@@ -22,6 +22,30 @@ variable "PHP_MAJOR" {
   description = "Major software version for caching tags (1maa/php only)"
 }
 
+variable "PUBLIC_ALPINE_IMAGE" {
+  default = "sha256:25109184c71bdad752c8312a8623239686a9a2071e8825f20acb8f2198c3f659" # :3.23
+}
+
+variable "PUBLIC_CADDY_IMAGE" {
+  default = "sha256:fce4f15aad23222c0ac78a1220adf63bae7b94355d5ea28eee53910624acedfa" # :alpine
+}
+
+variable "PUBLIC_DEBIAN_IMAGE" {
+  default = "sha256:26f98ccd92fd0a44d6928ce8ff8f4921b4d2f535bfa07555ee5d18f61429cf0c" # :trixie-slim
+}
+
+variable "PUBLIC_GOLANG_IMAGE" {
+  default = "sha256:2389ebfa5b7f43eeafbd6be0c3700cc46690ef842ad962f6c5bd6be49ed82039" # :alpine
+}
+
+variable "PUBLIC_GOLANG_DEBIAN_IMAGE" {
+  default = "sha256:ce3f1c8d3718a306811d8d5e547073b466b15e85bfa7e1b4f0dc45516c95b72d" # :trixie
+}
+
+variable "PUBLIC_NODE_IMAGE" {
+  default = "sha256:cf38e1f3c28ac9d81cdc0c51d8220320b3b618780e44ef96a39f76f7dbfef023" # :25-alpine
+}
+
 group "default" {
   description = "Dependency-free images that can be easily built concurrently"
   targets = [
@@ -47,8 +71,8 @@ group "rust-build" {
 
 target "cln-alpine" {
   args = {
-    PUBLIC_ALPINE_IMAGE = "sha256:25109184c71bdad752c8312a8623239686a9a2071e8825f20acb8f2198c3f659" # :3.23
-    PUBLIC_GOLANG_IMAGE = "sha256:2389ebfa5b7f43eeafbd6be0c3700cc46690ef842ad962f6c5bd6be49ed82039" # :alpine
+    PUBLIC_ALPINE_IMAGE = PUBLIC_ALPINE_IMAGE
+    PUBLIC_GOLANG_IMAGE = PUBLIC_GOLANG_IMAGE
   }
   context = "core-lightning"
   cache-to = [{type = "inline"}]
@@ -65,8 +89,8 @@ target "cln-alpine" {
 
 target "cln-debian" {
   args = {
-    PUBLIC_DEBIAN_IMAGE = "sha256:26f98ccd92fd0a44d6928ce8ff8f4921b4d2f535bfa07555ee5d18f61429cf0c" # :trixie-slim
-    PUBLIC_GOLANG_IMAGE = "sha256:ce3f1c8d3718a306811d8d5e547073b466b15e85bfa7e1b4f0dc45516c95b72d" # :trixie
+    PUBLIC_DEBIAN_IMAGE = PUBLIC_DEBIAN_IMAGE
+    PUBLIC_GOLANG_IMAGE = PUBLIC_GOLANG_DEBIAN_IMAGE
   }
   context = "core-lightning"
   cache-to = [{type = "inline"}]
@@ -80,7 +104,7 @@ target "cln-debian" {
 
 target "electrs" {
   args = {
-    PUBLIC_DEBIAN_IMAGE = "sha256:26f98ccd92fd0a44d6928ce8ff8f4921b4d2f535bfa07555ee5d18f61429cf0c" # :trixie-slim
+    PUBLIC_DEBIAN_IMAGE = PUBLIC_DEBIAN_IMAGE
   }
   context = "electrs"
   cache-to = [{type = "inline"}]
@@ -94,7 +118,7 @@ target "electrs" {
 target "erlang" {
   args = {
     ERLANG_VERSION = VERSION
-    PUBLIC_ALPINE_IMAGE = "sha256:25109184c71bdad752c8312a8623239686a9a2071e8825f20acb8f2198c3f659" # :3.23
+    PUBLIC_ALPINE_IMAGE = PUBLIC_ALPINE_IMAGE
   }
   context = "erlang"
   cache-to = [{type = "inline"}]
@@ -107,7 +131,7 @@ target "erlang" {
 
 target "haproxy" {
   args = {
-    PUBLIC_ALPINE_IMAGE = "sha256:25109184c71bdad752c8312a8623239686a9a2071e8825f20acb8f2198c3f659" # :3.23
+    PUBLIC_ALPINE_IMAGE = PUBLIC_ALPINE_IMAGE
   }
   context = "haproxy"
   cache-to = [{type = "inline"}]
@@ -124,8 +148,8 @@ target "haproxy" {
 
 target "lnd" {
   args = {
-    PUBLIC_ALPINE_IMAGE = "sha256:25109184c71bdad752c8312a8623239686a9a2071e8825f20acb8f2198c3f659" # :3.23
-    PUBLIC_GOLANG_IMAGE = "sha256:2389ebfa5b7f43eeafbd6be0c3700cc46690ef842ad962f6c5bd6be49ed82039" # :alpine
+    PUBLIC_ALPINE_IMAGE = PUBLIC_ALPINE_IMAGE
+    PUBLIC_GOLANG_IMAGE = PUBLIC_GOLANG_IMAGE
   }
   context = "lnd"
   cache-to = [{type = "inline"}]
@@ -139,7 +163,7 @@ target "lnd" {
 
 target "mempool-guide-backend" {
   args = {
-    PUBLIC_NODE_IMAGE = "sha256:cf38e1f3c28ac9d81cdc0c51d8220320b3b618780e44ef96a39f76f7dbfef023" # :25-alpine
+    PUBLIC_NODE_IMAGE = PUBLIC_NODE_IMAGE
   }
   context = "mempool.guide/backend"
   cache-to = [{type = "inline"}]
@@ -153,8 +177,8 @@ target "mempool-guide-backend" {
 
 target "mempool-guide-frontend" {
   args = {
-    PUBLIC_CADDY_IMAGE = "sha256:fce4f15aad23222c0ac78a1220adf63bae7b94355d5ea28eee53910624acedfa" # :alpine
-    PUBLIC_NODE_IMAGE = "sha256:cf38e1f3c28ac9d81cdc0c51d8220320b3b618780e44ef96a39f76f7dbfef023" # :25-alpine
+    PUBLIC_CADDY_IMAGE = PUBLIC_CADDY_IMAGE
+    PUBLIC_NODE_IMAGE = PUBLIC_NODE_IMAGE
   }
   context = "mempool.guide/frontend"
   cache-to = [{type = "inline"}]
@@ -169,7 +193,7 @@ target "mempool-guide-frontend" {
 target "php" {
   args = {
     PHP_VERSION = VERSION
-    PUBLIC_ALPINE_IMAGE = "sha256:25109184c71bdad752c8312a8623239686a9a2071e8825f20acb8f2198c3f659" # :3.23
+    PUBLIC_ALPINE_IMAGE = PUBLIC_ALPINE_IMAGE
   }
   context = "php"
   cache-to = [{type = "inline"}]
@@ -183,7 +207,7 @@ target "php" {
 target "postgres" {
   args = {
     POSTGRES_VERSION = VERSION
-    PUBLIC_ALPINE_IMAGE = "sha256:25109184c71bdad752c8312a8623239686a9a2071e8825f20acb8f2198c3f659" # :3.23
+    PUBLIC_ALPINE_IMAGE = PUBLIC_ALPINE_IMAGE
   }
   context = "postgres"
   cache-to = [{type = "inline"}]
@@ -196,8 +220,8 @@ target "postgres" {
 
 target "protoc" {
   args = {
-    PUBLIC_ALPINE_IMAGE = "sha256:25109184c71bdad752c8312a8623239686a9a2071e8825f20acb8f2198c3f659" # :3.23
-    PUBLIC_GOLANG_IMAGE = "sha256:2389ebfa5b7f43eeafbd6be0c3700cc46690ef842ad962f6c5bd6be49ed82039" # :alpine
+    PUBLIC_ALPINE_IMAGE = PUBLIC_ALPINE_IMAGE
+    PUBLIC_GOLANG_IMAGE = PUBLIC_GOLANG_IMAGE
   }
   context = "protoc"
   cache-to = [{type = "inline"}]
@@ -211,7 +235,7 @@ target "protoc" {
 
 target "selfsig" {
   args = {
-    PUBLIC_ALPINE_IMAGE = "sha256:25109184c71bdad752c8312a8623239686a9a2071e8825f20acb8f2198c3f659" # :3.23
+    PUBLIC_ALPINE_IMAGE = PUBLIC_ALPINE_IMAGE
   }
   context = "selfsig"
   cache-to = [{type = "inline"}]
@@ -225,7 +249,7 @@ target "selfsig" {
 
 target "sftp" {
   args = {
-    PUBLIC_ALPINE_IMAGE = "sha256:25109184c71bdad752c8312a8623239686a9a2071e8825f20acb8f2198c3f659" # :3.23
+    PUBLIC_ALPINE_IMAGE = PUBLIC_ALPINE_IMAGE
   }
   context = "sftp"
   cache-to = [{type = "inline"}]
@@ -239,7 +263,7 @@ target "sftp" {
 
 target "sleepy" {
   args = {
-    PUBLIC_GOLANG_IMAGE = "sha256:2389ebfa5b7f43eeafbd6be0c3700cc46690ef842ad962f6c5bd6be49ed82039" # :alpine
+    PUBLIC_GOLANG_IMAGE = PUBLIC_GOLANG_IMAGE
   }
   context = "sleepy"
   cache-to = [{type = "inline"}]
@@ -253,7 +277,7 @@ target "sleepy" {
 
 target "sqlite" {
   args = {
-    PUBLIC_ALPINE_IMAGE = "sha256:25109184c71bdad752c8312a8623239686a9a2071e8825f20acb8f2198c3f659" # :3.23
+    PUBLIC_ALPINE_IMAGE = PUBLIC_ALPINE_IMAGE
   }
   context = "sqlite"
   cache-to = [{type = "inline"}]
