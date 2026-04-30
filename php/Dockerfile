@@ -12,11 +12,15 @@ WORKDIR /tmp
 ADD https://www.php.net/distributions/php-${PHP_VERSION}.tar.gz .
 ADD https://www.php.net/distributions/php-${PHP_VERSION}.tar.gz.asc .
 
+ADD https://getcomposer.org/download/latest-stable/composer.phar .
+ADD https://getcomposer.org/download/latest-stable/composer.phar.asc .
+
 COPY release-pubkeys.asc .
 
 RUN apk add --no-cache \
     gnupg \
  && gpg --import release-pubkeys.asc \
+ && gpg --verify composer.phar.asc composer.phar \
  && gpg --verify php-${PHP_VERSION}.tar.gz.asc php-${PHP_VERSION}.tar.gz
 
 RUN tar zxof php-${PHP_VERSION}.tar.gz
@@ -45,7 +49,8 @@ RUN apk add --no-cache \
     rabbitmq-c-dev \
     sqlite-dev \
     tidyhtml-dev \
-    unixodbc-dev
+    unixodbc-dev \
+    upx
 
 WORKDIR /tmp/php-${PHP_VERSION}
 
@@ -109,7 +114,12 @@ RUN ./configure \
  && make -j$(nproc) \
  && make install
 
-RUN cp php.ini-development          /usr/local/etc/php.ini
+RUN upx --lzma /usr/local/bin/php /usr/local/sbin/php-fpm
+
+RUN install -m 0644 php.ini-development /usr/local/etc/php.ini
+RUN install -m 0755 /tmp/composer.phar  /usr/local/bin/composer
+
+COPY --chmod=755 entrypoint.sh      /usr/local/bin/entrypoint.sh
 COPY --chmod=644 extensions.ini     /usr/local/etc/conf.d/extensions.ini
 COPY --chmod=644 php-overrides.ini  /usr/local/etc/conf.d/php-overrides.ini
 COPY --chmod=644 fpm-overrides.conf /usr/local/etc/php-fpm.d/fpm-overrides.conf
@@ -183,35 +193,17 @@ FROM alpine@${PUBLIC_ALPINE_IMAGE} AS prepare
 
 WORKDIR /tmp
 
+COPY --from=build /usr/local/bin/composer                     /tmp/bin/composer
+COPY --from=build /usr/local/bin/entrypoint.sh                /tmp/bin/entrypoint.sh
 COPY --from=build /usr/local/bin/php                          /tmp/bin/php
 COPY --from=build /usr/local/etc/conf.d                       /tmp/etc/conf.d
 COPY --from=build /usr/local/etc/php-fpm.conf.default         /tmp/etc/php-fpm.conf
-COPY --from=build /usr/local/etc/php-fpm.d/www.conf.default   /tmp/etc/php-fpm.d/default-www.conf
 COPY --from=build /usr/local/etc/php-fpm.d/fpm-overrides.conf /tmp/etc/php-fpm.d/fpm-overrides.conf
+COPY --from=build /usr/local/etc/php-fpm.d/www.conf.default   /tmp/etc/php-fpm.d/default-www.conf
 COPY --from=build /usr/local/etc/php.ini                      /tmp/etc/php.ini
 COPY --from=build /usr/local/lib/php/extensions               /tmp/lib/php/extensions
 COPY --from=build /usr/local/php/php/fpm/status.html          /tmp/php/php/fpm/status.html
 COPY --from=build /usr/local/sbin/php-fpm                     /tmp/sbin/php-fpm
-
-COPY --chmod=755 entrypoint.sh /tmp/bin/entrypoint.sh
-
-ADD https://getcomposer.org/download/latest-stable/composer.phar .
-ADD https://getcomposer.org/download/latest-stable/composer.phar.asc .
-
-COPY composer-pubkey.asc .
-
-RUN apk add --no-cache \
-    gnupg \
- && gpg --import composer-pubkey.asc \
- && gpg --verify composer.phar.asc composer.phar \
- && rm composer.phar.asc composer-pubkey.asc \
- && chmod 755 composer.phar \
- && mv composer.phar bin/composer
-
-RUN apk add --no-cache \
-    upx \
- && upx --lzma /tmp/bin/php /tmp/sbin/php-fpm
-
 
 FROM alpine@${PUBLIC_ALPINE_IMAGE} AS final
 
