@@ -122,39 +122,58 @@ RUN set -eu; \
 
 RUN apk add --no-cache \
     autoconf \
+    bison \
+    liblzf-dev \
     libmemcached-dev \
     librdkafka-dev \
     libsecp256k1-dev \
     libssh2-dev \
+    libtool \
     libuv-dev \
-    yaml-dev
+    lz4-dev \
+    re2c \
+    yaml-dev \
+    zstd-dev
 
 ADD https://github.com/php/pie/releases/latest/download/pie.phar /usr/local/bin/pie
 
 RUN chmod +x /usr/local/bin/pie
+
+RUN pie install --skip-enable-extension igbinary/igbinary:@rc
+RUN pie install --skip-enable-extension msgpack/msgpack-php:dev-master
+
 RUN pie install --skip-enable-extension apcu/apcu
 RUN pie install --skip-enable-extension arnaud-lb/inotify
 RUN pie install --skip-enable-extension girgias/csv
 RUN pie install --skip-enable-extension mongodb/mongodb-extension
 RUN pie install --skip-enable-extension pecl/pcov
 RUN pie install --skip-enable-extension pecl/yaml
+RUN pie install --skip-enable-extension php-amqp/php-amqp
+RUN pie install --skip-enable-extension php-ds/ext-ds
+RUN pie install --skip-enable-extension php-memcached/php-memcached \
+    --enable-memcached-igbinary \
+    --enable-memcached-json \
+    --enable-memcached-msgpack \
+    --enable-memcached-session \
+    --with-zstd
+RUN pie install --skip-enable-extension phpredis/phpredis \
+    --enable-redis-igbinary \
+    --enable-redis-lz4 \
+    --enable-redis-lzf \
+    --enable-redis-msgpack \
+    --enable-redis-zstd \
+    --with-liblz4=yes \
+    --with-liblzf=yes \
+    --with-libzstd=yes
 RUN pie install --skip-enable-extension rdkafka/rdkafka
 RUN pie install --skip-enable-extension uma/secp256k1-nostr
 RUN pie install --skip-enable-extension xdebug/xdebug
 
 RUN pecl channel-update pecl.php.net \
  && MAKEFLAGS="-j$(nproc)" pecl install \
-    amqp \
-    ds \
+    --configureoptions 'enable-msgpack="yes"' \
     excimer \
-    igbinary \
-    msgpack \
     ssh2 \
-    uv-beta \
- && MAKEFLAGS="-j$(nproc)" pecl install \
-    --configureoptions 'enable-memcached-igbinary="yes" enable-memcached-msgpack="yes" enable-memcached-json="yes" enable-redis-igbinary="yes" enable-redis-lzf="yes" enable-redis-zstd="yes" enable-redis-msgpack="yes" enable-redis-lz4="yes" enable-msgpack="yes"' \
-    memcached \
-    redis \
     yar
 
 RUN chmod 644 $(php-config --extension-dir)/*.so
@@ -210,6 +229,7 @@ RUN apk add --no-cache \
     libedit \
     libffi \
     libjpeg-turbo \
+    liblzf \
     libmemcached-libs \
     libpng \
     libpq \
@@ -222,12 +242,14 @@ RUN apk add --no-cache \
     libxslt \
     libzip \
     lmdb \
+    lz4-libs \
     oniguruma \
     rabbitmq-c \
     sqlite-libs \
     tidyhtml-libs \
     unixodbc \
-    yaml
+    yaml \
+    zstd-libs
 
 EXPOSE 9000
 
