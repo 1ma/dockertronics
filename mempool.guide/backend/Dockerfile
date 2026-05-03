@@ -10,7 +10,7 @@ RUN apk add --no-cache \
     git
 
 RUN curl -s https://sh.rustup.rs | sh -s -- -y --profile minimal --default-toolchain none \
- && git clone --depth 1 --branch rework-health-audit https://github.com/retropex/mempool
+ && git clone --depth 1 https://github.com/retropex/mempool
 
 WORKDIR /tmp/mempool/backend
 

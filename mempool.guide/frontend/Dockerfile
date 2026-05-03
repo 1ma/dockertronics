@@ -9,7 +9,7 @@ RUN apk add --no-cache \
     git \
     rsync
 
-RUN git clone --depth 1 --branch rework-health-audit https://github.com/retropex/mempool
+RUN git clone --depth 1 https://github.com/retropex/mempool
 
 WORKDIR /tmp/mempool
 

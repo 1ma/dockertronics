@@ -23,27 +23,27 @@ variable "PHP_MAJOR" {
 }
 
 variable "PUBLIC_ALPINE_IMAGE" {
-  default = "sha256:25109184c71bdad752c8312a8623239686a9a2071e8825f20acb8f2198c3f659" # :3.23
+  default = "sha256:5b10f432ef3da1b8d4c7eb6c487f2f5a8f096bc91145e68878dd4a5019afde11" # :3.23
 }
 
 variable "PUBLIC_CADDY_IMAGE" {
-  default = "sha256:fce4f15aad23222c0ac78a1220adf63bae7b94355d5ea28eee53910624acedfa" # :alpine
+  default = "sha256:834468128c7696cec0ceea6172f7d692daf645ae51983ca76e39da54a97c570d" # :alpine
 }
 
 variable "PUBLIC_DEBIAN_IMAGE" {
-  default = "sha256:26f98ccd92fd0a44d6928ce8ff8f4921b4d2f535bfa07555ee5d18f61429cf0c" # :trixie-slim
+  default = "sha256:cedb1ef40439206b673ee8b33a46a03a0c9fa90bf3732f54704f99cb061d2c5a" # :trixie-slim
 }
 
 variable "PUBLIC_GOLANG_IMAGE" {
-  default = "sha256:2389ebfa5b7f43eeafbd6be0c3700cc46690ef842ad962f6c5bd6be49ed82039" # :alpine
+  default = "sha256:f85330846cde1e57ca9ec309382da3b8e6ae3ab943d2739500e08c86393a21b1" # :alpine
 }
 
 variable "PUBLIC_GOLANG_DEBIAN_IMAGE" {
-  default = "sha256:ce3f1c8d3718a306811d8d5e547073b466b15e85bfa7e1b4f0dc45516c95b72d" # :trixie
+  default = "sha256:4a7137ea573f79c86ae451ff05817ed762ef5597fcf732259e97abeb3108d873" # :trixie
 }
 
 variable "PUBLIC_NODE_IMAGE" {
-  default = "sha256:cf38e1f3c28ac9d81cdc0c51d8220320b3b618780e44ef96a39f76f7dbfef023" # :25-alpine
+  default = "sha256:bdf2cca6fe3dabd014ea60163eca3f0f7015fbd5c7ee1b0e9ccb4ced6eb02ef4" # :25-alpine
 }
 
 group "default" {
