@@ -124,10 +124,9 @@ COPY --chmod=644 extensions.ini     /usr/local/etc/conf.d/extensions.ini
 COPY --chmod=644 php-overrides.ini  /usr/local/etc/conf.d/php-overrides.ini
 COPY --chmod=644 fpm-overrides.conf /usr/local/etc/php-fpm.d/fpm-overrides.conf
 
-# Append zend_extension=opcache.so to extensions.ini for versions of PHP lower than 8.5.0
 RUN set -eu; \
-  if php -r 'exit(version_compare(PHP_VERSION, "8.5.0", "<") ? 0 : 1);'; then \
-    echo 'zend_extension=opcache.so' >> /usr/local/etc/conf.d/extensions.ini; \
+  if php -r 'exit(version_compare(PHP_VERSION, "8.5.0", ">=") ? 0 : 1);'; then \
+    sed -i '/zend_extension=opcache/d' /usr/local/etc/conf.d/extensions.ini; \
   fi
 
 RUN apk add --no-cache \
