@@ -203,6 +203,7 @@ COPY --from=build /usr/local/etc/php.ini                      /tmp/etc/php.ini
 COPY --from=build /usr/local/lib/php/extensions               /tmp/lib/php/extensions
 COPY --from=build /usr/local/php/php/fpm/status.html          /tmp/php/php/fpm/status.html
 COPY --from=build /usr/local/sbin/php-fpm                     /tmp/sbin/php-fpm
+COPY --from=build /usr/local/share/misc/php-spx               /tmp/share/misc/php-spx
 
 FROM alpine@${PUBLIC_ALPINE_IMAGE} AS final
 
