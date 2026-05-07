@@ -2,12 +2,12 @@ ARG PUBLIC_ALPINE_IMAGE="sha256:000000000000000000000000000000000000000000000000
 
 FROM alpine@${PUBLIC_ALPINE_IMAGE} AS build
 
-ARG ERLANG_VERSION=28.5
+ARG ERLANG_VERSION
 
 ENV CFLAGS="-g0 -Os"
 ENV LDFLAGS="-Wl,--strip-all"
 
-# https://www.erlang.org/docs/28/system/install
+# https://www.erlang.org/docs/29/system/install
 
 WORKDIR /tmp
 
