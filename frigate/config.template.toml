@@ -1,0 +1,36 @@
+# Frigate configuration
+# See https://github.com/sparrowwallet/frigate for documentation
+
+[core]
+connect = true
+server = "${CORE_SERVER}"
+authType = "${CORE_AUTH_TYPE}"                        # COOKIE or USERPASS
+dataDir = "${CORE_DATA_DIR}"
+auth = "${CORE_AUTH}"                                 # only needed for USERPASS
+zmqSequenceEndpoint = "${CORE_ZMQ_SEQUENCE_ENDPOINT}" # bitcoind -zmqpubsequence endpoint for low-latency mempool ingestion
+# rpcRequestTimeoutSeconds = 60                   # per-RPC read timeout (raise on slow/remote bitcoind, lower on fast LAN)
+# rpcBatchSize = 100                              # max sub-requests per JSON-RPC array batch (mempool fill)
+
+[index]
+startHeight = ${INDEX_START_HEIGHT}   # default: 709632 on mainnet (Taproot activation), 0 on testnet
+# cacheSize = "10M"              # scriptPubKey cache entries (default: 10M, ~4GB RAM)
+
+[scan]
+# batchSize = 300000             # rows per GPU dispatch (reduce if scanning hangs on older GPUs)
+# computeBackend = "AUTO"        # AUTO, GPU, or CPU (AUTO prefers GPU over CPU)
+# dbThreads = 4                  # limit DuckDB threads (reduces CPU load when computeBackend = "CPU")
+# memoryLimit = "8GB"            # cap DuckDB memory usage (default: 80% of system RAM)
+# maxLabels = 10                 # maximum number of labels accepted per silent payments subscription
+# maxSubscriptions = 100         # maximum number of silent payments subscriptions per connection
+
+[server]
+# host = "localhost"             # advertised in server.features (set to public hostname for public-facing deployments)
+tcp = "${SERVER_TCP}"                  # plaintext listener bind URL; omit (or set to "") to disable. Default if neither tcp nor ssl is set.
+# ssl = "ssl://0.0.0.0:50002"    # SSL listener bind URL; omit to disable
+# sslCert = "cert.pem"           # PEM certificate (chain allowed); bare filename resolves under Frigate's home dir, or use an absolute path
+# sslKey  = "key.pem"            # PEM-encoded PKCS#8 private key; bare filename resolves under Frigate's home dir, or use an absolute path
+backendElectrumServer = "${SERVER_BACKEND_ELECTRUM_SERVER}" # backend must listen on a port distinct from Frigate's tcp/ssl listeners above
+
+# [database]
+# url = "jdbc:duckdb:/custom/path/frigate.duckdb"
+# readUrls = ["jdbc:duckdb:/replica1/frigate.duckdb"]

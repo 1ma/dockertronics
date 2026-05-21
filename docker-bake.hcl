@@ -34,6 +34,10 @@ variable "PUBLIC_DEBIAN_IMAGE" {
   default = "sha256:cedb1ef40439206b673ee8b33a46a03a0c9fa90bf3732f54704f99cb061d2c5a" # :trixie-slim
 }
 
+variable "PUBLIC_ECLIPSE_TEMURIN_IMAGE" {
+  default = "sha256:c2b7ea21649875fb9052237ac4e3cd4ef63968a2a389a0a1b1a72a5e53e5c93f" # :25
+}
+
 variable "PUBLIC_GOLANG_IMAGE" {
   default = "sha256:f85330846cde1e57ca9ec309382da3b8e6ae3ab943d2739500e08c86393a21b1" # :alpine
 }
@@ -49,6 +53,7 @@ variable "PUBLIC_NODE_IMAGE" {
 group "default" {
   description = "Dependency-free images that can be easily built concurrently"
   targets = [
+    "frigate",
     "haproxy",
     "lnd",
     "protoc",
@@ -127,6 +132,23 @@ target "erlang" {
     ref = "ghcr.io/1ma/erlang:${VERSION_MAJOR}-${RUNNER}"
   }]
   tags = ["ghcr.io/1ma/erlang:${VERSION_MAJOR}-${RUNNER}"]
+}
+
+target "frigate" {
+  args = {
+    PUBLIC_DEBIAN_IMAGE = PUBLIC_DEBIAN_IMAGE
+    PUBLIC_ECLIPSE_TEMURIN_IMAGE = PUBLIC_ECLIPSE_TEMURIN_IMAGE
+  }
+  context = "frigate"
+  cache-to = [{type = "inline"}]
+  cache-from = [{
+    type = "registry"
+    ref = "1maa/frigate:latest"
+  }]
+  platforms = ["linux/amd64", "linux/arm64"]
+  tags = [
+    "1maa/frigate:latest"
+  ]
 }
 
 target "haproxy" {
