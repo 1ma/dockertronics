@@ -159,13 +159,10 @@ target "haproxy" {
   cache-to = [{type = "inline"}]
   cache-from = [{
     type = "registry"
-    ref = "1maa/haproxy:3.2"
+    ref = "1maa/haproxy:latest"
   }]
   platforms = ["linux/amd64", "linux/arm64"]
-  tags = [
-    "1maa/haproxy:3.2",
-    "1maa/haproxy:latest"
-  ]
+  tags = ["1maa/haproxy:latest"]
 }
 
 target "lnd" {

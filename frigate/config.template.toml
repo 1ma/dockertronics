@@ -22,6 +22,7 @@ startHeight = ${INDEX_START_HEIGHT}   # default: 709632 on mainnet (Taproot acti
 # memoryLimit = "8GB"            # cap DuckDB memory usage (default: 80% of system RAM)
 # maxLabels = 10                 # maximum number of labels accepted per silent payments subscription
 # maxSubscriptions = 100         # maximum number of silent payments subscriptions per connection
+metricsEnabled = ${SCAN_METRICS_ENABLED}          # hourly aggregate scan stats log line (default: true)
 
 [server]
 # host = "localhost"             # advertised in server.features (set to public hostname for public-facing deployments)

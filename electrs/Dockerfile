@@ -2,11 +2,11 @@ ARG PUBLIC_DEBIAN_IMAGE="sha256:000000000000000000000000000000000000000000000000
 
 FROM debian@${PUBLIC_DEBIAN_IMAGE} AS builder
 
-ARG ELECTRS_VERSION=v0.11.0
+ARG ELECTRS_VERSION=v0.11.1
 
 WORKDIR /tmp
 
-COPY romanz.gpg .
+COPY allowed_signers .
 
 RUN apt-get update \
  && apt-get install --yes --no-install-recommends \
@@ -14,16 +14,16 @@ RUN apt-get update \
     clang \
     curl \
     git \
-    gnupg \
     libclang-dev \
+    openssh-client \
  && rm -rf /var/lib/apt/lists/* \
- && gpg --import romanz.gpg \
  && git clone --branch=${ELECTRS_VERSION} https://github.com/romanz/electrs \
  && curl -s https://sh.rustup.rs | sh -s -- -y --profile minimal
 
 WORKDIR /tmp/electrs
 
-RUN git verify-tag ${ELECTRS_VERSION}
+RUN git config gpg.ssh.allowedSignersFile /tmp/allowed_signers \
+ && git verify-tag ${ELECTRS_VERSION}
 
 RUN . "$HOME/.cargo/env" \
  && cargo build --locked --release
@@ -45,7 +45,7 @@ VOLUME ["/var/lib/electrs"]
 # Prometheus metrics for mainnet and signet
 EXPOSE 4224 34224
 
-# mainnet plain, mainnet ssl, signet plain, signet ssl
+# mainnet plaintext, mainnet ssl, signet plaintext, signet ssl
 EXPOSE 50001 50002 60601 60602
 
 ENTRYPOINT ["/usr/local/bin/electrs", "--db-dir", "/var/lib/electrs"]

@@ -3,7 +3,7 @@ ARG PUBLIC_ECLIPSE_TEMURIN_IMAGE="sha256:000000000000000000000000000000000000000
 
 FROM eclipse-temurin@${PUBLIC_ECLIPSE_TEMURIN_IMAGE} AS builder
 
-ARG FRIGATE_VERSION=1.5.2
+ARG FRIGATE_VERSION=1.5.3
 
 WORKDIR /tmp
 
@@ -33,6 +33,8 @@ ENV CORE_ZMQ_SEQUENCE_ENDPOINT=tcp://127.0.0.1:28336
 
 ENV INDEX_START_HEIGHT=709632
 
+ENV SCAN_METRICS_ENABLED=true
+
 ENV SERVER_TCP=tcp://0.0.0.0:50001
 ENV SERVER_BACKEND_ELECTRUM_SERVER=tcp://127.0.0.1:60001
 
@@ -54,7 +56,7 @@ VOLUME ["/home/frigate/.frigate"]
 
 COPY --chmod=644 config.template.toml /tmp/config.template.toml
 
-# mainnet plain, signet plain
+# mainnet plaintext, signet plaintext
 EXPOSE 50001 60601
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

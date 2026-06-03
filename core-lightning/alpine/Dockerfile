@@ -90,7 +90,6 @@ RUN apk add --no-cache \
  && echo "disable-plugin=cln-grpc" >> /home/cln/.lightning/config \
  && echo "disable-plugin=clnrest" >> /home/cln/.lightning/config \
  && echo "disable-plugin=wss-proxy" >> /home/cln/.lightning/config \
- && echo "xpay-handle-pay=true" >> /home/cln/.lightning/config \
  && chown -R cln:cln /home/cln/.lightning
 
 VOLUME /home/.cln/.lightning/bitcoin
