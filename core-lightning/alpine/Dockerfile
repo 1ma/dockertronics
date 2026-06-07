@@ -12,9 +12,9 @@ RUN go install -trimpath -ldflags="-d -s -w" github.com/nbd-wtf/trustedcoin@${TR
 
 FROM alpine@${PUBLIC_ALPINE_IMAGE} AS builder
 
-ARG CLN_VERSION=v26.04.1
+ARG CLN_VERSION=v26.06.1
 
-ENV PATH="/root/.cargo/bin:${PATH}"
+ENV PATH="/root/.cargo/bin:/root/.local/bin/:${PATH}"
 
 RUN apk add --no-cache \
     autoconf \
@@ -25,22 +25,22 @@ RUN apk add --no-cache \
     git \
     gnupg \
     jq \
+    libffi-dev \
     libpq-dev \
     libsodium-dev \
     libtool \
     lowdown \
+    openssl \
     protoc \
     py3-pip \
-    py3-setuptools \
+    python3-dev \
     sqlite-dev \
     sqlite-static \
     zlib-dev \
     zlib-static
 
-RUN pip install --break-system-packages --user \
-    grpcio-tools \
-    mako \
- && curl -s https://sh.rustup.rs | sh -s -- -y --profile minimal
+RUN curl -s https://sh.rustup.rs | sh -s -- -y --profile minimal \
+ && curl -LsSf https://astral.sh/uv/install.sh | sh
 
 WORKDIR /tmp
 
@@ -53,21 +53,13 @@ WORKDIR /tmp/lightning
 RUN gpg --import /tmp/developer_pubkeys.pem \
  && git verify-tag "${CLN_VERSION}"
 
+ENV CARGO_PROFILE_RELEASE_STRIP=symbols
 ENV LDFLAGS="-s"
 
-# Fix for v25.12 and up on Alpine Linux
-RUN sed -i '7i#include <unistd.h>' common/configvar.c
-
-RUN ./configure \
-    --enable-static
-
-RUN make RUST_PROFILE=release \
- && git checkout -- .
-
-# Fix for v25.12 and up on Alpine Linux
-RUN sed -i '7i#include <unistd.h>' common/configvar.c
-
-RUN make install RUST_PROFILE=release
+RUN uv sync --all-extras --all-groups --frozen
+RUN ./configure
+RUN RUST_PROFILE=release uv run make
+RUN RUST_PROFILE=release make install
 
 COPY --from=trustedcoin /go/bin/trustedcoin /usr/local/libexec/c-lightning/plugins/
 
@@ -82,6 +74,7 @@ RUN apk add --no-cache \
     libgcc \
     libpq \
     libsodium \
+    sqlite-libs \
  && addgroup --system cln \
  && adduser --system --disabled-password --shell /bin/false --gecos cln --ingroup cln cln \
  && mkdir -p /home/cln/.lightning/bitcoin \

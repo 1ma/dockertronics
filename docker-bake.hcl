@@ -86,6 +86,7 @@ target "cln-alpine" {
     ref = "1maa/core-lightning:alpine"
   }]
   dockerfile = "alpine/Dockerfile"
+  platforms = ["linux/amd64", "linux/arm64"]
   tags = [
     "1maa/core-lightning:alpine",
     "1maa/core-lightning:latest"
@@ -104,6 +105,7 @@ target "cln-debian" {
     ref = "1maa/core-lightning:debian"
   }]
   dockerfile = "debian/Dockerfile"
+  platforms = ["linux/amd64", "linux/arm64"]
   tags = ["1maa/core-lightning:debian"]
 }
 
@@ -117,6 +119,7 @@ target "electrs" {
     type = "registry"
     ref = "1maa/electrs:latest"
   }]
+  platforms = ["linux/amd64", "linux/arm64"]
   tags = ["1maa/electrs:latest"]
 }
 

@@ -12,9 +12,9 @@ RUN go install -trimpath -ldflags="-d -s -w" github.com/nbd-wtf/trustedcoin@${TR
 
 FROM debian@${PUBLIC_DEBIAN_IMAGE} AS builder
 
-ARG CLN_VERSION=v26.04.1
+ARG CLN_VERSION=v26.06.1
 
-ENV PATH="/root/.cargo/bin:${PATH}"
+ENV PATH="/root/.cargo/bin:/root/.local/bin/:${PATH}"
 
 RUN apt-get update \
  && DEBIAN_FRONTEND="noninteractive" apt-get install --yes --no-install-recommends \
@@ -26,20 +26,21 @@ RUN apt-get update \
     git \
     gnupg \
     jq \
+    libffi-dev \
     libpq-dev \
     libsodium-dev \
     libsqlite3-dev \
     libtool \
     lowdown \
+    pkgconf \
     protobuf-compiler \
+    python3-dev \
     python3-pip \
     zlib1g-dev \
  && rm -rf /var/lib/apt/lists/*
 
-RUN pip install --break-system-packages --user \
-    grpcio-tools \
-    mako \
- && curl -s https://sh.rustup.rs | sh -s -- -y --profile minimal
+RUN curl -s https://sh.rustup.rs | sh -s -- -y --profile minimal \
+ && curl -LsSf https://astral.sh/uv/install.sh | sh
 
 WORKDIR /tmp
 
@@ -52,15 +53,13 @@ WORKDIR /tmp/lightning
 RUN gpg --import /tmp/developer_pubkeys.pem \
  && git verify-tag "${CLN_VERSION}"
 
+ENV CARGO_PROFILE_RELEASE_STRIP=symbols
 ENV LDFLAGS="-s"
 
-RUN ./configure \
-    --enable-static
-
-RUN make RUST_PROFILE=release \
- && git checkout -- .
-
-RUN make install RUST_PROFILE=release
+RUN uv sync --all-extras --all-groups --frozen
+RUN ./configure
+RUN RUST_PROFILE=release uv run make
+RUN RUST_PROFILE=release make install
 
 COPY --from=trustedcoin /go/bin/trustedcoin /usr/local/libexec/c-lightning/plugins/
 
@@ -76,7 +75,7 @@ RUN apt-get update \
     ca-certificates \
     libpq5 \
     libsodium23 \
-    python-is-python3 \
+    libsqlite3-0 \
  && rm -rf /var/lib/apt/lists/* \
  && addgroup --system cln \
  && adduser --system --disabled-password --home /home/cln --shell /bin/false --gecos cln --ingroup cln cln \
