@@ -6,7 +6,7 @@ variable "RUNNER" {
 
 variable "RUNNER_ARCH" {
   type = string
-  default = "X86"
+  default = "X64"
   description = "The architecture of the runner executing the job"
   validation {
     condition = contains(["ARM64", "X64"], RUNNER_ARCH)
