@@ -31,23 +31,92 @@ jobs:
           sbom: false
           targets: default
 
-  rust:
-    name: Build Rust-infested images
-    runs-on: ubuntu-24.04
+  cln-multiarch:
+    name: Build Core Lightning on ${{ matrix.runners }}
+    runs-on: ${{ matrix.runners }}
+    strategy:
+      fail-fast: false
+      matrix:
+        runners:
+          - "ubuntu-24.04"
+          - "ubuntu-24.04-arm"
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-      - uses: docker/setup-qemu-action@ce360397dd3f832beb865e1373c09c0e9f86d70a # v4.0.0
       - uses: docker/setup-buildx-action@4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd # v4.0.0
       - uses: docker/login-action@b45d80f862d83dbcd57f89517bcf500b2ab88fb2 # v4.0.0
         with:
-          username: 1maa
-          password: ${{ secrets.DOCKER_HUB_PASS }}
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       - uses: docker/bake-action@82490499d2e5613fcead7e128237ef0b0ea210f7 # v7.0.0
         with:
           provenance: false
           push: true
           sbom: false
-          targets: rust-build
+          targets: cln-alpine,cln-debian
+
+  cln-merge:
+    name: Merge Core Lightning images
+    runs-on: ubuntu-24.04
+    needs:
+      - cln-multiarch
+    steps:
+      - uses: docker/setup-buildx-action@4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd # v4.0.0
+      - uses: docker/login-action@b45d80f862d83dbcd57f89517bcf500b2ab88fb2 # v4.0.0
+        with:
+          username: 1maa
+          password: ${{ secrets.DOCKER_HUB_PASS }}
+      - run: |
+          docker buildx imagetools create \
+            -t 1maa/core-lightning:alpine \
+            -t 1maa/core-lightning:latest \
+            ghcr.io/1ma/core-lightning:alpine-X64 \
+            ghcr.io/1ma/core-lightning:alpine-ARM64
+          docker buildx imagetools create \
+            -t 1maa/core-lightning:debian \
+            ghcr.io/1ma/core-lightning:debian-X64 \
+            ghcr.io/1ma/core-lightning:debian-ARM64
+
+  electrs-multiarch:
+    name: Build Electrs on ${{ matrix.runners }}
+    runs-on: ${{ matrix.runners }}
+    strategy:
+      fail-fast: false
+      matrix:
+        runners:
+          - "ubuntu-24.04"
+          - "ubuntu-24.04-arm"
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: docker/setup-buildx-action@4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd # v4.0.0
+      - uses: docker/login-action@b45d80f862d83dbcd57f89517bcf500b2ab88fb2 # v4.0.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/bake-action@82490499d2e5613fcead7e128237ef0b0ea210f7 # v7.0.0
+        with:
+          provenance: false
+          push: true
+          sbom: false
+          targets: electrs
+
+  electrs-merge:
+    name: Merge Electrs image
+    runs-on: ubuntu-24.04
+    needs:
+      - electrs-multiarch
+    steps:
+      - uses: docker/setup-buildx-action@4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd # v4.0.0
+      - uses: docker/login-action@b45d80f862d83dbcd57f89517bcf500b2ab88fb2 # v4.0.0
+        with:
+          username: 1maa
+          password: ${{ secrets.DOCKER_HUB_PASS }}
+      - run: |
+          docker buildx imagetools create \
+            -t 1maa/electrs:latest \
+            ghcr.io/1ma/electrs:X64 \
+            ghcr.io/1ma/electrs:ARM64
 
   erlang-multiarch:
     name: Build Erlang ${{ matrix.versions }} on ${{ matrix.runners }}
@@ -105,6 +174,24 @@ jobs:
             -t 1maa/erlang:${{ matrix.major }}-alpine \
             ghcr.io/1ma/erlang:${{ matrix.major }}-ubuntu-24.04 \
             ghcr.io/1ma/erlang:${{ matrix.major }}-ubuntu-24.04-arm
+
+  mempool:
+    name: Build mempool.guide images
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: docker/setup-qemu-action@ce360397dd3f832beb865e1373c09c0e9f86d70a # v4.0.0
+      - uses: docker/setup-buildx-action@4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd # v4.0.0
+      - uses: docker/login-action@b45d80f862d83dbcd57f89517bcf500b2ab88fb2 # v4.0.0
+        with:
+          username: 1maa
+          password: ${{ secrets.DOCKER_HUB_PASS }}
+      - uses: docker/bake-action@82490499d2e5613fcead7e128237ef0b0ea210f7 # v7.0.0
+        with:
+          provenance: false
+          push: true
+          sbom: false
+          targets: mempool-guide-backend,mempool-guide-frontend
 
   php-multiarch:
     name: Build PHP ${{ matrix.versions }} on ${{ matrix.runners }}
@@ -271,6 +358,9 @@ jobs:
     name: Cleanup stale GHCR images
     runs-on: ubuntu-24.04
     needs:
+      - cln-merge
+      - electrs-merge
+      - erlang-merge
       - erlang-merge
       - php-merge
       - postgres-merge
@@ -281,6 +371,18 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/delete-package-versions@e5bc658cc4c965c472efe991f8beea3981499c55 # v5.0.0
+        with:
+          package-name: core-lightning
+          package-type: container
+          delete-only-untagged-versions: true
+          min-versions-to-keep: 0
+      - uses: actions/delete-package-versions@e5bc658cc4c965c472efe991f8beea3981499c55 # v5.0.0
+        with:
+          package-name: electrs
+          package-type: container
+          delete-only-untagged-versions: true
+          min-versions-to-keep: 0
       - uses: actions/delete-package-versions@e5bc658cc4c965c472efe991f8beea3981499c55 # v5.0.0
         with:
           package-name: erlang

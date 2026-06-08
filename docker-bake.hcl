@@ -4,6 +4,16 @@ variable "RUNNER" {
   description = "Runner that built the image"
 }
 
+variable "RUNNER_ARCH" {
+  type = string
+  default = "X86"
+  description = "The architecture of the runner executing the job"
+  validation {
+    condition = contains(["ARM64", "X64"], RUNNER_ARCH)
+    error_message = "Invalid value for 'RUNNER_ARCH' variable"
+  }
+}
+
 variable "VERSION" {
   type = string
   default = "0.0.0"
@@ -23,30 +33,37 @@ variable "PHP_MAJOR" {
 }
 
 variable "PUBLIC_ALPINE_IMAGE" {
+  type = string
   default = "sha256:5b10f432ef3da1b8d4c7eb6c487f2f5a8f096bc91145e68878dd4a5019afde11" # :3.23
 }
 
 variable "PUBLIC_CADDY_IMAGE" {
+  type = string
   default = "sha256:834468128c7696cec0ceea6172f7d692daf645ae51983ca76e39da54a97c570d" # :alpine
 }
 
 variable "PUBLIC_DEBIAN_IMAGE" {
+  type = string
   default = "sha256:cedb1ef40439206b673ee8b33a46a03a0c9fa90bf3732f54704f99cb061d2c5a" # :trixie-slim
 }
 
 variable "PUBLIC_ECLIPSE_TEMURIN_IMAGE" {
+  type = string
   default = "sha256:c2b7ea21649875fb9052237ac4e3cd4ef63968a2a389a0a1b1a72a5e53e5c93f" # :25
 }
 
 variable "PUBLIC_GOLANG_IMAGE" {
+  type = string
   default = "sha256:f85330846cde1e57ca9ec309382da3b8e6ae3ab943d2739500e08c86393a21b1" # :alpine
 }
 
 variable "PUBLIC_GOLANG_DEBIAN_IMAGE" {
+  type = string
   default = "sha256:4a7137ea573f79c86ae451ff05817ed762ef5597fcf732259e97abeb3108d873" # :trixie
 }
 
 variable "PUBLIC_NODE_IMAGE" {
+  type = string
   default = "sha256:bdf2cca6fe3dabd014ea60163eca3f0f7015fbd5c7ee1b0e9ccb4ced6eb02ef4" # :25-alpine
 }
 
@@ -63,17 +80,6 @@ group "default" {
   ]
 }
 
-group "rust-build" {
-  description = "Images involving cumbersome Rust builds"
-  targets = [
-    "cln-alpine",
-    "cln-debian",
-    "electrs",
-    "mempool-guide-backend",
-    "mempool-guide-frontend"
-  ]
-}
-
 target "cln-alpine" {
   args = {
     PUBLIC_ALPINE_IMAGE = PUBLIC_ALPINE_IMAGE
@@ -83,14 +89,10 @@ target "cln-alpine" {
   cache-to = [{type = "inline"}]
   cache-from = [{
     type = "registry"
-    ref = "1maa/core-lightning:alpine"
+    ref = "ghcr.io/1ma/core-lightning:alpine-${RUNNER_ARCH}"
   }]
   dockerfile = "alpine/Dockerfile"
-  platforms = ["linux/amd64", "linux/arm64"]
-  tags = [
-    "1maa/core-lightning:alpine",
-    "1maa/core-lightning:latest"
-  ]
+  tags = ["ghcr.io/1ma/core-lightning:alpine-${RUNNER_ARCH}"]
 }
 
 target "cln-debian" {
@@ -102,11 +104,10 @@ target "cln-debian" {
   cache-to = [{type = "inline"}]
   cache-from = [{
     type = "registry"
-    ref = "1maa/core-lightning:debian"
+    ref = "ghcr.io/1ma/core-lightning:debian-${RUNNER_ARCH}"
   }]
   dockerfile = "debian/Dockerfile"
-  platforms = ["linux/amd64", "linux/arm64"]
-  tags = ["1maa/core-lightning:debian"]
+  tags = ["ghcr.io/1ma/core-lightning:debian-${RUNNER_ARCH}"]
 }
 
 target "electrs" {
@@ -117,10 +118,9 @@ target "electrs" {
   cache-to = [{type = "inline"}]
   cache-from = [{
     type = "registry"
-    ref = "1maa/electrs:latest"
+    ref = "ghcr.io/1ma/electrs:${RUNNER_ARCH}"
   }]
-  platforms = ["linux/amd64", "linux/arm64"]
-  tags = ["1maa/electrs:latest"]
+  tags = ["ghcr.io/1ma/electrs:${RUNNER_ARCH}"]
 }
 
 target "erlang" {

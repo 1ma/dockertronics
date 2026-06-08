@@ -25,6 +25,8 @@ WORKDIR /tmp/electrs
 RUN git config gpg.ssh.allowedSignersFile /tmp/allowed_signers \
  && git verify-tag ${ELECTRS_VERSION}
 
+ENV CARGO_PROFILE_RELEASE_STRIP=symbols
+
 RUN . "$HOME/.cargo/env" \
  && cargo build --locked --release
 
