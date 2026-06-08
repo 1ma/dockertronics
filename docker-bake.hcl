@@ -1,9 +1,3 @@
-variable "RUNNER" {
-  type = string
-  default = "ubuntu-24.04"
-  description = "Runner that built the image"
-}
-
 variable "RUNNER_ARCH" {
   type = string
   default = "X64"
@@ -132,9 +126,9 @@ target "erlang" {
   cache-to = [{type = "inline"}]
   cache-from = [{
     type = "registry"
-    ref = "ghcr.io/1ma/erlang:${VERSION_MAJOR}-${RUNNER}"
+    ref = "ghcr.io/1ma/erlang:${VERSION_MAJOR}-${RUNNER_ARCH}"
   }]
-  tags = ["ghcr.io/1ma/erlang:${VERSION_MAJOR}-${RUNNER}"]
+  tags = ["ghcr.io/1ma/erlang:${VERSION_MAJOR}-${RUNNER_ARCH}"]
 }
 
 target "frigate" {
@@ -221,9 +215,9 @@ target "php" {
   cache-to = [{type = "inline"}]
   cache-from = [{
     type = "registry"
-    ref = "ghcr.io/1ma/php:${PHP_MAJOR}-${RUNNER}"
+    ref = "ghcr.io/1ma/php:${PHP_MAJOR}-${RUNNER_ARCH}"
   }]
-  tags = ["ghcr.io/1ma/php:${PHP_MAJOR}-${RUNNER}"]
+  tags = ["ghcr.io/1ma/php:${PHP_MAJOR}-${RUNNER_ARCH}"]
 }
 
 target "postgres" {
@@ -235,9 +229,9 @@ target "postgres" {
   cache-to = [{type = "inline"}]
   cache-from = [{
     type = "registry"
-    ref = "ghcr.io/1ma/postgres:${VERSION_MAJOR}-${RUNNER}"
+    ref = "ghcr.io/1ma/postgres:${VERSION_MAJOR}-${RUNNER_ARCH}"
   }]
-  tags = ["ghcr.io/1ma/postgres:${VERSION_MAJOR}-${RUNNER}"]
+  tags = ["ghcr.io/1ma/postgres:${VERSION_MAJOR}-${RUNNER_ARCH}"]
 }
 
 target "protoc" {
@@ -305,7 +299,7 @@ target "sqlite" {
   cache-to = [{type = "inline"}]
   cache-from = [{
     type = "registry"
-    ref = "ghcr.io/1ma/sqlite:${RUNNER}"
+    ref = "ghcr.io/1ma/sqlite:${RUNNER_ARCH}"
   }]
-  tags = ["ghcr.io/1ma/sqlite:${RUNNER}"]
+  tags = ["ghcr.io/1ma/sqlite:${RUNNER_ARCH}"]
 }

@@ -133,7 +133,6 @@ jobs:
           - "ubuntu-24.04"
           - "ubuntu-24.04-arm"
     env:
-      RUNNER: ${{ matrix.runners }}
       VERSION: ${{ matrix.versions }}
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -172,8 +171,8 @@ jobs:
       - run: |
           docker buildx imagetools create \
             -t 1maa/erlang:${{ matrix.major }}-alpine \
-            ghcr.io/1ma/erlang:${{ matrix.major }}-ubuntu-24.04 \
-            ghcr.io/1ma/erlang:${{ matrix.major }}-ubuntu-24.04-arm
+            ghcr.io/1ma/erlang:${{ matrix.major }}-X64 \
+            ghcr.io/1ma/erlang:${{ matrix.major }}-ARM64
 
   mempool:
     name: Build mempool.guide images
@@ -208,7 +207,6 @@ jobs:
           - "ubuntu-24.04"
           - "ubuntu-24.04-arm"
     env:
-      RUNNER: ${{ matrix.runners }}
       VERSION: ${{ matrix.versions }}
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -247,8 +245,8 @@ jobs:
       - run: |
           docker buildx imagetools create \
             -t 1maa/php:${{ matrix.versions }} \
-            ghcr.io/1ma/php:${{ matrix.versions }}-ubuntu-24.04 \
-            ghcr.io/1ma/php:${{ matrix.versions }}-ubuntu-24.04-arm
+            ghcr.io/1ma/php:${{ matrix.versions }}-X64 \
+            ghcr.io/1ma/php:${{ matrix.versions }}-ARM64
 
   postgres-multiarch:
     name: Build Postgres ${{ matrix.versions }} on ${{ matrix.runners }}
@@ -267,7 +265,6 @@ jobs:
           - "ubuntu-24.04"
           - "ubuntu-24.04-arm"
     env:
-      RUNNER: ${{ matrix.runners }}
       VERSION: ${{ matrix.versions }}
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -308,8 +305,8 @@ jobs:
       - run: |
           docker buildx imagetools create \
             -t 1maa/postgres:${{ matrix.major }}-alpine \
-            ghcr.io/1ma/postgres:${{ matrix.major }}-ubuntu-24.04 \
-            ghcr.io/1ma/postgres:${{ matrix.major }}-ubuntu-24.04-arm
+            ghcr.io/1ma/postgres:${{ matrix.major }}-X64 \
+            ghcr.io/1ma/postgres:${{ matrix.major }}-ARM64
 
   sqlite-multiarch:
     name: Build SQLite on ${{ matrix.runners }}
@@ -320,8 +317,6 @@ jobs:
         runners:
           - "ubuntu-24.04"
           - "ubuntu-24.04-arm"
-    env:
-      RUNNER: ${{ matrix.runners }}
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - uses: docker/setup-buildx-action@4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd # v4.0.0
@@ -351,8 +346,8 @@ jobs:
       - run: |
           docker buildx imagetools create \
             -t 1maa/sqlite:latest \
-            ghcr.io/1ma/sqlite:ubuntu-24.04 \
-            ghcr.io/1ma/sqlite:ubuntu-24.04-arm
+            ghcr.io/1ma/sqlite:X64 \
+            ghcr.io/1ma/sqlite:ARM64
 
   ghcr-cleanup:
     name: Cleanup stale GHCR images
