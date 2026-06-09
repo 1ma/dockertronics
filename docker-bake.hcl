@@ -299,7 +299,7 @@ target "sqlite" {
   cache-to = [{type = "inline"}]
   cache-from = [{
     type = "registry"
-    ref = "ghcr.io/1ma/sqlite:${RUNNER_ARCH}"
+    ref = "ghcr.io/1ma/sqlite:latest-${RUNNER_ARCH}"
   }]
-  tags = ["ghcr.io/1ma/sqlite:${RUNNER_ARCH}"]
+  tags = ["ghcr.io/1ma/sqlite:latest-${RUNNER_ARCH}"]
 }
