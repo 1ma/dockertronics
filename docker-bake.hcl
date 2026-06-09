@@ -229,9 +229,9 @@ target "postgres" {
   cache-to = [{type = "inline"}]
   cache-from = [{
     type = "registry"
-    ref = "ghcr.io/1ma/postgres:${VERSION_MAJOR}-${RUNNER_ARCH}"
+    ref = "ghcr.io/1ma/postgres:${VERSION_MAJOR}-alpine-${RUNNER_ARCH}"
   }]
-  tags = ["ghcr.io/1ma/postgres:${VERSION_MAJOR}-${RUNNER_ARCH}"]
+  tags = ["ghcr.io/1ma/postgres:${VERSION_MAJOR}-alpine-${RUNNER_ARCH}"]
 }
 
 target "protoc" {
