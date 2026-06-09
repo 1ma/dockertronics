@@ -67,6 +67,8 @@ group "default" {
     "frigate",
     "haproxy",
     "lnd",
+    "mempool-guide-backend",
+    "mempool-guide-frontend",
     "protoc",
     "selfsig",
     "sftp",
