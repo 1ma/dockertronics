@@ -112,9 +112,9 @@ target "electrs" {
   cache-to = [{type = "inline"}]
   cache-from = [{
     type = "registry"
-    ref = "ghcr.io/1ma/electrs:${RUNNER_ARCH}"
+    ref = "ghcr.io/1ma/electrs:latest-${RUNNER_ARCH}"
   }]
-  tags = ["ghcr.io/1ma/electrs:${RUNNER_ARCH}"]
+  tags = ["ghcr.io/1ma/electrs:latest-${RUNNER_ARCH}"]
 }
 
 target "erlang" {
