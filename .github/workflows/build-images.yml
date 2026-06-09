@@ -118,61 +118,23 @@ jobs:
             ghcr.io/1ma/electrs:X64 \
             ghcr.io/1ma/electrs:ARM64
 
-  erlang-multiarch:
-    name: Build Erlang ${{ matrix.versions }} on ${{ matrix.runners }}
-    runs-on: ${{ matrix.runners }}
+  erlang:
     strategy:
       fail-fast: false
       matrix:
-        versions:
-          - "26.2.5.21"
-          - "27.3.4.12"
-          - "28.5.0.1"
-          - "29.0.1"
-        runners:
-          - "ubuntu-24.04"
-          - "ubuntu-24.04-arm"
-    env:
-      VERSION: ${{ matrix.versions }}
-    steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
-      - uses: docker/setup-buildx-action@d7f5e7f509e45cec5c76c4d5afdd7de93d0b3df5 # v4.1.0
-      - uses: docker/login-action@650006c6eb7dba73a995cc03b0b2d7f5ca915bee # v4.2.0
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - uses: docker/bake-action@6614cfa25eff9a0b2b2697efb0b6159e7680d584 # v7.2.0
-        with:
-          provenance: false
-          push: true
-          sbom: false
-          targets: erlang
-
-  erlang-merge:
-    name: Merge Erlang ${{ matrix.major }} image
-    runs-on: ubuntu-24.04
-    needs:
-      - erlang-multiarch
-    strategy:
-      fail-fast: false
-      matrix:
-        major:
-          - "26"
-          - "27"
-          - "28"
-          - "29"
-    steps:
-      - uses: docker/setup-buildx-action@d7f5e7f509e45cec5c76c4d5afdd7de93d0b3df5 # v4.1.0
-      - uses: docker/login-action@650006c6eb7dba73a995cc03b0b2d7f5ca915bee # v4.2.0
-        with:
-          username: 1maa
-          password: ${{ secrets.DOCKER_HUB_PASS }}
-      - run: |
-          docker buildx imagetools create \
-            -t 1maa/erlang:${{ matrix.major }}-alpine \
-            ghcr.io/1ma/erlang:${{ matrix.major }}-X64 \
-            ghcr.io/1ma/erlang:${{ matrix.major }}-ARM64
+        variants:
+          - ["26", "26.2.5.21"]
+          - ["27", "27.3.4.12"]
+          - ["28", "28.5.0.1"]
+          - ["29", "29.0.1"]
+    uses: ./.github/workflows/multiarch-build.yml
+    with:
+      target: erlang
+      tag: ${{ matrix.variants[0] }}
+      version: ${{ matrix.variants[1] }}
+    secrets:
+      gh_token: ${{ secrets.GITHUB_TOKEN }}
+      hub_token: ${{ secrets.DOCKER_HUB_PASS }}
 
   mempool:
     name: Build mempool.guide images
@@ -244,7 +206,6 @@ jobs:
     needs:
       - cln-merge
       - electrs-merge
-      - erlang-merge
     steps:
       - uses: docker/login-action@650006c6eb7dba73a995cc03b0b2d7f5ca915bee # v4.2.0
         with:
@@ -260,12 +221,6 @@ jobs:
       - uses: actions/delete-package-versions@e5bc658cc4c965c472efe991f8beea3981499c55 # v5.0.0
         with:
           package-name: electrs
-          package-type: container
-          delete-only-untagged-versions: true
-          min-versions-to-keep: 0
-      - uses: actions/delete-package-versions@e5bc658cc4c965c472efe991f8beea3981499c55 # v5.0.0
-        with:
-          package-name: erlang
           package-type: container
           delete-only-untagged-versions: true
           min-versions-to-keep: 0
