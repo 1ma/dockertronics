@@ -38,8 +38,8 @@ jobs:
       fail-fast: false
       matrix:
         runners:
-          - "ubuntu-24.04"
-          - "ubuntu-24.04-arm"
+          - "ubuntu-26.04"
+          - "ubuntu-26.04-arm"
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       - uses: docker/setup-buildx-action@bb05f3f5519dd87d3ba754cc423b652a5edd6d2c # v4.2.0
@@ -57,7 +57,7 @@ jobs:
 
   cln-merge:
     name: Merge Core Lightning images
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs:
       - cln-multiarch
     steps:
@@ -84,8 +84,8 @@ jobs:
       fail-fast: false
       matrix:
         runners:
-          - "ubuntu-24.04"
-          - "ubuntu-24.04-arm"
+          - "ubuntu-26.04"
+          - "ubuntu-26.04-arm"
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       - uses: docker/setup-buildx-action@bb05f3f5519dd87d3ba754cc423b652a5edd6d2c # v4.2.0
@@ -103,7 +103,7 @@ jobs:
 
   electrs-merge:
     name: Merge Electrs image
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs:
       - electrs-multiarch
     steps:
@@ -130,8 +130,8 @@ jobs:
           - "28.5.0.3"
           - "29.0.3"
         runners:
-          - "ubuntu-24.04"
-          - "ubuntu-24.04-arm"
+          - "ubuntu-26.04"
+          - "ubuntu-26.04-arm"
     env:
       VERSION: ${{ matrix.versions }}
     steps:
@@ -151,7 +151,7 @@ jobs:
 
   erlang-merge:
     name: Merge Erlang ${{ matrix.major }} image
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs:
       - erlang-multiarch
     strategy:
@@ -181,8 +181,8 @@ jobs:
       fail-fast: false
       matrix:
         runners:
-          - "ubuntu-24.04"
-          - "ubuntu-24.04-arm"
+          - "ubuntu-26.04"
+          - "ubuntu-26.04-arm"
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       - uses: docker/setup-buildx-action@bb05f3f5519dd87d3ba754cc423b652a5edd6d2c # v4.2.0
@@ -200,7 +200,7 @@ jobs:
 
   mempool-merge:
     name: Merge mempool.guide images
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs:
       - mempool-multiarch
     steps:
@@ -231,8 +231,8 @@ jobs:
           - "8.4.23"
           - "8.5.8"
         runners:
-          - "ubuntu-24.04"
-          - "ubuntu-24.04-arm"
+          - "ubuntu-26.04"
+          - "ubuntu-26.04-arm"
     env:
       VERSION: ${{ matrix.versions }}
     steps:
@@ -252,7 +252,7 @@ jobs:
 
   php-merge:
     name: Merge PHP ${{ matrix.versions }} image
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs:
       - php-multiarch
     strategy:
@@ -289,8 +289,8 @@ jobs:
           - "17.10"
           - "18.4"
         runners:
-          - "ubuntu-24.04"
-          - "ubuntu-24.04-arm"
+          - "ubuntu-26.04"
+          - "ubuntu-26.04-arm"
     env:
       VERSION: ${{ matrix.versions }}
     steps:
@@ -310,7 +310,7 @@ jobs:
 
   postgres-merge:
     name: Merge Postgres ${{ matrix.major }} image
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs:
       - postgres-multiarch
     strategy:
@@ -342,8 +342,8 @@ jobs:
       fail-fast: false
       matrix:
         runners:
-          - "ubuntu-24.04"
-          - "ubuntu-24.04-arm"
+          - "ubuntu-26.04"
+          - "ubuntu-26.04-arm"
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       - uses: docker/setup-buildx-action@bb05f3f5519dd87d3ba754cc423b652a5edd6d2c # v4.2.0
@@ -361,7 +361,7 @@ jobs:
 
   sqlite-merge:
     name: Merge SQLite image
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs:
       - sqlite-multiarch
     steps:
@@ -378,7 +378,7 @@ jobs:
 
   ghcr-cleanup:
     name: Cleanup stale GHCR images
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs:
       - cln-merge
       - electrs-merge
