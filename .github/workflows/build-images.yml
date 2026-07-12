@@ -174,23 +174,50 @@ jobs:
             ghcr.io/1ma/erlang:${{ matrix.major }}-X64 \
             ghcr.io/1ma/erlang:${{ matrix.major }}-ARM64
 
-  mempool:
-    name: Build mempool.guide images
-    runs-on: ubuntu-24.04
+  mempool-multiarch:
+    name: Build mempool.guide on ${{ matrix.runners }}
+    runs-on: ${{ matrix.runners }}
+    strategy:
+      fail-fast: false
+      matrix:
+        runners:
+          - "ubuntu-24.04"
+          - "ubuntu-24.04-arm"
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
-      - uses: docker/setup-qemu-action@96fe6ef7f33517b61c61be40b68a1882f3264fb8 # v4.2.0
       - uses: docker/setup-buildx-action@bb05f3f5519dd87d3ba754cc423b652a5edd6d2c # v4.2.0
       - uses: docker/login-action@af1e73f918a031802d376d3c8bbc3fe56130a9b0 # v4.4.0
         with:
-          username: 1maa
-          password: ${{ secrets.DOCKER_HUB_PASS }}
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       - uses: docker/bake-action@d3418bd7d0e9324001bca92fa8ba175ea7e6dc9b # v7.3.0
         with:
           provenance: false
           push: true
           sbom: false
           targets: mempool-guide-backend,mempool-guide-frontend
+
+  mempool-merge:
+    name: Merge mempool.guide images
+    runs-on: ubuntu-24.04
+    needs:
+      - mempool-multiarch
+    steps:
+      - uses: docker/setup-buildx-action@bb05f3f5519dd87d3ba754cc423b652a5edd6d2c # v4.2.0
+      - uses: docker/login-action@af1e73f918a031802d376d3c8bbc3fe56130a9b0 # v4.4.0
+        with:
+          username: 1maa
+          password: ${{ secrets.DOCKER_HUB_PASS }}
+      - run: |
+          docker buildx imagetools create \
+            -t 1maa/mempool.guide:backend \
+            ghcr.io/1ma/mempool.guide:backend-X64 \
+            ghcr.io/1ma/mempool.guide:backend-ARM64
+          docker buildx imagetools create \
+            -t 1maa/mempool.guide:frontend \
+            ghcr.io/1ma/mempool.guide:frontend-X64 \
+            ghcr.io/1ma/mempool.guide:frontend-ARM64
 
   php-multiarch:
     name: Build PHP ${{ matrix.versions }} on ${{ matrix.runners }}
@@ -356,6 +383,7 @@ jobs:
       - cln-merge
       - electrs-merge
       - erlang-merge
+      - mempool-merge
       - php-merge
       - postgres-merge
       - sqlite-merge
@@ -380,6 +408,12 @@ jobs:
       - uses: actions/delete-package-versions@e5bc658cc4c965c472efe991f8beea3981499c55 # v5.0.0
         with:
           package-name: erlang
+          package-type: container
+          delete-only-untagged-versions: true
+          min-versions-to-keep: 0
+      - uses: actions/delete-package-versions@e5bc658cc4c965c472efe991f8beea3981499c55 # v5.0.0
+        with:
+          package-name: mempool.guide
           package-type: container
           delete-only-untagged-versions: true
           min-versions-to-keep: 0

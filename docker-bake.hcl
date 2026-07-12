@@ -67,8 +67,6 @@ group "default" {
     "frigate",
     "haproxy",
     "lnd",
-    "mempool-guide-backend",
-    "mempool-guide-frontend",
     "protoc",
     "selfsig",
     "sftp",
@@ -187,10 +185,9 @@ target "mempool-guide-backend" {
   cache-to = [{type = "inline"}]
   cache-from = [{
     type = "registry"
-    ref = "1maa/mempool.guide:backend"
+    ref = "ghcr.io/1ma/mempool.guide:backend-${RUNNER_ARCH}"
   }]
-  platforms = ["linux/amd64", "linux/arm64"]
-  tags = ["1maa/mempool.guide:backend"]
+  tags = ["ghcr.io/1ma/mempool.guide:backend-${RUNNER_ARCH}"]
 }
 
 target "mempool-guide-frontend" {
@@ -202,10 +199,9 @@ target "mempool-guide-frontend" {
   cache-to = [{type = "inline"}]
   cache-from = [{
     type = "registry"
-    ref = "1maa/mempool.guide:frontend"
+    ref = "ghcr.io/1ma/mempool.guide:frontend-${RUNNER_ARCH}"
   }]
-  platforms = ["linux/amd64", "linux/arm64"]
-  tags = ["1maa/mempool.guide:frontend"]
+  tags = ["ghcr.io/1ma/mempool.guide:frontend-${RUNNER_ARCH}"]
 }
 
 target "php" {
