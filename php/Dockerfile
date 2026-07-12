@@ -141,6 +141,7 @@ RUN apk add --no-cache \
     libuv-dev \
     lz4-dev \
     re2c \
+    util-linux-dev \
     yaml-dev \
     zstd-dev
 
@@ -156,6 +157,7 @@ RUN pie install --skip-enable-extension mongodb/mongodb-extension
 RUN pie install --skip-enable-extension msgpack/msgpack-php:dev-master
 RUN pie install --skip-enable-extension noisebynorthwest/php-spx
 RUN pie install --skip-enable-extension pecl/pcov
+RUN pie install --skip-enable-extension pecl/uuid
 RUN pie install --skip-enable-extension pecl/yaml
 RUN pie install --skip-enable-extension php-amqp/php-amqp
 RUN pie install --skip-enable-extension php-ds/ext-ds
@@ -229,6 +231,7 @@ RUN apk add --no-cache \
     libsecp256k1 \
     libsodium \
     libssh2 \
+    libuuid \
     libuv \
     libxml2 \
     libxslt \
