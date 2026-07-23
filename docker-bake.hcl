@@ -142,7 +142,6 @@ target "frigate" {
     type = "registry"
     ref = "1maa/frigate:latest"
   }]
-  platforms = ["linux/amd64", "linux/arm64"]
   tags = [
     "1maa/frigate:latest"
   ]
