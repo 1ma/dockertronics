@@ -31,52 +31,6 @@ jobs:
           sbom: false
           targets: default
 
-  cln-multiarch:
-    name: Build Core Lightning on ${{ matrix.runners }}
-    runs-on: ${{ matrix.runners }}
-    strategy:
-      fail-fast: false
-      matrix:
-        runners:
-          - "ubuntu-26.04"
-          - "ubuntu-26.04-arm"
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
-      - uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - uses: docker/bake-action@018cb6412ab401ebaa809aa5f85966b74628600f # v7.4.0
-        with:
-          provenance: false
-          push: true
-          sbom: false
-          targets: cln-alpine,cln-debian
-
-  cln-merge:
-    name: Merge Core Lightning images
-    runs-on: ubuntu-26.04
-    needs:
-      - cln-multiarch
-    steps:
-      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
-      - uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
-        with:
-          username: 1maa
-          password: ${{ secrets.DOCKER_HUB_PASS }}
-      - run: |
-          docker buildx imagetools create \
-            -t 1maa/core-lightning:alpine \
-            -t 1maa/core-lightning:latest \
-            ghcr.io/1ma/core-lightning:alpine-X64 \
-            ghcr.io/1ma/core-lightning:alpine-ARM64
-          docker buildx imagetools create \
-            -t 1maa/core-lightning:debian \
-            ghcr.io/1ma/core-lightning:debian-X64 \
-            ghcr.io/1ma/core-lightning:debian-ARM64
-
   electrs-multiarch:
     name: Build Electrs on ${{ matrix.runners }}
     runs-on: ${{ matrix.runners }}
@@ -380,7 +334,6 @@ jobs:
     name: Cleanup stale GHCR images
     runs-on: ubuntu-26.04
     needs:
-      - cln-merge
       - electrs-merge
       - erlang-merge
       - mempool-merge
@@ -393,12 +346,6 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/delete-package-versions@e5bc658cc4c965c472efe991f8beea3981499c55 # v5.0.0
-        with:
-          package-name: core-lightning
-          package-type: container
-          delete-only-untagged-versions: true
-          min-versions-to-keep: 0
       - uses: actions/delete-package-versions@e5bc658cc4c965c472efe991f8beea3981499c55 # v5.0.0
         with:
           package-name: electrs

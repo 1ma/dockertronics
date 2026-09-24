@@ -74,36 +74,6 @@ group "default" {
   ]
 }
 
-target "cln-alpine" {
-  args = {
-    PUBLIC_ALPINE_IMAGE = PUBLIC_ALPINE_IMAGE
-    PUBLIC_GOLANG_IMAGE = PUBLIC_GOLANG_IMAGE
-  }
-  context = "core-lightning"
-  cache-to = [{type = "inline"}]
-  cache-from = [{
-    type = "registry"
-    ref = "ghcr.io/1ma/core-lightning:alpine-${RUNNER_ARCH}"
-  }]
-  dockerfile = "alpine/Dockerfile"
-  tags = ["ghcr.io/1ma/core-lightning:alpine-${RUNNER_ARCH}"]
-}
-
-target "cln-debian" {
-  args = {
-    PUBLIC_DEBIAN_IMAGE = PUBLIC_DEBIAN_IMAGE
-    PUBLIC_GOLANG_IMAGE = PUBLIC_GOLANG_DEBIAN_IMAGE
-  }
-  context = "core-lightning"
-  cache-to = [{type = "inline"}]
-  cache-from = [{
-    type = "registry"
-    ref = "ghcr.io/1ma/core-lightning:debian-${RUNNER_ARCH}"
-  }]
-  dockerfile = "debian/Dockerfile"
-  tags = ["ghcr.io/1ma/core-lightning:debian-${RUNNER_ARCH}"]
-}
-
 target "electrs" {
   args = {
     PUBLIC_DEBIAN_IMAGE = PUBLIC_DEBIAN_IMAGE
