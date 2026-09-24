@@ -6,7 +6,7 @@ FROM alpine@${PUBLIC_ALPINE_IMAGE}
 #   https://www.sqlite.org/howtocompile.html
 #   https://www.sqlite.org/compile.html
 
-ARG SQLITE_VERSION=3530300
+ARG SQLITE_VERSION=3530400
 
 WORKDIR /tmp
 

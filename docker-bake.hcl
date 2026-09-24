@@ -28,37 +28,37 @@ variable "PHP_MAJOR" {
 
 variable "PUBLIC_ALPINE_IMAGE" {
   type = string
-  default = "sha256:28bd5fe8b56d1bd048e5babf5b10710ebe0bae67db86916198a6eec434943f8b" # :3.24
+  default = "sha256:294b683cb724975bec92580e1e685676bd4b50bda910ddb8c51d4cabeaec77e6" # :3.24
 }
 
 variable "PUBLIC_CADDY_IMAGE" {
   type = string
-  default = "sha256:5f5c8640aae01df9654968d946d8f1a56c497f1dd5c5cda4cf95ab7c14d58648" # :alpine
+  default = "sha256:6aeddd44c3078b0f9a35206472a11420648a79c184603ef95957d0a20044cb2b" # :alpine
 }
 
 variable "PUBLIC_DEBIAN_IMAGE" {
   type = string
-  default = "sha256:28de0877c2189802884ccd20f15ee41c203573bd87bb6b883f5f46362d24c5c2" # :trixie-slim
+  default = "sha256:a99cfc517144bc59b1978475ec53b46ecabec7e43635402ee5b77cc54cd1b20a" # :trixie-slim
 }
 
 variable "PUBLIC_ECLIPSE_TEMURIN_IMAGE" {
   type = string
-  default = "sha256:68868d04fa9cfd5f5c6abec0b5cef86d8de2bf9c62c37c7d3e4f0f80f5cfd7ff" # :25
+  default = "sha256:97014c4b396021f9ddb7d592a7dbedb0c4e4215c29e03dc01c393558aefb71c2" # :25
 }
 
 variable "PUBLIC_GOLANG_IMAGE" {
   type = string
-  default = "sha256:0178a641fbb4858c5f1b48e34bdaabe0350a330a1b1149aabd498d0699ff5fb2" # :alpine
+  default = "sha256:8a5910f31396cd4d89662f56c68b3ae31d374308270a1c3bd96672ee5ed43414" # :alpine
 }
 
 variable "PUBLIC_GOLANG_DEBIAN_IMAGE" {
   type = string
-  default = "sha256:116489021a0d8ca3facf79f84ee69052cff88733547150a644d45c5eaa91dc43" # :trixie
+  default = "sha256:433790e515d27dc6003e847e644cc0af956985cf315c1c58a3b73ee2dd305183" # :trixie
 }
 
 variable "PUBLIC_NODE_IMAGE" {
   type = string
-  default = "sha256:e88a35be04478413b7c71c455cd9865de9b9360e1f43456be5951032d7ac1a66" # :26-alpine
+  default = "sha256:0b36e8c136b94cd4fcf02188228e76c31ad5872eef3fec8cbd2eee500cfd9e80" # :26-alpine
 }
 
 group "default" {
