@@ -149,43 +149,49 @@ ADD https://github.com/php/pie/releases/latest/download/pie.phar /usr/local/bin/
 
 RUN chmod +x /usr/local/bin/pie
 
-RUN pie install --skip-enable-extension apcu/apcu
-RUN pie install --skip-enable-extension arnaud-lb/inotify
-RUN pie install --skip-enable-extension girgias/csv
-RUN pie install --skip-enable-extension igbinary/igbinary:@rc
-RUN pie install --skip-enable-extension mongodb/mongodb-extension
-RUN pie install --skip-enable-extension msgpack/msgpack-php:dev-master
-RUN pie install --skip-enable-extension noisebynorthwest/php-spx
-RUN pie install --skip-enable-extension pecl/pcov
-RUN pie install --skip-enable-extension pecl/uuid
-RUN pie install --skip-enable-extension pecl/yaml
-RUN pie install --skip-enable-extension php-amqp/php-amqp
-RUN pie install --skip-enable-extension php-ds/ext-ds
+RUN pie install --skip-enable-extension \
+    apcu/apcu \
+      --enable-apcu-clear-signal \
+    arnaud-lb/inotify \
+    girgias/csv \
+    igbinary/igbinary:@rc \
+    laruence/yar:dev-master \
+      --enable-epoll \
+      --enable-msgpack \
+    mongodb/mongodb-extension \
+    msgpack/msgpack-php \
+    noisebynorthwest/php-spx \
+    pecl/pcov \
+    pecl/uuid \
+    pecl/yaml \
+    php-amqp/php-amqp \
+    php-ds/ext-ds \
+    phpredis/phpredis \
+      --enable-redis-igbinary \
+      --enable-redis-lz4 \
+      --enable-redis-lzf \
+      --enable-redis-msgpack \
+      --enable-redis-zstd \
+      --with-liblz4=yes \
+      --with-liblzf=yes \
+      --with-libzstd=yes \
+    rdkafka/rdkafka \
+    uma/secp256k1-nostr \
+    xdebug/xdebug
 
-RUN pie install --skip-enable-extension php-memcached/php-memcached \
-    --enable-memcached-igbinary \
-    --enable-memcached-json \
-    --enable-memcached-msgpack \
-    --enable-memcached-session \
-    --with-zstd
-RUN pie install --skip-enable-extension phpredis/phpredis \
-    --enable-redis-igbinary \
-    --enable-redis-lz4 \
-    --enable-redis-lzf \
-    --enable-redis-msgpack \
-    --enable-redis-zstd \
-    --with-liblz4=yes \
-    --with-liblzf=yes \
-    --with-libzstd=yes
-RUN pie install --skip-enable-extension rdkafka/rdkafka
-RUN pie install --skip-enable-extension uma/secp256k1-nostr
-RUN pie install --skip-enable-extension xdebug/xdebug
+# php-spx and memcached need to be installed
+# separately due to a conflicting build argument
+RUN pie install --skip-enable-extension \
+    php-memcached/php-memcached \
+      --enable-memcached-igbinary \
+      --enable-memcached-json \
+      --enable-memcached-msgpack \
+      --enable-memcached-session \
+      --with-zstd
 
 RUN pecl channel-update pecl.php.net \
  && MAKEFLAGS="-j$(nproc)" pecl install \
-    --configureoptions 'enable-msgpack="yes"' \
-    ssh2 \
-    yar
+    ssh2
 
 RUN chmod 644 $(php-config --extension-dir)/*.so
 
