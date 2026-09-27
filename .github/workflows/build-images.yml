@@ -203,6 +203,8 @@ jobs:
           push: true
           sbom: false
           targets: php
+          set: |
+            ${{ github.event_name != 'push' && 'php.no-cache=true' || '' }}
 
   php-merge:
     name: Merge PHP ${{ matrix.versions }} image
