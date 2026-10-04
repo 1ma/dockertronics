@@ -177,6 +177,7 @@ RUN pie install --skip-enable-extension \
       --with-libzstd=yes \
     rdkafka/rdkafka \
     uma/secp256k1-nostr \
+    uma/secp256k1-php \
     xdebug/xdebug
 
 # php-spx and memcached need to be installed
