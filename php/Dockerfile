@@ -160,12 +160,17 @@ RUN pie install --skip-enable-extension \
       --enable-msgpack \
     mongodb/mongodb-extension \
     msgpack/msgpack-php \
-    noisebynorthwest/php-spx \
     pecl/pcov \
     pecl/uuid \
     pecl/yaml \
     php-amqp/php-amqp \
     php-ds/ext-ds \
+    php-memcached/php-memcached \
+      --enable-memcached-igbinary \
+      --enable-memcached-json \
+      --enable-memcached-msgpack \
+      --enable-memcached-session \
+      --with-zstd \
     phpredis/phpredis \
       --enable-redis-igbinary \
       --enable-redis-lz4 \
@@ -183,12 +188,7 @@ RUN pie install --skip-enable-extension \
 # php-spx and memcached need to be installed
 # separately due to a conflicting build argument
 RUN pie install --skip-enable-extension \
-    php-memcached/php-memcached \
-      --enable-memcached-igbinary \
-      --enable-memcached-json \
-      --enable-memcached-msgpack \
-      --enable-memcached-session \
-      --with-zstd
+    noisebynorthwest/php-spx
 
 RUN pecl channel-update pecl.php.net \
  && MAKEFLAGS="-j$(nproc)" pecl install \
