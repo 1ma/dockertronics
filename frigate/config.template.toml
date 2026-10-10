@@ -30,8 +30,30 @@ tcp = "${SERVER_TCP}"                  # plaintext listener bind URL; omit (or s
 # ssl = "ssl://0.0.0.0:50002"    # SSL listener bind URL; omit to disable
 # sslCert = "cert.pem"           # PEM certificate (chain allowed); bare filename resolves under Frigate's home dir, or use an absolute path
 # sslKey  = "key.pem"            # PEM-encoded PKCS#8 private key; bare filename resolves under Frigate's home dir, or use an absolute path
+# sslReloadSeconds = 300         # how often to check the certificate and key files, reloading them without a restart when renewed;
+#                                # 0 or less uses the default (reloading does nothing unless the files change)
+# donationAddress = ""           # address served for server.donation_address
+# bannerFile = "banner.txt"      # text served for server.banner (re-read when changed); bare filename resolves under Frigate's home dir
+# adminPort = 50003              # loopback-only admin JSON-RPC port offering getinfo, for health checks; 0 or absent disables it
+# shutdownDrainSeconds = 10      # on shutdown, how long sessions may take to finish the request they are handling
+# healthStatsEnabled = true      # log backend and index health every 5 minutes, without counts (usage is logged hourly, per [scan] metricsEnabled)
 backendElectrumServer = "${SERVER_BACKEND_ELECTRUM_SERVER}" # backend must listen on a port distinct from Frigate's tcp/ssl listeners above
+# backendRequestTimeoutSeconds = 120                # per-request timeout on each session's backend connection; expiry closes that connection
+# backendReconnectMaxBackoffSeconds = 60            # maximum delay between attempts to reconnect a session's lost backend connection
+# backendPingIntervalSeconds = 60                   # keepalive ping on a session's idle backend connection
+# backendSslCertFile = "backend.pem"                # pin an ssl:// backend to exactly this PEM certificate (overrides backendSslVerify)
+# backendSslVerify = false                          # verify an ssl:// backend's certificate against trusted CAs and its hostname
 
-# [database]
-# url = "jdbc:duckdb:/custom/path/frigate.duckdb"
-# readUrls = ["jdbc:duckdb:/replica1/frigate.duckdb"]
+[limits]
+# maxConnections = 1000                # global concurrent session cap
+# maxConnectionsPerIp = 12             # per client IP (IPv6: per /64)
+# maxRequestBytes = 1000000            # max JSON-RPC line length; oversized requests disconnect
+# maxBatchSize = 345                   # max requests per JSON-RPC batch array
+# sessionTimeoutSeconds = 600          # idle disconnect; Electrum clients ping every ~60s
+# maxSubscriptionsPerIp = 75000        # scripthash subscriptions per client IP
+# maxSubscriptions = 10000000          # global scripthash subscription cap
+# notificationQueueSize = 1000         # notifications (headers, silent payments) a client may fall behind before it is disconnected;
+#                                      # raise for clients on slow links receiving very large silent payments scans
+# silentPaymentsSubscribeBurst = 10              # silent payments subscribes a session may make at once
+# silentPaymentsSubscribeIntervalSeconds = 10    # then one per interval; subscribes beyond the burst are delayed, never rejected
+# excludedSubnets = ["127.0.0.1/32", "::1/128"]   # clients exempt from per-IP limits, the batch cap and pacing; add your LAN for a home server

@@ -37,7 +37,7 @@ RUN make -C postgresql-${POSTGRES_VERSION} world-bin -j$(nproc) \
 FROM alpine@${PUBLIC_ALPINE_IMAGE} AS postgis
 
 ARG PGTAP_VERSION=1.3.4
-ARG POSTGIS_VERSION=3.6.3
+ARG POSTGIS_VERSION=3.6.4
 
 WORKDIR /tmp
 

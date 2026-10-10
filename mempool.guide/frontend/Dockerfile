@@ -9,7 +9,7 @@ RUN apk add --no-cache \
     git \
     rsync
 
-RUN git clone --depth 1 https://github.com/retropex/mempool
+RUN git clone --branch poolcoin --depth 1 https://github.com/Horizon-btc/mempool
 
 WORKDIR /tmp/mempool
 
