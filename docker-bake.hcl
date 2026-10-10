@@ -65,7 +65,6 @@ group "default" {
   description = "Dependency-free images that can be easily built concurrently"
   targets = [
     "frigate",
-    "haproxy",
     "lnd",
     "protoc",
     "selfsig",
@@ -125,10 +124,9 @@ target "haproxy" {
   cache-to = [{type = "inline"}]
   cache-from = [{
     type = "registry"
-    ref = "1maa/haproxy:latest"
+    ref = "ghcr.io/1ma/haproxy:latest-${RUNNER_ARCH}"
   }]
-  platforms = ["linux/amd64", "linux/arm64"]
-  tags = ["1maa/haproxy:latest"]
+  tags = ["ghcr.io/1ma/haproxy:latest-${RUNNER_ARCH}"]
 }
 
 target "lnd" {
