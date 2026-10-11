@@ -65,7 +65,6 @@ RUN ./configure \
     --enable-fpm \
     --with-fpm-group=nobody \
     --with-fpm-user=nobody \
-    --with-pear \
 \
     --enable-bcmath=shared \
     --enable-calendar=shared \
@@ -136,7 +135,6 @@ RUN apk add --no-cache \
     libmemcached-dev \
     librdkafka-dev \
     libsecp256k1-dev \
-    libssh2-dev \
     libtool \
     libuv-dev \
     lz4-dev \
@@ -190,10 +188,6 @@ RUN pie install --skip-enable-extension \
 RUN pie install --skip-enable-extension \
     noisebynorthwest/php-spx
 
-RUN pecl channel-update pecl.php.net \
- && MAKEFLAGS="-j$(nproc)" pecl install \
-    ssh2
-
 RUN chmod 644 $(php-config --extension-dir)/*.so
 
 
@@ -237,7 +231,6 @@ RUN apk add --no-cache \
     librdkafka \
     libsecp256k1 \
     libsodium \
-    libssh2 \
     libuuid \
     libuv \
     libxml2 \
