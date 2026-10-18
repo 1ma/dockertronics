@@ -153,9 +153,9 @@ RUN pie install --skip-enable-extension \
     arnaud-lb/inotify \
     girgias/csv \
     igbinary/igbinary:@rc \
-    laruence/yar:dev-master \
-      --enable-epoll \
-      --enable-msgpack \
+    laruence/yac \
+      --enable-igbinary \
+      --enable-json \
     mongodb/mongodb-extension \
     msgpack/msgpack-php \
     pecl/pcov \
