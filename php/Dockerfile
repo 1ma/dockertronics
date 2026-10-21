@@ -154,8 +154,6 @@ RUN pie install --skip-enable-extension \
     girgias/csv \
     igbinary/igbinary:@rc \
     laruence/yac \
-      --enable-igbinary \
-      --enable-json \
     mongodb/mongodb-extension \
     msgpack/msgpack-php \
     pecl/pcov \
