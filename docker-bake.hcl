@@ -28,7 +28,7 @@ variable "PHP_MAJOR" {
 
 variable "PUBLIC_ALPINE_IMAGE" {
   type = string
-  default = "sha256:294b683cb724975bec92580e1e685676bd4b50bda910ddb8c51d4cabeaec77e6" # :3.24
+  default = "sha256:be2656061b536c1883c4034790e21d0a09c5aaaf51968b89368a3c0371ea2c9a" # :3.24
 }
 
 variable "PUBLIC_CADDY_IMAGE" {
@@ -114,6 +114,19 @@ target "frigate" {
   tags = [
     "1maa/frigate:latest"
   ]
+}
+
+target "gearmand" {
+  args = {
+    PUBLIC_ALPINE_IMAGE = PUBLIC_ALPINE_IMAGE
+  }
+  context = "gearmand"
+  cache-to = [{type = "inline"}]
+  cache-from = [{
+    type = "registry"
+    ref = "ghcr.io/1ma/gearmand:latest-${RUNNER_ARCH}"
+  }]
+  tags = ["ghcr.io/1ma/gearmand:latest-${RUNNER_ARCH}"]
 }
 
 target "haproxy" {
