@@ -115,8 +115,8 @@ RUN ./configure \
 
 RUN upx --lzma /usr/local/bin/php /usr/local/sbin/php-fpm
 
-RUN install -m 0644 php.ini-development /usr/local/etc/php.ini
-RUN install -m 0755 /tmp/composer.phar  /usr/local/bin/composer
+RUN install -m 0644 php.ini-development /usr/local/etc/php.ini \
+ && install -m 0755 /tmp/composer.phar  /usr/local/bin/composer
 
 COPY --chmod=755 entrypoint.sh      /usr/local/bin/entrypoint.sh
 COPY --chmod=644 extensions.ini     /usr/local/etc/conf.d/extensions.ini
@@ -143,11 +143,33 @@ RUN apk add --no-cache \
     yaml-dev \
     zstd-dev
 
-ADD https://github.com/php/pie/releases/latest/download/pie.phar /usr/local/bin/pie
+WORKDIR /tmp
 
-RUN chmod +x /usr/local/bin/pie
+ADD https://github.com/php/pie/releases/latest/download/pie.phar .
 
-RUN pie install --skip-enable-extension \
+# Force invalidation of the build cache from here on if any
+# extension has released a new version since the last build
+ADD https://repo.packagist.org/p2/apcu/apcu.json .
+ADD https://repo.packagist.org/p2/arnaud-lb/inotify.json .
+ADD https://repo.packagist.org/p2/girgias/csv.json .
+ADD https://repo.packagist.org/p2/igbinary/igbinary.json .
+ADD https://repo.packagist.org/p2/laruence/yac.json .
+ADD https://repo.packagist.org/p2/mongodb/mongodb-extension.json .
+ADD https://repo.packagist.org/p2/msgpack/msgpack-php.json .
+ADD https://repo.packagist.org/p2/noisebynorthwest/php-spx.json .
+ADD https://repo.packagist.org/p2/pecl/pcov.json .
+ADD https://repo.packagist.org/p2/pecl/uuid.json .
+ADD https://repo.packagist.org/p2/pecl/yaml.json .
+ADD https://repo.packagist.org/p2/php-amqp/php-amqp.json .
+ADD https://repo.packagist.org/p2/php-ds/ext-ds.json .
+ADD https://repo.packagist.org/p2/php-memcached/php-memcached.json .
+ADD https://repo.packagist.org/p2/phpredis/phpredis.json .
+ADD https://repo.packagist.org/p2/rdkafka/rdkafka.json .
+ADD https://repo.packagist.org/p2/uma/secp256k1-nostr.json .
+ADD https://repo.packagist.org/p2/uma/secp256k1-php.json .
+ADD https://repo.packagist.org/p2/xdebug/xdebug.json .
+
+RUN php pie.phar install --skip-enable-extension \
     apcu/apcu \
       --enable-apcu-clear-signal \
     arnaud-lb/inotify \
@@ -183,7 +205,7 @@ RUN pie install --skip-enable-extension \
 
 # php-spx and memcached need to be installed
 # separately due to a conflicting build argument
-RUN pie install --skip-enable-extension \
+RUN php pie.phar install --skip-enable-extension \
     noisebynorthwest/php-spx
 
 RUN chmod 644 $(php-config --extension-dir)/*.so
