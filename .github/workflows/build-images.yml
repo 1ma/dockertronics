@@ -13,6 +13,22 @@ permissions:
   packages: write
 
 jobs:
+  php-86-rc:
+    name: Build PHP 8.6 early releases
+    runs-on: ubuntu-26.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
+        with:
+          username: 1maa
+          password: ${{ secrets.DOCKER_HUB_PASS }}
+      - uses: docker/bake-action@018cb6412ab401ebaa809aa5f85966b74628600f # v7.4.0
+        with:
+          provenance: false
+          push: true
+          sbom: false
+          targets: php-86
+
   generic:
     name: Build dependency-free Docker images
     runs-on: ubuntu-26.04

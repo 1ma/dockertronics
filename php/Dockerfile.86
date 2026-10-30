@@ -1,0 +1,272 @@
+ARG PUBLIC_ALPINE_IMAGE="sha256:0000000000000000000000000000000000000000000000000000000000000000"
+
+FROM alpine@${PUBLIC_ALPINE_IMAGE} AS build
+
+ARG PHP_VERSION
+
+ENV CFLAGS="-g0 -Os -fstack-protector-strong -fpic -fpie -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64"
+ENV LDFLAGS="-Wl,--strip-all -Wl,-O1 -pie"
+
+WORKDIR /tmp
+
+ADD https://downloads.php.net/~mbeccati/php-${PHP_VERSION}.tar.gz .
+ADD https://downloads.php.net/~mbeccati/php-${PHP_VERSION}.tar.gz.asc .
+
+ADD https://getcomposer.org/download/latest-stable/composer.phar .
+ADD https://getcomposer.org/download/latest-stable/composer.phar.asc .
+
+COPY release-pubkeys.asc .
+
+RUN apk add --no-cache \
+    gnupg \
+ && gpg --import release-pubkeys.asc \
+ && gpg --verify composer.phar.asc composer.phar \
+ && gpg --verify php-${PHP_VERSION}.tar.gz.asc php-${PHP_VERSION}.tar.gz
+
+RUN tar zxof php-${PHP_VERSION}.tar.gz
+
+RUN apk add --no-cache \
+    argon2-dev \
+    build-base \
+    bzip2-dev \
+    curl-dev \
+    db-dev \
+    freetds-dev \
+    gmp-dev \
+    libedit-dev \
+    libffi-dev \
+    libjpeg-turbo-dev \
+    libpng-dev \
+    libpq-dev \
+    libsodium-dev \
+    libxml2-dev \
+    libxslt-dev \
+    libzip-dev \
+    lmdb-dev \
+    oniguruma-dev \
+    openssl-dev \
+    pkgconf \
+    rabbitmq-c-dev \
+    sqlite-dev \
+    tidyhtml-dev \
+    unixodbc-dev \
+    upx
+
+WORKDIR /tmp/php-${PHP_VERSION}
+
+RUN ./configure \
+    --prefix=/usr/local \
+    --with-config-file-path=/usr/local/etc \
+    --with-config-file-scan-dir=/usr/local/etc/conf.d \
+\
+    --disable-cgi \
+    --disable-phpdbg \
+    --enable-cli \
+    --enable-fpm \
+    --with-fpm-group=nobody \
+    --with-fpm-user=nobody \
+\
+    --enable-bcmath=shared \
+    --enable-calendar=shared \
+    --enable-dba=shared \
+    --enable-exif=shared \
+    --enable-ftp=shared \
+    --enable-gd=shared \
+    --enable-mbstring=shared \
+    --enable-mysqlnd=shared \
+    --enable-pcntl=shared \
+    --enable-shmop=shared \
+    --enable-soap=shared \
+    --enable-sockets=shared \
+    --enable-sysvmsg=shared \
+    --enable-sysvsem=shared \
+    --enable-sysvshm=shared \
+    --with-bz2=shared \
+    --with-curl=shared \
+    --with-ffi=shared \
+    --with-gmp=shared \
+    --with-iconv=shared \
+    --with-libedit=shared \
+    --with-mysqli=shared \
+    --with-openssl=shared \
+    --with-pdo-dblib=shared \
+    --with-pdo-mysql=shared \
+    --with-pdo-odbc=shared,unixODBC,/usr \
+    --with-pdo-pgsql=shared \
+    --with-pdo-sqlite=shared \
+    --with-pgsql=shared \
+    --with-sodium=shared \
+    --with-sqlite3=shared \
+    --with-tidy=shared \
+    --with-xsl=shared \
+    --with-zip=shared \
+    --with-zlib=shared \
+\
+    --enable-gd-jis-conv \
+    --with-jpeg \
+\
+    --with-db4 \
+    --with-lmdb \
+\
+    --with-openssl-argon2 \
+    --with-password-argon2 \
+ && make -j$(nproc) \
+ && make install
+
+RUN upx --lzma /usr/local/bin/php /usr/local/sbin/php-fpm
+
+RUN install -m 0644 php.ini-development /usr/local/etc/php.ini \
+ && install -m 0755 /tmp/composer.phar  /usr/local/bin/composer
+
+COPY --chmod=755 entrypoint.sh      /usr/local/bin/entrypoint.sh
+COPY --chmod=644 extensions-86.ini  /usr/local/etc/conf.d/extensions.ini
+COPY --chmod=644 php-overrides.ini  /usr/local/etc/conf.d/php-overrides.ini
+COPY --chmod=644 fpm-overrides.conf /usr/local/etc/php-fpm.d/fpm-overrides.conf
+
+RUN set -eu; \
+  if php -r 'exit(version_compare(PHP_VERSION, "8.5.0", ">=") ? 0 : 1);'; then \
+    sed -i '/zend_extension=opcache/d' /usr/local/etc/conf.d/extensions.ini; \
+  fi
+
+RUN apk add --no-cache \
+    autoconf \
+    bison \
+    liblzf-dev \
+    libmemcached-dev \
+    librdkafka-dev \
+    libsecp256k1-dev \
+    libtool \
+    libuv-dev \
+    lz4-dev \
+    re2c \
+    util-linux-dev \
+    yaml-dev \
+    zstd-dev
+
+WORKDIR /tmp
+
+ADD https://github.com/php/pie/releases/latest/download/pie.phar .
+
+# Force invalidation of the build cache from here on if any
+# extension has released a new version since the last build
+ADD https://repo.packagist.org/p2/apcu/apcu.json .
+ADD https://repo.packagist.org/p2/arnaud-lb/inotify.json .
+ADD https://repo.packagist.org/p2/girgias/csv.json .
+ADD https://repo.packagist.org/p2/igbinary/igbinary.json .
+ADD https://repo.packagist.org/p2/laruence/yac.json .
+ADD https://repo.packagist.org/p2/mongodb/mongodb-extension.json .
+ADD https://repo.packagist.org/p2/msgpack/msgpack-php.json .
+ADD https://repo.packagist.org/p2/noisebynorthwest/php-spx.json .
+ADD https://repo.packagist.org/p2/pecl/pcov.json .
+ADD https://repo.packagist.org/p2/pecl/uuid.json .
+ADD https://repo.packagist.org/p2/pecl/yaml.json .
+ADD https://repo.packagist.org/p2/php-amqp/php-amqp.json .
+ADD https://repo.packagist.org/p2/php-ds/ext-ds.json .
+ADD https://repo.packagist.org/p2/php-memcached/php-memcached.json .
+ADD https://repo.packagist.org/p2/phpredis/phpredis.json .
+ADD https://repo.packagist.org/p2/rdkafka/rdkafka.json .
+ADD https://repo.packagist.org/p2/uma/secp256k1-nostr.json .
+ADD https://repo.packagist.org/p2/uma/secp256k1-php.json .
+ADD https://repo.packagist.org/p2/xdebug/xdebug.json .
+
+RUN php pie.phar install --skip-enable-extension \
+    apcu/apcu:dev-master \
+      --enable-apcu-clear-signal \
+    arnaud-lb/inotify \
+    girgias/csv:dev-master \
+#    igbinary/igbinary:@rc \
+    laruence/yac \
+    mongodb/mongodb-extension \
+    msgpack/msgpack-php:dev-master \
+#    pecl/pcov \
+    pecl/uuid \
+    pecl/yaml:dev-php7 \
+#    php-amqp/php-amqp \
+    php-ds/ext-ds:dev-master \
+    php-memcached/php-memcached:dev-master \
+#      --enable-memcached-igbinary \
+      --enable-memcached-json \
+      --enable-memcached-msgpack \
+      --enable-memcached-session \
+      --with-zstd \
+    phpredis/phpredis:dev-develop \
+#      --enable-redis-igbinary \
+      --enable-redis-lz4 \
+      --enable-redis-lzf \
+      --enable-redis-msgpack \
+      --enable-redis-zstd \
+      --with-liblz4=yes \
+      --with-liblzf=yes \
+      --with-libzstd=yes \
+#    rdkafka/rdkafka \
+    uma/secp256k1-nostr \
+    uma/secp256k1-php \
+    xdebug/xdebug:^3.6@alpha
+
+# php-spx and memcached need to be installed
+# separately due to a conflicting build argument
+#RUN php pie.phar install --skip-enable-extension \
+#    noisebynorthwest/php-spx
+
+RUN chmod 644 $(php-config --extension-dir)/*.so
+
+
+FROM alpine@${PUBLIC_ALPINE_IMAGE} AS prepare
+
+WORKDIR /tmp
+
+COPY --from=build /usr/local/bin/composer                     /tmp/bin/composer
+COPY --from=build /usr/local/bin/entrypoint.sh                /tmp/bin/entrypoint.sh
+COPY --from=build /usr/local/bin/php                          /tmp/bin/php
+COPY --from=build /usr/local/etc/conf.d                       /tmp/etc/conf.d
+COPY --from=build /usr/local/etc/php-fpm.conf.default         /tmp/etc/php-fpm.conf
+COPY --from=build /usr/local/etc/php-fpm.d/fpm-overrides.conf /tmp/etc/php-fpm.d/fpm-overrides.conf
+COPY --from=build /usr/local/etc/php-fpm.d/www.conf.default   /tmp/etc/php-fpm.d/default-www.conf
+COPY --from=build /usr/local/etc/php.ini                      /tmp/etc/php.ini
+COPY --from=build /usr/local/lib/php/extensions               /tmp/lib/php/extensions
+COPY --from=build /usr/local/php/php/fpm/status.html          /tmp/php/php/fpm/status.html
+COPY --from=build /usr/local/sbin/php-fpm                     /tmp/sbin/php-fpm
+#COPY --from=build /usr/local/share/misc/php-spx               /tmp/share/misc/php-spx
+
+FROM alpine@${PUBLIC_ALPINE_IMAGE} AS final
+
+COPY --from=prepare /tmp/ /usr/local/
+
+RUN apk add --no-cache \
+    7zip \
+    argon2-libs \
+    db \
+    freetds \
+    git \
+    gmp \
+    libbz2 \
+    libcurl \
+    libedit \
+    libffi \
+    libjpeg-turbo \
+    liblzf \
+    libmemcached-libs \
+    libpng \
+    libpq \
+    librdkafka \
+    libsecp256k1 \
+    libsodium \
+    libuuid \
+    libuv \
+    libxml2 \
+    libxslt \
+    libzip \
+    lmdb \
+    lz4-libs \
+    oniguruma \
+    rabbitmq-c \
+    sqlite-libs \
+    tidyhtml-libs \
+    unixodbc \
+    yaml \
+    zstd-libs
+
+EXPOSE 9000
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+CMD ["/usr/local/sbin/php-fpm", "--nodaemonize"]

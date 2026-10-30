@@ -61,6 +61,21 @@ variable "PUBLIC_NODE_IMAGE" {
   default = "sha256:6f08a523443ddedf52941874c203475b0ad503e859ad70cb26ab8be9a517dbd5" # node:26-alpine
 }
 
+target "php-86" {
+  args = {
+    PHP_VERSION = "8.6.0RC4"
+    PUBLIC_ALPINE_IMAGE = PUBLIC_ALPINE_IMAGE
+  }
+  context = "php"
+  dockerfile = "Dockerfile.86"
+  cache-to = [{type = "inline"}]
+  cache-from = [{
+    type = "registry"
+    ref = "1maa/php:8.6-RC"
+  }]
+  tags = ["1maa/php:8.6-RC"]
+}
+
 group "default" {
   description = "Dependency-free images that can be easily built concurrently"
   targets = [
