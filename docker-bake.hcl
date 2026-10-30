@@ -38,12 +38,12 @@ variable "PUBLIC_CADDY_IMAGE" {
 
 variable "PUBLIC_DEBIAN_IMAGE" {
   type = string
-  default = "sha256:a29215f6a35e51e22adffa17f89e9d2ef06214e64a2bad10d765c46aea49f11f" # debian:trixie-slim
+  default = "sha256:f6b08b09a05725f9431502d3b5714f5c4576e82c1a84fa1debe0c24a7e0c3ec4" # debian:trixie-slim
 }
 
 variable "PUBLIC_ECLIPSE_TEMURIN_IMAGE" {
   type = string
-  default = "sha256:2d5d5e9b533342a565907c84f47a2ec298c40cde7b13a3ca85d4950fa456a641" # eclipse-temurin:25
+  default = "sha256:83f4a7fc27df94dcc7b8de04d14cbbba8da14406f921e966969c3b09000aa507" # eclipse-temurin:25
 }
 
 variable "PUBLIC_GOLANG_IMAGE" {
@@ -53,12 +53,12 @@ variable "PUBLIC_GOLANG_IMAGE" {
 
 variable "PUBLIC_GOLANG_DEBIAN_IMAGE" {
   type = string
-  default = "sha256:47667934874913a449b96faa7ef4777fa285d9ec29126ee80ed61c45b7cccf0e" # golang:trixie
+  default = "sha256:c65ecfe613b539ac74c62a4c3b2c27e8f8a6076384c8f27e8a3c0f3be17cc385" # golang:trixie
 }
 
 variable "PUBLIC_NODE_IMAGE" {
   type = string
-  default = "sha256:6f08a523443ddedf52941874c203475b0ad503e859ad70cb26ab8be9a517dbd5" # node:26-alpine
+  default = "sha256:c6ad9e9c1d80f6eb607c26b4b0a132ff7a2344fad1c78ea3baa2a7d4c8de6d94" # node:26-alpine
 }
 
 target "php-86" {
