@@ -33,7 +33,7 @@ variable "PUBLIC_ALPINE_IMAGE" {
 
 variable "PUBLIC_CADDY_IMAGE" {
   type = string
-  default = "sha256:d8542f48d34a9cf4e4c11a478865229840e87e4c96ea3f439101f31a5d35f75f" # caddy:alpine
+  default = "sha256:e70b164da81ef698b3ad19af799ea6086ce6d9e48ed4079eb9fe26f6fbf14ee5" # caddy:alpine
 }
 
 variable "PUBLIC_DEBIAN_IMAGE" {
@@ -48,7 +48,7 @@ variable "PUBLIC_ECLIPSE_TEMURIN_IMAGE" {
 
 variable "PUBLIC_GOLANG_IMAGE" {
   type = string
-  default = "sha256:f92b6ef800e499660581efdabdf25d9d817a9d124eaf900924f0504e7e27e12d" # golang:alpine
+  default = "sha256:d200d2dd76b03a99b52651fd1325aff7dcd35422c35c01bac56571b0507f3deb" # golang:alpine
 }
 
 variable "PUBLIC_GOLANG_DEBIAN_IMAGE" {
