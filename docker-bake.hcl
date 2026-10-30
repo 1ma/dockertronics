@@ -28,37 +28,37 @@ variable "PHP_MAJOR" {
 
 variable "PUBLIC_ALPINE_IMAGE" {
   type = string
-  default = "sha256:be2656061b536c1883c4034790e21d0a09c5aaaf51968b89368a3c0371ea2c9a" # :3.24
+  default = "sha256:be2656061b536c1883c4034790e21d0a09c5aaaf51968b89368a3c0371ea2c9a" # alpine:3.24
 }
 
 variable "PUBLIC_CADDY_IMAGE" {
   type = string
-  default = "sha256:d8542f48d34a9cf4e4c11a478865229840e87e4c96ea3f439101f31a5d35f75f" # :alpine
+  default = "sha256:d8542f48d34a9cf4e4c11a478865229840e87e4c96ea3f439101f31a5d35f75f" # caddy:alpine
 }
 
 variable "PUBLIC_DEBIAN_IMAGE" {
   type = string
-  default = "sha256:a29215f6a35e51e22adffa17f89e9d2ef06214e64a2bad10d765c46aea49f11f" # :trixie-slim
+  default = "sha256:a29215f6a35e51e22adffa17f89e9d2ef06214e64a2bad10d765c46aea49f11f" # debian:trixie-slim
 }
 
 variable "PUBLIC_ECLIPSE_TEMURIN_IMAGE" {
   type = string
-  default = "sha256:2d5d5e9b533342a565907c84f47a2ec298c40cde7b13a3ca85d4950fa456a641" # :25
+  default = "sha256:2d5d5e9b533342a565907c84f47a2ec298c40cde7b13a3ca85d4950fa456a641" # eclipse-temurin:25
 }
 
 variable "PUBLIC_GOLANG_IMAGE" {
   type = string
-  default = "sha256:f92b6ef800e499660581efdabdf25d9d817a9d124eaf900924f0504e7e27e12d" # :alpine
+  default = "sha256:f92b6ef800e499660581efdabdf25d9d817a9d124eaf900924f0504e7e27e12d" # golang:alpine
 }
 
 variable "PUBLIC_GOLANG_DEBIAN_IMAGE" {
   type = string
-  default = "sha256:47667934874913a449b96faa7ef4777fa285d9ec29126ee80ed61c45b7cccf0e" # :trixie
+  default = "sha256:47667934874913a449b96faa7ef4777fa285d9ec29126ee80ed61c45b7cccf0e" # golang:trixie
 }
 
 variable "PUBLIC_NODE_IMAGE" {
   type = string
-  default = "sha256:6f08a523443ddedf52941874c203475b0ad503e859ad70cb26ab8be9a517dbd5" # :26-alpine
+  default = "sha256:6f08a523443ddedf52941874c203475b0ad503e859ad70cb26ab8be9a517dbd5" # node:26-alpine
 }
 
 group "default" {
