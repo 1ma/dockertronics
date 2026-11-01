@@ -52,6 +52,21 @@ group "default" {
   ]
 }
 
+target "blakecoin" {
+  args = {
+    KNOTS_VERSION = VERSION
+  }
+  context = "blakecoin"
+  cache-to = [{ type = "inline" }]
+  cache-from = [
+    {
+      type = "registry"
+      ref  = "ghcr.io/1ma/blakecoin:v${VERSION}-${RUNNER_ARCH}"
+    }
+  ]
+  tags = ["ghcr.io/1ma/blakecoin:v${VERSION}-${RUNNER_ARCH}"]
+}
+
 target "electrs" {
   context = "electrs"
   cache-to = [{type = "inline"}]
