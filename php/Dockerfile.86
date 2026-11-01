@@ -1,6 +1,4 @@
-ARG PUBLIC_ALPINE_IMAGE="sha256:0000000000000000000000000000000000000000000000000000000000000000"
-
-FROM alpine@${PUBLIC_ALPINE_IMAGE} AS build
+FROM alpine:3.24@sha256:be2656061b536c1883c4034790e21d0a09c5aaaf51968b89368a3c0371ea2c9a AS build
 
 ARG PHP_VERSION
 
@@ -211,7 +209,7 @@ RUN php pie.phar install --skip-enable-extension \
 RUN chmod 644 $(php-config --extension-dir)/*.so
 
 
-FROM alpine@${PUBLIC_ALPINE_IMAGE} AS prepare
+FROM alpine:3.24@sha256:be2656061b536c1883c4034790e21d0a09c5aaaf51968b89368a3c0371ea2c9a AS prepare
 
 WORKDIR /tmp
 
@@ -228,7 +226,7 @@ COPY --from=build /usr/local/php/php/fpm/status.html          /tmp/php/php/fpm/s
 COPY --from=build /usr/local/sbin/php-fpm                     /tmp/sbin/php-fpm
 #COPY --from=build /usr/local/share/misc/php-spx               /tmp/share/misc/php-spx
 
-FROM alpine@${PUBLIC_ALPINE_IMAGE} AS final
+FROM alpine:3.24@sha256:be2656061b536c1883c4034790e21d0a09c5aaaf51968b89368a3c0371ea2c9a AS final
 
 COPY --from=prepare /tmp/ /usr/local/
 

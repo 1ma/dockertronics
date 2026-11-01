@@ -8,3 +8,18 @@ updates:
       all-actions:
         patterns:
           - "*"
+  - package-ecosystem: "docker"
+    directories:
+      - "/**/*"
+    schedule:
+      interval: "monthly"
+    ignore:
+      - dependency-name: "*"
+        update-types:
+          - "version-update:semver-major"
+          - "version-update:semver-minor"
+          - "version-update:semver-patch"
+    groups:
+      all-images:
+        patterns:
+          - "*"

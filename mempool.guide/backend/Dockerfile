@@ -1,6 +1,4 @@
-ARG PUBLIC_NODE_IMAGE="sha256:0000000000000000000000000000000000000000000000000000000000000000"
-
-FROM node@${PUBLIC_NODE_IMAGE} AS builder
+FROM node:26-alpine@sha256:c6ad9e9c1d80f6eb607c26b4b0a132ff7a2344fad1c78ea3baa2a7d4c8de6d94 AS builder
 
 WORKDIR /tmp
 
@@ -18,7 +16,7 @@ RUN . "$HOME/.cargo/env" && npm install --omit=dev --omit=optional
 RUN npm run build
 
 
-FROM node@${PUBLIC_NODE_IMAGE} AS final
+FROM node:26-alpine@sha256:c6ad9e9c1d80f6eb607c26b4b0a132ff7a2344fad1c78ea3baa2a7d4c8de6d94 AS final
 
 ENV MEMPOOL_NETWORK=mainnet
 ENV MEMPOOL_HTTP_PORT=8999

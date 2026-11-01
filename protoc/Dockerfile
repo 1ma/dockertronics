@@ -1,13 +1,10 @@
-ARG PUBLIC_ALPINE_IMAGE="sha256:0000000000000000000000000000000000000000000000000000000000000000"
-ARG PUBLIC_GOLANG_IMAGE="sha256:0000000000000000000000000000000000000000000000000000000000000000"
-
-FROM golang@${PUBLIC_GOLANG_IMAGE} AS plugins
+FROM golang:alpine@sha256:d200d2dd76b03a99b52651fd1325aff7dcd35422c35c01bac56571b0507f3deb AS plugins
 
 RUN go install -ldflags="-d -s -w" -trimpath google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest \
  && go install -ldflags="-d -s -w" -trimpath google.golang.org/protobuf/cmd/protoc-gen-go@latest
 
 
-FROM alpine@${PUBLIC_ALPINE_IMAGE} AS types
+FROM alpine:3.24@sha256:be2656061b536c1883c4034790e21d0a09c5aaaf51968b89368a3c0371ea2c9a AS types
 
 ARG PROTOC_VERSION=31.1
 
@@ -20,7 +17,7 @@ RUN unzip protoc-${PROTOC_VERSION}-linux-x86_64.zip \
  && find ./include -type f -exec chmod 644 {} \;
 
 
-FROM alpine@${PUBLIC_ALPINE_IMAGE}
+FROM alpine:3.24@sha256:be2656061b536c1883c4034790e21d0a09c5aaaf51968b89368a3c0371ea2c9a
 
 COPY --from=plugins /go/bin      /usr/local/bin
 COPY --from=types   /tmp/include /usr/include

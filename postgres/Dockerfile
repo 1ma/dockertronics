@@ -1,6 +1,4 @@
-ARG PUBLIC_ALPINE_IMAGE="sha256:0000000000000000000000000000000000000000000000000000000000000000"
-
-FROM alpine@${PUBLIC_ALPINE_IMAGE} AS builder
+FROM alpine:3.24@sha256:be2656061b536c1883c4034790e21d0a09c5aaaf51968b89368a3c0371ea2c9a AS builder
 
 ARG POSTGRES_VERSION
 
@@ -34,7 +32,7 @@ RUN make -C postgresql-${POSTGRES_VERSION} world-bin -j$(nproc) \
  && make -C postgresql-${POSTGRES_VERSION} install-world-bin
 
 
-FROM alpine@${PUBLIC_ALPINE_IMAGE} AS postgis
+FROM alpine:3.24@sha256:be2656061b536c1883c4034790e21d0a09c5aaaf51968b89368a3c0371ea2c9a AS postgis
 
 ARG PGTAP_VERSION=1.3.4
 ARG POSTGIS_VERSION=3.6.4
@@ -71,7 +69,7 @@ RUN tar zxf v${PGTAP_VERSION}.tar.gz \
  && make -C pgtap-${PGTAP_VERSION} -j$(nproc) \
  && make -C pgtap-${PGTAP_VERSION} install
 
-FROM alpine@${PUBLIC_ALPINE_IMAGE} AS cleanup
+FROM alpine:3.24@sha256:be2656061b536c1883c4034790e21d0a09c5aaaf51968b89368a3c0371ea2c9a AS cleanup
 
 WORKDIR /tmp
 
@@ -80,7 +78,7 @@ COPY --from=postgis /usr/local/share/extension /tmp
 RUN ls -1 | grep -v -E 'pgtap|postgis' | xargs rm -f
 
 
-FROM alpine@${PUBLIC_ALPINE_IMAGE}
+FROM alpine:3.24@sha256:be2656061b536c1883c4034790e21d0a09c5aaaf51968b89368a3c0371ea2c9a
 
 ENV LANG=en_US.UTF-8
 ENV POSTGRES_DB=postgres

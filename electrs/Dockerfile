@@ -1,6 +1,4 @@
-ARG PUBLIC_DEBIAN_IMAGE="sha256:0000000000000000000000000000000000000000000000000000000000000000"
-
-FROM debian@${PUBLIC_DEBIAN_IMAGE} AS builder
+FROM debian:trixie-slim@sha256:f6b08b09a05725f9431502d3b5714f5c4576e82c1a84fa1debe0c24a7e0c3ec4 AS builder
 
 ARG ELECTRS_VERSION=v0.11.1
 
@@ -31,7 +29,7 @@ RUN . "$HOME/.cargo/env" \
  && cargo build --locked --release
 
 
-FROM debian@${PUBLIC_DEBIAN_IMAGE}
+FROM debian:trixie-slim@sha256:f6b08b09a05725f9431502d3b5714f5c4576e82c1a84fa1debe0c24a7e0c3ec4
 
 COPY --from=builder /tmp/electrs/target/release/electrs /usr/local/bin/electrs
 

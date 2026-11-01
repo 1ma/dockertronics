@@ -1,7 +1,4 @@
-ARG PUBLIC_DEBIAN_IMAGE="sha256:0000000000000000000000000000000000000000000000000000000000000000"
-ARG PUBLIC_GOLANG_IMAGE="sha256:0000000000000000000000000000000000000000000000000000000000000000"
-
-FROM golang@${PUBLIC_GOLANG_IMAGE} AS trustedcoin
+FROM golang:trixie@sha256:c65ecfe613b539ac74c62a4c3b2c27e8f8a6076384c8f27e8a3c0f3be17cc385 AS trustedcoin
 
 ARG TRUSTEDCOIN_VERSION=v0.8.6
 
@@ -10,7 +7,7 @@ ENV CGO_ENABLED=0
 RUN go install -trimpath -ldflags="-d -s -w" github.com/nbd-wtf/trustedcoin@${TRUSTEDCOIN_VERSION}
 
 
-FROM debian@${PUBLIC_DEBIAN_IMAGE} AS builder
+FROM debian:trixie-slim@sha256:f6b08b09a05725f9431502d3b5714f5c4576e82c1a84fa1debe0c24a7e0c3ec4 AS builder
 
 ARG CLN_VERSION=v26.06.3
 
@@ -64,7 +61,7 @@ RUN RUST_PROFILE=release make install
 COPY --from=trustedcoin /go/bin/trustedcoin /usr/local/libexec/c-lightning/plugins/
 
 
-FROM debian@${PUBLIC_DEBIAN_IMAGE} AS final
+FROM debian:trixie-slim@sha256:f6b08b09a05725f9431502d3b5714f5c4576e82c1a84fa1debe0c24a7e0c3ec4 AS final
 
 COPY --from=builder /usr/local/bin     /usr/local/bin
 COPY --from=builder /usr/local/libexec /usr/local/libexec

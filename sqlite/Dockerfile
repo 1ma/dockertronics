@@ -1,6 +1,4 @@
-ARG PUBLIC_ALPINE_IMAGE="sha256:0000000000000000000000000000000000000000000000000000000000000000"
-
-FROM alpine@${PUBLIC_ALPINE_IMAGE}
+FROM alpine:3.24@sha256:be2656061b536c1883c4034790e21d0a09c5aaaf51968b89368a3c0371ea2c9a
 
 # References:
 #   https://www.sqlite.org/howtocompile.html
@@ -44,7 +42,7 @@ RUN apk add --no-cache \
   && file /tmp/sqlite3
 
 
-FROM alpine@${PUBLIC_ALPINE_IMAGE}
+FROM alpine:3.24@sha256:be2656061b536c1883c4034790e21d0a09c5aaaf51968b89368a3c0371ea2c9a
 
 WORKDIR /root
 
