@@ -67,6 +67,23 @@ target "blakecoin" {
   tags = ["ghcr.io/1ma/blakecoin:v${VERSION}-${RUNNER_ARCH}"]
 }
 
+target "blakecoin-miner" {
+  args = {
+    KNOTS_VERSION = VERSION
+  }
+  context = "blakecoin"
+  cache-to = [{ type = "inline" }]
+  cache-from = [
+    {
+      type = "registry"
+      ref  = "1maa/blakecoin:signet-miner"
+    }
+  ]
+  platforms = ["linux/amd64", "linux/arm64"]
+  tags = ["1maa/blakecoin:signet-miner"]
+  target = "signet-miner"
+}
+
 target "electrs" {
   context = "electrs"
   cache-to = [{type = "inline"}]
