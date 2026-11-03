@@ -239,13 +239,3 @@ target "sleepy" {
   platforms = ["linux/amd64", "linux/arm64"]
   tags = ["1maa/sleepy:latest"]
 }
-
-target "sqlite" {
-  context = "sqlite"
-  cache-to = [{type = "inline"}]
-  cache-from = [{
-    type = "registry"
-    ref = "ghcr.io/1ma/sqlite:latest-${RUNNER_ARCH}"
-  }]
-  tags = ["ghcr.io/1ma/sqlite:latest-${RUNNER_ARCH}"]
-}

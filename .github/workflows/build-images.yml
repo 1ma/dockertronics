@@ -466,47 +466,6 @@ jobs:
             ghcr.io/1ma/postgres:${{ matrix.major }}-alpine-X64 \
             ghcr.io/1ma/postgres:${{ matrix.major }}-alpine-ARM64
 
-  sqlite-multiarch:
-    name: Build SQLite on ${{ matrix.runners }}
-    runs-on: ${{ matrix.runners }}
-    strategy:
-      fail-fast: false
-      matrix:
-        runners:
-          - "ubuntu-26.04"
-          - "ubuntu-26.04-arm"
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
-      - uses: docker/login-action@81c6f93d4bc991e510b342a00b419b3bb4efc5c6 # v4.7.0
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - uses: docker/bake-action@59cb1203cd42bcefd40a1b6d73b589e48c86040e # v7.5.0
-        with:
-          provenance: false
-          push: true
-          sbom: false
-          targets: sqlite
-
-  sqlite-merge:
-    name: Merge SQLite image
-    runs-on: ubuntu-26.04
-    needs:
-      - sqlite-multiarch
-    steps:
-      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
-      - uses: docker/login-action@81c6f93d4bc991e510b342a00b419b3bb4efc5c6 # v4.7.0
-        with:
-          username: 1maa
-          password: ${{ secrets.DOCKER_HUB_PASS }}
-      - run: |
-          docker buildx imagetools create \
-            -t 1maa/sqlite:latest \
-            ghcr.io/1ma/sqlite:latest-X64 \
-            ghcr.io/1ma/sqlite:latest-ARM64
-
   ghcr-cleanup:
     name: Cleanup stale GHCR images
     runs-on: ubuntu-26.04
@@ -519,7 +478,6 @@ jobs:
       - mempool-merge
       - php-merge
       - postgres-merge
-      - sqlite-merge
     steps:
       - uses: docker/login-action@81c6f93d4bc991e510b342a00b419b3bb4efc5c6 # v4.7.0
         with:
@@ -571,12 +529,6 @@ jobs:
       - uses: actions/delete-package-versions@e5bc658cc4c965c472efe991f8beea3981499c55 # v5.0.0
         with:
           package-name: postgres
-          package-type: container
-          delete-only-untagged-versions: true
-          min-versions-to-keep: 0
-      - uses: actions/delete-package-versions@e5bc658cc4c965c472efe991f8beea3981499c55 # v5.0.0
-        with:
-          package-name: sqlite
           package-type: container
           delete-only-untagged-versions: true
           min-versions-to-keep: 0
