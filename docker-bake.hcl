@@ -52,16 +52,6 @@ group "default" {
   ]
 }
 
-target "electrs" {
-  context = "electrs"
-  cache-to = [{type = "inline"}]
-  cache-from = [{
-    type = "registry"
-    ref = "ghcr.io/1ma/electrs:latest-${RUNNER_ARCH}"
-  }]
-  tags = ["ghcr.io/1ma/electrs:latest-${RUNNER_ARCH}"]
-}
-
 target "erlang" {
   args = {
     ERLANG_VERSION = VERSION
