@@ -4,6 +4,7 @@
 [![blakecoin](https://github.com/1ma/dockertronics/actions/workflows/blakecoin.yml/badge.svg)](https://github.com/1ma/dockertronics/actions/workflows/blakecoin.yml)
 [![electrs](https://github.com/1ma/dockertronics/actions/workflows/electrs.yml/badge.svg)](https://github.com/1ma/dockertronics/actions/workflows/electrs.yml)
 [![gearman](https://github.com/1ma/dockertronics/actions/workflows/gearman.yml/badge.svg)](https://github.com/1ma/dockertronics/actions/workflows/gearman.yml)
+[![haproxy](https://github.com/1ma/dockertronics/actions/workflows/haproxy.yml/badge.svg)](https://github.com/1ma/dockertronics/actions/workflows/haproxy.yml)
 [![sqlite](https://github.com/1ma/dockertronics/actions/workflows/sqlite.yml/badge.svg)](https://github.com/1ma/dockertronics/actions/workflows/sqlite.yml)
 
 https://hub.docker.com/u/1maa/

@@ -77,16 +77,6 @@ target "frigate" {
   ]
 }
 
-target "haproxy" {
-  context = "haproxy"
-  cache-to = [{type = "inline"}]
-  cache-from = [{
-    type = "registry"
-    ref = "ghcr.io/1ma/haproxy:latest-${RUNNER_ARCH}"
-  }]
-  tags = ["ghcr.io/1ma/haproxy:latest-${RUNNER_ARCH}"]
-}
-
 target "lnd" {
   context = "lnd"
   cache-to = [{type = "inline"}]
