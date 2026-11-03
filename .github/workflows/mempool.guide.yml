@@ -1,0 +1,81 @@
+name: mempool.guide
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - ".github/workflows/mempool.guide.yml"
+      - "mempool.guide/**"
+  schedule:
+    - cron: 0 4 * * SUN
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build:
+    name: Build mempool.guide on ${{ matrix.runners }}
+    runs-on: ${{ matrix.runners }}
+    strategy:
+      fail-fast: false
+      matrix:
+        runners:
+          - "ubuntu-26.04"
+          - "ubuntu-26.04-arm"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+      - uses: docker/login-action@81c6f93d4bc991e510b342a00b419b3bb4efc5c6 # v4.7.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/bake-action@59cb1203cd42bcefd40a1b6d73b589e48c86040e # v7.5.0
+        with:
+          provenance: false
+          push: true
+          sbom: false
+          files: mempool.guide/docker-bake.hcl
+          targets: mempool-guide-backend,mempool-guide-frontend
+
+  merge:
+    name: Merge mempool.guide images
+    runs-on: ubuntu-26.04
+    needs:
+      - build
+    steps:
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+      - uses: docker/login-action@81c6f93d4bc991e510b342a00b419b3bb4efc5c6 # v4.7.0
+        with:
+          username: 1maa
+          password: ${{ secrets.DOCKER_HUB_PASS }}
+      - run: |
+          docker buildx imagetools create \
+            -t 1maa/mempool.guide:backend \
+            ghcr.io/1ma/mempool.guide:backend-X64 \
+            ghcr.io/1ma/mempool.guide:backend-ARM64
+          docker buildx imagetools create \
+            -t 1maa/mempool.guide:frontend \
+            ghcr.io/1ma/mempool.guide:frontend-X64 \
+            ghcr.io/1ma/mempool.guide:frontend-ARM64
+
+  cleanup:
+    name: Cleanup stale mempool.guide images in GHCR
+    runs-on: ubuntu-26.04
+    needs:
+      - merge
+    steps:
+      - uses: docker/login-action@81c6f93d4bc991e510b342a00b419b3bb4efc5c6 # v4.7.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/delete-package-versions@e5bc658cc4c965c472efe991f8beea3981499c55 # v5.0.0
+        with:
+          package-name: mempool.guide
+          package-type: container
+          delete-only-untagged-versions: true
+          min-versions-to-keep: 0

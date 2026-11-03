@@ -75,26 +75,6 @@ target "lnd" {
   tags = ["1maa/lnd:latest"]
 }
 
-target "mempool-guide-backend" {
-  context = "mempool.guide/backend"
-  cache-to = [{type = "inline"}]
-  cache-from = [{
-    type = "registry"
-    ref = "ghcr.io/1ma/mempool.guide:backend-${RUNNER_ARCH}"
-  }]
-  tags = ["ghcr.io/1ma/mempool.guide:backend-${RUNNER_ARCH}"]
-}
-
-target "mempool-guide-frontend" {
-  context = "mempool.guide/frontend"
-  cache-to = [{type = "inline"}]
-  cache-from = [{
-    type = "registry"
-    ref = "ghcr.io/1ma/mempool.guide:frontend-${RUNNER_ARCH}"
-  }]
-  tags = ["ghcr.io/1ma/mempool.guide:frontend-${RUNNER_ARCH}"]
-}
-
 target "php" {
   args = {
     PHP_VERSION = VERSION
