@@ -56,8 +56,8 @@ jobs:
       - run: |
           docker buildx imagetools create \
             -t 1maa/gearman:latest \
-            ghcr.io/1ma/gearman:latest-X64 \
-            ghcr.io/1ma/gearman:latest-ARM64
+            ghcr.io/1ma/gearman:ARM64 \
+            ghcr.io/1ma/gearman:X64
 
   cleanup:
     name: Cleanup stale Gearman images in GHCR

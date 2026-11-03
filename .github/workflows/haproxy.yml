@@ -56,8 +56,8 @@ jobs:
       - run: |
           docker buildx imagetools create \
             -t 1maa/haproxy:latest \
-            ghcr.io/1ma/haproxy:latest-X64 \
-            ghcr.io/1ma/haproxy:latest-ARM64
+            ghcr.io/1ma/haproxy:ARM64 \
+            ghcr.io/1ma/haproxy:X64
 
   cleanup:
     name: Cleanup stale HAProxy images in GHCR

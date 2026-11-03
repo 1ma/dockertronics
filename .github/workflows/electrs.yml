@@ -56,8 +56,8 @@ jobs:
       - run: |
           docker buildx imagetools create \
             -t 1maa/electrs:latest \
-            ghcr.io/1ma/electrs:latest-X64 \
-            ghcr.io/1ma/electrs:latest-ARM64
+            ghcr.io/1ma/electrs:ARM64 \
+            ghcr.io/1ma/electrs:X64
 
   cleanup:
     name: Cleanup stale Electrs images in GHCR

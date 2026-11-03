@@ -56,8 +56,8 @@ jobs:
       - run: |
           docker buildx imagetools create \
             -t 1maa/sqlite:latest \
-            ghcr.io/1ma/sqlite:latest-X64 \
-            ghcr.io/1ma/sqlite:latest-ARM64
+            ghcr.io/1ma/sqlite:ARM64 \
+            ghcr.io/1ma/sqlite:X64
 
   cleanup:
     name: Cleanup stale SQLite images in GHCR

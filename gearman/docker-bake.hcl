@@ -13,7 +13,7 @@ target "gearman" {
   cache-to = [{type = "inline"}]
   cache-from = [{
     type = "registry"
-    ref = "ghcr.io/1ma/gearman:latest-${RUNNER_ARCH}"
+    ref = "ghcr.io/1ma/gearman:${RUNNER_ARCH}"
   }]
-  tags = ["ghcr.io/1ma/gearman:latest-${RUNNER_ARCH}"]
+  tags = ["ghcr.io/1ma/gearman:${RUNNER_ARCH}"]
 }
