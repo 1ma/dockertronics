@@ -1,20 +1,22 @@
-name: Build Docker images
+name: selfsig
 
 on:
   push:
     branches:
       - master
+    paths:
+      - ".github/workflows/selfsig.yml"
+      - "selfsig/**"
   schedule:
     - cron: 0 4 * * SUN
   workflow_dispatch:
 
 permissions:
   contents: read
-  packages: write
 
 jobs:
-  generic:
-    name: Build dependency-free Docker images
+  build:
+    name: Build Selfsig
     runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -26,7 +28,8 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_PASS }}
       - uses: docker/bake-action@59cb1203cd42bcefd40a1b6d73b589e48c86040e # v7.5.0
         with:
+          files: selfsig/docker-bake.hcl
           provenance: false
           push: true
           sbom: false
-          targets: default
+          targets: selfsig
