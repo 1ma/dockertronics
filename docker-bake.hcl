@@ -1,24 +1,11 @@
 group "default" {
   description = "Dependency-free images that can be easily built concurrently"
   targets = [
-    "frigate",
     "lnd",
     "protoc",
     "selfsig",
     "sftp",
     "sleepy"
-  ]
-}
-
-target "frigate" {
-  context = "frigate"
-  cache-to = [{type = "inline"}]
-  cache-from = [{
-    type = "registry"
-    ref = "1maa/frigate:latest"
-  }]
-  tags = [
-    "1maa/frigate:latest"
   ]
 }
 
