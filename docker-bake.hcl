@@ -52,19 +52,6 @@ group "default" {
   ]
 }
 
-target "erlang" {
-  args = {
-    ERLANG_VERSION = VERSION
-  }
-  context = "erlang"
-  cache-to = [{type = "inline"}]
-  cache-from = [{
-    type = "registry"
-    ref = "ghcr.io/1ma/erlang:${VERSION_MAJOR}-${RUNNER_ARCH}"
-  }]
-  tags = ["ghcr.io/1ma/erlang:${VERSION_MAJOR}-${RUNNER_ARCH}"]
-}
-
 target "frigate" {
   context = "frigate"
   cache-to = [{type = "inline"}]

@@ -1,0 +1,92 @@
+name: erlang
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - ".github/workflows/erlang.yml"
+      - "erlang/**"
+  schedule:
+    - cron: 0 4 * * SUN
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build:
+    name: Build Erlang ${{ matrix.versions }} on ${{ matrix.runners }}
+    runs-on: ${{ matrix.runners }}
+    strategy:
+      fail-fast: false
+      matrix:
+        versions:
+          - "26.2.5.21"
+          - "27.3.4.19"
+          - "28.5.0.8"
+          - "29.1.2"
+        runners:
+          - "ubuntu-26.04"
+          - "ubuntu-26.04-arm"
+    env:
+      VERSION: ${{ matrix.versions }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+      - uses: docker/login-action@81c6f93d4bc991e510b342a00b419b3bb4efc5c6 # v4.7.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/bake-action@59cb1203cd42bcefd40a1b6d73b589e48c86040e # v7.5.0
+        with:
+          provenance: false
+          push: true
+          sbom: false
+          files: erlang/docker-bake.hcl
+          targets: erlang
+
+  merge:
+    name: Merge Erlang ${{ matrix.major }} image
+    runs-on: ubuntu-26.04
+    needs:
+      - build
+    strategy:
+      fail-fast: false
+      matrix:
+        major:
+          - "26"
+          - "27"
+          - "28"
+          - "29"
+    steps:
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+      - uses: docker/login-action@81c6f93d4bc991e510b342a00b419b3bb4efc5c6 # v4.7.0
+        with:
+          username: 1maa
+          password: ${{ secrets.DOCKER_HUB_PASS }}
+      - run: |
+          docker buildx imagetools create \
+            -t 1maa/erlang:${{ matrix.major }}-alpine \
+            ghcr.io/1ma/erlang:${{ matrix.major }}-X64 \
+            ghcr.io/1ma/erlang:${{ matrix.major }}-ARM64
+
+  cleanup:
+    name: Cleanup stale Erlang images in GHCR
+    runs-on: ubuntu-26.04
+    needs:
+      - merge
+    steps:
+      - uses: docker/login-action@81c6f93d4bc991e510b342a00b419b3bb4efc5c6 # v4.7.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/delete-package-versions@e5bc658cc4c965c472efe991f8beea3981499c55 # v5.0.0
+        with:
+          package-name: erlang
+          package-type: container
+          delete-only-untagged-versions: true
+          min-versions-to-keep: 0
