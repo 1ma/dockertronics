@@ -7,6 +7,7 @@
 [![frigate](https://github.com/1ma/dockertronics/actions/workflows/frigate.yml/badge.svg)](https://github.com/1ma/dockertronics/actions/workflows/frigate.yml)
 [![gearman](https://github.com/1ma/dockertronics/actions/workflows/gearman.yml/badge.svg)](https://github.com/1ma/dockertronics/actions/workflows/gearman.yml)
 [![haproxy](https://github.com/1ma/dockertronics/actions/workflows/haproxy.yml/badge.svg)](https://github.com/1ma/dockertronics/actions/workflows/haproxy.yml)
+[![lnd](https://github.com/1ma/dockertronics/actions/workflows/lnd.yml/badge.svg)](https://github.com/1ma/dockertronics/actions/workflows/lnd.yml)
 [![mempool.guide](https://github.com/1ma/dockertronics/actions/workflows/mempool.guide.yml/badge.svg)](https://github.com/1ma/dockertronics/actions/workflows/mempool.guide.yml)
 [![php](https://github.com/1ma/dockertronics/actions/workflows/php.yml/badge.svg)](https://github.com/1ma/dockertronics/actions/workflows/php.yml)
 [![postgres](https://github.com/1ma/dockertronics/actions/workflows/postgres.yml/badge.svg)](https://github.com/1ma/dockertronics/actions/workflows/postgres.yml)
