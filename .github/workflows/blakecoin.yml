@@ -1,0 +1,116 @@
+name: blakecoin
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - ".github/workflows/blakecoin.yml"
+      - "blakecoin/**"
+  schedule:
+    - cron: 0 4 * * SUN
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build:
+    name: Build Blakecoin ${{ matrix.versions }} on ${{ matrix.runners }}
+    runs-on: ${{ matrix.runners }}
+    strategy:
+      fail-fast: false
+      matrix:
+        versions:
+          - "29.4.3.knots20260508"
+        runners:
+          - "ubuntu-26.04"
+          - "ubuntu-26.04-arm"
+    env:
+      VERSION: ${{ matrix.versions }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+      - uses: docker/login-action@81c6f93d4bc991e510b342a00b419b3bb4efc5c6 # v4.7.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/bake-action@59cb1203cd42bcefd40a1b6d73b589e48c86040e # v7.5.0
+        with:
+          provenance: false
+          push: true
+          sbom: false
+          files: blakecoin/docker-bake.hcl
+          targets: blakecoin
+
+  merge:
+    name: Merge Blakecoin ${{ matrix.versions }} image
+    runs-on: ubuntu-26.04
+    needs:
+      - build
+    strategy:
+      fail-fast: false
+      matrix:
+        versions:
+          - "29.4.3.knots20260508"
+    env:
+      LATEST_VERSION: "29.4.3.knots20260508"
+    steps:
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+      - uses: docker/login-action@81c6f93d4bc991e510b342a00b419b3bb4efc5c6 # v4.7.0
+        with:
+          username: 1maa
+          password: ${{ secrets.DOCKER_HUB_PASS }}
+      - run: |
+          docker buildx imagetools create \
+            -t 1maa/blakecoin:v${{ matrix.versions }} \
+            ghcr.io/1ma/blakecoin:v${{ matrix.versions }}-X64 \
+            ghcr.io/1ma/blakecoin:v${{ matrix.versions }}-ARM64
+      - if: ${{ matrix.versions == env.LATEST_VERSION }}
+        run: |
+          docker buildx imagetools create \
+            -t 1maa/blakecoin:latest \
+            1maa/blakecoin:v${{ matrix.versions }}
+
+  miner:
+    name: Build signet miner image from latest Blakecoin version
+    runs-on: ubuntu-26.04
+    needs:
+      - merge
+    env:
+      VERSION: "29.4.3.knots20260508"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: docker/setup-qemu-action@99012661954931238ded8c8b007157a8430204e1 # v4.4.0
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+      - uses: docker/login-action@81c6f93d4bc991e510b342a00b419b3bb4efc5c6 # v4.7.0
+        with:
+          username: 1maa
+          password: ${{ secrets.DOCKER_HUB_PASS }}
+      - uses: docker/bake-action@59cb1203cd42bcefd40a1b6d73b589e48c86040e # v7.5.0
+        with:
+          provenance: false
+          push: true
+          sbom: false
+          files: blakecoin/docker-bake.hcl
+          targets: blakecoin-miner
+
+  cleanup:
+    name: Cleanup stale Blakecoin images in GHCR
+    runs-on: ubuntu-26.04
+    needs:
+      - merge
+    steps:
+      - uses: docker/login-action@81c6f93d4bc991e510b342a00b419b3bb4efc5c6 # v4.7.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/delete-package-versions@e5bc658cc4c965c472efe991f8beea3981499c55 # v5.0.0
+        with:
+          package-name: blakecoin
+          package-type: container
+          delete-only-untagged-versions: true
+          min-versions-to-keep: 0
