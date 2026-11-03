@@ -1,0 +1,109 @@
+name: php
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - ".github/workflows/php.yml"
+      - "php/**"
+  schedule:
+    - cron: 0 4 * * SUN
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build-rc:
+    name: Build PHP 8.6 early releases
+    runs-on: ubuntu-26.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: docker/login-action@81c6f93d4bc991e510b342a00b419b3bb4efc5c6 # v4.7.0
+        with:
+          username: 1maa
+          password: ${{ secrets.DOCKER_HUB_PASS }}
+      - uses: docker/bake-action@59cb1203cd42bcefd40a1b6d73b589e48c86040e # v7.5.0
+        with:
+          provenance: false
+          push: true
+          sbom: false
+          files: php/docker-bake.hcl
+          targets: php-86
+
+  build:
+    name: Build PHP ${{ matrix.versions }} on ${{ matrix.runners }}
+    runs-on: ${{ matrix.runners }}
+    strategy:
+      fail-fast: false
+      matrix:
+        versions:
+          - "8.2.35"
+          - "8.3.36"
+          - "8.4.27"
+          - "8.5.12"
+        runners:
+          - "ubuntu-26.04"
+          - "ubuntu-26.04-arm"
+    env:
+      VERSION: ${{ matrix.versions }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+      - uses: docker/login-action@81c6f93d4bc991e510b342a00b419b3bb4efc5c6 # v4.7.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/bake-action@59cb1203cd42bcefd40a1b6d73b589e48c86040e # v7.5.0
+        with:
+          provenance: false
+          push: true
+          sbom: false
+          files: php/docker-bake.hcl
+          targets: php
+
+  merge:
+    name: Merge PHP ${{ matrix.versions }} image
+    runs-on: ubuntu-26.04
+    needs:
+      - build
+    strategy:
+      fail-fast: false
+      matrix:
+        versions:
+          - "8.2"
+          - "8.3"
+          - "8.4"
+          - "8.5"
+    steps:
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+      - uses: docker/login-action@81c6f93d4bc991e510b342a00b419b3bb4efc5c6 # v4.7.0
+        with:
+          username: 1maa
+          password: ${{ secrets.DOCKER_HUB_PASS }}
+      - run: |
+          docker buildx imagetools create \
+            -t 1maa/php:${{ matrix.versions }} \
+            ghcr.io/1ma/php:${{ matrix.versions }}-X64 \
+            ghcr.io/1ma/php:${{ matrix.versions }}-ARM64
+
+  cleanup:
+    name: Cleanup stale PHP images in GHCR
+    runs-on: ubuntu-26.04
+    needs:
+      - merge
+    steps:
+      - uses: docker/login-action@81c6f93d4bc991e510b342a00b419b3bb4efc5c6 # v4.7.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/delete-package-versions@e5bc658cc4c965c472efe991f8beea3981499c55 # v5.0.0
+        with:
+          package-name: php
+          package-type: container
+          delete-only-untagged-versions: true
+          min-versions-to-keep: 0

@@ -7,6 +7,7 @@
 [![gearman](https://github.com/1ma/dockertronics/actions/workflows/gearman.yml/badge.svg)](https://github.com/1ma/dockertronics/actions/workflows/gearman.yml)
 [![haproxy](https://github.com/1ma/dockertronics/actions/workflows/haproxy.yml/badge.svg)](https://github.com/1ma/dockertronics/actions/workflows/haproxy.yml)
 [![mempool.guide](https://github.com/1ma/dockertronics/actions/workflows/mempool.guide.yml/badge.svg)](https://github.com/1ma/dockertronics/actions/workflows/mempool.guide.yml)
+[![php](https://github.com/1ma/dockertronics/actions/workflows/php.yml/badge.svg)](https://github.com/1ma/dockertronics/actions/workflows/php.yml)
 [![sqlite](https://github.com/1ma/dockertronics/actions/workflows/sqlite.yml/badge.svg)](https://github.com/1ma/dockertronics/actions/workflows/sqlite.yml)
 
 https://hub.docker.com/u/1maa/
