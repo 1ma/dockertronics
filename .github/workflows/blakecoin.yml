@@ -39,10 +39,10 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - uses: docker/bake-action@59cb1203cd42bcefd40a1b6d73b589e48c86040e # v7.5.0
         with:
+          files: blakecoin/docker-bake.hcl
           provenance: false
           push: true
           sbom: false
-          files: blakecoin/docker-bake.hcl
           targets: blakecoin
 
   merge:
@@ -91,10 +91,10 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_PASS }}
       - uses: docker/bake-action@59cb1203cd42bcefd40a1b6d73b589e48c86040e # v7.5.0
         with:
+          files: blakecoin/docker-bake.hcl
           provenance: false
           push: true
           sbom: false
-          files: blakecoin/docker-bake.hcl
           targets: blakecoin-miner
 
   cleanup:
