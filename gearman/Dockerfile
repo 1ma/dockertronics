@@ -1,6 +1,6 @@
 FROM alpine:3.24@sha256:be2656061b536c1883c4034790e21d0a09c5aaaf51968b89368a3c0371ea2c9a AS build
 
-ARG GEARMAND_VERSION=2.2.0
+ARG GEARMAN_VERSION=2.2.0
 
 ENV CFLAGS="-g0 -Os"
 ENV CXXFLAGS="-g0 -Os"
@@ -8,17 +8,17 @@ ENV LDFLAGS="-Wl,--as-needed -Wl,--strip-all"
 
 WORKDIR /tmp
 
-ADD https://github.com/gearman/gearmand/releases/download/${GEARMAND_VERSION}/gearmand-${GEARMAND_VERSION}.tar.gz .
-ADD https://github.com/gearman/gearmand/releases/download/${GEARMAND_VERSION}/gearmand-${GEARMAND_VERSION}.tar.gz.asc .
+ADD https://github.com/gearman/gearmand/releases/download/${GEARMAN_VERSION}/gearmand-${GEARMAN_VERSION}.tar.gz .
+ADD https://github.com/gearman/gearmand/releases/download/${GEARMAN_VERSION}/gearmand-${GEARMAN_VERSION}.tar.gz.asc .
 
 COPY esabol.asc .
 
 RUN apk add --no-cache \
     gnupg \
  && gpg --import esabol.asc \
- && gpg --verify gearmand-${GEARMAND_VERSION}.tar.gz.asc gearmand-${GEARMAND_VERSION}.tar.gz
+ && gpg --verify gearmand-${GEARMAN_VERSION}.tar.gz.asc gearmand-${GEARMAN_VERSION}.tar.gz
 
-RUN tar zxf gearmand-${GEARMAND_VERSION}.tar.gz \
+RUN tar zxf gearmand-${GEARMAN_VERSION}.tar.gz \
  && chown -R root:root ./*
 
 RUN apk add --no-cache \
@@ -34,7 +34,7 @@ RUN apk add --no-cache \
     sqlite-dev \
     util-linux-dev
 
-WORKDIR /tmp/gearmand-${GEARMAND_VERSION}
+WORKDIR /tmp/gearmand-${GEARMAN_VERSION}
 
 RUN ./configure \
     --disable-dependency-tracking \

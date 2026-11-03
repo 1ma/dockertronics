@@ -77,16 +77,6 @@ target "frigate" {
   ]
 }
 
-target "gearmand" {
-  context = "gearmand"
-  cache-to = [{type = "inline"}]
-  cache-from = [{
-    type = "registry"
-    ref = "ghcr.io/1ma/gearmand:latest-${RUNNER_ARCH}"
-  }]
-  tags = ["ghcr.io/1ma/gearmand:latest-${RUNNER_ARCH}"]
-}
-
 target "haproxy" {
   context = "haproxy"
   cache-to = [{type = "inline"}]
