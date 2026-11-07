@@ -28,6 +28,7 @@ jobs:
       matrix:
         versions:
           - "29.4.3.knots20260508"
+          - "29.5.knots20260508"
         runners:
           - "ubuntu-26.04"
           - "ubuntu-26.04-arm"
@@ -57,8 +58,9 @@ jobs:
       matrix:
         versions:
           - "29.4.3.knots20260508"
+          - "29.5.knots20260508"
     env:
-      LATEST_VERSION: "29.4.3.knots20260508"
+      LATEST_VERSION: "29.5.knots20260508"
     steps:
       - uses: docker/login-action@81c6f93d4bc991e510b342a00b419b3bb4efc5c6 # v4.7.0
         with:
@@ -81,7 +83,7 @@ jobs:
     needs:
       - merge
     env:
-      VERSION: "29.4.3.knots20260508"
+      VERSION: "29.5.knots20260508"
     steps:
       - uses: docker/setup-qemu-action@99012661954931238ded8c8b007157a8430204e1 # v4.4.0
       - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
