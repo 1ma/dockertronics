@@ -1,5 +1,7 @@
 FROM node:26-alpine@sha256:8996bb5821d62a8fd9bb27c1cb07462f3fdce6e47d640c6a881ead0b064ce216 AS builder
 
+ARG MEMPOOL_BRANCH
+
 WORKDIR /tmp
 
 RUN apk add --no-cache \
@@ -8,9 +10,9 @@ RUN apk add --no-cache \
 
 # Force invalidation of the build cache from here on
 # if the branch has new commits since the last build
-ADD https://api.github.com/repos/Horizon-btc/mempool/commits/poolcoin /tmp/update-check
+ADD https://api.github.com/repos/Horizon-btc/mempool/commits/${MEMPOOL_BRANCH} /tmp/update-check
 
-RUN git clone --branch poolcoin --depth 1 https://github.com/Horizon-btc/mempool
+RUN git clone --branch ${MEMPOOL_BRANCH} --depth 1 https://github.com/Horizon-btc/mempool
 
 WORKDIR /tmp/mempool
 

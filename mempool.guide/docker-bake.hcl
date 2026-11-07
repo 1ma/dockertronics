@@ -8,22 +8,37 @@ variable "RUNNER_ARCH" {
   }
 }
 
+variable "MEMPOOL_BRANCH" {
+  type    = string
+  default = "master"
+  validation {
+    condition = contains(["master", "poolcoin"], MEMPOOL_BRANCH)
+    error_message = "Invalid value for 'MEMPOOL_BRANCH' variable"
+  }
+}
+
 target "mempool-guide-backend" {
   context = "mempool.guide/backend"
+  args = {
+    MEMPOOL_BRANCH = MEMPOOL_BRANCH
+  }
   cache-to = [{type = "inline"}]
   cache-from = [{
     type = "registry"
-    ref = "ghcr.io/1ma/mempool.guide:backend-${RUNNER_ARCH}"
+    ref = "ghcr.io/1ma/mempool.guide:${MEMPOOL_BRANCH}-backend-${RUNNER_ARCH}"
   }]
-  tags = ["ghcr.io/1ma/mempool.guide:backend-${RUNNER_ARCH}"]
+  tags = ["ghcr.io/1ma/mempool.guide:${MEMPOOL_BRANCH}-backend-${RUNNER_ARCH}"]
 }
 
 target "mempool-guide-frontend" {
   context = "mempool.guide/frontend"
+  args = {
+    MEMPOOL_BRANCH = MEMPOOL_BRANCH
+  }
   cache-to = [{type = "inline"}]
   cache-from = [{
     type = "registry"
-    ref = "ghcr.io/1ma/mempool.guide:frontend-${RUNNER_ARCH}"
+    ref = "ghcr.io/1ma/mempool.guide:${MEMPOOL_BRANCH}-frontend-${RUNNER_ARCH}"
   }]
-  tags = ["ghcr.io/1ma/mempool.guide:frontend-${RUNNER_ARCH}"]
+  tags = ["ghcr.io/1ma/mempool.guide:${MEMPOOL_BRANCH}-frontend-${RUNNER_ARCH}"]
 }
