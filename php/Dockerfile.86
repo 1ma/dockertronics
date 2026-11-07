@@ -7,8 +7,8 @@ ENV LDFLAGS="-Wl,--strip-all -Wl,-O1 -pie"
 
 WORKDIR /tmp
 
-ADD https://downloads.php.net/~mbeccati/php-${PHP_VERSION}.tar.gz .
-ADD https://downloads.php.net/~mbeccati/php-${PHP_VERSION}.tar.gz.asc .
+ADD https://downloads.php.net/~svpernova09/php-${PHP_VERSION}.tar.gz .
+ADD https://downloads.php.net/~svpernova09/php-${PHP_VERSION}.tar.gz.asc .
 
 ADD https://getcomposer.org/download/latest-stable/composer.phar .
 ADD https://getcomposer.org/download/latest-stable/composer.phar.asc .
