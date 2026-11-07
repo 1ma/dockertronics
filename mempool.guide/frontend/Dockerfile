@@ -6,6 +6,10 @@ RUN apk add --no-cache \
     git \
     rsync
 
+# Force invalidation of the build cache from here on
+# if the branch has new commits since the last build
+ADD https://api.github.com/repos/Horizon-btc/mempool/commits/poolcoin /tmp/update-check
+
 RUN git clone --branch poolcoin --depth 1 https://github.com/Horizon-btc/mempool
 
 WORKDIR /tmp/mempool
