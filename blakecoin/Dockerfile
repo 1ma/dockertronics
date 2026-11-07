@@ -55,11 +55,9 @@ ENTRYPOINT ["/opt/entrypoint.sh"]
 
 FROM alpine:3.24@sha256:3f4d6b32e26703c6082839234f43769d5046b3ac7c910033911d1e71d8cd630a AS builder
 
-ARG KNOTS_VERSION
-
 WORKDIR /tmp
 
-COPY --from=verifier /tmp/bitcoin-${KNOTS_VERSION}.tar.gz .
+COPY --from=verifier /tmp/bitcoin bitcoin
 
 RUN apk add --no-cache \
     bash \
@@ -70,11 +68,9 @@ RUN apk add --no-cache \
     pkgconf \
     upx
 
-RUN tar zxf bitcoin-${KNOTS_VERSION}.tar.gz
+RUN make -C bitcoin/depends -j$(nproc) NO_QT=1 NO_NATPMP=1 NO_UPNP=1 NO_USDT=1
 
-RUN make -C bitcoin-${KNOTS_VERSION}/depends -j$(nproc) NO_QT=1 NO_NATPMP=1 NO_UPNP=1 NO_USDT=1
-
-RUN cmake -S bitcoin-${KNOTS_VERSION} -B build \
+RUN cmake -S bitcoin -B build \
     -DAPPEND_CPPFLAGS=-g0 \
     -DAPPEND_LDFLAGS=-Wl,--strip-all \
     -DBUILD_SHARED_LIBS=OFF \
@@ -89,7 +85,7 @@ RUN cmake -S bitcoin-${KNOTS_VERSION} -B build \
     -DSECP256K1_APPEND_LDFLAGS=-Wl,--strip-all \
     -DWITH_BDB=ON \
     -DWITH_ZMQ=ON \
-    --toolchain $(find /tmp/bitcoin-${KNOTS_VERSION}/depends | grep -E "toolchain\.cmake$")
+    --toolchain $(find /tmp/bitcoin/depends | grep -E "toolchain\.cmake$")
 
 RUN cmake --build build -j $(nproc)
 

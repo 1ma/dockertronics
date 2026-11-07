@@ -7,8 +7,8 @@ ENV LDFLAGS="-Wl,--strip-all -Wl,-O1 -pie"
 
 WORKDIR /tmp
 
-ADD https://downloads.php.net/~mbeccati/php-${PHP_VERSION}.tar.gz .
-ADD https://downloads.php.net/~mbeccati/php-${PHP_VERSION}.tar.gz.asc .
+ADD https://downloads.php.net/~svpernova09/php-${PHP_VERSION}.tar.gz .
+ADD https://downloads.php.net/~svpernova09/php-${PHP_VERSION}.tar.gz.asc .
 
 ADD https://getcomposer.org/download/latest-stable/composer.phar .
 ADD https://getcomposer.org/download/latest-stable/composer.phar.asc .
@@ -44,7 +44,6 @@ RUN apk add --no-cache \
     oniguruma-dev \
     openssl-dev \
     pkgconf \
-    rabbitmq-c-dev \
     sqlite-dev \
     tidyhtml-dev \
     unixodbc-dev \
@@ -133,9 +132,11 @@ RUN apk add --no-cache \
     libmemcached-dev \
     librdkafka-dev \
     libsecp256k1-dev \
+    libssh2-dev \
     libtool \
     libuv-dev \
     lz4-dev \
+    rabbitmq-c-dev \
     re2c \
     util-linux-dev \
     yaml-dev \
@@ -156,6 +157,7 @@ ADD https://repo.packagist.org/p2/mongodb/mongodb-extension.json .
 ADD https://repo.packagist.org/p2/msgpack/msgpack-php.json .
 ADD https://repo.packagist.org/p2/noisebynorthwest/php-spx.json .
 ADD https://repo.packagist.org/p2/pecl/pcov.json .
+ADD https://repo.packagist.org/p2/pecl/ssh2.json .
 ADD https://repo.packagist.org/p2/pecl/uuid.json .
 ADD https://repo.packagist.org/p2/pecl/yaml.json .
 ADD https://repo.packagist.org/p2/php-amqp/php-amqp.json .
@@ -177,6 +179,7 @@ RUN php pie.phar install --skip-enable-extension \
     mongodb/mongodb-extension \
     msgpack/msgpack-php:dev-master \
 #    pecl/pcov \
+    pecl/ssh2 \
     pecl/uuid \
     pecl/yaml:dev-php7 \
 #    php-amqp/php-amqp \
@@ -249,6 +252,7 @@ RUN apk add --no-cache \
     librdkafka \
     libsecp256k1 \
     libsodium \
+    libssh2 \
     libuuid \
     libuv \
     libxml2 \
