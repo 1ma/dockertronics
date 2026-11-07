@@ -30,9 +30,6 @@ target "blakecoin" {
 }
 
 target "blakecoin-miner" {
-  args = {
-    KNOTS_VERSION = VERSION
-  }
   context = "blakecoin"
   cache-to = [{ type = "inline" }]
   cache-from = [
