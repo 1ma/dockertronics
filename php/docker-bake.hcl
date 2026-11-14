@@ -35,14 +35,14 @@ target "php" {
 
 target "php-86" {
   args = {
-    PHP_VERSION = "8.6.0RC5"
+    PHP_VERSION = "8.6.0"
   }
   context = "php"
   dockerfile = "Dockerfile.86"
   cache-to = [{type = "inline"}]
   cache-from = [{
     type = "registry"
-    ref = "1maa/php:8.6-RC"
+    ref = "1maa/php:8.6"
   }]
-  tags = ["1maa/php:8.6-RC"]
+  tags = ["1maa/php:8.6"]
 }
