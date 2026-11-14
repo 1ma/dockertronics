@@ -35,7 +35,7 @@ target "php" {
 
 target "php-86" {
   args = {
-    PHP_VERSION = "8.6.0RC5"
+    PHP_VERSION = "8.6.0RC7"
   }
   context = "php"
   dockerfile = "Dockerfile.86"
