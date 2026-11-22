@@ -51,7 +51,7 @@ jobs:
 
   merge:
     name: Merge Blakecoin ${{ matrix.versions }} image
-    runs-on: ubuntu-26.04
+    runs-on: ubuntu-latest
     needs:
       - build
     strategy:
@@ -81,7 +81,7 @@ jobs:
 
   miner:
     name: Build signet miner image from latest Blakecoin version
-    runs-on: ubuntu-26.04
+    runs-on: ubuntu-latest
     needs:
       - merge
     env:
@@ -103,7 +103,7 @@ jobs:
 
   cleanup:
     name: Cleanup stale Blakecoin images in GHCR
-    runs-on: ubuntu-26.04
+    runs-on: ubuntu-latest
     needs:
       - merge
     steps:

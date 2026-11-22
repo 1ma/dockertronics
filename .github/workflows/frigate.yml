@@ -21,7 +21,7 @@ permissions:
 jobs:
   build:
     name: Build Frigate
-    runs-on: ubuntu-26.04
+    runs-on: ubuntu-latest
     steps:
       - uses: docker/login-action@81c6f93d4bc991e510b342a00b419b3bb4efc5c6 # v4.7.0
         with:
