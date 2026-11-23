@@ -128,13 +128,16 @@ RUN set -eu; \
 RUN apk add --no-cache \
     autoconf \
     bison \
+    freetype-dev \
     liblzf-dev \
     libmemcached-dev \
     librdkafka-dev \
     libsecp256k1-dev \
     libssh2-dev \
+    libstatgrab-dev \
     libtool \
     libuv-dev \
+    libwebp-dev \
     lz4-dev \
     rabbitmq-c-dev \
     re2c \
@@ -152,6 +155,11 @@ ADD https://repo.packagist.org/p2/apcu/apcu.json .
 ADD https://repo.packagist.org/p2/arnaud-lb/inotify.json .
 ADD https://repo.packagist.org/p2/girgias/csv.json .
 ADD https://repo.packagist.org/p2/igbinary/igbinary.json .
+ADD https://repo.packagist.org/p2/iliaal/fastchart.json .
+ADD https://repo.packagist.org/p2/iliaal/fastjson.json .
+ADD https://repo.packagist.org/p2/iliaal/mdparser.json .
+ADD https://repo.packagist.org/p2/iliaal/phpser.json .
+ADD https://repo.packagist.org/p2/iliaal/statgrab.json .
 ADD https://repo.packagist.org/p2/laruence/yac.json .
 ADD https://repo.packagist.org/p2/mongodb/mongodb-extension.json .
 ADD https://repo.packagist.org/p2/msgpack/msgpack-php.json .
@@ -175,6 +183,11 @@ RUN php pie.phar install --skip-enable-extension \
     arnaud-lb/inotify \
     girgias/csv \
     igbinary/igbinary:@rc \
+    iliaal/fastchart \
+    iliaal/fastjson \
+    iliaal/mdparser \
+    iliaal/phpser \
+    iliaal/statgrab \
     laruence/yac \
     mongodb/mongodb-extension \
     msgpack/msgpack-php \
@@ -190,11 +203,12 @@ RUN php pie.phar install --skip-enable-extension \
       --enable-memcached-msgpack \
       --enable-memcached-session \
       --with-zstd \
-    phpredis/phpredis \
+    phpredis/phpredis:^6.4@rc \
       --enable-redis-igbinary \
       --enable-redis-lz4 \
       --enable-redis-lzf \
       --enable-redis-msgpack \
+      --enable-redis-phpser \
       --enable-redis-zstd \
       --with-liblz4=yes \
       --with-liblzf=yes \
@@ -238,6 +252,7 @@ RUN apk add --no-cache \
     argon2-libs \
     db \
     freetds \
+    freetype \
     git \
     gmp \
     libbz2 \
@@ -253,8 +268,10 @@ RUN apk add --no-cache \
     libsecp256k1 \
     libsodium \
     libssh2 \
+    libstatgrab \
     libuuid \
     libuv \
+    libwebp \
     libxml2 \
     libxslt \
     libzip \
